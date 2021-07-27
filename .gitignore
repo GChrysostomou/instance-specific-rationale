@@ -1,0 +1,10 @@
+datasets/*/*.csv
+datasets/*/*.json
+datasets/*/.ipynb_checkpoint/
+trained_models/*/*.pt
+trained_models/*/*.npy
+experiment_logs/
+experiment_config/
+slurm-*.out
+*.sh
+extracted_rationales/*
