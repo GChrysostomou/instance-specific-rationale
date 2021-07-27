@@ -1,3 +1,4 @@
+datasets/
 datasets/*/*.csv
 datasets/*/*.json
 datasets/*/.ipynb_checkpoint/
