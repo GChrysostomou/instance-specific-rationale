@@ -61,31 +61,31 @@ def conduct_tests_(model, data, model_random_seed):
         model.eval()
         model.zero_grad()
 
-        batch = [torch.stack(t).transpose(0,1) if type(t) is list else t for t in batch]
+        batch = {
+                "annotation_id" : batch["annotation_id"],
+                "input_ids" : batch["input_ids"].squeeze(1).to(device),
+                "lengths" : batch["lengths"].to(device),
+                "labels" : batch["label"].to(device),
+                "token_type_ids" : batch["token_type_ids"].squeeze(1).to(device),
+                "attention_mask" : batch["attention_mask"].squeeze(1).to(device),
+                "query_mask" : batch["query_mask"].squeeze(1).to(device),
+                "retain_gradient" : True
+            }
+            
+        assert batch["input_ids"].size(0) == len(batch["labels"]), "Error: batch size for item 1 not in correct position"
         
-        inputs = {
-            "sentences" : batch[0].to(device),
-            "lengths" : batch[1].to(device),
-            "labels" : batch[2].to(device),
-            "annotation_id" : batch[3],
-            "query_mask" : batch[4].to(device),
-            "token_type_ids" : batch[5].to(device),
-            "attention_mask" : batch[6].to(device),
-            "retain_gradient" : True
-        }
-                                        
-        assert inputs["sentences"].size(0) == len(inputs["labels"]), "Error: batch size for item 1 not in correct position"
+        yhat, attentions =  model(**batch)
 
         ## retrieve original full text logits and converts to probs
         original_prediction = batch_from_dict(
-            batch_data = inputs, 
+            batch_data = batch, 
             rationale_data = rationale_metadata, 
             target_key = "original prediction", 
             feature_attribution = None
         )
 
         ## saving our results
-        for annotation_id in inputs["annotation_id"]:
+        for annotation_id in batch["annotation_id"]:
 
             faithfulness_scores[annotation_id] = {}
 
@@ -94,14 +94,14 @@ def conduct_tests_(model, data, model_random_seed):
         full_text_probs = original_prediction.max(-1)
         full_text_class = original_prediction.argmax(-1)
 
-        original_sentences = inputs["sentences"].clone()
+        original_sentences = batch["input_ids"].clone()
 
         rows = np.arange(original_sentences.size(0))
 
         ## now measuring baseline sufficiency for all 0 rationale mask
-        inputs["sentences"] = torch.zeros_like(original_sentences)
+        batch["input_ids"] = torch.zeros_like(original_sentences)
 
-        yhat, _  = model(**inputs)
+        yhat, _  = model(**batch)
 
         yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
 
@@ -134,7 +134,7 @@ def conduct_tests_(model, data, model_random_seed):
                             feat_attribution_name = var_alias + "-len_var-feat"
 
                         rationale_mask = batch_from_dict(
-                            inputs, 
+                            batch, 
                             rationale_metadata, 
                             feature_attribution = feat_attribution_name, 
                             target_key = f"{length_of_rationale} rationale mask"
@@ -145,7 +145,7 @@ def conduct_tests_(model, data, model_random_seed):
                             model = model, 
                             original_sentences = original_sentences, 
                             rationale_mask = rationale_mask, 
-                            inputs = inputs, 
+                            inputs = batch, 
                             full_text_probs = full_text_probs, 
                             full_text_class = full_text_class, 
                             rows = rows,
@@ -156,14 +156,14 @@ def conduct_tests_(model, data, model_random_seed):
                             model = model, 
                             original_sentences = original_sentences, 
                             rationale_mask = rationale_mask, 
-                            inputs = inputs, 
+                            inputs = batch, 
                             full_text_probs = full_text_probs, 
                             full_text_class = full_text_class, 
                             rows = rows,
                             suff_y_zero = suff_y_zero
                         )
 
-                        for j_, annot_id in enumerate(inputs["annotation_id"]):
+                        for j_, annot_id in enumerate(batch["annotation_id"]):
                             
                             if feat_attribution_name == "--var-feat":
 
@@ -178,7 +178,7 @@ def conduct_tests_(model, data, model_random_seed):
                                 "sufficiency" : float(suff[j_]),
                                 "masked prediction probs" : reduced_probs[j_].astype(np.float64).tolist(),
                                 "full text prediction probs" : original_prediction[j_].astype(np.float64).tolist(),
-                                "labels" : int(inputs["labels"][j_].detach().cpu().item())
+                                "labels" : int(batch["labels"][j_].detach().cpu().item())
                             }
 
                     
@@ -201,7 +201,7 @@ def conduct_tests_(model, data, model_random_seed):
         "f1 macro avg - actual labels" : {}
     }
 
-    random_annot_id = inputs["annotation_id"][0]
+    random_annot_id = batch["annotation_id"][0]
 
     feat_attributions = faithfulness_scores[random_annot_id].keys()
 

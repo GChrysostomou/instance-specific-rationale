@@ -14,7 +14,7 @@ with open(config.cfg.config_directory + 'instance_config.json', 'r') as f:
 
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
-from src.common_code.useful_functions import mask_topk, mask_contigious
+from src.common_code.useful_functions import mask_topk, mask_contigious, batch_from_dict
 import math
 
 nn.deterministic = True
@@ -97,11 +97,11 @@ def rationale_length_computer_(
             
             if args.thresholder == "topk":
 
-                inputs["sentences"] = mask_topk(original_sents, scores, _tok)
+                inputs["input_ids"] = mask_topk(original_sents, scores, _tok)
 
             else:
 
-                inputs["sentences"] = mask_contigious(original_sents, scores, _tok)
+                inputs["input_ids"] = mask_contigious(original_sents, scores, _tok)
 
             yhat, _ = model(**inputs)
 
@@ -184,6 +184,19 @@ from tqdm import trange
 def get_rationale_metadata_(model, data_split_name, data, model_random_seed):
 
     desc = f'creating rationale data for {data_split_name}'
+
+    fname = os.path.join(
+        os.getcwd(),
+        args["data_dir"],
+        "importance_scores",
+        ""
+    )
+
+    fname += f"{data_split_name}_importance_scores_{model_random_seed}.npy"
+
+    ## retrieve importance scores
+    importance_scores = np.load(fname, allow_pickle = True).item()
+
     
     pbar = trange(len(data) * data.batch_size, desc=desc, leave=True)
     
@@ -194,72 +207,26 @@ def get_rationale_metadata_(model, data_split_name, data, model_random_seed):
         model.eval()
         model.zero_grad()
 
-        batch = [torch.stack(t).transpose(0,1) if type(t) is list else t for t in batch]
-        
-        inputs = {
-            "sentences" : batch[0].to(device),
-            "lengths" : batch[1].to(device),
-            "labels" : batch[2].to(device),
-            "annotation_id" : batch[3],
-            "query_mask" : batch[4].to(device),
-            "token_type_ids" : batch[5].to(device),
-            "attention_mask" : batch[6].to(device),
-            "retain_gradient" : True
-        }
-                                        
-        assert inputs["sentences"].size(0) == len(inputs["labels"]), "Error: batch size for item 1 not in correct position"
-        
-        original_prediction, attentions =  model(**inputs)
+        batch = {
+                "annotation_id" : batch["annotation_id"],
+                "input_ids" : batch["input_ids"].squeeze(1).to(device),
+                "lengths" : batch["lengths"].to(device),
+                "labels" : batch["label"].to(device),
+                "token_type_ids" : batch["token_type_ids"].squeeze(1).to(device),
+                "attention_mask" : batch["attention_mask"].squeeze(1).to(device),
+                "query_mask" : batch["query_mask"].squeeze(1).to(device),
+                "retain_gradient" : True
+            }
+            
+        assert batch["input_ids"].size(0) == len(batch["labels"]), "Error: batch size for item 1 not in correct position"
+   
+        original_prediction, _ =  model(**batch)
 
         original_prediction.max(-1)[0].sum().backward(retain_graph = True)
 
-        #embedding gradients
-        embed_grad = model.wrapper.model.embeddings.word_embeddings.weight.grad
-        g = embed_grad[inputs["sentences"].long()][:,:max(inputs["lengths"])]
-
-        # cutting to length to save time
-        attentions = attentions[:,:max(inputs["lengths"])]
-        query_mask = inputs["query_mask"][:,:max(inputs["lengths"])]
-
-        em = model.wrapper.model.embeddings.word_embeddings.weight[inputs["sentences"].long()][:,:max(inputs["lengths"])]
-
-        gradients = (g* em).sum(-1).abs() * query_mask.float()
-
-        integrated_grads = model.integrated_grads(
-                original_grad = g, 
-                original_pred = original_prediction.max(-1),
-                **inputs    
-        )
-
-        normalised_random = torch.randn(attentions.shape).to(device)
-
-        normalised_random = torch.masked_fill(normalised_random, ~query_mask.bool(), float("-inf"))
-        normalised_random = torch.softmax(normalised_random, dim = -1)
-
-        # normalised integrated gradients of input
-        normalised_ig = torch.masked_fill(integrated_grads[:, :max(inputs["lengths"])], ~query_mask.bool(), float("-inf"))
-
-        # normalised gradients of input
-        # normalised_grads = model.normalise_scores(gradients, inputs["sentences"][:, :max(inputs["lengths"])])
-        normalised_grads = torch.masked_fill(gradients[:, :max(inputs["lengths"])], ~query_mask.bool(), float("-inf"))
-
-        # normalised attention
-        # normalised_attentions = model.normalise_scores(attentions * query_mask.float(), inputs["sentences"][:, :max(inputs["lengths"])])
-        normalised_attentions = torch.masked_fill(attentions[:, :max(inputs["lengths"])], ~query_mask.bool(), float("-inf"))
-
-        # retrieving attention*attention_grad
-        attention_gradients = model.weights_or.grad[:,:,0,:].mean(1)[:,:max(inputs["lengths"])]
-        
-        attention_gradients =  (attentions * attention_gradients)[:, :max(inputs["lengths"])]
-        
-        # softmaxing due to negative attention gradients 
-        # therefore we receive also negative values and as such
-        # the pad and unwanted tokens need to be converted to -inf 
-        normalised_attention_grads = torch.masked_fill(attention_gradients, ~query_mask.bool(), float("-inf"))
-
-        for _i_ in range(attentions.size(0)):
+        for _i_ in range(original_prediction.size(0)):
             
-            annotation_id = inputs["annotation_id"][_i_]
+            annotation_id = batch["annotation_id"][_i_]
             
             ## setting up the placeholder for storing the  rationales
             rationale_results[annotation_id] = {}
@@ -267,27 +234,26 @@ def get_rationale_metadata_(model, data_split_name, data, model_random_seed):
             rationale_results[annotation_id]["thresholder"] = args.thresholder
             rationale_results[annotation_id]["divergence metric"] = args.divergence
 
-        to_save_time = {
-            "random" : normalised_random,
-            "attention" : normalised_attentions,
-            "gradients" : normalised_grads,
-            "ig" : normalised_ig,
-            "scaled attention" : normalised_attention_grads
-        }
+        original_sents = batch["input_ids"].clone()
 
+        batch["input_ids"] = original_sents * torch.zeros_like(original_sents).to(device)
 
-        original_sents = inputs["sentences"].clone()
-
-        inputs["sentences"] = original_sents * torch.zeros_like(original_sents).to(device)
-
-        zero_logits, _ =  model(**inputs)
+        zero_logits, _ =  model(**batch)
         
         ## percentage of flips
-        for feat_name , feat_score in to_save_time.items():
+        for feat_name in {"random", "attention", "gradients", "ig" , "scaled attention"}:
+
+            feat_score =  batch_from_dict(
+                batch_data = batch, 
+                rationale_data = importance_scores, 
+                target_key = feat_name,
+            )
+
+            feat_score =  batch_from_dict( batch_data = batch,rationale_data = importance_scores, target_key = feat_name )
 
             rationale_length_computer_(
                 model = model, 
-                inputs = inputs, 
+                inputs = batch, 
                 scores = feat_score, 
                 y_original = original_prediction, 
                 zero_logits = zero_logits,
@@ -298,9 +264,9 @@ def get_rationale_metadata_(model, data_split_name, data, model_random_seed):
             )
 
         ## select best fixed (fixed-len + var-feat) and variable rationales (var-len + var-feat) and save 
-        for _i_ in range(attentions.size(0)):
+        for _i_ in range(original_sents.size(0)):
 
-            annotation_id = inputs["annotation_id"][_i_]
+            annotation_id = batch["annotation_id"][_i_]
 
             ## initiators
             init_fixed_div = float("-inf")

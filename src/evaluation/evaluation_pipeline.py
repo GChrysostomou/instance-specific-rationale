@@ -17,13 +17,12 @@ with open(config.cfg.config_directory + 'instance_config.json', 'r') as f:
 
 from src.models.bert import bert
 from src.variable_rationales.var_length import get_rationale_metadata_
-from src.evaluation.experiments.rationale_extractor import rationale_creator_
+from src.evaluation.experiments.rationale_extractor import rationale_creator_, extract_importance_
 from src.evaluation.experiments.erasure_tests import conduct_tests_
 from src.evaluation.experiments.increasing_feature_scoring import compute_faithfulness_
 
 import re
 
-from sklearn.metrics import classification_report
 
 class evaluate():
 
@@ -48,13 +47,42 @@ class evaluate():
 
         logging.info(f" *** there are {len(self.models)} models in :  {model_path}")
 
+    def register_importance_(self, data):
+    
+        for model_name in self.models:
+            
+            model = bert(
+                output_dim = self.output_dims
+            )
+
+            logging.info(f" *** loading model -> {model_name}")
+
+            model.load_state_dict(torch.load(model_name, map_location=device))
+
+            model.to(device)
+
+            logging.info(f" *** succesfully loaded model -> {model_name}")
+
+            self.model_random_seed = re.sub("bert", "", model_name.split(".pt")[0].split("/")[-1])
+
+            for data_split_name, data_split in {"dev":  data.dev_loader , \
+                                                "test":  data.test_loader}.items():
+
+                extract_importance_(
+                    model = model, 
+                    data_split_name = data_split_name,
+                    data = data_split,
+                    model_random_seed = self.model_random_seed
+                )
+
+
+        return
 
     def prepare_for_rationale_creation_(self,data):
 
         for model_name in self.models:
 
             model = bert(
-                masked_list=[0,101,102],
                 output_dim = self.output_dims
             )
 
@@ -72,6 +100,9 @@ class evaluate():
             ## train neglected as we are evaluating on dev and test
             for data_split_name, data_split in {"dev":  data.dev_loader , \
                                                 "test":  data.test_loader}.items():
+
+                ## register importance scores if they do not exist
+                self.register_importance_(data)
 
                 fname = os.path.join(
                     os.getcwd(),
@@ -101,20 +132,25 @@ class evaluate():
         
         for data_split_name, data_split in data.as_dataframes_().items():
 
+            try:
             
-            rationale_creator_(
-                data = data_split,
-                data_split_name = data_split_name,
-                tokenizer = data.tokenizer,
-                variable = False
-            )
+                rationale_creator_(
+                    data = data_split,
+                    data_split_name = data_split_name,
+                    tokenizer = data.tokenizer,
+                    variable = False
+                )
 
-            rationale_creator_(
-                data = data_split,
-                data_split_name = data_split_name,
-                tokenizer = data.tokenizer,
-                variable = True
-            )
+                rationale_creator_(
+                    data = data_split,
+                    data_split_name = data_split_name,
+                    tokenizer = data.tokenizer,
+                    variable = True
+                )
+
+            except:
+
+                print(f"*** error processing split -> {data_split_name}")
 
 
 
@@ -137,9 +173,8 @@ class evaluate():
                 raise OSError(f"rationale metadata file does not exist at {fname} // rerun extract_rationales.py") from None
           
             model = bert(
-                                masked_list=[0,101,102],
-                                output_dim = self.output_dims
-                            )
+                output_dim = self.output_dims
+            )
 
             logging.info(f" *** loading model - {model_name}")
 

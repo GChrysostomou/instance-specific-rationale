@@ -60,8 +60,7 @@ def train_and_save(train_data_loader, dev_data_loader, for_rationale = False, ou
     torch.cuda.manual_seed(args["seed"])
     np.random.seed(args["seed"])
 
-    classifier = bert(
-        masked_list=[0,101,102], 
+    classifier = bert( 
         output_dim = output_dims
     )
 
@@ -163,7 +162,6 @@ def test_predictive_performance(test_data_loader, for_rationale = False, output_
     for model in trained_models:
         
         classifier = bert(
-            masked_list=[0,101,102], 
             output_dim = output_dims
         )
         

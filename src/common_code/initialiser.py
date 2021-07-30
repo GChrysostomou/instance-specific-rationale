@@ -111,6 +111,8 @@ def prepare_config(user_args, stage = "train") -> dict:
             "query": query
   })
 
+  if "extract_double" not in user_args: user_args["extract_double"] = None
+
   if user_args["extract_double"]:
 
     comb_args["rationale_length"] = comb_args["rationale_length"]*2.

@@ -90,7 +90,7 @@ def train_model(model, training, development, loss_function, optimiser, seed,
                                                 num_warmup_steps=int(len(training)*.1),
                                                 num_training_steps=total_steps
                                                 )
-    every = round(len(training) / 5)
+    every = round(len(training) / 3)
 
     logging.info("***************************************")
     logging.info("Training on seed {}".format(run))
@@ -112,21 +112,19 @@ def train_model(model, training, development, loss_function, optimiser, seed,
         for batch in training:
             
             model.zero_grad()
-
-            batch = [torch.stack(t).transpose(0,1) if type(t) is list else t for t in batch]
-            
-            inputs = {
-                "sentences" : batch[0].to(device),
-                "lengths" : batch[1].to(device),
-                "labels" : batch[2].to(device),
-                "token_type_ids" : batch[5].to(device),
-                "attention_mask" : batch[6].to(device),
+        
+            batch = {
+                "input_ids" : batch["input_ids"].squeeze(1).to(device),
+                "lengths" : batch["lengths"].to(device),
+                "labels" : batch["label"].to(device),
+                "token_type_ids" : batch["token_type_ids"].squeeze(1).to(device),
+                "attention_mask" : batch["attention_mask"].squeeze(1).to(device),
                 "retain_gradient" : False
             }
 
-            assert inputs["sentences"].size(0) == len(inputs["labels"]), "Error: batch size for item 1 not in correct position"
+            assert batch["input_ids"].size(0) == len(batch["labels"]), "Error: batch size for item 1 not in correct position"
 
-            yhat, weights =  model(**inputs)
+            yhat, _ =  model(**batch)
 
             if len(yhat.shape) == 1:
                 
@@ -136,12 +134,12 @@ def train_model(model, training, development, loss_function, optimiser, seed,
 
                 loss = model._joint_rationale_objective(
                     predicted_logits = yhat,
-                    actual_labels = inputs["labels"]
+                    actual_labels = batch["labels"]
                 )
 
             else:
 
-                loss = loss_function(yhat, inputs["labels"]) 
+                loss = loss_function(yhat, batch["labels"]) 
 
             total_loss += loss.item()
 
@@ -226,20 +224,19 @@ def test_model(model, loss_function, data, save_output_probs = False, random_see
     
         for batch in data:
             
-            batch = [torch.stack(t).transpose(0,1) if type(t) is list else t for t in batch]
-            
-            inputs = {
-                "sentences" : batch[0].to(device),
-                "lengths" : batch[1].to(device),
-                "labels" : batch[2].to(device),
-                "token_type_ids" : batch[5].to(device),
-                "attention_mask" : batch[6].to(device),
+            batch = {
+                "annotation_id" : batch["annotation_id"],
+                "input_ids" : batch["input_ids"].squeeze(1).to(device),
+                "lengths" : batch["lengths"].to(device),
+                "labels" : batch["label"].to(device),
+                "token_type_ids" : batch["token_type_ids"].squeeze(1).to(device),
+                "attention_mask" : batch["attention_mask"].squeeze(1).to(device),
                 "retain_gradient" : False
             }
             
-            assert inputs["sentences"].size(0) == len(inputs["labels"]), "Error: batch size for item 1 not in correct position"
+            assert batch["input_ids"].size(0) == len(batch["labels"]), "Error: batch size for item 1 not in correct position"
             
-            yhat, _ =  model(**inputs)
+            yhat, _ =  model(**batch)
 
             if len(yhat.shape) == 1:
                 
@@ -251,11 +248,11 @@ def test_model(model, loss_function, data, save_output_probs = False, random_see
                     ## batch[3] is input id
                     to_save_probs[batch[3][_j_]] = {}
                     to_save_probs[batch[3][_j_]]["predicted"] = yhat[_j_].detach().cpu().numpy()
-                    to_save_probs[batch[3][_j_]]["actual"] = inputs["labels"][_j_].detach().cpu().item()
+                    to_save_probs[batch[3][_j_]]["actual"] = batch["labels"][_j_].detach().cpu().item()
 
                     if args.inherently_faithful:
 
-                        leng = inputs["lengths"][_j_]
+                        leng = batch["lengths"][_j_]
 
                         to_save_probs[batch[3][_j_]]["rationale"] = model.sample_z[_j_][:leng].detach().cpu().numpy()
                         to_save_probs[batch[3][_j_]]["full text length"] = leng.detach().cpu().item()
@@ -264,14 +261,14 @@ def test_model(model, loss_function, data, save_output_probs = False, random_see
 
                 loss = model._joint_rationale_objective(
                     predicted_logits = yhat,
-                    actual_labels = inputs["labels"]
+                    actual_labels = batch["labels"]
                 )
 
                 loss = torch.abs(loss)
 
             else:
 
-                loss = loss_function(yhat, inputs["labels"]) 
+                loss = loss_function(yhat, batch["labels"]) 
 
             total_loss += loss.item()
             
@@ -279,7 +276,7 @@ def test_model(model, loss_function, data, save_output_probs = False, random_see
     
             predicted.extend(ind.cpu().numpy())
     
-            actual.extend(inputs["labels"].cpu().numpy())
+            actual.extend(batch["labels"].cpu().numpy())
 
         results = classification_report(actual, predicted, output_dict = True)
 
