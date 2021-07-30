@@ -45,6 +45,10 @@ def prepare_config(user_args, stage = "train") -> dict:
 
   if stage == "extract":
 
+    if user_args["extract_double"]:
+
+      user_args["extracted_rationale_dir"] = "double_" + user_args["extracted_rationale_dir"]
+
     extract_dir = os.path.join(
         os.getcwd(), 
         user_args["extracted_rationale_dir"], 
@@ -55,6 +59,11 @@ def prepare_config(user_args, stage = "train") -> dict:
   else: extract_dir = None
 
   if stage == "evaluate":
+
+    if user_args["extract_double"]:
+
+      user_args["extracted_rationale_dir"] = "double_" + user_args["extracted_rationale_dir"]
+      user_args["evaluation_dir"] = "double_" + user_args["evaluation_dir"]
 
     eval_dir = os.path.join(
         os.getcwd(), 
@@ -89,7 +98,7 @@ def prepare_config(user_args, stage = "train") -> dict:
     epochs = default_args["epochs"]
 
   model_abbrev = default_args["model_abbreviation"][default_args[user_args["dataset"]]["model"]] 
-  
+
   comb_args = dict(user_args, **default_args[user_args["dataset"]], **{
 
             "seed":user_args["seed"], 
@@ -101,6 +110,10 @@ def prepare_config(user_args, stage = "train") -> dict:
             "extracted_rationale_dir": extract_dir,
             "query": query
   })
+
+  if user_args["extract_double"]:
+
+    comb_args["rationale_length"] = comb_args["rationale_length"]*2.
 
   #### saving config file for this run
   with open(config.cfg.config_directory + 'instance_config.json', 'w') as file:

@@ -4,6 +4,7 @@ import math
 import json
 import numpy as np
 from src.common_code.metrics import jsd, kl_div_loss, perplexity, simple_diff
+import time
 
 import config.cfg
 from config.cfg import AttrDict
@@ -87,6 +88,7 @@ def rationale_length_computer_(
     model.eval()
     stepwise_preds = []
     ## begin search
+    start_time = time.time()
     with torch.no_grad():
         
         for j, _tok in enumerate(grange):
@@ -123,6 +125,7 @@ def rationale_length_computer_(
     max_div, indxes = collector.max(0)
     indxes[indxes == 0] = 1
 
+    end_time = time.time()
 
     ## now to generate the rationale ratio
     ## and other data that we care about saving
@@ -169,7 +172,8 @@ def rationale_length_computer_(
             f"fixed-length divergence" : fixed_div.cpu().item(),
             f"variable-length divergence" : max_div[_i_].cpu().item(),
             "importance scores" : scores[_i_].cpu().detach().numpy(),
-            "running predictions" : stepwise_preds[_i_]
+            "running predictions" : stepwise_preds[_i_],
+            "time elapsed" : end_time - start_time
         }
 
     return 

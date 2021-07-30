@@ -69,7 +69,8 @@ class evaluate():
 
             self.model_random_seed = re.sub("bert", "", model_name.split(".pt")[0].split("/")[-1])
 
-            for data_split_name, data_split in {"train": data.train_loader, "dev":  data.dev_loader , \
+            ## train neglected as we are evaluating on dev and test
+            for data_split_name, data_split in {"dev":  data.dev_loader , \
                                                 "test":  data.test_loader}.items():
 
                 fname = os.path.join(

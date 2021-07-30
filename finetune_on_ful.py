@@ -49,11 +49,7 @@ parser.add_argument(
     action='store_true'
 )
 
-parser.add_argument(
-    '--inherently_faithful', 
-    help='for training with the lei et. al model', 
-    action='store_true'
-)
+
 
 user_args = vars(parser.parse_args())
 user_args["importance_metric"] = None

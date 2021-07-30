@@ -67,6 +67,12 @@ parser.add_argument(
     default = "extracted_rationales/"
 )
 
+parser.add_argument(
+    '--extract_double', 
+    help='for testing at larger rationale lengths', 
+    action='store_true'
+)
+
 user_args = vars(parser.parse_args())
 user_args["importance_metric"] = None
 

@@ -75,6 +75,11 @@ parser.add_argument(
     choices = ["jsd", "kldiv", "perplexity", "classdiff"]
 )
 
+parser.add_argument(
+    '--extract_double', 
+    help='for testing at larger rationale lengths', 
+    action='store_true'
+)
 
 user_args = vars(parser.parse_args())
 
@@ -130,7 +135,7 @@ evaluator = evaluation_pipeline.evaluate(
 
 evaluator.prepare_for_rationale_creation_(data)
 
-evaluator.create_rationales_(data)
+# evaluator.create_rationales_(data)
 
 del data
 del evaluator
