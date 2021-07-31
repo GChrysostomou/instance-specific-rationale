@@ -123,11 +123,16 @@ def sufficiency_(full_text_probs, reduced_probs):
 
     return sufficiency
 
-def normalized_sufficiency_(model, original_sentences, rationale_mask, inputs, full_text_probs, full_text_class, rows, suff_y_zero):
+def normalized_sufficiency_(model, original_sentences, rationale_mask, inputs, full_text_probs, full_text_class, rows, suff_y_zero, only_query_mask):
 
     ## for sufficiency we always keep the rationale
     ## since ones represent rationale tokens
-    inputs["input_ids"]  =  rationale_mask * original_sentences
+    ## preserve cls
+    rationale_mask[:,0] = 1
+    ## preserve sep
+    rationale_mask[torch.arange(rationale_mask.size(0)).to(device), inputs["lengths"]] = 1
+    
+    inputs["input_ids"]  =  (rationale_mask + only_query_mask) * original_sentences
 
     yhat, _  = model(**inputs)
 
@@ -157,8 +162,14 @@ def normalized_comprehensiveness_(model, original_sentences, rationale_mask, inp
     
     ## for comprehensivness we always remove the rationale and keep the rest of the input
     ## since ones represent rationale tokens, invert them and multiply the original input
-    inputs["input_ids"] =  original_sentences * (rationale_mask == 0).long()
+    rationale_mask = (rationale_mask == 0)
+    ## preserve cls
+    rationale_mask[:,0] = 1
+    ## preserve sep
+    rationale_mask[torch.arange(rationale_mask.size(0)).to(device), inputs["lengths"]] = 1
 
+    inputs["input_ids"] =  original_sentences * rationale_mask.long()
+    
     yhat, _  = model(**inputs)
 
     yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()

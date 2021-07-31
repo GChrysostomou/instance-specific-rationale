@@ -13,85 +13,7 @@ from config.cfg import AttrDict
 
 with open(config.cfg.config_directory + 'instance_config.json', 'r') as f:
     args = AttrDict(json.load(f))
-
-
-def describe_data_stats(path = str):
-    """ 
-    returns dataset statistics such as : 
-                                        - number of documens
-                                        - average sequence length
-                                        - average query length (if QA)
-    """
-    # ensure that datapath ends with "/"
-    if path[-1] == "/":pass 
-    else: path = path + "/"
     
-    descriptions = {"train":{}, "dev":{}, "test":{}}
-
-    train = pd.read_csv(path + "train.csv")
-    dev = pd.read_csv(path + "dev.csv")
-    test = pd.read_csv(path + "test.csv")
-
-    if args["query"]:
-
-        train = train.rename(columns = {"document":"text"})
-        dev = dev.rename(columns = {"document":"text"})
-        test = test.rename(columns = {"document":"text"})
-
-    # load data and save them in descriptions dictionary
-    
-    descriptions["train"]["number_of_docs"] =len(train.text.values)
-    descriptions["train"]["ave_doc_length"] =  math.ceil(np.asarray([len(x.split()) for x in train.text.values]).mean())
-
-    descriptions["dev"]["number_of_docs"] =len(dev.text.values)
-    descriptions["dev"]["ave_doc_length"] =  math.ceil(np.asarray([len(x.split()) for x in dev.text.values]).mean())
-    
-    descriptions["test"]["number_of_docs"] =len(test.text.values)
-    descriptions["test"]["ave_doc_length"] =  math.ceil(np.asarray([len(x.split()) for x in test.text.values]).mean())
-
-    majority_class = np.unique(np.asarray(test.label.values), return_counts = True)
-   
-    descriptions["train"]["label_distribution"] = {str(k):v for k, v in dict(np.asarray(majority_class).T).items()}
-    descriptions["train"]["majority_class"] =  round(majority_class[-1].max() / majority_class[-1].sum() * 100,2)
-
-    if args["query"]:
-
-        descriptions["train"]["ave_query_length"] =  math.ceil(np.asarray([len(x.split()) for x in train["query"].values]).mean())
-        descriptions["dev"]["ave_query_length"] =  math.ceil(np.asarray([len(x.split()) for x in dev["query"].values]).mean())
-        descriptions["test"]["ave_query_length"] =  math.ceil(np.asarray([len(x.split()) for x in test["query"].values]).mean())
-    
-    return descriptions
-
-
-def encode_it(tokenizer, max_length, *arguments):
-
-    """
-    returns token type ids, padded doc and 
-    """
-
-    if len(arguments) > 1:
-
-        dic = tokenizer.encode_plus(arguments[0], arguments[1],
-                                        add_special_tokens = True,
-                                        max_length = max_length,
-                                        padding = 'max_length',
-                                        return_token_type_ids = True,
-                                        truncation = True)
-
-    else:
-  
-        dic = tokenizer.encode_plus(arguments[0],
-                                        add_special_tokens = True,
-                                        max_length = max_length,
-                                        padding = 'max_length',
-                                        return_token_type_ids = True,
-                                        truncation = True)
-       
-    return dic
-
-
-import torch
-
 def wpiece2word(tokenizer, sentence, weights, print_err = False):  
 
     """
@@ -187,3 +109,79 @@ def batch_from_dict(batch_data, metadata, target_key = "original prediction", ex
 
     
     return torch.tensor(new_tensor).to(device)
+
+
+def create_rationale_mask_(
+        importance_scores : torch.tensor, 
+        no_of_masked_tokens : np.ndarray,
+        method : str = "topk"
+    ):
+
+    rationale_mask = []
+
+    for _i_ in range(importance_scores.size(0)):
+        
+        score = importance_scores[_i_]
+        tokens_to_mask = int(no_of_masked_tokens[_i_])
+        
+        ## if contigious or not a unigram (unigram == topk of 1)
+        if method == "contigious" and tokens_to_mask > 1:
+
+            top_k = contigious_indxs_(
+                importance_scores = score,
+                tokens_to_mask = tokens_to_mask
+            )
+        
+        else:
+
+            top_k = topk_indxs_(
+                importance_scores = score,
+                tokens_to_mask = tokens_to_mask
+            )
+
+        ## create the instance specific mask
+        ## 1 represents the rationale :)
+        ## 0 represents tokens that we dont care about :'(
+        mask = torch.zeros(score.shape).to(device)
+        mask = mask.scatter_(-1,  top_k.to(device), 1).long()
+
+        rationale_mask.append(mask)
+
+    rationale_mask = torch.stack(rationale_mask).to(device)
+
+    return rationale_mask
+
+## used for preserving queries
+def create_only_query_mask_(batch_input_ids : torch.tensor, special_tokens : dict):
+
+    query_mask = []
+
+    for seq in batch_input_ids:
+        
+        only_query_mask = torch.zeros(seq.shape).to(device)
+
+        sos_eos = torch.where(seq == special_tokens["sep_token_id"][0].item())[0]
+        seq_length = sos_eos[0] + 1 
+        query_end = sos_eos[1]
+
+        only_query_mask[seq_length: query_end+1] = 1 
+
+        query_mask.append(only_query_mask)
+
+    query_mask = torch.stack(query_mask).to(device)
+
+    return query_mask.long()
+
+def contigious_indxs_(importance_scores, tokens_to_mask):
+
+    ngram = torch.stack([importance_scores[i:i + tokens_to_mask] for i in range(len(importance_scores) - tokens_to_mask + 1)])
+    indxs = [torch.arange(i, i+tokens_to_mask) for i in range(len(importance_scores) - tokens_to_mask + 1)]
+    top_k = indxs[ngram.sum(-1).argmax()]
+
+    return top_k
+
+def topk_indxs_(importance_scores, tokens_to_mask):
+
+    top_k = torch.topk(importance_scores, tokens_to_mask).indices
+
+    return top_k

@@ -14,7 +14,7 @@ with open(config.cfg.config_directory + 'instance_config.json', 'r') as f:
 
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
-from src.common_code.useful_functions import mask_topk, mask_contigious, batch_from_dict, create_rationale_mask_
+from src.common_code.useful_functions import mask_topk, mask_contigious, batch_from_dict
 import math
 
 nn.deterministic = True
@@ -89,25 +89,24 @@ def rationale_length_computer_(
     stepwise_preds = []
     ## begin search
     start_time = time.time()
-    token_collector = []
+
     with torch.no_grad():
         
         for j, _tok in enumerate(grange):
+
+            if j == 0: _tok = 1
             
-            ## min 1
-            if _tok == 0: _tok = 1
-            ## ensure we do not go over
-            if _tok > tokens: _tok = tokens
+            if args.thresholder == "topk":
 
-            rationale_mask = create_rationale_mask_(
-                importance_scores = scores, 
-                no_of_masked_tokens = np.array([_tok]*scores.size(0)),
-                method = args.thresholder
-            )
+                inputs["input_ids"] = mask_topk(original_sents, scores, _tok)
 
-            inputs["input_ids"] = (rationale_mask == 0).long() * original_sents
-    
+            else:
+
+                inputs["input_ids"] = mask_contigious(original_sents, scores, _tok)
+
             yhat, _ = model(**inputs)
+
+            import pdb; pdb.set_trace()
 
             stepwise_preds.append(yhat.argmax(-1).detach().cpu().numpy())
 
@@ -119,8 +118,6 @@ def rationale_length_computer_(
 
             collector[j] = full_div.detach().cpu()
 
-            token_collector.append(_tok)
-
     #### in short sequences (e.g. where grange is 0) it means they are formed from one token
     #### so that token is our explanation
 
@@ -129,6 +126,7 @@ def rationale_length_computer_(
     assert stepwise_preds.shape[0] == y_original.size(0)
 
     max_div, indxes = collector.max(0)
+    indxes[indxes == 0] = 1
 
     end_time = time.time()
 
@@ -137,23 +135,26 @@ def rationale_length_computer_(
     for _i_ in range(y_original.size(0)):
 
         annot_id = inputs["annotation_id"][_i_]
-        fixed_rationale_length = math.ceil(args.rationale_length * inputs["lengths"][_i_].float())
-        full_text_length = inputs["lengths"][_i_]
-        rationale_length = token_collector[indxes[_i_].detach().cpu().item()]
-        rationale_ratio = rationale_length / full_text_length.float().detach().cpu().item()
         
+        full_text_length = inputs["lengths"][_i_]
+        rationale_length = indxes[_i_].detach().cpu().item()
+        rationale_ratio = rationale_length / full_text_length.float().detach().cpu().item()
+
         ## now to create the mask of variable rationales
-        ## rationale selected (with 1's)  
+        ## rationale selected (with 1's)
         if args.thresholder == "topk":
 
-            rationale_mask = (mask_topk(original_sents[_i_], scores[_i_], rationale_length) == 0).long().detach().cpu().numpy()
+            rationale_mask = (mask_topk(original_sents[_i_], scores[_i_],rationale_length) == 0).long().detach().cpu().numpy()
 
         else:
 
             rationale_mask = (mask_contigious(original_sents[_i_], scores[_i_],rationale_length) == 0).long().detach().cpu().numpy()
-         
+
         ## now to create the mask of variable rationales
         ## rationale selected (with 1's)
+
+        fixed_rationale_length = math.ceil(args.rationale_length * inputs["lengths"][_i_].float())
+
         if args.thresholder == "topk":
 
             fixed_rationale_mask = (mask_topk(original_sents[_i_], scores[_i_], fixed_rationale_length) == 0).long().detach().cpu().numpy()
@@ -216,6 +217,7 @@ def get_rationale_metadata_(model, data_split_name, data, model_random_seed):
                 "token_type_ids" : batch["token_type_ids"].squeeze(1).to(device),
                 "attention_mask" : batch["attention_mask"].squeeze(1).to(device),
                 "query_mask" : batch["query_mask"].squeeze(1).to(device),
+                "special_tokens" : batch["special tokens"],
                 "retain_gradient" : True
             }
             

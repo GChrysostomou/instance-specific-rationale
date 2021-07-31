@@ -22,7 +22,7 @@ torch.manual_seed(25)
 torch.cuda.manual_seed(25)
 np.random.seed(25)
 
-from src.common_code.useful_functions import batch_from_dict
+from src.common_code.useful_functions import batch_from_dict, create_only_query_mask_
 from src.common_code.metrics import normalized_comprehensiveness_, normalized_sufficiency_, sufficiency_
 
 from sklearn.metrics import classification_report
@@ -69,6 +69,7 @@ def conduct_tests_(model, data, split, model_random_seed):
                 "token_type_ids" : batch["token_type_ids"].squeeze(1).to(device),
                 "attention_mask" : batch["attention_mask"].squeeze(1).to(device),
                 "query_mask" : batch["query_mask"].squeeze(1).to(device),
+                "special_tokens" : batch["special tokens"],
                 "retain_gradient" : False ## we do not need it
             }
             
@@ -99,7 +100,18 @@ def conduct_tests_(model, data, split, model_random_seed):
         rows = np.arange(original_sentences.size(0))
 
         ## now measuring baseline sufficiency for all 0 rationale mask
-        batch["input_ids"] = torch.zeros_like(original_sentences)
+        if args.query:
+
+            only_query_mask=create_only_query_mask_(
+                batch_input_ids=batch["input_ids"],
+                special_tokens=batch["special_tokens"]
+            )
+
+        else:
+
+            only_query_mask=torch.zeros_like(batch["input_ids"]).long()
+
+        batch["input_ids"] = only_query_mask
 
         yhat, _  = model(**batch)
 
@@ -160,7 +172,8 @@ def conduct_tests_(model, data, split, model_random_seed):
                             full_text_probs = full_text_probs, 
                             full_text_class = full_text_class, 
                             rows = rows,
-                            suff_y_zero = suff_y_zero
+                            suff_y_zero = suff_y_zero,
+                            only_query_mask=only_query_mask
                         )
                         
                         for j_, annot_id in enumerate(batch["annotation_id"]):

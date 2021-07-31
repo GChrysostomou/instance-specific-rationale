@@ -58,7 +58,7 @@ class classification_dataholder():
             
             max_len = round(max([len(x["text"].split()) for x in train]))
 
-        max_len = min(max_len, 256)
+        max_len = min(max_len, 512)
 
         # load the pretrained tokenizer
         pretrained_weights = args.model

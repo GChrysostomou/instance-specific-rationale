@@ -95,8 +95,9 @@ class evaluate():
             self.model_random_seed = re.sub("bert", "", model_name.split(".pt")[0].split("/")[-1])
 
             ## train neglected as we are evaluating on dev and test
-            for data_split_name, data_split in {"test":  data.test_loader , \
-                                                "dev":  data.dev_loader}.items():
+            # for data_split_name, data_split in {"test":  data.test_loader , \
+            #                                     "dev":  data.dev_loader}.items():
+            for data_split_name, data_split in {"test":  data.test_loader }.items():
 
                 ## register importance scores if they do not exist
                 self.register_importance_(
@@ -187,8 +188,9 @@ class evaluate():
             model_random_seed = re.sub("bert", "", model_name.split(".pt")[0].split("/")[-1])
 
             ## train neglected as we are evaluating on dev and test
-            for data_split_name, data_split in {"test":  data.test_loader , \
-                                                "dev":  data.dev_loader}.items():
+            # for data_split_name, data_split in {"test":  data.test_loader , \
+            #                                     "dev":  data.dev_loader}.items():
+            for data_split_name, data_split in {"test":  data.test_loader }.items():
 
                 conduct_tests_(
                     model = model, 
