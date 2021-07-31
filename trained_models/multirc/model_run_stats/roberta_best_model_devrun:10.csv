@@ -1,5 +1,0 @@
-,0,1,accuracy,macro avg,weighted avg,epoch,point,dev_loss,model-name
-precision,0.5482265090230243,0.0,0.5482265090230243,0.27411325451151214,0.30055230519557213,1,0,2.7708883235110573,/jmain01/home/JAD009/txk20/gxc78-txk20/variable_rationale_2021/trained_models/multirc/roberta10.pt
-recall,1.0,0.0,0.5482265090230243,0.5,0.5482265090230243,1,0,2.7708883235110573,/jmain01/home/JAD009/txk20/gxc78-txk20/variable_rationale_2021/trained_models/multirc/roberta10.pt
-f1-score,0.7081993569131833,0.0,0.5482265090230243,0.3540996784565916,0.38825366113286525,1,0,2.7708883235110573,/jmain01/home/JAD009/txk20/gxc78-txk20/variable_rationale_2021/trained_models/multirc/roberta10.pt
-support,1762.0,1452.0,0.5482265090230243,3214.0,3214.0,1,0,2.7708883235110573,/jmain01/home/JAD009/txk20/gxc78-txk20/variable_rationale_2021/trained_models/multirc/roberta10.pt
