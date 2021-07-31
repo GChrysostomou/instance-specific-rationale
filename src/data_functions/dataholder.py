@@ -41,9 +41,9 @@ class classification_dataholder():
             
             path += args["importance_metric"] + "-"
 
-        train = pd.read_csv(path + "train.csv").to_dict("records")#[:32]
-        dev = pd.read_csv(path + "dev.csv").to_dict("records")#[:32]
-        test = pd.read_csv(path + "test.csv").to_dict("records")#[:32]
+        train = pd.read_csv(path + "train.csv").to_dict("records")[:32]
+        dev = pd.read_csv(path + "dev.csv").to_dict("records")[:32]
+        test = pd.read_csv(path + "test.csv").to_dict("records")[:32]
 
         print("*** loading data in dataholder")
 

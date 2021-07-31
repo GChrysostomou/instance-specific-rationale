@@ -39,7 +39,7 @@ def conduct_tests_(model, data, split, model_random_seed):
             saves the results to a csv file under the save_path
     """
 
-    desc = 'conducting faithfulness tests'
+    desc = f'conducting faithfulness tests on -> {split}'
     
     pbar = trange(len(data) * data.batch_size, desc=desc, leave=True)
 
@@ -107,11 +107,13 @@ def conduct_tests_(model, data, split, model_random_seed):
                 special_tokens=batch["special_tokens"]
             )
 
+            batch["input_ids"] = only_query_mask * original_sentences
+
         else:
 
             only_query_mask=torch.zeros_like(batch["input_ids"]).long()
 
-        batch["input_ids"] = only_query_mask
+            batch["input_ids"] = only_query_mask
 
         yhat, _  = model(**batch)
 

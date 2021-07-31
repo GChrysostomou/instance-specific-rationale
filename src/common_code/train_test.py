@@ -76,6 +76,7 @@ def train_model(model, training, development, loss_function, optimiser, seed,
     
     pbar = trange(len(training) *epochs, desc='running for seed ' + run, leave=True, 
     bar_format = "{l_bar}{bar}{elapsed}<{remaining}")
+    
     torch.backends.cudnn.deterministic = True
     torch.backends.cudnn.benchmark = False
     torch.manual_seed(int(seed))
@@ -100,9 +101,6 @@ def train_model(model, training, development, loss_function, optimiser, seed,
 
     model.train()
 
-    act_loss = []
-    kl_loss = []
-    
     for epoch in range(epochs):
         
         total_loss = 0
@@ -245,17 +243,17 @@ def test_model(model, loss_function, data, save_output_probs = False, random_see
             if save_output_probs:
 
                 for _j_ in range(yhat.size(0)):
-                    ## batch[3] is input id
-                    to_save_probs[batch[3][_j_]] = {}
-                    to_save_probs[batch[3][_j_]]["predicted"] = yhat[_j_].detach().cpu().numpy()
-                    to_save_probs[batch[3][_j_]]["actual"] = batch["labels"][_j_].detach().cpu().item()
+
+                    to_save_probs[batch["annotation_id"][_j_]] = {}
+                    to_save_probs[batch["annotation_id"][_j_]]["predicted"] = yhat[_j_].detach().cpu().numpy()
+                    to_save_probs[batch["annotation_id"][_j_]]["actual"] = batch["labels"][_j_].detach().cpu().item()
 
                     if args.inherently_faithful:
 
                         leng = batch["lengths"][_j_]
 
-                        to_save_probs[batch[3][_j_]]["rationale"] = model.sample_z[_j_][:leng].detach().cpu().numpy()
-                        to_save_probs[batch[3][_j_]]["full text length"] = leng.detach().cpu().item()
+                        to_save_probs[batch["annotation_id"][_j_]]["rationale"] = model.sample_z[_j_][:leng].detach().cpu().numpy()
+                        to_save_probs[batch["annotation_id"][_j_]]["full text length"] = leng.detach().cpu().item()
 
             if args.inherently_faithful:
 

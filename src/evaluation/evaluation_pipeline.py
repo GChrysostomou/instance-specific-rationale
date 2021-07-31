@@ -47,30 +47,42 @@ class evaluate():
 
         logging.info(f" *** there are {len(self.models)} models in :  {model_path}")
 
-    def register_importance_(self, data, data_split_name):
-    
-        for model_name in self.models:
-            
-            model = bert(
-                output_dim = self.output_dims
-            )
-
-            logging.info(f" *** loading model -> {model_name}")
-
-            model.load_state_dict(torch.load(model_name, map_location=device))
-
-            model.to(device)
-
-            logging.info(f" *** succesfully loaded model -> {model_name}")
-
-            self.model_random_seed = re.sub("bert", "", model_name.split(".pt")[0].split("/")[-1])
+    def register_importance_(self, data, data_split_name, model = None):
+        
+        if model:
 
             extract_importance_(
-                model = model, 
-                data_split_name = data_split_name,
-                data = data,
-                model_random_seed = self.model_random_seed
-            )
+                    model = model, 
+                    data_split_name = data_split_name,
+                    data = data,
+                    model_random_seed = self.model_random_seed
+                )
+
+        else:
+
+
+            for model_name in self.models:
+                
+                model = bert(
+                    output_dim = self.output_dims
+                )
+
+                logging.info(f" *** loading model -> {model_name}")
+
+                model.load_state_dict(torch.load(model_name, map_location=device))
+
+                model.to(device)
+
+                logging.info(f" *** succesfully loaded model -> {model_name}")
+
+                self.model_random_seed = re.sub("bert", "", model_name.split(".pt")[0].split("/")[-1])
+
+                extract_importance_(
+                    model = model, 
+                    data_split_name = data_split_name,
+                    data = data,
+                    model_random_seed = self.model_random_seed
+                )
 
 
         return
@@ -95,14 +107,15 @@ class evaluate():
             self.model_random_seed = re.sub("bert", "", model_name.split(".pt")[0].split("/")[-1])
 
             ## train neglected as we are evaluating on dev and test
-            # for data_split_name, data_split in {"test":  data.test_loader , \
-            #                                     "dev":  data.dev_loader}.items():
-            for data_split_name, data_split in {"test":  data.test_loader }.items():
+            for data_split_name, data_split in {"test":  data.test_loader , \
+                                                "dev":  data.dev_loader}.items():
+
 
                 ## register importance scores if they do not exist
                 self.register_importance_(
                     data = data_split,
-                    data_split_name=data_split_name
+                    data_split_name=data_split_name,
+                    model = model
                 )
 
                 fname = os.path.join(
@@ -188,10 +201,9 @@ class evaluate():
             model_random_seed = re.sub("bert", "", model_name.split(".pt")[0].split("/")[-1])
 
             ## train neglected as we are evaluating on dev and test
-            # for data_split_name, data_split in {"test":  data.test_loader , \
-            #                                     "dev":  data.dev_loader}.items():
-            for data_split_name, data_split in {"test":  data.test_loader }.items():
-
+            for data_split_name, data_split in {"test":  data.test_loader , \
+                                                "dev":  data.dev_loader}.items():
+            
                 conduct_tests_(
                     model = model, 
                     data = data_split,

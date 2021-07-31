@@ -14,7 +14,7 @@ with open(config.cfg.config_directory + 'instance_config.json', 'r') as f:
 
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
-from src.common_code.useful_functions import mask_topk, mask_contigious, batch_from_dict, create_rationale_mask_
+from src.common_code.useful_functions import mask_topk, mask_contigious, batch_from_dict, create_rationale_mask_, create_only_query_mask_
 import math
 
 nn.deterministic = True
@@ -216,6 +216,7 @@ def get_rationale_metadata_(model, data_split_name, data, model_random_seed):
                 "token_type_ids" : batch["token_type_ids"].squeeze(1).to(device),
                 "attention_mask" : batch["attention_mask"].squeeze(1).to(device),
                 "query_mask" : batch["query_mask"].squeeze(1).to(device),
+                "special_tokens" : batch["special tokens"],
                 "retain_gradient" : True
             }
             
@@ -237,7 +238,21 @@ def get_rationale_metadata_(model, data_split_name, data, model_random_seed):
 
         original_sents = batch["input_ids"].clone()
 
-        batch["input_ids"] = original_sents * torch.zeros_like(original_sents).to(device)
+        ## now measuring baseline sufficiency for all 0 rationale mask
+        if args.query:
+
+            only_query_mask=create_only_query_mask_(
+                batch_input_ids=batch["input_ids"],
+                special_tokens=batch["special_tokens"]
+            )
+
+            batch["input_ids"] = only_query_mask * original_sents
+
+        else:
+
+            only_query_mask=torch.zeros_like(batch["input_ids"]).long()
+
+            batch["input_ids"] = only_query_mask
 
         zero_logits, _ =  model(**batch)
 
