@@ -52,10 +52,10 @@ def rationale_length_computer_(
 
     assert fidelity in ["max_fidelity", "lower_fidelity"]
 
-    max_rationale = args.rationale_length 
+    tokens = args.rationale_length  * inputs["lengths"].float().mean()
 
-    tokens = max_rationale * inputs["lengths"].float().mean()
-
+    tokens = max(1, round(tokens))
+    
     ## if we break down our search in increments
     if fidelity == "lower_fidelity":
         
@@ -65,14 +65,14 @@ def rationale_length_computer_(
         ## special case for very short sequences in SST and AG of less than 6 tokens
         if percent_to_tokens == 0:
             
-            collector = torch.zeros([math.ceil(tokens), original_sents.size(0)])
+            collector = torch.zeros([tokens, original_sents.size(0)])
 
-            grange = range(0, math.ceil(tokens))
+            grange = range(0, tokens)
         
         ## for longer than 4 word sequences
         else:
 
-            grange = range(percent_to_tokens, math.ceil(tokens) + percent_to_tokens, percent_to_tokens) ## convert to range with increments
+            grange = range(percent_to_tokens, tokens + percent_to_tokens, percent_to_tokens) ## convert to range with increments
 
             ## empty matrix to collect scores 
             ## // +1 to keep empty first column like below (0 token)
@@ -81,14 +81,15 @@ def rationale_length_computer_(
     ## else if we consider and search on every token
     else:
         
-        collector = torch.zeros([math.ceil(tokens), original_sents.size(0)])
+        collector = torch.zeros([tokens, original_sents.size(0)])
 
-        grange = range(0, math.ceil(tokens))
+        grange = range(0, tokens)
 
     model.eval()
     stepwise_preds = []
     ## begin search
     start_time = time.time()
+
     with torch.no_grad():
         
         for j, _tok in enumerate(grange):
@@ -135,7 +136,7 @@ def rationale_length_computer_(
         
         full_text_length = inputs["lengths"][_i_]
         rationale_length = indxes[_i_].detach().cpu().item()
-        rationale_ratio = rationale_length / (full_text_length.float().detach().cpu().item() - 2)
+        rationale_ratio = rationale_length / full_text_length.float().detach().cpu().item()
 
         ## now to create the mask of variable rationales
         ## rationale selected (with 1's)
@@ -166,12 +167,11 @@ def rationale_length_computer_(
         results_dict[annot_id][feature_attribution] = {
             "variable rationale length" : rationale_length,
             "fixed rationale length" : fixed_rationale_length,
-            "variable rationale ratio" : rationale_ratio, 
+            "variable rationale ratio" : rationale_ratio,
             "variable rationale mask" : rationale_mask,
             "fixed rationale mask" : fixed_rationale_mask,
             f"fixed-length divergence" : fixed_div.cpu().item(),
             f"variable-length divergence" : max_div[_i_].cpu().item(),
-            "importance scores" : scores[_i_].cpu().detach().numpy(),
             "running predictions" : stepwise_preds[_i_],
             "time elapsed" : end_time - start_time
         }
@@ -239,17 +239,16 @@ def get_rationale_metadata_(model, data_split_name, data, model_random_seed):
         batch["input_ids"] = original_sents * torch.zeros_like(original_sents).to(device)
 
         zero_logits, _ =  model(**batch)
-        
+
         ## percentage of flips
-        for feat_name in {"random", "attention", "gradients", "ig" , "scaled attention"}:
-
-            feat_score =  batch_from_dict(
-                batch_data = batch, 
-                rationale_data = importance_scores, 
-                target_key = feat_name,
+        for feat_name in {"random", "attention",  "gradients",   "ig", "scaled attention" }:
+            
+            feat_score = batch_from_dict(
+                batch_data = batch,
+                metadata = importance_scores,
+                target_key =  feat_name,
+                extra_layer = None
             )
-
-            feat_score =  batch_from_dict( batch_data = batch,rationale_data = importance_scores, target_key = feat_name )
 
             rationale_length_computer_(
                 model = model, 
@@ -258,7 +257,7 @@ def get_rationale_metadata_(model, data_split_name, data, model_random_seed):
                 y_original = original_prediction, 
                 zero_logits = zero_logits,
                 original_sents=original_sents,
-                fidelity = "max_fidelity",
+                fidelity = "lower_fidelity",
                 feature_attribution = feat_name, 
                 results_dict = rationale_results
             )

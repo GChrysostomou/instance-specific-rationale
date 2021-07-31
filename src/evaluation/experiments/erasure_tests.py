@@ -27,7 +27,7 @@ from src.common_code.metrics import normalized_comprehensiveness_, normalized_su
 
 from sklearn.metrics import classification_report
 
-def conduct_tests_(model, data, model_random_seed):
+def conduct_tests_(model, data, split, model_random_seed):
 
     """
         Info: computes the average fraction of tokens required to cause a decision flip (prediction change)
@@ -48,7 +48,7 @@ def conduct_tests_(model, data, model_random_seed):
         os.getcwd(),
         args["extracted_rationale_dir"],
         args["thresholder"],
-        "test-rationale_metadata.npy"
+        f"{split}-rationale_metadata.npy"
     )
 
      ## retrieve importance scores
@@ -69,19 +69,19 @@ def conduct_tests_(model, data, model_random_seed):
                 "token_type_ids" : batch["token_type_ids"].squeeze(1).to(device),
                 "attention_mask" : batch["attention_mask"].squeeze(1).to(device),
                 "query_mask" : batch["query_mask"].squeeze(1).to(device),
-                "retain_gradient" : True
+                "retain_gradient" : False ## we do not need it
             }
             
         assert batch["input_ids"].size(0) == len(batch["labels"]), "Error: batch size for item 1 not in correct position"
         
-        yhat, attentions =  model(**batch)
+        yhat, _ =  model(**batch)
 
         ## retrieve original full text logits and converts to probs
         original_prediction = batch_from_dict(
-            batch_data = batch, 
-            rationale_data = rationale_metadata, 
-            target_key = "original prediction", 
-            feature_attribution = None
+            batch_data = batch,
+            metadata = rationale_metadata,
+            target_key =  "original prediction",
+            extra_layer = None
         )
 
         ## saving our results
@@ -134,10 +134,10 @@ def conduct_tests_(model, data, model_random_seed):
                             feat_attribution_name = var_alias + "-len_var-feat"
 
                         rationale_mask = batch_from_dict(
-                            batch, 
-                            rationale_metadata, 
-                            feature_attribution = feat_attribution_name, 
-                            target_key = f"{length_of_rationale} rationale mask"
+                            batch_data = batch,
+                            metadata = rationale_metadata,
+                            target_key =  f"{length_of_rationale} rationale mask",
+                            extra_layer = feat_attribution_name
                         )
 
                         ## measuring faithfulness
@@ -162,7 +162,7 @@ def conduct_tests_(model, data, model_random_seed):
                             rows = rows,
                             suff_y_zero = suff_y_zero
                         )
-
+                        
                         for j_, annot_id in enumerate(batch["annotation_id"]):
                             
                             if feat_attribution_name == "--var-feat":
@@ -186,7 +186,7 @@ def conduct_tests_(model, data, model_random_seed):
 
 
     ## save our results
-    fname = args["evaluation_dir"] + args.thresholder + "-faithfulness-metrics.json"
+    fname = args["evaluation_dir"] + args.thresholder + f"-{split}-faithfulness-metrics.json"
 
     with open(fname, 'w') as file:
             json.dump(
@@ -228,7 +228,7 @@ def conduct_tests_(model, data, model_random_seed):
             f1s_model["f1 macro avg - actual labels"][key] = round(out_labels * 100, 3)
 
     ## save descriptors
-    fname = args["evaluation_dir"] + args.thresholder + "-faithfulness-metrics-description.json"
+    fname = args["evaluation_dir"] + args.thresholder + f"-{split}-faithfulness-metrics-description.json"
 
 
     with open(fname, 'w') as file:
@@ -239,7 +239,7 @@ def conduct_tests_(model, data, model_random_seed):
             ) 
 
     ## save f1s
-    fname = args["evaluation_dir"] + args.thresholder + "-f1-metrics-description.json"
+    fname = args["evaluation_dir"] + args.thresholder + f"-{split}-f1-metrics-description.json"
 
 
     with open(fname, 'w') as file:

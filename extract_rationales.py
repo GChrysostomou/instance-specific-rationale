@@ -119,13 +119,14 @@ logging.info("config  : \n ----------------------")
 [logging.info(k + " : " + str(v)) for k,v in args.items()]
 logging.info("\n ----------------------")
 
-from src.common_code.dataholder import classification_dataholder 
+from src.data_functions.dataholder import classification_dataholder 
 from src.evaluation import evaluation_pipeline
 
 data = classification_dataholder(
     args["data_dir"], 
     b_size = args["batch_size"],
-    return_as_frames = True
+    return_as_frames = True,
+    stage = "extract"
 )
 
 evaluator = evaluation_pipeline.evaluate(
@@ -135,7 +136,7 @@ evaluator = evaluation_pipeline.evaluate(
 
 evaluator.prepare_for_rationale_creation_(data)
 
-# evaluator.create_rationales_(data)
+evaluator.create_rationales_(data)
 
 del data
 del evaluator

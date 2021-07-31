@@ -47,7 +47,7 @@ class evaluate():
 
         logging.info(f" *** there are {len(self.models)} models in :  {model_path}")
 
-    def register_importance_(self, data):
+    def register_importance_(self, data, data_split_name):
     
         for model_name in self.models:
             
@@ -65,15 +65,12 @@ class evaluate():
 
             self.model_random_seed = re.sub("bert", "", model_name.split(".pt")[0].split("/")[-1])
 
-            for data_split_name, data_split in {"dev":  data.dev_loader , \
-                                                "test":  data.test_loader}.items():
-
-                extract_importance_(
-                    model = model, 
-                    data_split_name = data_split_name,
-                    data = data_split,
-                    model_random_seed = self.model_random_seed
-                )
+            extract_importance_(
+                model = model, 
+                data_split_name = data_split_name,
+                data = data,
+                model_random_seed = self.model_random_seed
+            )
 
 
         return
@@ -98,11 +95,14 @@ class evaluate():
             self.model_random_seed = re.sub("bert", "", model_name.split(".pt")[0].split("/")[-1])
 
             ## train neglected as we are evaluating on dev and test
-            for data_split_name, data_split in {"dev":  data.dev_loader , \
-                                                "test":  data.test_loader}.items():
+            for data_split_name, data_split in {"test":  data.test_loader , \
+                                                "dev":  data.dev_loader}.items():
 
                 ## register importance scores if they do not exist
-                self.register_importance_(data)
+                self.register_importance_(
+                    data = data_split,
+                    data_split_name=data_split_name
+                )
 
                 fname = os.path.join(
                     os.getcwd(),
@@ -186,11 +186,16 @@ class evaluate():
 
             model_random_seed = re.sub("bert", "", model_name.split(".pt")[0].split("/")[-1])
 
-            conduct_tests_(
-                model = model, 
-                data = data.test_loader,
-                model_random_seed = model_random_seed
-            )
+            ## train neglected as we are evaluating on dev and test
+            for data_split_name, data_split in {"test":  data.test_loader , \
+                                                "dev":  data.dev_loader}.items():
+
+                conduct_tests_(
+                    model = model, 
+                    data = data_split,
+                    model_random_seed = model_random_seed,
+                    split = data_split_name
+                )
 
         return
 
@@ -219,7 +224,7 @@ class evaluate():
         fname = os.path.join(
             os.getcwd(),
             args["evaluation_dir"],
-            args["thresholder"] + "-faithfulness-metrics.json"
+            args["thresholder"] + "-test-faithfulness-metrics.json"
         )
 
 
@@ -232,7 +237,8 @@ class evaluate():
 
         compute_faithfulness_(
             rationale_metadata=rationale_metadata,
-            prediction_data=prediction_data
+            prediction_data=prediction_data,
+            split_name = "test"
         )
 
         
@@ -243,41 +249,45 @@ class evaluate():
 
         ## load rationale metadata for divergence scores
         ## WARNING // dependent on computing all the rationale metadata
-        fname = os.path.join(
-            os.getcwd(),
-            args["extracted_rationale_dir"],
-            args["thresholder"],
-            "test-rationale_metadata.npy"
-        )
 
-        if os.path.isfile(fname) == False:
+        for data_split_name in {"test","dev"}:
 
-                raise OSError(f"rationale metadata file does not exist at {fname} // rerun extract_rationales.py") from None
-        
+            fname = os.path.join(
+                os.getcwd(),
+                args["extracted_rationale_dir"],
+                args["thresholder"],
+                f"{data_split_name}-rationale_metadata.npy"
+            )
 
-        ## retrieve importance scores
-        rationale_metadata = np.load(fname, allow_pickle = True).item()
+            if os.path.isfile(fname) == False:
 
-        ## load now for the predictions
-        ## WARNING // dependent on running the first set of experiment for evaluating masked rationales
-        fname = os.path.join(
-            os.getcwd(),
-            args["evaluation_dir"],
-            args["thresholder"] + "-faithfulness-metrics.json"
-        )
+                    raise OSError(f"rationale metadata file does not exist at {fname} // rerun extract_rationales.py") from None
+            
+
+            ## retrieve importance scores
+            rationale_metadata = np.load(fname, allow_pickle = True).item()
+
+            ## load now for the predictions
+            ## WARNING // dependent on running the first set of experiment for evaluating masked rationales
+            fname = os.path.join(
+                os.getcwd(),
+                args["evaluation_dir"],
+                args["thresholder"] + f"-{data_split_name}-faithfulness-metrics.json"
+            )
 
 
-        if os.path.isfile(fname) == False:
+            if os.path.isfile(fname) == False:
 
-            raise OSError(f"faithfulness metrics file does not exist at {fname} // rerun experiments in this file") from None
-        
-        ## retrieve predictions
-        with open(fname, "r") as file : prediction_data = json.load(file)
+                raise OSError(f"faithfulness metrics file does not exist at {fname} // rerun experiments in this file") from None
+            
+            ## retrieve predictions
+            with open(fname, "r") as file : prediction_data = json.load(file)
 
-        compute_faithfulness_(
-            rationale_metadata=rationale_metadata,
-            prediction_data=prediction_data
-        )
+            compute_faithfulness_(
+                rationale_metadata=rationale_metadata,
+                prediction_data=prediction_data,
+                split_name=data_split_name
+            )
 
         
         return

@@ -23,12 +23,12 @@ np.random.seed(25)
 
 from sklearn.metrics import classification_report
 
-def compute_faithfulness_(rationale_metadata, prediction_data):
+def compute_faithfulness_(rationale_metadata, prediction_data, split_name):
 
     metric_combos = [
         {"gradients"} , 
-        {"gradients", "attention"}, 
-        {"attention", "gradients", "ig"},
+        {"gradients", "ig"}, 
+        {"attention", "ig", "gradients"},
         {"scaled attention", "ig", "attention", "gradients"}
     ]        
     
@@ -104,7 +104,7 @@ def compute_faithfulness_(rationale_metadata, prediction_data):
             }
 
     ## save descriptors
-    fname = args["evaluation_dir"] + args.thresholder + "-increasing-feature-scoring.json"
+    fname = args["evaluation_dir"] + args.thresholder + f"-{split_name}-increasing-feature-scoring.json"
 
 
     with open(fname, 'w') as file:

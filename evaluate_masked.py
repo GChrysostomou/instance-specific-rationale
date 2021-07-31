@@ -115,12 +115,13 @@ logging.info("config  : \n ----------------------")
 logging.info("\n ----------------------")
 
 
-from src.common_code.dataholder import classification_dataholder
+from src.data_functions.dataholder import classification_dataholder
 from src.evaluation import evaluation_pipeline
 
 data = classification_dataholder(
     args["data_dir"], 
-    b_size = args["batch_size"]
+    b_size = args["batch_size"],
+    stage = "evaluate"
 )
 
 evaluator = evaluation_pipeline.evaluate(
@@ -131,7 +132,7 @@ evaluator = evaluation_pipeline.evaluate(
 
 logging.info("*********conducting in-domain flip experiments")
 
-evaluator.faithfulness_metrics_(data)
+# evaluator.faithfulness_metrics_(data)
 
 evaluator.feature_scoring_performance_()
 

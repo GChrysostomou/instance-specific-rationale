@@ -138,13 +138,10 @@ def extract_importance_(model, data, data_split_name, model_random_seed):
 
         pbar.update(data.batch_size)
 
-
-    fname += data_split_name + f"_importance_scores_{model_random_seed}.npy"
-
-    print(f"Interpretability metadata stored in -> {fname}")
-
     ## save them
-    np.save(fname, feature_attribution)
+    np.save(scorenames, feature_attribution)
+
+    print(f"Interpretability metadata stored in -> {scorenames}")
 
     return
 
@@ -181,7 +178,6 @@ def rationale_creator_(data, data_split_name, variable, tokenizer):
         temp_registry = {}
 
         for annotation_id, sequence_text in annotation_text.items():
-            
 
             ## check if there is any padding which could affect our process and remove
             seq_length = (np.asarray(sequence_text) != 0).sum()
@@ -306,3 +302,5 @@ def rationale_creator_(data, data_split_name, variable, tokenizer):
 
 
     return
+
+

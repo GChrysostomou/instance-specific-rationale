@@ -88,6 +88,16 @@ def encode_plusplus_(data_dict, tokenizer, max_length, *arguments):
         del data_dict["document"]
         del data_dict["query"]
 
+        ## query mask used_only for rationale extraction and for masking importance metrics
+        ## i.e. keeping only the contxt not the query
+        init_mask_ = torch.where(model_inputs["input_ids"] == 102)[1][0] + 1
+        fin_mask = model_inputs["input_ids"].size(-1)
+        range_to_zero = torch.arange(init_mask_, fin_mask)
+        model_inputs["query_mask"] = model_inputs["attention_mask"].clone()
+        model_inputs["query_mask"].squeeze(0)[range_to_zero] = 0
+        model_inputs["query_mask"].unsqueeze(0)
+        
+
     else:
   
         model_inputs = tokenizer.encode_plus(
@@ -102,20 +112,16 @@ def encode_plusplus_(data_dict, tokenizer, max_length, *arguments):
 
 
         del data_dict["text"]
+        
+        init_mask_ = torch.where(model_inputs["input_ids"] == 102)[1][0] + 1
+        model_inputs["query_mask"] = model_inputs["attention_mask"].clone()
 
-    ## query mask used_only for rationale extraction and for masking importance metrics
-    ## i.e. keeping only the contxt not the query
-    init_mask_ = torch.where(model_inputs["input_ids"] == 102)[1][0] + 1
-    fin_mask = model_inputs["input_ids"].size(-1)
-    range_to_zero = torch.arange(init_mask_, fin_mask)
-    model_inputs["query_mask"] = model_inputs["attention_mask"].clone()
-    model_inputs["query_mask"].squeeze(0)[range_to_zero] = 0
-    model_inputs["query_mask"].unsqueeze(0)
-    model_inputs["attention_mask"].squeeze(0)[range_to_zero] = 0
-    model_inputs["lengths"] = torch.where(model_inputs["input_ids"] == 102)[1][0]
+        
+    model_inputs["lengths"] = init_mask_
 
     data_dict.update(model_inputs)
 
     return data_dict
+
 
 

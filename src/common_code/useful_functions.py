@@ -165,27 +165,25 @@ def mask_contigious(sentences, scores, length_to_mask):
     
     return sentences * mask.long()
 
-
-
-def batch_from_dict(batch_data, rationale_data, target_key = "original prediction", feature_attribution = None):
+def batch_from_dict(batch_data, metadata, target_key = "original prediction", extra_layer = None):
 
     new_tensor = []
 
     for _id_ in batch_data["annotation_id"]:
         
-        if feature_attribution:
+        ## for double nested dics
+        if extra_layer :
 
             new_tensor.append(
-                rationale_data[_id_][feature_attribution][target_key]
+                metadata[_id_][extra_layer][target_key]
             )
            
         else:
 
             new_tensor.append(
-                rationale_data[_id_][target_key]
+                metadata[_id_][target_key]
             )
 
 
     
     return torch.tensor(new_tensor).to(device)
-

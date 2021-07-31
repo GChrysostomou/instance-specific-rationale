@@ -49,10 +49,12 @@ parser.add_argument(
     action='store_true'
 )
 
-
-
 user_args = vars(parser.parse_args())
 user_args["importance_metric"] = None
+
+### used only for data stats
+data_dir_plain = user_args["data_dir"]
+
 
 log_dir = "experiment_logs/train_" + user_args["dataset"] + "_seed-" + str(user_args["seed"]) + "_" +  date_time + "/"
 config_dir = "experiment_config/train_" + user_args["dataset"] + "_seed-" + str(user_args["seed"]) + "_" + date_time + "/"
@@ -93,12 +95,19 @@ logging.info("\n ----------------------")
 
 
 
-from src.common_code.dataholder import classification_dataholder as dataholder
+from src.data_functions.dataholder import classification_dataholder as dataholder
 from src.tRpipeline import train_and_save, test_predictive_performance, keep_best_model_
-from src.common_code.useful_functions import describe_data_stats
+from src.data_functions.useful_functions import describe_data_stats
 
 
-data_desc = describe_data_stats(args["data_dir"])
+data_desc = describe_data_stats(
+    path_to_data = args["data_dir"],
+    path_to_stats = os.path.join(
+        data_dir_plain,
+        args["dataset"],
+        ""
+    ) 
+)
 
 import pprint
 
@@ -114,7 +123,8 @@ gc.collect()
 
 data = dataholder(
         path = args["data_dir"], 
-        b_size = args["batch_size"]
+        b_size = args["batch_size"],
+        stage = "train"
     )
 
 ## evaluating finetuned models

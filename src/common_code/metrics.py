@@ -49,9 +49,6 @@ class uncertainty_metrics:
                 accuracy_in_bin = 0.
             bin_stats[bin] = {'acc': float(round(accuracy_in_bin,3)), 'conf': float(round(avg_confidence_in_bin,3))}
 
-        total = ece + refinement
-        
-
         fname = self.save_dir + "_ece-stats.json"
 
         with open(fname, 'w') as file:
@@ -80,6 +77,10 @@ class uncertainty_metrics:
             ) 
 
         return {'mean': float(round(ent_mean,3)), 'var': float(round(ent_var,3))}
+
+"""
+divergences
+"""
 
 def kl_div_loss(p, q) :
 
@@ -111,6 +112,11 @@ def simple_diff(p,q):
 Faithfulness metrics
 """
 
+def np_softmax(x, dim):
+    """Compute softmax values for each sets of scores in x."""
+    e_x = np.exp(x - np.max(x))
+    return e_x / e_x.sum(axis=dim) # only difference
+
 def sufficiency_(full_text_probs, reduced_probs):
 
     sufficiency = 1 - np.maximum(0, full_text_probs - reduced_probs)
@@ -121,11 +127,11 @@ def normalized_sufficiency_(model, original_sentences, rationale_mask, inputs, f
 
     ## for sufficiency we always keep the rationale
     ## since ones represent rationale tokens
-    inputs["sentences"] =  rationale_mask * original_sentences
+    inputs["input_ids"]  =  rationale_mask * original_sentences
 
     yhat, _  = model(**inputs)
 
-    yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
+    yhat = torch.softmax(yhat.detach().cpu(), dim = -1).numpy()
 
     reduced_probs = yhat[rows, full_text_class]
 
@@ -151,7 +157,7 @@ def normalized_comprehensiveness_(model, original_sentences, rationale_mask, inp
     
     ## for comprehensivness we always remove the rationale and keep the rest of the input
     ## since ones represent rationale tokens, invert them and multiply the original input
-    inputs["sentences"] =  original_sentences * (rationale_mask == 0).long()
+    inputs["input_ids"] =  original_sentences * (rationale_mask == 0).long()
 
     yhat, _  = model(**inputs)
 
