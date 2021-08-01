@@ -1,0 +1,23 @@
+{
+    "train": {
+        "avg. context length": 304,
+        "avg. query length": 18,
+        "no. of documents": 24029,
+        "docs in label-0": 13456,
+        "docs in label-1": 10573
+    },
+    "dev": {
+        "avg. context length": 305,
+        "avg. query length": 17,
+        "no. of documents": 3214,
+        "docs in label-0": 1762,
+        "docs in label-1": 1452
+    },
+    "test": {
+        "avg. context length": 290,
+        "avg. query length": 17,
+        "no. of documents": 4848,
+        "docs in label-0": 2773,
+        "docs in label-1": 2075
+    }
+}

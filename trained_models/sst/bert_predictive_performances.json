@@ -1,0 +1,24 @@
+{
+    "10": {
+        "model": "/jmain01/home/JAD009/txk20/gxc78-txk20/variable_rationale_2021/trained_models/sst/bert10.pt",
+        "f1": 0.8976026072024572,
+        "loss": 2.22171860541168,
+        "ece-score": 0.05312519391639623
+    },
+    "5": {
+        "model": "/jmain01/home/JAD009/txk20/gxc78-txk20/variable_rationale_2021/trained_models/sst/bert5.pt",
+        "f1": 0.9037567412562617,
+        "loss": 2.125513871151366,
+        "ece-score": 0.036649780571951736
+    },
+    "15": {
+        "model": "/jmain01/home/JAD009/txk20/gxc78-txk20/variable_rationale_2021/trained_models/sst/bert15.pt",
+        "f1": 0.9027776730431456,
+        "loss": 1.9977520061820222,
+        "ece-score": 0.04148788847548831
+    },
+    "mean-f1": 0.9013790071672881,
+    "std-f1": 0.0027000668093296073,
+    "mean-ece": 0.04375428765461209,
+    "std-ece": 0.006914344275823734
+}
