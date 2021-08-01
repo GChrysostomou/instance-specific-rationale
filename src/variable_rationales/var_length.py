@@ -89,6 +89,7 @@ def rationale_length_computer_(
     stepwise_preds = []
     ## begin search
     start_time = time.time()
+
     token_collector = []
     with torch.no_grad():
         
@@ -111,10 +112,15 @@ def rationale_length_computer_(
 
             stepwise_preds.append(yhat.argmax(-1).detach().cpu().numpy())
 
-            ### normalized divergence
+            # ### normalized divergence
+            # full_div = divergence_fun(
+            #     torch.softmax(y_original - zero_logits, dim = -1), 
+            #     torch.softmax(yhat - zero_logits, dim = -1)
+            # ) 
+
             full_div = divergence_fun(
-                torch.softmax(y_original - zero_logits, dim = -1), 
-                torch.softmax(yhat - zero_logits, dim = -1)
+                torch.softmax(y_original, dim = -1), 
+                torch.softmax(yhat, dim = -1)
             ) 
 
             collector[j] = full_div.detach().cpu()
@@ -140,7 +146,7 @@ def rationale_length_computer_(
         fixed_rationale_length = math.ceil(args.rationale_length * inputs["lengths"][_i_].float())
         full_text_length = inputs["lengths"][_i_]
         rationale_length = token_collector[indxes[_i_].detach().cpu().item()]
-        rationale_ratio = rationale_length / full_text_length.float().detach().cpu().item()
+        rationale_ratio = rationale_length / (full_text_length.float().detach().cpu().item()-1)
         
         ## now to create the mask of variable rationales
         ## rationale selected (with 1's)  
