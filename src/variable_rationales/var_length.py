@@ -67,7 +67,7 @@ def rationale_length_computer_(
             
             collector = torch.zeros([tokens, original_sents.size(0)])
 
-            grange = range(0, tokens)
+            grange = range(1, tokens + 1)
         
         ## for longer than 4 word sequences
         else:
@@ -83,7 +83,7 @@ def rationale_length_computer_(
         
         collector = torch.zeros([tokens, original_sents.size(0)])
 
-        grange = range(0, tokens)
+        grange = range(1, tokens + 1)
 
     model.eval()
     stepwise_preds = []
@@ -279,7 +279,7 @@ def get_rationale_metadata_(model, data_split_name, data, model_random_seed):
                 y_original = original_prediction, 
                 zero_logits = zero_logits,
                 original_sents=original_sents,
-                fidelity = "lower_fidelity",
+                fidelity = "max_fidelity",
                 feature_attribution = feat_name, 
                 results_dict = rationale_results
             )
