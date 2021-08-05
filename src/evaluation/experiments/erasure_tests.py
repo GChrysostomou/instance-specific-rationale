@@ -130,7 +130,7 @@ def conduct_tests_(model, data, split, model_random_seed):
         with torch.no_grad():
 
             ## start the masking process to measure faithfulness
-            for length_of_rationale in {"fixed", "variable"}:
+            for length_of_rationale in ["fixed", "variable"]:
                 
                 ## alias for the variable stuff and for saving
                 if length_of_rationale == "variable":
@@ -141,8 +141,12 @@ def conduct_tests_(model, data, split, model_random_seed):
 
                     var_alias = "fixed"
 
-                for feat_attribution_name in {"lime", "attention", "ig", "gradients", "scaled attention", "random", "--var-feat"}:
+                for feat_attribution_name in ["--var-all", "lime", "attention", "ig", "gradients", "scaled attention", "random", "--var-feat"]:
 
+                        if feat_attribution_name == "--var-all":
+    
+                            feat_attribution_name = var_alias + "-len_var-feat_var-type"
+                        
                         if feat_attribution_name == "--var-feat":
 
                             feat_attribution_name = var_alias + "-len_var-feat"

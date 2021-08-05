@@ -71,7 +71,9 @@ def select_between_types_(data_split_name,model_random_seed):
     pbar = trange(len(cont_rationales.keys()), desc = desc)
 
     for annot_id in cont_rationales.keys():
+        
 
+        ## variable
         contig = cont_rationales[annot_id]["var-len_var-feat"]
         topk = topk_rationales[annot_id]["var-len_var-feat"]
 
@@ -84,6 +86,20 @@ def select_between_types_(data_split_name,model_random_seed):
 
             topk_rationales[annot_id]["var-len_var-feat_var-type"] =  topk_rationales[annot_id]["var-len_var-feat"]
             cont_rationales[annot_id]["var-len_var-feat_var-type"] =  topk_rationales[annot_id]["var-len_var-feat"]
+
+        ## fixed
+        contig = cont_rationales[annot_id]["fixed-len_var-feat"]
+        topk = topk_rationales[annot_id]["fixed-len_var-feat"]
+
+        if contig["fixed-length divergence"] > topk["fixed-length divergence"]:
+
+            topk_rationales[annot_id]["fixed-len_var-feat_var-type"] =  cont_rationales[annot_id]["fixed-len_var-feat"]
+            cont_rationales[annot_id]["fixed-len_var-feat_var-type"] =  cont_rationales[annot_id]["fixed-len_var-feat"]
+        
+        else:
+
+            topk_rationales[annot_id]["fixed-len_var-feat_var-type"] =  topk_rationales[annot_id]["fixed-len_var-feat"]
+            cont_rationales[annot_id]["fixed-len_var-feat_var-type"] =  topk_rationales[annot_id]["fixed-len_var-feat"]
 
         pbar.update(1)
 
