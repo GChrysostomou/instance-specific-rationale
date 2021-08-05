@@ -111,9 +111,8 @@ def encode_plusplus_(data_dict, tokenizer, max_length, *arguments):
             return_tensors = "pt"             
         )
 
-
         del data_dict["text"]
-        
+    
         init_mask_ = torch.where(model_inputs["input_ids"] == tokenizer.sep_token_id)[1][0]
         model_inputs["query_mask"] = model_inputs["attention_mask"].clone()
         ## preserve cls token
@@ -129,6 +128,3 @@ def encode_plusplus_(data_dict, tokenizer, max_length, *arguments):
     data_dict.update(model_inputs)
 
     return data_dict
-
-
-

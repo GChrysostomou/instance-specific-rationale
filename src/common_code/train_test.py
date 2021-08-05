@@ -19,14 +19,14 @@ class checkpoint_holder(object):
     training of models
     """
 
-    def __init__(self, save_model_location):
+    def __init__(self, save_model_location : str):
 
         self.dev_loss = float("inf")
         self.save_model_location = save_model_location
         self.point = 0
         self.storer = {}
 
-    def _store(self, model, point, epoch, dev_loss, dev_results):
+    def _store(self, model, point : int, epoch : int, dev_loss, dev_results : dict) -> dict:
         
         if self.dev_loss > dev_loss:
             

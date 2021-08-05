@@ -29,7 +29,8 @@ def compute_faithfulness_(rationale_metadata, prediction_data, split_name):
         {"gradients"} , 
         {"gradients", "ig"}, 
         {"attention", "ig", "gradients"},
-        {"scaled attention", "ig", "attention", "gradients"}
+        {"scaled attention", "ig", "attention", "gradients"},
+        {"scaled attention", "ig", "attention", "gradients", "lime"}
     ]        
     
     faith_increasing = {}

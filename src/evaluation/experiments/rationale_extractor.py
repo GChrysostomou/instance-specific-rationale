@@ -1,12 +1,14 @@
 import torch
 from torch import nn
 import json
-from tqdm import trange
+from tqdm import trange, tqdm
 import numpy as np
 import pandas as pd
 import config.cfg
 from config.cfg import AttrDict
 import os
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
 
 with open(config.cfg.config_directory + 'instance_config.json', 'r') as f:
     args = AttrDict(json.load(f))
@@ -141,9 +143,93 @@ def extract_importance_(model, data, data_split_name, model_random_seed):
     ## save them
     np.save(scorenames, feature_attribution)
 
-    print(f"Interpretability metadata stored in -> {scorenames}")
+    print(f"model dependent importance scores stored in -> {scorenames}")
 
     return
+
+from src.evaluation.experiments.lime_predictor import predictor
+from lime.lime_text import LimeTextExplainer
+
+def extract_lime_scores_(model, data, data_split_name, model_random_seed, no_of_labels, max_seq_len, tokenizer):
+
+    
+    fname = os.path.join(
+        os.getcwd(),
+        args["data_dir"],
+        "importance_scores",
+        ""
+    )
+
+    fname += f"{data_split_name}_importance_scores_{model_random_seed}.npy"
+
+    ## retrieve importance scores
+    importance_scores = np.load(fname, allow_pickle = True).item()
+
+    prediction = predictor(
+        model = model, 
+        tokenizer = tokenizer, 
+        seq_length = max_seq_len
+    )
+    
+    explainer = LimeTextExplainer(class_names=list(range(no_of_labels)), split_expression=" ")
+
+    train_ls = {}
+    ## we are interested in token level features
+    for batch in data:
+        
+        for _j_ in range(batch["input_ids"].size(0)):
+
+            input_ids = batch["input_ids"][_j_].squeeze(0)
+            annotation_id = batch["annotation_id"][_j_]
+            length = batch["lengths"][_j_].detach().cpu().item()
+
+            train_ls[annotation_id] = {
+                "example" : " ".join(tokenizer.convert_ids_to_tokens(input_ids)),
+                "split example" : " ".join(tokenizer.convert_ids_to_tokens(input_ids)[:length]),
+                "query mask" : batch["query_mask"][_j_].squeeze(0).detach().cpu().numpy(),
+                "annotation_id" : annotation_id,
+                "length" : length
+            }
+
+    desc =  f"computing lime scores for -> {data_split_name}"
+    pbar = trange(len(train_ls.keys()), desc=desc, leave=True)
+
+    for annot_id in train_ls.keys():
+
+        ## skip to save time if we allready run lime (VERY EXPENSIVE)
+        if "lime" in importance_scores[annot_id]:
+
+            continue
+
+        exp = explainer.explain_instance(
+            train_ls[annot_id]["split example"], 
+            prediction.predictor, 
+            num_samples = 500, 
+            num_features = len(set(train_ls[annot_id]["split example"])) 
+        )
+
+        words = dict(exp.as_list())
+
+        feature_importance = np.asarray([words[x] if x in words else 0. for x in train_ls[annot_id]["example"].split()])
+
+        feature_importance = np.ma.array(
+            feature_importance.tolist(), 
+            mask = (train_ls[annot_id]["query mask"] == 0).astype(np.long).tolist(), 
+            fill_value = float("-inf")
+        )
+
+        pbar.update(1)
+
+        importance_scores[annot_id]["lime"] = feature_importance.filled()
+
+
+     ## save them
+    np.save(fname, importance_scores)
+
+    print(f"appended lime scores in -> {fname}")
+
+    return
+
 
 def rationale_creator_(data, data_split_name, variable, tokenizer):
 

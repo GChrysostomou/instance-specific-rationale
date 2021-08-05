@@ -14,7 +14,7 @@ def softmax(x):
 
 class uncertainty_metrics:
 
-    def __init__(self, data, save_dir = None, variable = False):
+    def __init__(self, data : dict, save_dir : str = None, variable : bool = False) -> dict:
 
         y_prob, y_true = zip(*[(x["predicted"], float(x["actual"])) for x in data.values()])
         # self.y_prob = np.asarray(y_prob)
@@ -22,7 +22,7 @@ class uncertainty_metrics:
         self.y_true = np.asarray(y_true)
         self.save_dir = save_dir
 
-    def ece(self,n_bins=10):
+    def ece(self, n_bins : int =10):
 
         bin_boundaries = np.linspace(0, 1, n_bins + 1)
         bin_lowers = bin_boundaries[:-1]
@@ -60,7 +60,7 @@ class uncertainty_metrics:
 
         return {'ece': ece, "refinement": refinement, "bins": bin_stats}
 
-    def entropy_(self,return_vec=False):
+    def entropy_(self,return_vec : bool =False) -> dict:
         ent = -1.0 * np.sum(np.multiply(self.y_prob, np.log(self.y_prob + np.finfo(float).eps)), axis=1) / np.log(2)
         ent_mean = np.mean(ent)
         ent_var = np.var(ent)
@@ -82,7 +82,7 @@ class uncertainty_metrics:
 divergences
 """
 
-def kl_div_loss(p, q) :
+def kl_div_loss(p : torch.tensor, q : torch.tensor) -> torch.tensor:
 
     # adding 1e-10 for 0 to avoid "inf"
     log_p = torch.log(p + 1e-10)
@@ -91,17 +91,17 @@ def kl_div_loss(p, q) :
 
     return kld.sum(-1)
 
-def jsd(p, q) :
+def jsd(p : torch.tensor, q : torch.tensor) -> torch.tensor:
     mean = 0.5 * (p + q)
     jsd_val = 0.5 * (kl_div_loss(p, mean) + kl_div_loss(q, mean))
 
     return jsd_val
 
-def perplexity(p,q):
+def perplexity(p : torch.tensor, q : torch.tensor) -> torch.tensor:
 
     return torch.exp(nn.CrossEntropyLoss()(q, p.argmax(-1))).item()
 
-def simple_diff(p,q):
+def simple_diff(p : torch.tensor, q : torch.tensor) -> torch.tensor:
 
     rows = torch.arange(p.size(0)).to(device)
 
@@ -112,18 +112,15 @@ def simple_diff(p,q):
 Faithfulness metrics
 """
 
-def np_softmax(x, dim):
-    """Compute softmax values for each sets of scores in x."""
-    e_x = np.exp(x - np.max(x))
-    return e_x / e_x.sum(axis=dim) # only difference
-
-def sufficiency_(full_text_probs, reduced_probs):
+def sufficiency_(full_text_probs : np.array, reduced_probs : np.array) -> np.array:
 
     sufficiency = 1 - np.maximum(0, full_text_probs - reduced_probs)
 
     return sufficiency
 
-def normalized_sufficiency_(model, original_sentences, rationale_mask, inputs, full_text_probs, full_text_class, rows, suff_y_zero, only_query_mask):
+def normalized_sufficiency_(model, original_sentences : torch.tensor, rationale_mask : torch.tensor, 
+                            inputs : dict, full_text_probs : np.array, full_text_class : np.array, rows : np.array, 
+                            suff_y_zero : np.array, only_query_mask : torch.tensor) -> np.array:
 
     ## for sufficiency we always keep the rationale
     ## since ones represent rationale tokens
@@ -152,13 +149,15 @@ def normalized_sufficiency_(model, original_sentences, rationale_mask, inputs, f
 
     return norm_suff
 
-def comprehensiveness_(full_text_probs, reduced_probs):
+def comprehensiveness_(full_text_probs : np.array, reduced_probs : np.array) -> np.array:
 
     comprehensiveness = np.maximum(0, full_text_probs - reduced_probs)
 
     return comprehensiveness
 
-def normalized_comprehensiveness_(model, original_sentences, rationale_mask, inputs, full_text_probs, full_text_class, rows, suff_y_zero):
+def normalized_comprehensiveness_(model, original_sentences : torch.tensor, rationale_mask : torch.tensor, 
+                                  inputs : dict, full_text_probs : np.array, full_text_class : np.array, rows : np.array, 
+                                  suff_y_zero : np.array) -> np.array:
     
     ## for comprehensivness we always remove the rationale and keep the rest of the input
     ## since ones represent rationale tokens, invert them and multiply the original input

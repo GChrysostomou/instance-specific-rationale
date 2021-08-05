@@ -141,7 +141,7 @@ def conduct_tests_(model, data, split, model_random_seed):
 
                     var_alias = "fixed"
 
-                for feat_attribution_name in {"attention", "ig", "gradients", "scaled attention", "random", "--var-feat"}:
+                for feat_attribution_name in {"lime", "attention", "ig", "gradients", "scaled attention", "random", "--var-feat"}:
 
                         if feat_attribution_name == "--var-feat":
 
@@ -244,7 +244,6 @@ def conduct_tests_(model, data, split, model_random_seed):
 
     ## save descriptors
     fname = args["evaluation_dir"] + args.thresholder + f"-{split}-faithfulness-metrics-description.json"
-
 
     with open(fname, 'w') as file:
             json.dump(

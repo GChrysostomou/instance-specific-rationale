@@ -1,12 +1,12 @@
 import json
-import glob
 import config
 import os
   
-def prepare_config(user_args, stage = "train") -> dict:
+def prepare_config(user_args : dict, stage : str = "train") -> dict:
 
-  # passed arguments
-  dataset = user_args["dataset"]
+  """
+  creates file args based on user args and default args from config
+  """
 
   with open('config/model_config.json', 'r') as f:
       default_args = json.load(f)
@@ -99,8 +99,10 @@ def prepare_config(user_args, stage = "train") -> dict:
 
   model_abbrev = default_args["model_abbreviation"][default_args[user_args["dataset"]]["model"]] 
 
-  comb_args = dict(user_args, **default_args[user_args["dataset"]], **{
-
+  comb_args = dict(
+    user_args, 
+    **default_args[user_args["dataset"]], 
+    **{
             "seed":user_args["seed"], 
             "epochs":epochs,
             "data_dir" : data_dir, 
@@ -123,7 +125,11 @@ def prepare_config(user_args, stage = "train") -> dict:
 
   return comb_args
 
-def make_folders(args, stage):
+def make_folders(args : dict, stage : str) -> None:
+
+  """
+  makes folders for experiments
+  """
 
   assert stage in ["train", "extract", "retrain", "evaluate"]
 
@@ -151,7 +157,7 @@ def make_folders(args, stage):
 
   return
 
-def initial_preparations(user_args, stage):
+def initial_preparations(user_args : dict, stage : str) -> dict:
 
     comb_args = prepare_config(
       user_args, 

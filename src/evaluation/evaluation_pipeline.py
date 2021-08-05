@@ -17,7 +17,7 @@ with open(config.cfg.config_directory + 'instance_config.json', 'r') as f:
 
 from src.models.bert import bert
 from src.variable_rationales.var_length import get_rationale_metadata_
-from src.evaluation.experiments.rationale_extractor import rationale_creator_, extract_importance_
+from src.evaluation.experiments.rationale_extractor import rationale_creator_, extract_importance_, extract_lime_scores_
 from src.evaluation.experiments.erasure_tests import conduct_tests_
 from src.evaluation.experiments.increasing_feature_scoring import compute_faithfulness_
 
@@ -47,7 +47,7 @@ class evaluate():
 
         logging.info(f" *** there are {len(self.models)} models in :  {model_path}")
 
-    def register_importance_(self, data, data_split_name, model = None):
+    def register_importance_(self, data, data_split_name, no_of_labels, max_seq_len, tokenizer, model = None):
         
         if model:
 
@@ -57,6 +57,16 @@ class evaluate():
                     data = data,
                     model_random_seed = self.model_random_seed
                 )
+
+            extract_lime_scores_(
+                model = model, 
+                data = data,
+                data_split_name = data_split_name,
+                model_random_seed = self.model_random_seed,
+                no_of_labels = no_of_labels,
+                max_seq_len = max_seq_len,
+                tokenizer = tokenizer
+            )
 
         else:
 
@@ -83,6 +93,8 @@ class evaluate():
                     data = data,
                     model_random_seed = self.model_random_seed
                 )
+
+                
 
 
         return
@@ -115,7 +127,10 @@ class evaluate():
                 self.register_importance_(
                     data = data_split,
                     data_split_name=data_split_name,
-                    model = model
+                    model = model,
+                    no_of_labels = data.nu_of_labels,
+                    max_seq_len = data.max_len,
+                    tokenizer = data.tokenizer
                 )
 
                 fname = os.path.join(
