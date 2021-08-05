@@ -1,4 +1,4 @@
-datasets/*/*/*.npy
+datasets/*/data/*/*.npy
 datasets/*/*.csv
 datasets/*/*.json
 datasets/*/.ipynb_checkpoint/

@@ -1,0 +1,30 @@
+{
+    "f1 macro avg - model labels": {
+        "var-attention": 73.68,
+        "var-random": 67.21,
+        "var-gradients": 60.189,
+        "var-var-len_var-feat": 49.424,
+        "var-scaled attention": 70.924,
+        "var-ig": 64.81,
+        "fixed-attention": 79.052,
+        "fixed-random": 78.449,
+        "fixed-gradients": 72.071,
+        "fixed-fixed-len_var-feat": 60.592,
+        "fixed-scaled attention": 76.609,
+        "fixed-ig": 76.356
+    },
+    "f1 macro avg - actual labels": {
+        "var-attention": 66.924,
+        "var-random": 64.104,
+        "var-gradients": 59.529,
+        "var-var-len_var-feat": 54.058,
+        "var-scaled attention": 65.752,
+        "var-ig": 62.861,
+        "fixed-attention": 68.475,
+        "fixed-random": 68.907,
+        "fixed-gradients": 64.506,
+        "fixed-fixed-len_var-feat": 58.838,
+        "fixed-scaled attention": 67.611,
+        "fixed-ig": 67.401
+    }
+}
