@@ -51,15 +51,24 @@ class predictor:
 
         if args.query:
             
-            document, query = text.split("œõ÷")
+            attention_mask = (input_ids != self.tokenizer.pad_token_id).long()
+            
+            if args.model_abbreviation == "roberta":
+                
+                token_type_ids = torch.zeros_like(attention_mask)
 
-            pass
+            else:
+
+                sos, eos = torch.where(input_ids == self.tokenizer.sep_token_id)[1]
+
+                token_type_ids = torch.zeros_like(attention_mask)
+                token_type_ids[0, sos:eos+1] = 1
 
         else:
-            token_type_ids = (input_ids != 0).long()
+
+            token_type_ids = (input_ids != self.tokenizer.pad_token_id).long()
             attention_mask = token_type_ids.clone()
 
-            pass
         
         return {"input_ids" : input_ids, "token_type_ids" : token_type_ids, "attention_mask" : attention_mask}
 

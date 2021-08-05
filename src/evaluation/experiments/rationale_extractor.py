@@ -181,7 +181,14 @@ def extract_lime_scores_(model, data, data_split_name, model_random_seed, no_of_
 
             input_ids = batch["input_ids"][_j_].squeeze(0)
             annotation_id = batch["annotation_id"][_j_]
-            length = batch["lengths"][_j_].detach().cpu().item()
+
+            if args.query:
+                
+                length = (batch["attention_mask"][_j_] != 0).sum().detach().cpu().item()
+
+            else:
+
+                length = batch["lengths"][_j_].detach().cpu().item()
 
             train_ls[annotation_id] = {
                 "example" : " ".join(tokenizer.convert_ids_to_tokens(input_ids)),
@@ -196,7 +203,7 @@ def extract_lime_scores_(model, data, data_split_name, model_random_seed, no_of_
 
     for annot_id in train_ls.keys():
 
-        ## skip to save time if we allready run lime (VERY EXPENSIVE)
+        ## skip to save time if we already run lime (VERY EXPENSIVE)
         if "lime" in importance_scores[annot_id]:
 
             continue
