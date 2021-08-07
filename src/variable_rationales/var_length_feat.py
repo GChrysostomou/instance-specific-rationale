@@ -272,7 +272,7 @@ def get_rationale_metadata_(model, data_split_name, data, model_random_seed):
 
         
         ## percentage of flips
-        for feat_name in {"lime", "random", "attention",  "gradients",   "ig", "scaled attention", "shap"}:
+        for feat_name in {"lime", "random", "attention",  "gradients",   "ig", "scaled attention", "deeplift"}:
             
             feat_score = batch_from_dict(
                 batch_data = batch,
@@ -302,7 +302,7 @@ def get_rationale_metadata_(model, data_split_name, data, model_random_seed):
             init_fixed_div = float("-inf")
             init_var_div = float("-inf")
 
-            for feat_name in {"attention", "scaled attention", "gradients", "ig", "lime", "shap"}:
+            for feat_name in {"attention", "scaled attention", "gradients", "ig", "lime", "deeplift"}:
                 
                 fixed_div = rationale_results[annotation_id][feat_name]["fixed-length divergence"]
                 var_div = rationale_results[annotation_id][feat_name]["variable-length divergence"]

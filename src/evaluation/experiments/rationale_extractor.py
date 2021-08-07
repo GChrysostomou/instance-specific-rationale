@@ -61,7 +61,6 @@ def extract_importance_(model, data, data_split_name, model_random_seed):
 
         return
     
-
     pbar = trange(len(data) * data.batch_size, desc=desc, leave=True)
     
     feature_attribution = {}
@@ -126,6 +125,8 @@ def extract_importance_(model, data, data_split_name, model_random_seed):
         # the pad and unwanted tokens need to be converted to -inf 
         normalised_attention_grads = torch.masked_fill(attention_gradients, ~batch["query_mask"].bool(), float("-inf"))
 
+
+        import pdb; pdb.set_trace()
         for _i_ in range(attentions.size(0)):
 
             annotation_id = batch["annotation_id"][_i_]
@@ -237,9 +238,8 @@ def extract_lime_scores_(model, data, data_split_name, model_random_seed, no_of_
 
     return
 
-
 from src.evaluation.experiments.shap_predictor import ShapleyModelWrapper
-from captum.attr import DeepLiftShap
+from captum.attr import DeepLift
 
 def extract_shap_values_(model, data, data_split_name, model_random_seed, no_of_labels, max_seq_len, tokenizer):
     
@@ -256,9 +256,9 @@ def extract_shap_values_(model, data, data_split_name, model_random_seed, no_of_
     ## retrieve importance scores
     importance_scores = np.load(fname, allow_pickle = True).item()
 
-    explainer = DeepLiftShap(ShapleyModelWrapper(model))
+    explainer = DeepLift(ShapleyModelWrapper(model))
 
-    pbar = trange(len(data) * data.batch_size, desc=f"extracting shap scores for -> {data_split_name}", leave=True)
+    pbar = trange(len(data) * data.batch_size, desc=f"extracting deeplift scores for -> {data_split_name}", leave=True)
 
     ## we are interested in token level features
     for batch in data:
@@ -283,9 +283,11 @@ def extract_shap_values_(model, data, data_split_name, model_random_seed, no_of_
         original_prediction, _ =  model(**batch)
 
         embeddings = model.wrapper.model.embeddings.word_embeddings.weight[batch["input_ids"].long()]
-        baseline = torch.zeros_like(embeddings, requires_grad = True).to(device)
 
-        attribution = explainer.attribute(embeddings.requires_grad_(True), baseline, target = original_prediction.argmax(-1))
+        attribution = explainer.attribute(
+            embeddings.requires_grad_(True), 
+            target = original_prediction.argmax(-1)
+        )
 
         attribution = attribution.sum(-1)
 
@@ -294,12 +296,12 @@ def extract_shap_values_(model, data, data_split_name, model_random_seed, no_of_
             (batch["query_mask"] == 0).bool(), 
             float("-inf")
         )
-
-        for _i_ in range(attribution.size(0)):
+      
+        for _i_ in range(original_prediction.size(0)):
 
             annotation_id = batch["annotation_id"][_i_]
 
-            importance_scores[annotation_id]["shap"] = attribution[_i_].detach().cpu().numpy()
+            importance_scores[annotation_id]["deeplift"] = attribution[_i_].detach().cpu().numpy()
 
 
         pbar.update(data.batch_size)
@@ -307,7 +309,7 @@ def extract_shap_values_(model, data, data_split_name, model_random_seed, no_of_
      ## save them
     np.save(fname, importance_scores)
 
-    print(f"appended shap scores in -> {fname}")
+    print(f"appended deeplift scores in -> {fname}")
 
     return
 
