@@ -1,6 +1,5 @@
 import torch
 import numpy as np
-from src.data_functions.useful_functions import encode_plusplus_
 import json
 import config.cfg
 from config.cfg import AttrDict
@@ -58,11 +57,17 @@ class predictor:
                 token_type_ids = torch.zeros_like(attention_mask)
 
             else:
+                
+                if (self.tokenizer.sep_token_id in input_ids.squeeze(0)) and (input_ids.size(1) > 2):
 
-                sos, eos = torch.where(input_ids == self.tokenizer.sep_token_id)[1]
+                    sos, eos = torch.where(input_ids == self.tokenizer.sep_token_id)[1]
 
-                token_type_ids = torch.zeros_like(attention_mask)
-                token_type_ids[0, sos:eos+1] = 1
+                    token_type_ids = torch.zeros_like(attention_mask)
+                    token_type_ids[0, sos:eos+1] = 1
+
+                else:
+
+                    token_type_ids = torch.zeros_like(attention_mask)
 
         else:
 

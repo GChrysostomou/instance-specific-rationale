@@ -1,0 +1,162 @@
+{
+    "fixed-lime": {
+        "comprehensiveness": {
+            "mean": 0.47280706522078164,
+            "std": 0.42240803102197716
+        },
+        "sufficiency": {
+            "mean": 0.06836401938660971,
+            "std": 0.17590912721648913
+        }
+    },
+    "fixed-attention": {
+        "comprehensiveness": {
+            "mean": 0.380965152072106,
+            "std": 0.3861068433410998
+        },
+        "sufficiency": {
+            "mean": 0.07067217079613743,
+            "std": 0.17647573734543937
+        }
+    },
+    "fixed-ig": {
+        "comprehensiveness": {
+            "mean": 0.43342475462353347,
+            "std": 0.4045951284479925
+        },
+        "sufficiency": {
+            "mean": 0.06627958345166307,
+            "std": 0.17353719446278879
+        }
+    },
+    "fixed-gradients": {
+        "comprehensiveness": {
+            "mean": 0.45663514145301876,
+            "std": 0.41542282942677056
+        },
+        "sufficiency": {
+            "mean": 0.06959218900663311,
+            "std": 0.1763772794309166
+        }
+    },
+    "fixed-scaled attention": {
+        "comprehensiveness": {
+            "mean": 0.40920547921642214,
+            "std": 0.39423875154490834
+        },
+        "sufficiency": {
+            "mean": 0.06864737487894491,
+            "std": 0.17551273829309372
+        }
+    },
+    "fixed-random": {
+        "comprehensiveness": {
+            "mean": 0.42822647907905176,
+            "std": 0.4020301269531484
+        },
+        "sufficiency": {
+            "mean": 0.06731675199828985,
+            "std": 0.1746599851087955
+        }
+    },
+    "fixed-fixed-len_var-feat": {
+        "comprehensiveness": {
+            "mean": 0.5878000831759739,
+            "std": 0.41526904298421285
+        },
+        "sufficiency": {
+            "mean": 0.0725594481019274,
+            "std": 0.1772325335222467
+        }
+    },
+    "fixed-fixed-len_var-feat_var-type": {
+        "comprehensiveness": {
+            "mean": 0.6482390074657101,
+            "std": 0.4061008077333657
+        },
+        "sufficiency": {
+            "mean": 0.08347322563815589,
+            "std": 0.1835789811051054
+        }
+    },
+    "var-lime": {
+        "comprehensiveness": {
+            "mean": 0.5399102863116826,
+            "std": 0.42667948932549404
+        },
+        "sufficiency": {
+            "mean": 0.0462891385797817,
+            "std": 0.15049088890871679
+        }
+    },
+    "var-attention": {
+        "comprehensiveness": {
+            "mean": 0.4226846645608093,
+            "std": 0.39142816649005996
+        },
+        "sufficiency": {
+            "mean": 0.06103412945701163,
+            "std": 0.15974749735830224
+        }
+    },
+    "var-ig": {
+        "comprehensiveness": {
+            "mean": 0.5005244988129357,
+            "std": 0.41286521140751625
+        },
+        "sufficiency": {
+            "mean": 0.05509171056139404,
+            "std": 0.15906484357638478
+        }
+    },
+    "var-gradients": {
+        "comprehensiveness": {
+            "mean": 0.5186262484274404,
+            "std": 0.42196053441352355
+        },
+        "sufficiency": {
+            "mean": 0.05415582236284563,
+            "std": 0.156416025497056
+        }
+    },
+    "var-scaled attention": {
+        "comprehensiveness": {
+            "mean": 0.44871373696512235,
+            "std": 0.399670135238429
+        },
+        "sufficiency": {
+            "mean": 0.05759384707701665,
+            "std": 0.15889435540974714
+        }
+    },
+    "var-random": {
+        "comprehensiveness": {
+            "mean": 0.4881980703507681,
+            "std": 0.41067604773672955
+        },
+        "sufficiency": {
+            "mean": 0.058348048182306975,
+            "std": 0.16270662340457304
+        }
+    },
+    "var-var-len_var-feat": {
+        "comprehensiveness": {
+            "mean": 0.6400820499652207,
+            "std": 0.4073192296421821
+        },
+        "sufficiency": {
+            "mean": 0.049754185253359055,
+            "std": 0.15261208714355318
+        }
+    },
+    "var-var-len_var-feat_var-type": {
+        "comprehensiveness": {
+            "mean": 0.6836117451798045,
+            "std": 0.3963616383794026
+        },
+        "sufficiency": {
+            "mean": 0.05524287266989005,
+            "std": 0.15635276651655616
+        }
+    }
+}

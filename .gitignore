@@ -8,10 +8,10 @@ experiment_logs/
 experiment_config/
 slurm-*.out
 *.sh
-without_lime_full_fidelity/double_extracted_rationales/*/*/*.npy
-without_lime_full_fidelity/extracted_rationales/*/*/*.npy
-double_extracted_rationales/*/*/*.npy
-extracted_rationales/*/*/*.npy
+without_lime_full_fidelity/double_extracted_rationales/
+without_lime_full_fidelity/extracted_rationales/
+double_extracted_rationales/
+extracted_rationales/
 without_lime_full_fidelity/double_faithfulness_metrics/*/*metrics.json
 without_lime_full_fidelity/faithfulness_metrics/*/*metrics.json
 double_faithfulness_metrics/*/*metrics.json

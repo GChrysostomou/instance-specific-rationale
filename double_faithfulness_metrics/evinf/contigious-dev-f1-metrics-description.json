@@ -1,0 +1,38 @@
+{
+    "f1 macro avg - model labels": {
+        "fixed-lime": 74.926,
+        "fixed-attention": 61.575,
+        "fixed-ig": 79.5,
+        "fixed-gradients": 69.16,
+        "fixed-scaled attention": 46.934,
+        "fixed-random": 84.543,
+        "fixed-fixed-len_var-feat": 44.068,
+        "fixed-fixed-len_var-feat_var-type": 17.403,
+        "var-lime": 67.133,
+        "var-attention": 43.723,
+        "var-ig": 62.481,
+        "var-gradients": 55.231,
+        "var-scaled attention": 37.382,
+        "var-random": 78.194,
+        "var-var-len_var-feat": 34.233,
+        "var-var-len_var-feat_var-type": 13.026
+    },
+    "f1 macro avg - actual labels": {
+        "fixed-lime": 71.217,
+        "fixed-attention": 58.25,
+        "fixed-ig": 72.906,
+        "fixed-gradients": 64.975,
+        "fixed-scaled attention": 50.986,
+        "fixed-random": 77.58,
+        "fixed-fixed-len_var-feat": 48.575,
+        "fixed-fixed-len_var-feat_var-type": 25.099,
+        "var-lime": 66.615,
+        "var-attention": 47.187,
+        "var-ig": 61.97,
+        "var-gradients": 56.871,
+        "var-scaled attention": 44.978,
+        "var-random": 73.888,
+        "var-var-len_var-feat": 42.107,
+        "var-var-len_var-feat_var-type": 21.951
+    }
+}
