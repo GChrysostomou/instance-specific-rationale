@@ -54,7 +54,7 @@ def extract_importance_(model, data, data_split_name, model_random_seed):
 
     scorenames = fname + data_split_name + f"_importance_scores_{model_random_seed}.npy"
 
-    ## check if importance scores exist first to avoid unecessary calculations
+    # check if importance scores exist first to avoid unecessary calculations
     if os.path.exists(scorenames):
 
         print(f"importance scores already saved in -> {scorenames}")
@@ -165,7 +165,7 @@ def extract_lime_scores_(model, data, data_split_name, model_random_seed, no_of_
     ## retrieve importance scores
     importance_scores = np.load(fname, allow_pickle = True).item()
 
-    prediction = predictor(
+    lime_predictor = predictor(
         model = model, 
         tokenizer = tokenizer, 
         seq_length = max_seq_len
@@ -210,7 +210,7 @@ def extract_lime_scores_(model, data, data_split_name, model_random_seed, no_of_
 
         exp = explainer.explain_instance(
             train_ls[annot_id]["split example"], 
-            prediction.predictor, 
+            lime_predictor.predictor, 
             num_samples = 500, 
             num_features = len(set(train_ls[annot_id]["split example"])) 
         )
@@ -237,6 +237,79 @@ def extract_lime_scores_(model, data, data_split_name, model_random_seed, no_of_
 
     return
 
+
+from src.evaluation.experiments.shap_predictor import ShapleyModelWrapper
+from captum.attr import DeepLiftShap
+
+def extract_shap_values_(model, data, data_split_name, model_random_seed, no_of_labels, max_seq_len, tokenizer):
+    
+    
+    fname = os.path.join(
+        os.getcwd(),
+        args["data_dir"],
+        "importance_scores",
+        ""
+    )
+
+    fname += f"{data_split_name}_importance_scores_{model_random_seed}.npy"
+
+    ## retrieve importance scores
+    importance_scores = np.load(fname, allow_pickle = True).item()
+
+    explainer = DeepLiftShap(ShapleyModelWrapper(model))
+
+    pbar = trange(len(data) * data.batch_size, desc=f"extracting shap scores for -> {data_split_name}", leave=True)
+
+    ## we are interested in token level features
+    for batch in data:
+
+        model.eval()
+        model.zero_grad()
+
+        batch = {
+            "annotation_id" : batch["annotation_id"],
+            "input_ids" : batch["input_ids"].squeeze(1).to(device),
+            "lengths" : batch["lengths"].to(device),
+            "labels" : batch["label"].to(device),
+            "token_type_ids" : batch["token_type_ids"].squeeze(1).to(device),
+            "attention_mask" : batch["attention_mask"].squeeze(1).to(device),
+            "query_mask" : batch["query_mask"].squeeze(1).to(device),
+            "special_tokens" : batch["special tokens"],
+            "retain_gradient" : False ## we do not need it
+        }
+            
+        assert batch["input_ids"].size(0) == len(batch["labels"]), "Error: batch size for item 1 not in correct position"
+        
+        original_prediction, _ =  model(**batch)
+
+        embeddings = model.wrapper.model.embeddings.word_embeddings.weight[batch["input_ids"].long()]
+        baseline = torch.zeros_like(embeddings, requires_grad = True).to(device)
+
+        attribution = explainer.attribute(embeddings.requires_grad_(True), baseline, target = original_prediction.argmax(-1))
+
+        attribution = attribution.sum(-1)
+
+        attribution = torch.masked_fill(
+            attribution, 
+            (batch["query_mask"] == 0).bool(), 
+            float("-inf")
+        )
+
+        for _i_ in range(attribution.size(0)):
+
+            annotation_id = batch["annotation_id"][_i_]
+
+            importance_scores[annotation_id]["shap"] = attribution[_i_].detach().cpu().numpy()
+
+
+        pbar.update(data.batch_size)
+
+     ## save them
+    np.save(fname, importance_scores)
+
+    print(f"appended shap scores in -> {fname}")
+
+    return
 
 def rationale_creator_(data, data_split_name, variable, tokenizer):
 

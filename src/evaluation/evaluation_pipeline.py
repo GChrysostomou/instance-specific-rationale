@@ -18,7 +18,7 @@ with open(config.cfg.config_directory + 'instance_config.json', 'r') as f:
 from src.models.bert import bert
 from src.variable_rationales.var_length_feat import get_rationale_metadata_
 from src.variable_rationales.var_type import select_between_types_
-from src.evaluation.experiments.rationale_extractor import rationale_creator_, extract_importance_, extract_lime_scores_
+from src.evaluation.experiments.rationale_extractor import rationale_creator_, extract_importance_, extract_lime_scores_, extract_shap_values_
 from src.evaluation.experiments.erasure_tests import conduct_tests_
 from src.evaluation.experiments.increasing_feature_scoring import compute_faithfulness_
 
@@ -69,6 +69,16 @@ class evaluate():
                 tokenizer = tokenizer
             )
 
+            extract_shap_values_(
+                model = model, 
+                data = data,
+                data_split_name = data_split_name,
+                model_random_seed = self.model_random_seed,
+                no_of_labels = no_of_labels,
+                max_seq_len = max_seq_len,
+                tokenizer = tokenizer
+            )
+
         else:
 
 
@@ -95,8 +105,25 @@ class evaluate():
                     model_random_seed = self.model_random_seed
                 )
 
-                
+                extract_lime_scores_(
+                    model = model, 
+                    data = data,
+                    data_split_name = data_split_name,
+                    model_random_seed = self.model_random_seed,
+                    no_of_labels = no_of_labels,
+                    max_seq_len = max_seq_len,
+                    tokenizer = tokenizer
+                )
 
+                extract_shap_values_(
+                    model = model, 
+                    data = data,
+                    data_split_name = data_split_name,
+                    model_random_seed = self.model_random_seed,
+                    no_of_labels = no_of_labels,
+                    max_seq_len = max_seq_len,
+                    tokenizer = tokenizer
+                )
 
         return
 

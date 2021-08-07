@@ -112,12 +112,6 @@ def rationale_length_computer_(
 
             stepwise_preds.append(yhat.argmax(-1).detach().cpu().numpy())
 
-            # ### normalized divergence
-            # full_div = divergence_fun(
-            #     torch.softmax(y_original - zero_logits, dim = -1), 
-            #     torch.softmax(yhat - zero_logits, dim = -1)
-            # ) 
-
             full_div = divergence_fun(
                 torch.softmax(y_original, dim = -1), 
                 torch.softmax(yhat, dim = -1)
@@ -197,12 +191,12 @@ def get_rationale_metadata_(model, data_split_name, data, model_random_seed):
         data_split_name + "-rationale_metadata.npy"
     )
 
-    if os.path.isfile(fname):
+    # if os.path.isfile(fname):
 
-        print(f"rationale metadata file exists at {fname}") 
-        print("remove if you would like to rerun")
+    #     print(f"rationale metadata file exists at {fname}") 
+    #     print("remove if you would like to rerun")
 
-        return 
+    #     return 
 
     desc = f'creating rationale data for -> {data_split_name}'
 
@@ -278,7 +272,7 @@ def get_rationale_metadata_(model, data_split_name, data, model_random_seed):
 
         
         ## percentage of flips
-        for feat_name in {"lime", "random", "attention",  "gradients",   "ig", "scaled attention"}:
+        for feat_name in {"lime", "random", "attention",  "gradients",   "ig", "scaled attention", "shap"}:
             
             feat_score = batch_from_dict(
                 batch_data = batch,
@@ -308,7 +302,7 @@ def get_rationale_metadata_(model, data_split_name, data, model_random_seed):
             init_fixed_div = float("-inf")
             init_var_div = float("-inf")
 
-            for feat_name in {"attention", "scaled attention", "gradients", "ig", "lime"}:
+            for feat_name in {"attention", "scaled attention", "gradients", "ig", "lime", "shap"}:
                 
                 fixed_div = rationale_results[annotation_id][feat_name]["fixed-length divergence"]
                 var_div = rationale_results[annotation_id][feat_name]["variable-length divergence"]

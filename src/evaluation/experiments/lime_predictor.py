@@ -17,28 +17,6 @@ class predictor:
         self.tokenizer = tokenizer
         self.max_seq_length = seq_length
 
-    def predict_label(self, text_a, text_b):
-
-        self.model.to(self.device)
-
-        inputs = self.convert_text_to_features(text_a, text_b)
-
-        with torch.no_grad():
-
-            outputs = self.model(**inputs)
-
-        logits = outputs[0]
-        logits = torch.softmax(logits, dim=1)
-
-        logits_label = torch.argmax(logits, dim=1)
-        label = logits_label.detach().cpu().numpy()
-
-        logits_confidence = logits[0][logits_label]
-        label_confidence_ = logits_confidence.detach().cpu().numpy()
-
-        return label, label_confidence_
-
-
     def convert_text_to_features(self, text):
         
         ## if empty text

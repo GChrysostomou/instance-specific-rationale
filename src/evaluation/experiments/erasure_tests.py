@@ -141,7 +141,7 @@ def conduct_tests_(model, data, split, model_random_seed):
 
                     var_alias = "fixed"
 
-                for feat_attribution_name in ["lime", "attention", "ig", "gradients", "scaled attention", "random", "--var-feat", "--var-all"]:
+                for feat_attribution_name in ["shap","lime", "attention", "ig", "gradients", "scaled attention", "random", "--var-feat", "--var-all"]:
 
                         if feat_attribution_name == "--var-all":
     
