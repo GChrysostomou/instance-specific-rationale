@@ -256,6 +256,14 @@ def extract_shap_values_(model, data, data_split_name, model_random_seed, no_of_
     ## retrieve importance scores
     importance_scores = np.load(fname, allow_pickle = True).item()
 
+    key = next(iter(importance_scores))
+
+    if "deeplift" in importance_scores[key]:
+
+        print(f"deeplift scores already computed")
+
+        return
+
     explainer = DeepLift(ShapleyModelWrapper(model))
 
     pbar = trange(len(data) * data.batch_size, desc=f"extracting deeplift scores for -> {data_split_name}", leave=True)

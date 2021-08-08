@@ -1,5 +1,5 @@
 {
-    "fixed-shap": {
+    "fixed-deeplift": {
         "comprehensiveness": {
             "mean": 0.33179459588674687,
             "std": 0.4147729127197253
@@ -71,25 +71,25 @@
     },
     "fixed-fixed-len_var-feat": {
         "comprehensiveness": {
-            "mean": 0.5706399683744738,
-            "std": 0.4468724565408306
+            "mean": 0.5685537604413279,
+            "std": 0.4470432767377648
         },
         "sufficiency": {
-            "mean": 0.628933809210998,
-            "std": 0.4325690296768477
+            "mean": 0.6289395783937862,
+            "std": 0.4317925861382933
         }
     },
     "fixed-fixed-len_var-feat_var-type": {
         "comprehensiveness": {
-            "mean": 0.5684215433258916,
-            "std": 0.4481854068212708
+            "mean": 0.5641220390736863,
+            "std": 0.4481955059528984
         },
         "sufficiency": {
-            "mean": 0.6335298089338144,
-            "std": 0.42816934295582754
+            "mean": 0.6334938060784818,
+            "std": 0.4271946791082758
         }
     },
-    "var-shap": {
+    "var-deeplift": {
         "comprehensiveness": {
             "mean": 0.2796384467284491,
             "std": 0.4015485465160534
