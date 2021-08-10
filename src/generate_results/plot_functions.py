@@ -5,8 +5,11 @@ import pandas as pd
 import os
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 def plot_increasing_feat_(datasets : set = {"sst", "evinf", "multirc"}, 
 =======
+=======
+>>>>>>> 0b8d801278e68125ff649ef4e5ac17371c71fb35
 plt.style.use('tableau-colorblind10')
 plt.rcParams['axes.edgecolor']='#333F4B'
 plt.rcParams['axes.linewidth']=0.2
@@ -15,7 +18,10 @@ plt.rcParams['ytick.color']='#333F4B'
 plt.rcParams["font.variant"] = "small-caps"
 
 def plot_increasing_feat_attr_(datasets : set = {"sst", "evinf", "multirc"}, 
+<<<<<<< HEAD
 >>>>>>> added reqs
+=======
+>>>>>>> 0b8d801278e68125ff649ef4e5ac17371c71fb35
                           metrics_folder : str = "faithfulness_metrics",
                           rationale_type: str = "topk",
                           metric : str = "comprehensiveness",
@@ -60,6 +66,7 @@ def plot_increasing_feat_attr_(datasets : set = {"sst", "evinf", "multirc"},
     df = df.iloc[::-1]
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 
     plt.style.use('tableau-colorblind10')
@@ -73,6 +80,9 @@ def plot_increasing_feat_attr_(datasets : set = {"sst", "evinf", "multirc"},
 =======
     ## plotting
 >>>>>>> added reqs
+=======
+    ## plotting
+>>>>>>> 0b8d801278e68125ff649ef4e5ac17371c71fb35
     fig, ax = plt.subplots(figsize = (14,10))
 
     plt.yticks(fontsize = 15)
