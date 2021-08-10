@@ -1,0 +1,150 @@
+{
+    "fixed": {
+        "gradients": {
+            "f1 score - model labels": 92.204,
+            "f1 score - actual labels": 88.506,
+            "sufficiency": {
+                "mean": 0.11598044399205908,
+                "std": 0.2604136888280369
+            },
+            "comprehensiveness": {
+                "mean": 0.1590297783276654,
+                "std": 0.33622252921345064
+            }
+        },
+        "ig-gradients": {
+            "f1 score - model labels": 84.186,
+            "f1 score - actual labels": 83.11,
+            "sufficiency": {
+                "mean": 0.1773937020373097,
+                "std": 0.319561016928825
+            },
+            "comprehensiveness": {
+                "mean": 0.24783795753699264,
+                "std": 0.39940053654561997
+            }
+        },
+        "ig-gradients-deeplift": {
+            "f1 score - model labels": 81.242,
+            "f1 score - actual labels": 80.858,
+            "sufficiency": {
+                "mean": 0.23839300758768361,
+                "std": 0.3650459074212708
+            },
+            "comprehensiveness": {
+                "mean": 0.2928512095781809,
+                "std": 0.423484447728918
+            }
+        },
+        "ig-gradients-attention-deeplift": {
+            "f1 score - model labels": 77.685,
+            "f1 score - actual labels": 77.534,
+            "sufficiency": {
+                "mean": 0.3448717331349175,
+                "std": 0.3993037952220032
+            },
+            "comprehensiveness": {
+                "mean": 0.33277880057114423,
+                "std": 0.4338886729174114
+            }
+        },
+        "scaled attention-deeplift-gradients-attention-ig": {
+            "f1 score - model labels": 72.303,
+            "f1 score - actual labels": 73.095,
+            "sufficiency": {
+                "mean": 0.40743063804982355,
+                "std": 0.4142835408879908
+            },
+            "comprehensiveness": {
+                "mean": 0.3846035035843439,
+                "std": 0.4461083479970998
+            }
+        },
+        "scaled attention-deeplift-gradients-lime-attention-ig": {
+            "f1 score - model labels": 68.792,
+            "f1 score - actual labels": 69.953,
+            "sufficiency": {
+                "mean": 0.43458020734892194,
+                "std": 0.4173183215749968
+            },
+            "comprehensiveness": {
+                "mean": 0.40977696553303183,
+                "std": 0.45476268998271335
+            }
+        }
+    },
+    "variable": {
+        "gradients": {
+            "f1 score - model labels": 92.356,
+            "f1 score - actual labels": 88.912,
+            "sufficiency": {
+                "mean": 0.0855015893351635,
+                "std": 0.21021482122762597
+            },
+            "comprehensiveness": {
+                "mean": 0.14101340265504198,
+                "std": 0.31836312514910764
+            }
+        },
+        "ig-gradients": {
+            "f1 score - model labels": 85.105,
+            "f1 score - actual labels": 84.154,
+            "sufficiency": {
+                "mean": 0.13775071380596143,
+                "std": 0.27616784816840795
+            },
+            "comprehensiveness": {
+                "mean": 0.229654064705701,
+                "std": 0.38810212348544365
+            }
+        },
+        "ig-gradients-deeplift": {
+            "f1 score - model labels": 81.95,
+            "f1 score - actual labels": 81.58,
+            "sufficiency": {
+                "mean": 0.19900718653998473,
+                "std": 0.3328962001637202
+            },
+            "comprehensiveness": {
+                "mean": 0.2804421434472792,
+                "std": 0.41849801165564265
+            }
+        },
+        "ig-gradients-attention-deeplift": {
+            "f1 score - model labels": 78.588,
+            "f1 score - actual labels": 78.462,
+            "sufficiency": {
+                "mean": 0.26958536256978266,
+                "std": 0.36614517870606317
+            },
+            "comprehensiveness": {
+                "mean": 0.31651295993324013,
+                "std": 0.4289650998878991
+            }
+        },
+        "scaled attention-deeplift-gradients-attention-ig": {
+            "f1 score - model labels": 73.587,
+            "f1 score - actual labels": 74.448,
+            "sufficiency": {
+                "mean": 0.33470470753640447,
+                "std": 0.39405889517333403
+            },
+            "comprehensiveness": {
+                "mean": 0.3644517260977417,
+                "std": 0.4418063105851807
+            }
+        },
+        "scaled attention-deeplift-gradients-lime-attention-ig": {
+            "f1 score - model labels": 69.929,
+            "f1 score - actual labels": 71.277,
+            "sufficiency": {
+                "mean": 0.37150776642529787,
+                "std": 0.40342376343063335
+            },
+            "comprehensiveness": {
+                "mean": 0.3924850515280965,
+                "std": 0.45285964038821
+            }
+        }
+    }
+}
