@@ -321,6 +321,7 @@ def extract_shap_values_(model, data, data_split_name, model_random_seed, no_of_
 
     return
 
+import glob
 def rationale_creator_(data, data_split_name, variable, tokenizer):
 
     ## get the thresholder fun
@@ -333,33 +334,68 @@ def rationale_creator_(data, data_split_name, variable, tokenizer):
         ""
     )
 
+    if data_split_name == "train":
+
+        return
+
     fname += data_split_name + "-rationale_metadata.npy"
 
     ## retrieve importance scores
     rationale_metadata = np.load(fname, allow_pickle = True).item()
 
+    fname = os.path.join(
+        os.getcwd(),
+        args["data_dir"],
+        "importance_scores",
+        ""
+    )
+
+
+    fname += data_split_name + "_importance_scores*.npy"
+
+    fname = glob.glob(fname)[0]
+
+    ## retrieve importance scores
+    importance_scores = np.load(fname, allow_pickle = True).item()
+
     ## filter only relevant parts in our dataset
-    data = data[["text", "annotation_id", "exp_split", "label", "label_id"]]
+    data = data[["input_ids", "annotation_id", "exp_split", "label", "label_id"]]
 
-    data["tokenized_text"] = data["text"]
+    annotation_text = dict(data[["annotation_id", "input_ids"]].values)
 
-    annotation_text = dict(data[["annotation_id", "tokenized_text"]].values)
-
-    del data["tokenized_text"]
+    del data["input_ids"]
 
     ## time to register rationales
-    for feature_attribution in {"attention", "gradients", "ig", "scaled attention"}:
+    for feature_attribution in {"attention", "gradients", "ig", "scaled attention", "lime", "deeplift"}:
         
 
         temp_registry = {}
 
         for annotation_id, sequence_text in annotation_text.items():
+            
 
-            ## check if there is any padding which could affect our process and remove
-            seq_length = (np.asarray(sequence_text) != 0).sum()
+            temp_registry[annotation_id] = {}
 
-            sequence_importance = rationale_metadata[annotation_id][feature_attribution]["importance scores"][:seq_length]
-            sequence_text = sequence_text[:len(sequence_importance)]
+            sequence_text = sequence_text.squeeze(0)
+
+            sos_eos = torch.where(sequence_text == tokenizer.sep_token_id)[0]
+            seq_length = sos_eos[0]
+
+            full_doc = tokenizer.convert_ids_to_tokens(sequence_text[1:seq_length])
+            full_doc = tokenizer.convert_tokens_to_string(full_doc)
+            
+            if args.query:
+
+                query_end = sos_eos[1]
+
+                query = tokenizer.convert_ids_to_tokens(sequence_text[seq_length + 1:query_end])
+                query = tokenizer.convert_tokens_to_string(query)
+
+            sequence_importance = importance_scores[annotation_id][feature_attribution][:seq_length + 1]
+            ## zero out cls and sep
+            sequence_importance[0] = float("-inf")
+            sequence_importance[-1] = float("-inf")
+            sequence_text = sequence_text[:seq_length + 1]
 
             if variable:
 
@@ -393,11 +429,23 @@ def rationale_creator_(data, data_split_name, variable, tokenizer):
 
             rationale = sequence_text[rationale_indxs]
 
-            temp_registry[annotation_id] = " ".join(rationale)
+            temp_registry[annotation_id]["rationale"] = " ".join(rationale)
+            temp_registry[annotation_id]["full text doc"] = full_doc
 
-        data.text = data.annotation_id.apply(
-            lambda x : temp_registry[x]
-        )
+            if args.query: 
+                
+                temp_registry[annotation_id]["query"]  = query
+
+        if args.query:
+            
+            data["document"] = data.annotation_id.apply(lambda x : temp_registry[x]["rationale"])
+            data["query"] = data.annotation_id.apply(lambda x : temp_registry[x]["query"])
+
+        else:
+
+            data["text"] = data.annotation_id.apply(lambda x : temp_registry[x]["rationale"])
+
+        data["full text doc"] = data.annotation_id.apply(lambda x : temp_registry[x]["full text doc"])
 
         fname = os.path.join(
             os.getcwd(),
@@ -419,62 +467,62 @@ def rationale_creator_(data, data_split_name, variable, tokenizer):
 
         data.to_csv(fname)
 
-    ## now to save our (fixed-len + var-feat) and (var-len + var-feat rationales)
+    # ## now to save our (fixed-len + var-feat) and (var-len + var-feat rationales)
 
-    temp_registry = {}
+    # temp_registry = {}
 
-    if variable: for_our_approach = "var-len_var-feat"
-    else: for_our_approach = "fixed-len_var-feat"
+    # if variable: for_our_approach = "var-len_var-feat"
+    # else: for_our_approach = "fixed-len_var-feat"
 
-    for annotation_id, sequence_text in annotation_text.items():
+    # for annotation_id, sequence_text in annotation_text.items():
         
 
-        ## check if there is any padding which could affect our process and remove
-        seq_length = (np.asarray(sequence_text) != 0).sum()
+    #     ## check if there is any padding which could affect our process and remove
+    #     seq_length = (np.asarray(sequence_text) != 0).sum()
 
-        sequence_importance = rationale_metadata[annotation_id][for_our_approach]["importance scores"][:seq_length]
-        sequence_text = sequence_text[:len(sequence_importance)]
+    #     sequence_importance = rationale_metadata[annotation_id][for_our_approach]["importance scores"][:seq_length]
+    #     sequence_text = sequence_text[:len(sequence_importance)]
 
-        # untokenize sequence and sequence importance scores
-        sequence_text, sequence_importance = wpiece2word(
-            tokenizer = tokenizer, 
-            sentence = sequence_text, 
-            weights = sequence_importance
-        )
+    #     # untokenize sequence and sequence importance scores
+    #     sequence_text, sequence_importance = wpiece2word(
+    #         tokenizer = tokenizer, 
+    #         sentence = sequence_text, 
+    #         weights = sequence_importance
+    #     )
 
-        rationale_indxs = thresholder(
-            scores = sequence_importance, 
-            original_length = len(sequence_text) - 2,
-            rationale_length =  rationale_metadata[annotation_id][for_our_approach]["variable rationale ratio"]
-        )
+    #     rationale_indxs = thresholder(
+    #         scores = sequence_importance, 
+    #         original_length = len(sequence_text) - 2,
+    #         rationale_length =  rationale_metadata[annotation_id][for_our_approach]["variable rationale ratio"]
+    #     )
 
-        rationale = sequence_text[rationale_indxs]
+    #     rationale = sequence_text[rationale_indxs]
 
-        temp_registry[annotation_id] = " ".join(rationale)
+    #     temp_registry[annotation_id] = " ".join(rationale)
 
-    data.text = data.annotation_id.apply(
-        lambda x : temp_registry[x]
-    )
+    # data.text = data.annotation_id.apply(
+    #     lambda x : temp_registry[x]
+    # )
 
-    fname = os.path.join(
-        os.getcwd(),
-        args["extracted_rationale_dir"],
-        args["thresholder"],
-        "data",
-        ""
-    )
+    # fname = os.path.join(
+    #     os.getcwd(),
+    #     args["extracted_rationale_dir"],
+    #     args["thresholder"],
+    #     "data",
+    #     ""
+    # )
 
-    os.makedirs(fname, exist_ok=True)
+    # os.makedirs(fname, exist_ok=True)
 
     
-    if variable:
-        fname += "var-len_var-feat-" + data_split_name + ".csv"
-    else:
-        fname += "fixed-len_var-feat-" + "-" + data_split_name + ".csv"
+    # if variable:
+    #     fname += "var-len_var-feat-" + data_split_name + ".csv"
+    # else:
+    #     fname += "fixed-len_var-feat-" + "-" + data_split_name + ".csv"
 
-    print(f"saved in -> {fname}")
+    # print(f"saved in -> {fname}")
 
-    data.to_csv(fname)
+    # data.to_csv(fname)
 
 
     return

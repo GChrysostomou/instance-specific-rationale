@@ -191,12 +191,12 @@ def get_rationale_metadata_(model, data_split_name, data, model_random_seed):
         data_split_name + "-rationale_metadata.npy"
     )
 
-    # if os.path.isfile(fname):
+    if os.path.isfile(fname):
 
-    #     print(f"rationale metadata file exists at {fname}") 
-    #     print("remove if you would like to rerun")
+        print(f"rationale metadata file exists at {fname}") 
+        print("remove if you would like to rerun")
 
-    #     return 
+        return 
 
     desc = f'creating rationale data for -> {data_split_name}'
 

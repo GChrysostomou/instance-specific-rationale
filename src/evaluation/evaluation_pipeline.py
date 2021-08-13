@@ -179,9 +179,9 @@ class evaluate():
     def create_rationales_(self, data):
         
         for data_split_name, data_split in data.as_dataframes_().items():
-
-            try:
             
+            try:
+
                 rationale_creator_(
                     data = data_split,
                     data_split_name = data_split_name,
@@ -199,8 +199,6 @@ class evaluate():
             except:
 
                 raise NotImplementedError
-
-
 
         return
 
