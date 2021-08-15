@@ -99,7 +99,7 @@ def jsd(p : torch.tensor, q : torch.tensor) -> torch.tensor:
 
 def perplexity(p : torch.tensor, q : torch.tensor) -> torch.tensor:
 
-    return torch.exp(nn.CrossEntropyLoss()(q, p.argmax(-1))).item()
+    return torch.exp(nn.CrossEntropyLoss()(q, p.argmax(-1)))
 
 def simple_diff(p : torch.tensor, q : torch.tensor) -> torch.tensor:
 
