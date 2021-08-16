@@ -59,7 +59,7 @@ def rationale_length_computer_(
     ## if we break down our search in increments
     if fidelity == "lower_fidelity":
         
-        per_how_many = 2/100 ## skip every per_how_many percent of tokens
+        per_how_many = 5/100 ## skip every per_how_many percent of tokens
         percent_to_tokens = round(per_how_many * int(min(inputs["lengths"]))) ## translate percentage to tokens
 
         ## special case for very short sequences in SST and AG of less than 6 tokens
