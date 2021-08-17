@@ -59,7 +59,7 @@ def rationale_length_computer_(
     ## if we break down our search in increments
     if fidelity == "lower_fidelity":
         
-        per_how_many = 5/100 ## skip every per_how_many percent of tokens
+        per_how_many = 2/100 ## skip every per_how_many percent of tokens
         percent_to_tokens = round(per_how_many * int(min(inputs["lengths"]))) ## translate percentage to tokens
 
         ## special case for very short sequences in SST and AG of less than 6 tokens
@@ -288,7 +288,7 @@ def get_rationale_metadata_(model, data_split_name, data, model_random_seed):
                 y_original = original_prediction, 
                 zero_logits = zero_logits,
                 original_sents=original_sents,
-                fidelity = "lower_fidelity",
+                fidelity = "max_fidelity",
                 feature_attribution = feat_name, 
                 results_dict = rationale_results
             )

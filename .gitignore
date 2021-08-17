@@ -28,5 +28,7 @@ kldiv/faithfulness_metrics/*/*metrics.json
 jsd/faithfulness_metrics/*/*metrics.json
 perplexity/faithfulness_metrics/*/*metrics.json
 classdiff/faithfulness_metrics/*/*metrics.json
-five_percent/
-full_fidelity/
+five_percent/extracted_rationales/
+full_fidelity/extracted_rationales/
+five_percent/faithfulness_metrics/*/*metrics.json
+full_fidelity/faithfulness_metrics/*/*metrics.json
