@@ -132,7 +132,7 @@ evaluator = evaluation_pipeline.evaluate(
 
 logging.info("*********conducting in-domain flip experiments")
 
-evaluator.faithfulness_metrics_(data)
+# evaluator.faithfulness_metrics_(data)
 
 evaluator.feature_scoring_performance_()
 

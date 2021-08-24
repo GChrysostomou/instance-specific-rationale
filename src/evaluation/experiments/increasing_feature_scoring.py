@@ -26,7 +26,7 @@ from sklearn.metrics import classification_report
 def compute_faithfulness_(rationale_metadata, prediction_data, split_name):
 
     metric_combos = [
-        {"gradients"} ,
+        {"gradients"},
         {"lime"}, 
         {"attention"},
         {"gradients", "ig"}, 
