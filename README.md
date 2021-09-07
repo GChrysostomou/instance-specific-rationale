@@ -38,7 +38,7 @@ python finetune_on_ful.py --dataset $dataset \
                           --evaluate_models 
 ```
 
-## Extracting Rationales
+## Extracting Rationales (Fixed or Instance-Specific - For all parameters)
 
 ```
 divergence="jsd"
