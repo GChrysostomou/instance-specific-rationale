@@ -1,5 +1,4 @@
 import json
-import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 import os
@@ -24,7 +23,7 @@ nicer_tasknames = {
 
 
 def create_table_of_rationale_lengths_(divergence: str, extracted_rationale_dir : str = "extracted_rationales", 
-                                     save_to_dir : str = "graphs_and_tables/"):
+                                     save_to_dir : str = "graphs_and_tables/", double : bool = False):
 
     ratio_data = {}
     ratio_means = {}
@@ -35,7 +34,13 @@ def create_table_of_rationale_lengths_(divergence: str, extracted_rationale_dir 
 
             nicer_task_name = nicer_tasknames[task_name]
 
-            fname = f"{divergence}/{extracted_rationale_dir}/{task_name}/{thresh}/test-rationale_metadata.npy"
+            if double:
+                
+                fname = f"double_{divergence}/{extracted_rationale_dir}/{task_name}/{thresh}/test-rationale_metadata.npy"
+
+            else:
+
+                fname = f"{divergence}/{extracted_rationale_dir}/{task_name}/{thresh}/test-rationale_metadata.npy"
 
             data = np.load(fname, allow_pickle = True).item()
 
@@ -76,13 +81,21 @@ def create_table_of_rationale_lengths_(divergence: str, extracted_rationale_dir 
         exist_ok=True
     )
 
-    df.to_latex(f"{folder_name}{divergence}-rationale_lengths.tex")
+    if double:
+    
+        df.to_latex(f"{folder_name}{divergence}-rationale_lengths-2N.tex")
+
+    else:
+
+        df.to_latex(f"{folder_name}{divergence}-rationale_lengths.tex")
 
     print(f"** Rationale lengths saved in --> {folder_name}{divergence}-rationale_lengths.tex")
     
     return
 
-def generate_table_for_var_combos_(datasets : list = ["sst", "multirc", "agnews", "evinf"],
+def generate_table_for_var_combos_(
+    datasets : list = ["sst", "multirc", "agnews", "evinf"],
+    metrics : list = ["f1 macro avg - model labels", "sufficiency", "comprehensiveness"],
     metrics_folder : str = "faithfulness_metrics",
     rationale_type: str = "contigious",
     divergence : str = "jsd",
@@ -107,11 +120,11 @@ def generate_table_for_var_combos_(datasets : list = ["sst", "multirc", "agnews"
 
     maxes = {}
 
-    for metric in ["sufficiency", "comprehensiveness"]:#["f1 macro avg - model labels", "sufficiency", "comprehensiveness"]:
+    for metric in metrics:
 
         for task_name in datasets:
 
-            for rationale_type in ["contigious"]:#, "contigious"]:
+            for rationale_type in [rationale_type]:#, "contigious"]:
 
 
                 task_name_nicer = nicer_tasknames[task_name]
@@ -185,13 +198,13 @@ def generate_table_for_var_combos_(datasets : list = ["sst", "multirc", "agnews"
     
     print(f"*** Var combos saved in -> {save_to_dir}/var_all_table/{rationale_type}*")
     
-    return
+    return df
 
 def generate_table_for_divergence_(save_to_dir : str = "graphs_and_tables"):
 
     new_data = {}
 
-    for thresh in ["topk", "cont"]:
+    for thresh in ["topk", "contigious"]:
 
         for divergence in ["jsd", "kldiv", "classdiff", "perplexity"]:
 
@@ -222,20 +235,14 @@ def generate_table_for_divergence_(save_to_dir : str = "graphs_and_tables"):
     
     return
 
-def generate_time_tables_(full_fidel_folder : str = "full_fidelity", two_perc_foler: str = "jsd", 
-                         five_perc_folder : str = "five_percent", save_to_dir : str = "graphs_and_tables/"):
-
-    full_fidel_folder : str = "full_fidelity"
-    two_perc_foler: str = "jsd"
-    five_perc_folder : str = "five_percent"
-    save_to_dir : str = "graphs_and_tables/"
+def generate_time_tables_(
+    full_fidel_folder : str = "full_fidelity", 
+    two_perc_foler: str = "jsd", 
+    five_perc_folder : str = "five_percent", 
+    save_to_dir : str = "graphs_and_tables/"):
 
     time_data = {}
     faith_data = {}
-
-    divergence = "jsd"
-
-    data_lengths = {}
 
     for fidelity in ["@each token", "@2%", "@5%"]:
 
@@ -443,11 +450,19 @@ def significance_results_(datasets : list = ["sst", "multirc", "agnews", "evinf"
                 
     return
 
-def make_tables_for_rationale_length_var_(datasets : list = ["sst", "multirc", "agnews", "evinf"],
+
+### WITH ARROWS
+def make_tables_for_rationale_length_var_ARROWS_(datasets : list = ["sst", "multirc", "agnews", "evinf"],
     metrics_folder : str = "faithfulness_metrics",
     rationale_type: str = "contigious",
     save_to_dir : str = "graphs_and_tables",
     divergence : str= "jsd"):
+
+    raise NotImplementedError(
+        """
+        Not used anymore, uncomment this error if you want to check results with arrows
+        """
+    )
 
     mapper = {
         "gradients" : "$\boldsymbol\mathbf{x}\nabla\mathbf{x}$",
@@ -539,3 +554,146 @@ def make_tables_for_rationale_length_var_(datasets : list = ["sst", "multirc", "
     print(f"** variable-length rationale tables saved in --> {save_to_dir}/var_len_table/ ")
     
     return detailed
+
+## R.I.
+def make_tables_for_rationale_length_var_(
+    datasets : list = ["sst", "multirc", "agnews", "evinf"],
+    metrics_folder : str = "faithfulness_metrics",
+    rationale_type: str = "contigious",
+    metrics : list = ["f1 macro avg - model labels", "sufficiency", "comprehensiveness"],
+    save_to_dir : str = "graphs_and_tables",
+    divergence : str= "jsd",
+    we_want_sig : bool = False):
+
+    mapper = {
+    "gradients" : "$\\boldsymbol{\mathbf{x}\nabla\mathbf{x}}$",
+    "ig" : "\textbf{IG}",
+    "deeplift" : "\textbf{DeepLift}",
+    "attention" : "$\\boldsymbol{\\alpha}$",
+    "scaled attention" : "$\\boldsymbol{\\alpha\\nabla\\alpha}$",
+    "lime" : "\textbf{LIME}",
+    "fixed-len_var-feat" : "OURS"
+    }
+
+    nicer_tasknames = {
+        "sst" : "SST",
+        "evinf" : "Ev.Inf.",
+        "multirc" : "MultiRC",
+        "agnews" : "AG"
+    }
+
+    new_data_means = {}
+    new_with_arrows = {}
+
+    for rationale_type in [rationale_type]:
+
+        new_with_arrows = {}
+        new_data_means = {}
+
+        for metric in metrics:
+
+            for task_name in datasets:
+
+
+                task_name_nicer = nicer_tasknames[task_name]
+
+                new_with_arrows[f"{task_name_nicer}-{metric}-{rationale_type}"] = {}
+                new_data_means[f"{task_name_nicer}-{metric}-{rationale_type}"] = {}
+
+                if "f1" in metric:
+
+                    fname = os.path.join(
+                        divergence,
+                        metrics_folder,
+                        task_name,
+                        f"{rationale_type}-test-f1-metrics-description.json"
+                    )
+
+                else:
+
+                    fname = os.path.join(
+                            divergence,
+                            metrics_folder,
+                            task_name,
+                            f"{rationale_type}-test-faithfulness-metrics.json"
+                        )
+
+                    with open(fname, "r") as file : data_sig = json.load(file) 
+
+                    fname = os.path.join(
+                        divergence,
+                        metrics_folder,
+                        task_name,
+                        f"{rationale_type}-test-faithfulness-metrics-description.json"
+                    )
+
+                with open(fname, "r") as file : data = json.load(file) 
+
+                for feat_attr in ["deeplift", "lime", "attention", "scaled attention", "ig", "gradients"]:
+
+                    temp = {}
+
+                    for var_or_fixed in ["fixed", "var"]:
+
+                        temp[f"{var_or_fixed}-{feat_attr}"] = []  
+
+
+                        if "f1" in metric:
+
+                            new_data_means[f"{task_name_nicer}-{metric}-{rationale_type}"][f"{var_or_fixed}-{mapper[feat_attr]}"] =  data[metric][f"{var_or_fixed}-{feat_attr}"]
+
+                        else:
+
+                            new_data_means[f"{task_name_nicer}-{metric}-{rationale_type}"][f"{var_or_fixed}-{mapper[feat_attr]}"] =  data[f"{var_or_fixed}-{feat_attr}"][metric]["mean"]
+
+                        if we_want_sig:
+
+                            for annot_id in data_sig:
+
+                                temp[f"{var_or_fixed}-{feat_attr}"].append(
+                                    data_sig[annot_id][f"{var_or_fixed}-{feat_attr}"][metric]
+                                )
+
+
+                    if we_want_sig:
+
+                        var = temp[f"var-{feat_attr}"]
+                        fixed = temp[f"fixed-{feat_attr}"]
+
+                        pval = wilcoxon(
+                            var, 
+                            fixed
+                        ).pvalue
+
+                        if pval < 0.05:
+
+                            sigi = "^*"
+
+                        else:
+
+                            sigi = ""
+
+                    var = new_data_means[f"{task_name_nicer}-{metric}-{rationale_type}"][f"var-{mapper[feat_attr]}"]
+                    fixed = new_data_means[f"{task_name_nicer}-{metric}-{rationale_type}"][f"fixed-{mapper[feat_attr]}"]
+
+                    if we_want_sig:
+
+
+                        new_with_arrows[f"{task_name_nicer}-{metric}-{rationale_type}"][mapper[feat_attr]] = f"{round(var/fixed,2)}{sigi}"
+                    
+                    else:
+
+                        new_with_arrows[f"{task_name_nicer}-{metric}-{rationale_type}"][mapper[feat_attr]] = f"{round(var/fixed,2)}"
+
+    detailed = pd.DataFrame(new_data_means).round(3)
+    descriptive = pd.DataFrame(new_with_arrows)
+
+    os.makedirs(f"{save_to_dir}/var_len_table/", exist_ok = True)
+    
+    descriptive.to_csv(f"{save_to_dir}/var_len_table/{rationale_type}-this.csv")
+
+    descriptive.to_latex(f"{save_to_dir}/var_len_table/{rationale_type}-this.tex", escape=False)
+    
+    print(f"** variable-length rationale tables saved in --> {save_to_dir}/var_len_table/ ")
+    
+    return

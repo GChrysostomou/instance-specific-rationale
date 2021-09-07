@@ -1,0 +1,8 @@
+,SST-f1 macro avg - model labels-topk,MultiRC-f1 macro avg - model labels-topk,AG-f1 macro avg - model labels-topk,Ev.Inf.-f1 macro avg - model labels-topk,SST-sufficiency-topk,MultiRC-sufficiency-topk,AG-sufficiency-topk,Ev.Inf.-sufficiency-topk,SST-comprehensiveness-topk,MultiRC-comprehensiveness-topk,AG-comprehensiveness-topk,Ev.Inf.-comprehensiveness-topk
+	extbf{DeepLift},1.04,0.96,1.0,1.0,0.93,0.82,0.85,1.07,0.84,1.08,0.99,1.05
+	extbf{LIME},1.06,0.93,0.99,0.95,0.96,0.74,0.91,0.89,0.91,1.1,1.0,1.04
+$\boldsymbol{\alpha}$,1.05,0.97,1.01,0.75,0.92,0.87,0.69,0.78,0.76,1.11,0.91,1.17
+$\boldsymbol{\alpha\nabla\alpha}$,1.02,0.96,1.01,0.78,0.89,0.91,0.83,0.92,0.95,1.1,0.94,1.04
+	extbf{IG},1.02,0.94,1.01,0.98,0.93,0.87,0.79,0.86,0.9,1.11,0.97,1.06
+"$\boldsymbol{\mathbf{x}
+abla\mathbf{x}}$",1.0,0.94,1.0,0.94,0.96,0.78,0.74,0.8,0.91,1.11,0.89,1.2

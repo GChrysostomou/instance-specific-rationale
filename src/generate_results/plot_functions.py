@@ -4,7 +4,6 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import os
 import plotly.graph_objects as go
-import plotly.offline as pyo
 
 
 def export_legend(legend, filename="legend.png"):
@@ -14,186 +13,16 @@ def export_legend(legend, filename="legend.png"):
     fig.savefig(filename, dpi="figure", bbox_inches=bbox)
 
 
-def plot_best_var_VS_single_(datasets : list = ["sst", "multirc", "agnews", "evinf"],
-    metrics_folder : str = "faithfulness_metrics",
+def plot_increasing_feat_(
+    datasets : list = ["sst", "multirc", "agnews", "evinf"],
+    metrics_folder : str = "jsd/faithfulness_metrics",
     rationale_type: str = "topk",
-    metric : str = "comprehensiveness",
+    metric : str = "sufficiency",
     var_or_fixed : str = "fixed",
     plot_legend : bool = False,
-    y_label_at_metric : str ="f1 macro avg - model labels",
-    divergence : str = "jsd",
-    save_to_dir : str = "graphs_and_tables"):
-
-
-    
-    mapper = {
-        "gradients" : "x∇x",
-        "ig" : "IG",
-        "deeplift" : "DeepLift",
-        "attention" : "α",
-        "scaled attention" : "α∇α",
-        "lime" : "LIME",
-        "fixed-len_var-feat" : "OURS"
-    }
-
-    nicer_tasknames = {
-        "sst" : "SST",
-        "evinf" : "Ev.Inf.",
-        "multirc" : "MultiRC",
-        "agnews" : "AG"
-    }
-
-    assert metric in {"comprehensiveness", "sufficiency", "f1 macro avg - model labels", "f1 macro avg - actual labels"}, (
-        """
-        Must be one of the following metrics:
-        * comprehensiveness
-        * sufficiency
-        * f1 macro avg - model labels
-        * f1 macro avg - actual labels
-        """
-    )
-
-    new_data_means = {}
-    new_data_stds = {}
-
-    for task_name in datasets:
-
-        if "f1" in metric:
-
-            fname = os.path.join(
-                divergence, 
-                metrics_folder,
-                task_name,
-                f"{rationale_type}-test-f1-metrics-description.json"
-            )
-
-        else:
-
-            fname = os.path.join(
-                divergence, 
-                metrics_folder,
-                task_name,
-                f"{rationale_type}-test-faithfulness-metrics-description.json"
-            )
-
-
-        with open(fname, "r") as file : data = json.load(file) 
-
-        new_data_means[task_name] = {}
-        new_data_stds[task_name] = {}
-
-        for feat_attr in ["deeplift", "lime", "attention", "scaled attention", "ig", "gradients", "fixed-len_var-feat"]:
-
-            if "f1" in metric:
-
-                new_data_means[task_name][mapper[feat_attr]] =  data[metric][f"{var_or_fixed}-{feat_attr}"]
-
-            else:
-
-                new_data_means[task_name][mapper[feat_attr]] =  data[f"{var_or_fixed}-{feat_attr}"][metric]["mean"]
-
-
-    df = pd.DataFrame(new_data_means)
-
-    df = df.rename(columns = nicer_tasknames)
-
-    df = df.iloc[::-1]
-
-    plt.style.use('tableau-colorblind10')
-    # plt.style.use("seaborn-colorblind")
-    plt.rcParams['axes.edgecolor']='#333F4B'
-    plt.rcParams['axes.linewidth']=0.2
-    plt.rcParams['xtick.color']='#333F4B'
-    plt.rcParams['ytick.color']='#333F4B'
-    plt.rcParams["font.variant"] = "small-caps"
-
-    fig, ax = plt.subplots(figsize = (10,12))
-
-    plt.yticks(fontsize = 35, rotation = 45)
-
-    #     ax.set_xlabel(metric.capitalize(), fontsize = 35)
-
-    df.T.plot.barh(ax = ax, legend=False, width=0.75)
-
-
-    if metric != y_label_at_metric:
-
-        y_axis = ax.axes.get_yaxis()
-        y_axis.set_visible(False)
-        ax.set_yticklabels([])
-
-
-    bars = ax.patches
-    hatches = ''.join(h*len(df.T) for h in 'x/O+*.')
-
-    for bar, hatch in zip(bars, hatches):
-        bar.set_hatch(hatch)
-
-    if "f1" not in metric:
-
-        ax.set_xticks(np.arange(0.,df.max().max(), 0.2))
-        plt.xticks(fontsize=23)
-        ax.set_xticks(np.arange(0.,df.max().max()+0.025, 0.025), minor=True)
-
-
-        if plot_legend:
-            handles, labels = ax.get_legend_handles_labels()
-            legend = plt.legend( 
-                handles[::-1], labels[::-1],
-                loc = "lower right",
-                fontsize = 20, 
-                fancybox = True, 
-                framealpha = 0.4,
-                labelspacing = 1,
-                ncol=1,
-                columnspacing=0.1,
-                frameon=False
-            )
-
-    else:
-
-        ax.set_xticks(np.arange(0,100+20,20))
-        plt.xticks(fontsize=23)
-        ax.set_xticks(np.arange(0,100,5), minor=True)
-
-        if plot_legend:
-            handles, labels = ax.get_legend_handles_labels()
-            legend = plt.legend( 
-                handles[::-1], labels[::-1],
-                loc = (1,0), 
-                fontsize = 20, 
-                fancybox = True, 
-                framealpha = 0.4,
-                ncol=2,
-                frameon=False
-            )
-
-    plt.grid(which='minor', alpha=0.15)
-    plt.grid(which='major', alpha=0.5)
-    plt.tight_layout()
-    ax.spines['right'].set_visible(False)
-    ax.spines['top'].set_visible(False)
-
-
-    plt.show()
-    os.makedirs(f"{save_to_dir}/varying_feat_score/", exist_ok = True)
-
-    fig.savefig(f"{save_to_dir}/varying_feat_score/{metric}-var-feat-score.png", dpi = 300)#, bbox_inches="tight")
-
-    plt.close()
-    
-    print(f"*** Saved ours (best feat) vs every single feat --> {save_to_dir}/varying_feat_score/{metric}-var-feat-score.png")
-    
-    return
-
-
-def plot_increasing_feat_(datasets : list = ["sst", "multirc", "agnews", "evinf"],
-                            metrics_folder : str = "faithfulness_metrics",
-                            rationale_type: str = "topk",
-                            metric : str = "sufficiency",
-                            var_or_fixed : str = "fixed",
-                            plot_legend : bool = False,
-                            y_label_at_metric : str = "f1 score - model labels"):
+    y_label_at_metric : str = "f1 score - model labels",
+    you_want_all : bool = False,
+    add_even_the_best : bool = False):
 
 
     assert metric in {"comprehensiveness", "sufficiency", "f1 score - model labels", "f1 score - actual labels"}, (
@@ -247,14 +76,51 @@ def plot_increasing_feat_(datasets : list = ["sst", "multirc", "agnews", "evinf"
     }
 
 
+    keep_only_this = {
+        'gradients' : 'gradients',
+        'gradients-ig' : 'gradients-ig',
+        'gradients-deeplift-ig' : 'gradients-ig-deeplift',
+        'gradients-deeplift-attention-ig' : 'gradients-ig-deeplift-attention',
+        'gradients-deeplift-scaled attention-attention-ig': 'gradients-ig-deeplift-attention-scaled attention',
+        'gradients-deeplift-scaled attention-lime-attention-ig' : 'gradients-ig-deeplift-attention-scaled attention-lime'
+    }
 
-    df.index = ["\n".join([mapper[y] for y in x.split("-")]) for x in data[var_or_fixed].keys()]
+    df.index = [x for x in data[var_or_fixed].keys()]
+
+    if you_want_all  == False:
+
+        df = df[df.index.isin(keep_only_this)]
+        
+        df["temp"] = df.index
+
+        df["temp"] = df.temp.apply(lambda x : keep_only_this[x])
+
+        df.index = df.temp
+
+        df = df.drop(columns = ["temp"])
+
+    df.index = ["{"+"\n".join([mapper[y] for y in x.split("-")])+"}" for x in df.index]
+
     df = df.rename(columns = nicer_tasknames)
-  
-    df = df.iloc[::-1]
+
+    if add_even_the_best:
+    
+        extra = pd.read_csv(f"graphs_and_tables/var_all_table/{rationale_type}-all.csv")
+        
+        if "f1" in metric:
+
+            extra = extra[[x for x in extra.columns if "f1" in x] + ["Unnamed: 0"]]
+
+        else:
+
+            extra = extra[[x for x in extra.columns if metric in x] + ["Unnamed: 0"]]
+        
+        extra = extra[extra["Unnamed: 0"] == "fixed"].drop(columns = ["Unnamed: 0"]).values[0]
+
+        
+        df = pd.concat([df, pd.DataFrame(dict(zip(df.columns, extra)),  index =["{Best F.S.}"])], axis = 0)
 
     plt.style.use('tableau-colorblind10')
-    # plt.style.use("seaborn-colorblind")
     plt.rcParams['axes.edgecolor']='#333F4B'
     plt.rcParams['axes.linewidth']=0.2
     plt.rcParams['xtick.color']='#333F4B'
@@ -264,12 +130,11 @@ def plot_increasing_feat_(datasets : list = ["sst", "multirc", "agnews", "evinf"
     fig, ax = plt.subplots(figsize = (8,10))
 
     plt.yticks(fontsize = 35, rotation = 45)
-
-#     ax.set_xlabel(metric.capitalize(), fontsize = 35)
     
-    df.T.plot.barh(ax = ax, legend=False, width=0.75)
+    
+    df.T.plot.barh(ax = ax, legend=False, width=0.88)
 
-
+    
     if metric != y_label_at_metric:
 
         y_axis = ax.axes.get_yaxis()
@@ -278,11 +143,30 @@ def plot_increasing_feat_(datasets : list = ["sst", "multirc", "agnews", "evinf"
 
 
     bars = ax.patches
-    hatches = ''.join(h*len(df.T) for h in 'x/O+*.')
 
-    for bar, hatch in zip(bars, hatches):
+    hatches = ['/', 'O', '*', '+', 'x', 'o', '*', '.', '|','/', 'O', '-', '+', 'x', 'o', "*"][:len(df)]
+
+    hatches = ''.join(h*4 for h in hatches)
+
+    leng = len(hatches)
+    for j_, (bar, hatch) in enumerate(zip(bars, hatches)):
+
+        if add_even_the_best:
+            
+            if j_ > (leng-5):
+
+                bar.set_color("lightblue")
+
         bar.set_hatch(hatch)
-
+    
+    if you_want_all:
+    
+        kol = 3
+        
+    else:
+        
+        kol = 2
+    
     if "f1" not in metric:
 
         ax.set_xticks(np.arange(0.,df.max().max(), 0.2))
@@ -295,11 +179,11 @@ def plot_increasing_feat_(datasets : list = ["sst", "multirc", "agnews", "evinf"
             legend = plt.legend( 
                 handles[::-1], labels[::-1],
                 loc = (1,0), 
-                fontsize = 20, 
+                fontsize = 30, 
                 fancybox = True, 
                 framealpha = 0.4,
-                labelspacing = 1,
-                ncol=2,
+                labelspacing = 1.2,
+                ncol=kol,
                 columnspacing=0.1,
                 frameon=False
             )
@@ -318,24 +202,38 @@ def plot_increasing_feat_(datasets : list = ["sst", "multirc", "agnews", "evinf"
                 fontsize = 20, 
                 fancybox = True, 
                 framealpha = 0.4,
-                ncol=2,
+                ncol=kol,
                 frameon=False
             )
-    
+
     plt.grid(which='minor', alpha=0.15)
     plt.grid(which='major', alpha=0.5)
     plt.tight_layout()
     ax.spines['right'].set_visible(False)
     ax.spines['top'].set_visible(False)
-    
+
     if plot_legend:
         
-        export_legend(legend, filename = "graphs_and_tables/increasing-set-of-feature_scoring/legend.png")
+        if you_want_all:
+            
+            export_legend(legend, filename = "graphs_and_tables/increasing-set-of-feature_scoring/legend-EXTRA.png")
+        
+        else:
+            
+            export_legend(legend, filename = "graphs_and_tables/increasing-set-of-feature_scoring/legend.png")
+        
+        return 
     
     plt.show()
+    
     os.makedirs("graphs_and_tables/increasing-set-of-feature_scoring/", exist_ok = True)
     
-    fig.savefig(f"graphs_and_tables/increasing-set-of-feature_scoring/{metric}-increasing-feat-attr.png", dpi = 300)#, bbox_inches="tight")
+    if you_want_all:
+        
+        fig.savefig(f"graphs_and_tables/increasing-set-of-feature_scoring/{metric}-EXTRA-increasing-feat-attr.png", dpi = 300)#, bbox_inches="tight")
+    else:
+        
+        fig.savefig(f"graphs_and_tables/increasing-set-of-feature_scoring/{metric}-increasing-feat-attr.png", dpi = 300)#, bbox_inches="tight")
 
     plt.close()
 
@@ -395,84 +293,133 @@ def plot_at_different_N_(
     plt.rcParams['ytick.color']='#333F4B'
     plt.rcParams["font.variant"] = "small-caps"
 
-    fig, ax = plt.subplots(2,1, figsize = (8,8))
-
-    for _i_, metric in enumerate(["comprehensiveness", "sufficiency"]):
+    for _i_, metric in enumerate(["comprehensiveness", "sufficiency", "f1 macro avg - model labels"]):
+        
+        
+        fig, ax = plt.subplots(1,1, figsize = (5,7))
 
         for task_name in ["sst", "evinf", "agnews", "multirc"]:
 
 
             ratios = [0.2, 0.4]
+            
+            if "f1" in metric:
+                
+                fname_short = f"{single_N}/{task_name}/{rationale_type}-test-f1-metrics-description.json"
 
-            fname_short = f"{single_N}/{task_name}/{rationale_type}-test-faithfulness-metrics-description.json"
+                with open(fname_short, "r") as file : data_short = json.load(file) 
 
-            with open(fname_short, "r") as file : data_short = json.load(file) 
+                fname_long = f"{double_N}/{task_name}/{rationale_type}-test-f1-metrics-description.json"
 
-            fname_long = f"{double_N}/{task_name}/{rationale_type}-test-faithfulness-metrics-description.json"
+                with open(fname_long, "r") as file : data_long = json.load(file) 
+                
+            else:
 
-            with open(fname_long, "r") as file : data_long = json.load(file) 
+                fname_short = f"{single_N}/{task_name}/{rationale_type}-test-faithfulness-metrics-description.json"
 
-            ax = ax.flatten()
+                with open(fname_short, "r") as file : data_short = json.load(file) 
 
+                fname_long = f"{double_N}/{task_name}/{rationale_type}-test-faithfulness-metrics-description.json"
+
+                with open(fname_long, "r") as file : data_long = json.load(file) 
 
             for feat_attr in ["var-var-len_var-feat_var-type"]:
 
                 if feat_attr in keep.keys():
+                    
+                    if "f1" in metric:
+                        
+                        short = data_short["f1 macro avg - model labels"][feat_attr]
+                        long = data_long["f1 macro avg - model labels"][feat_attr]
 
-                    short = data_short[feat_attr][metric]
-                    long = data_long[feat_attr][metric]
+                        ax.plot(
+                            ratios,
+                            [short, long],
+                            marker=keep[feat_attr]["marker"],
+                            markersize = 15,
+                            linewidth = 3,
+                            label=nicer_tasknames[task_name]
+                        )
+                    
+                    
+                    else:
+                        
+                        short = data_short[feat_attr][metric]
+                        long = data_long[feat_attr][metric]
 
-                    ax[_i_].plot(
-                        ratios,
-                        [short["mean"], long["mean"]],
-                        marker=keep[feat_attr]["marker"],
-                        markersize = 15,
-                        linewidth = 3,
-                        label=nicer_tasknames[task_name]
-                    )
+                        ax.plot(
+                            ratios,
+                            [short["mean"], long["mean"]],
+                            marker=keep[feat_attr]["marker"],
+                            markersize = 15,
+                            linewidth = 3,
+                            label=nicer_tasknames[task_name]
+                        )
 
-                    ax[_i_].fill_between(
-                        ratios,
-                        [short["mean"]-short["std"]*0.05, long["mean"]-long["std"]*0.05],
-                        [short["mean"]+short["std"]*0.05, long["mean"]+long["std"]*0.05],
-                        alpha=0.2
-                    )    
+                        ax.fill_between(
+                            ratios,
+                            [short["mean"]-short["std"]*0.05, long["mean"]-long["std"]*0.05],
+                            [short["mean"]+short["std"]*0.05, long["mean"]+long["std"]*0.05],
+                            alpha=0.2
+             
+                        )
+        
+        
+        plt.xticks(ratios)
+        ax.set_xticklabels(["1x", "2x"], fontsize=25)
 
-        if _i_ == 1:
-
-            plt.xticks(ratios)
-            ax[_i_].set_xticklabels(["1x", "2x"], fontsize=15)
-
-            plt.yticks(fontsize=15)
+        plt.yticks(fontsize=20)
 
 
-            plt.tight_layout()
+        plt.tight_layout()
+
+
+        if "f1" in metric:
+
+            ax.legend(
+                loc = "upper right",
+                fontsize = 20
+            )
 
         else:
 
-            ax[_i_].legend(loc = "lower right", fontsize = 20)
-            ax[_i_].set_xticks([], [])
-            ax[_i_].set_yticklabels([round(x,1) for x in np.arange(0.0, 0.9, 0.1)], fontsize=15)
+#             ax.set_xticks([], [])
+            ax.set_yticklabels([round(x,1) for x in np.arange(0.0, 0.9, 0.1)], fontsize=20)
 
+        
+        if metric == "sufficiency":
+            
+            metr = "NormSuff"
+            
+        elif "f1" in metric:
+            
+            metr = "F1"
+            
+        else:
+            
+            metr = "NormComp"
 
-        ax[_i_].set_ylabel(metric.capitalize(), fontsize = 25)
+            
+#         ax.set_ylabel(metr, fontsize = 25)
     
-    os.makedirs(f"{save_to_dir}/doubling_the_length/", exist_ok = True)
+        os.makedirs(f"{save_to_dir}/doubling_the_length/", exist_ok = True)
 
-    fig.savefig(f"{save_to_dir}/doubling_the_length/all_tasks.png", dpi = 300, bbox_inches="tight")
-    
+        fig.savefig(f"{save_to_dir}/doubling_the_length/{metric}.png", dpi = 300, bbox_inches="tight")
+        
+        plt.close()
+
     print(f"** figures saved in --> {save_to_dir}/doubling_the_length/")
     
     return
 
-def plot_radars_(datasets : list = ["sst", "multirc", "agnews", "evinf"],
+def plot_radars_(
+    datasets : list = ["sst", "multirc", "agnews", "evinf"],
     metrics_folder : str = "faithfulness_metrics",
     rationale_type: str = "topk",
-    metric : str = "f1 macro avg - model labels",
+    metric_list : str = ["f1 macro avg - model labels", "sufficiency", "comprehensiveness"],
     var_or_fixed : str = "fixed",
-    plot_legend : bool = False,
-    y_label_at_metric : str ="f1 macro avg - model labels",
-    divergence : str = "jsd"):
+    divergence : str = "jsd",
+    legend_show : bool = False):
 
 
 
@@ -493,20 +440,10 @@ def plot_radars_(datasets : list = ["sst", "multirc", "agnews", "evinf"],
         "agnews" : "AG"
     }
 
-    assert metric in {"comprehensiveness", "sufficiency", "f1 macro avg - model labels", "f1 macro avg - actual labels"}, (
-        """
-        Must be one of the following metrics:
-        * comprehensiveness
-        * sufficiency
-        * f1 macro avg - model labels
-        * f1 macro avg - actual labels
-        """
-    )
-
-
+  
     collect_dfs = {}
 
-    for metric in {"comprehensiveness", "sufficiency", "f1 macro avg - model labels"}:
+    for metric in metric_list:
 
         new_data_means = {}
 
@@ -570,9 +507,7 @@ def plot_radars_(datasets : list = ["sst", "multirc", "agnews", "evinf"],
 
     fig = dict(data=data, layout=layout)
 
-    for metric in {"sufficiency", "comprehensiveness", "f1 macro avg - model labels"}:
-
-        legend_show = False#True if metric == "comprehensiveness" else False 
+    for metric in metric_list:
 
         colors = {
             "x∇x" : "red",
@@ -644,6 +579,8 @@ def plot_radars_(datasets : list = ["sst", "multirc", "agnews", "evinf"],
                 scale=5
             )
 
+            
+
         else:
 
             fig.write_image(
@@ -653,6 +590,12 @@ def plot_radars_(datasets : list = ["sst", "multirc", "agnews", "evinf"],
                 scale=5
             )
 
-    print(f"*** radar plots saved in --> graphs_and_tables/varying_feat_score_RADAR/{rationale_type}")
+    if legend_show:
+
+        print(f"*** LEGEND FOR -> radar plots saved in --> graphs_and_tables/varying_feat_score_RADAR/{rationale_type}")
+
+    else:
+
+        print(f"*** radar plots saved in --> graphs_and_tables/varying_feat_score_RADAR/{rationale_type}")
 
     return
