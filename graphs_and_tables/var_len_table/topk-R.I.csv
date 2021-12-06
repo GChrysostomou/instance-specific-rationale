@@ -1,8 +1,0 @@
-,SST-f1 macro avg - model labels-topk,MultiRC-f1 macro avg - model labels-topk,AG-f1 macro avg - model labels-topk,Ev.Inf.-f1 macro avg - model labels-topk
-	extbf{DeepLift},1.0,1.0,1.0,1.0
-	extbf{LIME},1.1,0.9,1.0,1.0
-$\boldsymbol{\alpha}$,1.1,1.0,1.0,0.8
-$\boldsymbol{\alpha\nabla\alpha}$,1.0,1.0,1.0,0.8
-	extbf{IG},1.0,0.9,1.0,1.0
-"$\boldsymbol{\mathbf{x}
-abla\mathbf{x}}$",1.0,0.9,1.0,0.9

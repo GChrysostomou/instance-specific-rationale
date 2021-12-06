@@ -1,7 +1,0 @@
-,SST-f1 macro avg - model labels-contigious,MultiRC-f1 macro avg - model labels-contigious,AG-f1 macro avg - model labels-contigious,Ev.Inf.-f1 macro avg - model labels-contigious
-fixed,70.89,68.96,89.18,55.32
-var,68.8,57.07,87.7,45.69
-Fixed-Length + Var.-Feat,69.8,55.0,86.9,50.5
-Fixed-Length + Var.-Feat + Var.-Type,56.6,43.7,68.7,24.0
-Var.-Length + Var.-Feat,66.4,45.1,85.3,40.7
-Var.-Length + Var.-Feat + Var.-Type,56.7,38.0,69.6,19.8

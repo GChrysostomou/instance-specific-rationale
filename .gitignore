@@ -1,3 +1,4 @@
+graphs_and_tables/
 results/
 *.ipynb
 datasets/*/data/*/*.npy
