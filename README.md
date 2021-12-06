@@ -1,6 +1,4 @@
-## TaSc
-
-Repository for the paper *"Flexible Instance-Specific Rationalization for NLP Models"*
+Repository for the paper *"Flexible Instance-Specific Rationalization for NLP Models"* to appear at AAAI 2022.
 
 ## Prerequisites
 
