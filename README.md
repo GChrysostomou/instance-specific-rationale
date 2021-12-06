@@ -67,4 +67,4 @@ python evaluate_masked.py --dataset $dataset \
 
 ## Summarising results
 
-Following the evaluation you can use [src/generate_results/recreate_paper.py](https://github.com/GChrysostomou/instance-specific-rationale/blob/main/recreate_paper.py) to recreate the tables and figures seen in the paper. 
+Following the evaluation you can use [src/generate_results/recreate_paper.py](https://github.com/GChrysostomou/instance-specific-rationale/blob/main/src/generate_results/recreate_paper.py) to recreate the tables and figures seen in the paper. 
