@@ -1,3 +1,5 @@
+results/
+*.ipynb
 datasets/*/data/*/*.npy
 datasets/*/*.csv
 datasets/*/*.json
