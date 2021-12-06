@@ -510,13 +510,24 @@ def plot_radars_(
     for metric in metric_list:
 
         colors = {
-            "x∇x" : "red",
+            "x∇x" : "lime",
             "IG" : "orange",
-            "DeepLift" : "orangered",
+            "DeepLift" : "purple",
             "α" : "green",
-            "α∇α" : "olive",
-            "LIME" : "darkgrey"
+            "α∇α" : "orangered",
+            "LIME" : "darkgrey",
+            "Random" : "black"
 
+        }
+        
+        dashed = {
+            "x∇x" : "dot",
+            "IG" : "dot",
+            "DeepLift" : "longdash",
+            "α" : "longdashdot",
+            "α∇α" : "longdashdot",
+            "LIME" : "longdash",
+            "Random" : "dashdot"    
         }
 
         marker_symbol = {
@@ -548,13 +559,13 @@ def plot_radars_(
 
             else:
                 sor_data.append(go.Scatterpolar(r=np.asarray(temp), theta=categories, name=feat_attr, line = {
-                    "color" : colors[feat_attr], "dash": "dash"}, marker_symbol=marker_symbol[feat_attr],
+                    "color" : colors[feat_attr], "dash": dashed[feat_attr]}, marker_symbol=marker_symbol[feat_attr],
                                                marker_size=15))
 
         fig = go.Figure(
             data=sor_data,
             layout=go.Layout(
-                polar={'radialaxis': {'visible': True}},
+                polar={'radialaxis': {'visible': True}, 'bgcolor' : 'aliceblue'},
                 showlegend=legend_show,
                 font = {"size": 26},
                 margin=go.layout.Margin(
