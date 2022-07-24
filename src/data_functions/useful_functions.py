@@ -5,7 +5,7 @@ import pandas as pd
 import json
 import gc
 
-nlp = spacy.load('en', disable=['parser', 'tagger', 'ner'])
+nlp = spacy.load('en_core_web_sm', disable=['parser', 'tagger', 'ner'])
 
 
 def describe_data_stats(path_to_data, path_to_stats):

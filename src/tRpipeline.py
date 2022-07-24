@@ -270,7 +270,8 @@ def test_predictive_performance(test_data_loader, for_rationale = False, output_
     else:
     
         fname =  args["model_dir"] + args["model_abbreviation"] + "_predictive_performances.json"
-
+    print('==========================')
+    print(stats_report)
     with open(fname, 'w') as file:
         json.dump(
             stats_report,

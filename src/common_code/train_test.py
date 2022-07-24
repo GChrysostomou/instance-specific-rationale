@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import os
 
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
-
+CUDA_LAUNCH_BLOCKING=1
 
 import json 
 import logging
@@ -27,7 +27,8 @@ class checkpoint_holder(object):
         self.storer = {}
 
     def _store(self, model, point : int, epoch : int, dev_loss, dev_results : dict) -> dict:
-        
+        print('self.dev_loss: ', str(self.dev_loss))
+        print('dev_loss: ', str(dev_loss))
         if self.dev_loss > dev_loss:
             
             self.dev_loss = dev_loss
@@ -38,6 +39,7 @@ class checkpoint_holder(object):
             self.storer["dev_loss"] = self.dev_loss
 
             torch.save(model.state_dict(), self.save_model_location)
+            print('------ model saved at: ', str(self.save_model_location))
 
         return self.storer
         
@@ -49,7 +51,7 @@ with open(config.cfg.config_directory + 'instance_config.json', 'r') as f:
 
 
 def train_model(model, training, development, loss_function, optimiser, seed,
-            run,epochs = 10, cutoff = True, save_folder  = None, 
+            run, epochs = 10, cutoff = True, save_folder  = None, 
             cutoff_len = 2):
     
     """ 
@@ -102,6 +104,7 @@ def train_model(model, training, development, loss_function, optimiser, seed,
     model.train()
 
     for epoch in range(epochs):
+        print('+++++++++running epoch :',epoch)
         
         total_loss = 0
 
