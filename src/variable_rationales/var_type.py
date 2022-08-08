@@ -24,6 +24,9 @@ np.random.seed(25)
 
 def select_between_types_(data_split_name,model_random_seed):
 
+    print('===============')
+    print(' starting select between types (inside)')
+
     desc = f'selecting between rationale types -> {data_split_name}'
 
     ## load topk rationale_masks
@@ -36,6 +39,8 @@ def select_between_types_(data_split_name,model_random_seed):
 
     ## check if we have topk rationales
     if os.path.exists(fname + data_split_name + "-rationale_metadata.npy"):
+
+        print( fname + data_split_name + "-rationale_metadata.npy EXIT !")
 
         topk_rationales = np.load(fname + data_split_name + "-rationale_metadata.npy", allow_pickle = True).item()
         print(f"*** loaded succesfully -> {fname}{data_split_name}-rationale_metadata.npy")
@@ -77,6 +82,7 @@ def select_between_types_(data_split_name,model_random_seed):
         contig = cont_rationales[annot_id]["var-len_var-feat"]
         topk = topk_rationales[annot_id]["var-len_var-feat"]
 
+
         if contig["variable-length divergence"] > topk["variable-length divergence"]:
 
             topk_rationales[annot_id]["var-len_var-feat_var-type"] =  cont_rationales[annot_id]["var-len_var-feat"]
@@ -95,7 +101,7 @@ def select_between_types_(data_split_name,model_random_seed):
 
             topk_rationales[annot_id]["fixed-len_var-feat_var-type"] =  cont_rationales[annot_id]["fixed-len_var-feat"]
             cont_rationales[annot_id]["fixed-len_var-feat_var-type"] =  cont_rationales[annot_id]["fixed-len_var-feat"]
-        
+
         else:
 
             topk_rationales[annot_id]["fixed-len_var-feat_var-type"] =  topk_rationales[annot_id]["fixed-len_var-feat"]
@@ -112,7 +118,14 @@ def select_between_types_(data_split_name,model_random_seed):
         "topk",
         ""
     )
+    import random
+    random_id = random.choice(list(topk_rationales.keys()))
 
+    print('  ################# ')
+    if 'fixed-len_var-feat_var-type' in topk_rationales[random_id].keys():
+        print('###### - fixed-len_var-feat_var-type -  exit')
+    else:
+        print('###### - fixed-len_var-feat_var-type -  NOT exit')
     np.save(fname + data_split_name + "-rationale_metadata.npy", topk_rationales)
 
     ## save contigious rationale_masks

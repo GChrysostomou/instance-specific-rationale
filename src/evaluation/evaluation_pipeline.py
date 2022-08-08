@@ -48,7 +48,8 @@ class evaluate():
 
         logging.info(f" *** there are {len(self.models)} models in :  {model_path}")
 
-    def register_importance_(self, data, data_split_name, no_of_labels, max_seq_len, tokenizer, model = None):
+    #def register_importance_(self, data, data_split_name, model = None):
+    def register_importance_(self, data, data_split_name, no_of_labels, max_seq_len, tokenizer, model = None): # debug by cass
         
         if model:
 
@@ -66,7 +67,7 @@ class evaluate():
                 model_random_seed = self.model_random_seed,
                 no_of_labels = no_of_labels,
                 max_seq_len = max_seq_len,
-                tokenizer = tokenizer
+                tokenizer = tokenizer,
             )
 
             extract_shap_values_(
@@ -74,9 +75,9 @@ class evaluate():
                 data = data,
                 data_split_name = data_split_name,
                 model_random_seed = self.model_random_seed,
-                no_of_labels = no_of_labels,
-                max_seq_len = max_seq_len,
-                tokenizer = tokenizer
+                # no_of_labels = no_of_labels,
+                # max_seq_len = max_seq_len,
+                # tokenizer = tokenizer
             )
 
         else:
@@ -110,9 +111,9 @@ class evaluate():
                     data = data,
                     data_split_name = data_split_name,
                     model_random_seed = self.model_random_seed,
-                    no_of_labels = no_of_labels,
-                    max_seq_len = max_seq_len,
-                    tokenizer = tokenizer
+                    no_of_labels = data.nu_of_labels,
+                    max_seq_len = data.max_len,
+                    tokenizer = data.tokenizer,
                 )
 
                 extract_shap_values_(
@@ -120,16 +121,17 @@ class evaluate():
                     data = data,
                     data_split_name = data_split_name,
                     model_random_seed = self.model_random_seed,
-                    no_of_labels = no_of_labels,
-                    max_seq_len = max_seq_len,
-                    tokenizer = tokenizer
+                    #no_of_labels = data.nu_of_labels,
+                    #max_seq_len = data.max_len,
+                    #tokenizer = data.tokenizer
                 )
 
         return
 
     def prepare_for_rationale_creation_(self,data):
 
-        for model_name in self.models:
+        for i, model_name in enumerate(self.models):
+            print('i = ', i)
 
             model = bert(
                 output_dim = self.output_dims
@@ -148,8 +150,9 @@ class evaluate():
 
             ## train neglected as we are evaluating on dev and test
             for data_split_name, data_split in {"test":  data.test_loader , \
+                                                
                                                 "dev":  data.dev_loader}.items():
-
+                                                # added "train" only for creating FA --> "train": data.train_loader, \
 
                 ## register importance scores if they do not exist
                 self.register_importance_(
@@ -158,7 +161,7 @@ class evaluate():
                     model = model,
                     no_of_labels = data.nu_of_labels,
                     max_seq_len = data.max_len,
-                    tokenizer = data.tokenizer
+                    tokenizer = data.tokenizer  # comment out by cass
                 )
 
                 get_rationale_metadata_(
@@ -168,10 +171,12 @@ class evaluate():
                     model_random_seed = self.model_random_seed
                 )
 
+
                 select_between_types_(
                     data_split_name = data_split_name,
                     model_random_seed = self.model_random_seed
                 )
+                print(' DONE select between types')
 
 
         return
@@ -286,7 +291,7 @@ class evaluate():
         compute_faithfulness_(
             rationale_metadata=rationale_metadata,
             prediction_data=prediction_data,
-            split_name = "test"
+            split_name = "test",
         )
 
         

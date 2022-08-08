@@ -19,7 +19,7 @@ parser.add_argument(
     "--dataset", 
     type = str, 
     help = "select dataset / task", 
-    default = "sst", 
+    default = "evinf", 
     choices = ["sst", "evinf", "agnews", "multirc"]
 )
 
@@ -34,7 +34,7 @@ parser.add_argument(
     "--model_dir",   
     type = str, 
     help = "directory to save models", 
-    default = "full_text_models/"
+    default = "trained_models/"
 )
 
 parser.add_argument(
@@ -46,7 +46,8 @@ parser.add_argument(
 parser.add_argument(
     '--evaluate_models', 
     help='test predictive performance in and out of domain', 
-    action='store_true'
+    action='store_true',
+    default=True,
 )
 
 user_args = vars(parser.parse_args())

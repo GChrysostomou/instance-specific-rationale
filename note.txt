@@ -1,0 +1,9 @@
+
+
+try different classifier
+==========
+create dataset
+
+train model by loop for different sampling size
+
+measure 

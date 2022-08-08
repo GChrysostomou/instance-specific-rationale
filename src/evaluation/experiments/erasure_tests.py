@@ -50,14 +50,18 @@ def conduct_tests_(model, data, split, model_random_seed):
         args["thresholder"],
         f"{split}-rationale_metadata.npy"
     )
-
-     ## retrieve importance scores
+    print('load rationale masks at: ', fname)
+    
+    ## retrieve importance scores
     rationale_metadata = np.load(fname, allow_pickle = True).item()
+    #print('retrieve importance scores: ', rationale_metadata)
 
     faithfulness_scores = {}
 
-    for batch in data:
-        
+    for i, batch in enumerate(data):
+        if i == 0:
+            print('the first batch in data for reference: ')
+            print(batch)
         model.eval()
         model.zero_grad()
 
@@ -72,6 +76,9 @@ def conduct_tests_(model, data, split, model_random_seed):
                 "special_tokens" : batch["special tokens"],
                 "retain_gradient" : False ## we do not need it
             }
+        # if i == 0:
+        #     print('the first batch in data after assignment for reference: ')
+        #     print(batch)
             
         assert batch["input_ids"].size(0) == len(batch["labels"]), "Error: batch size for item 1 not in correct position"
         
@@ -142,7 +149,6 @@ def conduct_tests_(model, data, split, model_random_seed):
                     var_alias = "fixed"
 
                 for feat_attribution_name in ["deeplift","lime", "attention", "ig", "gradients", "scaled attention", "random", "--var-feat", "--var-all"]:
-
                         if feat_attribution_name == "--var-all":
     
                             feat_attribution_name = var_alias + "-len_var-feat_var-type"
@@ -155,8 +161,8 @@ def conduct_tests_(model, data, split, model_random_seed):
                             batch_data = batch,
                             metadata = rationale_metadata,
                             target_key =  f"{length_of_rationale} rationale mask",
-                            extra_layer = feat_attribution_name
-                        )
+                            extra_layer = feat_attribution_name,
+                        ) # bug
 
                         ## measuring faithfulness
                         comp, reduced_probs  = normalized_comprehensiveness_(
@@ -213,7 +219,7 @@ def conduct_tests_(model, data, split, model_random_seed):
                 file,
                 indent = 4
             ) 
-
+    print(' save faithful metrics json file at: ', fname)
     averages = {}
     f1s_model = {
         "f1 macro avg - model labels" : {},

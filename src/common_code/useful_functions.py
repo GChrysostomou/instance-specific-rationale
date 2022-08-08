@@ -91,17 +91,27 @@ def batch_from_dict(batch_data, metadata, target_key = "original prediction", ex
 
     new_tensor = []
 
+    # print(batch_data)
+    # print(' DONE BATCH DATA PRESENT')
+
     for _id_ in batch_data["annotation_id"]:
         
         ## for double nested dics
+        
         if extra_layer :
-
+            # print(' extra layer')
+            # print(target_key) # fixed rationale mask
+            # # print('_id_',_id_)
+            # #print(metadata[_id_])
+            # print(extra_layer)
+            # print(str(extra_layer))
+            # print(metadata[_id_][extra_layer])
             new_tensor.append(
                 metadata[_id_][extra_layer][target_key]
             )
            
         else:
-
+            #print('no extra layer')
             new_tensor.append(
                 metadata[_id_][target_key]
             )

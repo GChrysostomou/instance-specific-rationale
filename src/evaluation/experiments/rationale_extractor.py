@@ -126,7 +126,7 @@ def extract_importance_(model, data, data_split_name, model_random_seed):
         normalised_attention_grads = torch.masked_fill(attention_gradients, ~batch["query_mask"].bool(), float("-inf"))
 
 
-        import pdb; pdb.set_trace()
+        #import pdb; pdb.set_trace()
         for _i_ in range(attentions.size(0)):
 
             annotation_id = batch["annotation_id"][_i_]
@@ -151,7 +151,9 @@ def extract_importance_(model, data, data_split_name, model_random_seed):
 from src.evaluation.experiments.lime_predictor import predictor
 from lime.lime_text import LimeTextExplainer
 
-def extract_lime_scores_(model, data, data_split_name, model_random_seed, no_of_labels, max_seq_len, tokenizer):
+def extract_lime_scores_(model, data, data_split_name, model_random_seed, 
+                        no_of_labels, max_seq_len, tokenizer,
+                        ):
 
     
     fname = os.path.join(
@@ -176,6 +178,24 @@ def extract_lime_scores_(model, data, data_split_name, model_random_seed, no_of_
 
     train_ls = {}
     ## we are interested in token level features
+    #print(data.drop_last)
+    #aaa = iter(data)
+    #print(data.next())
+    #print(data.test_loader)
+    #aaa = getattr(data, data_split_name+"_loader")
+    #print(aaa)
+
+    from torch.utils.data import DataLoader
+    #print(data_split_name)
+    #print(isinstance(data, DataLoader))
+    # print(data.test_loader)
+
+    if isinstance(data, DataLoader):
+        pass
+    else:
+        data = getattr(data, data_split_name+"_loader")
+
+
     for batch in data:
         
         for _j_ in range(batch["input_ids"].size(0)):
@@ -241,7 +261,9 @@ def extract_lime_scores_(model, data, data_split_name, model_random_seed, no_of_
 from src.evaluation.experiments.shap_predictor import ShapleyModelWrapper
 from captum.attr import DeepLift
 
-def extract_shap_values_(model, data, data_split_name, model_random_seed, no_of_labels, max_seq_len, tokenizer):
+def extract_shap_values_(model, data, data_split_name, model_random_seed, 
+                            #no_of_labels, max_seq_len, tokenizer,
+                            ):
     
     
     fname = os.path.join(

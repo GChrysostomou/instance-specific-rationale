@@ -270,8 +270,7 @@ def test_predictive_performance(test_data_loader, for_rationale = False, output_
     else:
     
         fname =  args["model_dir"] + args["model_abbreviation"] + "_predictive_performances.json"
-    print('==========================')
-    print(stats_report)
+
     with open(fname, 'w') as file:
         json.dump(
             stats_report,
@@ -282,23 +281,15 @@ def test_predictive_performance(test_data_loader, for_rationale = False, output_
     df = pd.DataFrame(stats_report)
 
     if for_rationale:
-
         if variable: 
-
             df.to_csv(os.path.join(args["model_dir"], args["thresholder"], "") + args["importance_metric"] + "_" + args["model_abbreviation"] + "_predictive_performances-variable.csv")
-
         else:
-
             df.to_csv(os.path.join(args["model_dir"], args["thresholder"], "") + args["importance_metric"] + "_" + args["model_abbreviation"] + "_predictive_performances.csv")
     
-    elif variable: 
-            
+    elif variable:        
         df.to_csv(args["model_dir"] + args["model_abbreviation"] + "_predictive_performances-variable.csv")
-
     else:
-    
         df.to_csv(args["model_dir"] + args["model_abbreviation"] + "_predictive_performances.csv")
-
     return stats_report
 
 def keep_best_model_(keep_models = False, for_rationale = False):
@@ -339,11 +330,17 @@ def keep_best_model_(keep_models = False, for_rationale = False):
 
             to_rm_models, _ = zip(*sorted(dev_stats_cleared.items(), key=lambda item: item[1])[:-1])
 
+        print('to_rm_models: ', to_rm_models)
         for rmvd_model in to_rm_models:
             
-            print("*** removing model {}".format(rmvd_model))
+            print("- {}".format(rmvd_model))
 
-            os.remove(rmvd_model)
+            try:
+                os.remove(rmvd_model)
+                print(rmvd_model, "has just been removed")
+
+            except:
+                print(rmvd_model, "is not exit, removed already maybe")
 
     return
 

@@ -34,7 +34,8 @@ class bert(nn.Module):
         self.output_dim = output_dim
         self.dropout = dropout
 
-        self.bert_config = AutoConfig.from_pretrained(args["model"], output_attentions = True)   
+        self.bert_config = AutoConfig.from_pretrained(
+            args["model"], output_attentions = True)   
         
         self.wrapper = BertModelWrapper(
             AutoModel.from_pretrained(
@@ -54,7 +55,7 @@ class bert(nn.Module):
     
         if "ig" not in inputs: inputs["ig"] = int(1)
 
-        self.output, pooled_output, attention_weights = self.wrapper(
+        _, pooled_output, attention_weights = self.wrapper(
             inputs["input_ids"], 
             attention_mask = inputs["attention_mask"],
             token_type_ids = inputs["token_type_ids"],
@@ -63,13 +64,16 @@ class bert(nn.Module):
 
 
         # to retain gradients
-        self.weights_or = attention_weights[-1]
+        self.weights_or = torch.tensor(
+            attention_weights[-1], requires_grad=True)  # debug by cass
 
         if inputs["retain_gradient"]:
             
-            self.weights_or.retain_grad()
-            self.wrapper.word_embeds.retain_grad()
-            # self.wrapper.model.embeddings.word_embeddings.weight.retain_grad()
+            # self.weights_or.retain_grad() 
+            # self.wrapper.word_embeds.retain_grad()
+            self.wrapper.model.embeddings.word_embeddings.weight.retain_grad()
+            #self.wrapper.word_embeds.retain_grad()
+            self.weights_or.retain_grad() # debug comment out by cass
 
 	    # attention weight indexing same as Learning to Faithfully Rationalise by Construction (FRESH)
         self.weights = self.weights_or[:, :, 0, :].mean(1)	

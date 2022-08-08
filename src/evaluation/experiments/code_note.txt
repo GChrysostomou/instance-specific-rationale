@@ -1,0 +1,6 @@
+feat_attribution_name:
+
+"deeplift","lime", "attention", "ig", "gradients", "scaled attention", "random", "--var-feat", "--var-all"
+
+
+length of rationale : fixed(fixed) / variable(var) 

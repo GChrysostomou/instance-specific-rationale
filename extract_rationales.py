@@ -26,7 +26,7 @@ parser.add_argument(
     "--dataset", 
     type = str, 
     help = "select dataset / task", 
-    default = "sst", 
+    default = "evinf", 
     choices = ["sst", "evinf", "multirc", "agnews"]
 )
 
@@ -41,7 +41,7 @@ parser.add_argument(
     "--model_dir",   
     type = str, 
     help = "directory to save models", 
-    default = "full_text_models/"
+    default = "trained_models/"
 )
 
 parser.add_argument(
@@ -126,7 +126,7 @@ data = classification_dataholder(
     args["data_dir"], 
     b_size = args["batch_size"],
     return_as_frames = True,
-    stage = "extract"
+    stage = "extract",
 )
 
 evaluator = evaluation_pipeline.evaluate(
@@ -134,8 +134,12 @@ evaluator = evaluation_pipeline.evaluate(
     output_dims = data.nu_of_labels
 )
 
+
+print(' ============================ ')
+print(' prepare_for_rationale_creation_ ')
 evaluator.prepare_for_rationale_creation_(data)
 
+evaluator.register_importance_(data, data_split_name='test', no_of_labels=data.nu_of_labels, max_seq_len=data.max_len, tokenizer=data.tokenizer)
 evaluator.create_rationales_(data)
 
 del data

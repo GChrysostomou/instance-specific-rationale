@@ -104,7 +104,6 @@ def train_model(model, training, development, loss_function, optimiser, seed,
     model.train()
 
     for epoch in range(epochs):
-        print('+++++++++running epoch :',epoch)
         
         total_loss = 0
 
