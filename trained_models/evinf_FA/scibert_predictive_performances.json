@@ -1,0 +1,18 @@
+{
+    "sci10": {
+        "model": "/home/cass/PycharmProjects/BP-rationales/trained_models/evinf_FA/scibert10.pt",
+        "f1": 0.6130415224236735,
+        "loss": 3.4277822971343994,
+        "ece-score": 0.09596050675544475
+    },
+    "sci5": {
+        "model": "/home/cass/PycharmProjects/BP-rationales/trained_models/evinf_FA/scibert5.pt",
+        "f1": 0.5381493506493507,
+        "loss": 3.939362585544586,
+        "ece-score": 0.10988070919281906
+    },
+    "mean-f1": 0.5755954365365121,
+    "std-f1": 0.03744608588716142,
+    "mean-ece": 0.10292060797413191,
+    "std-ece": 0.006960101218687155
+}
