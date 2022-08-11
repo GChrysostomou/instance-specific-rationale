@@ -20,14 +20,14 @@ parser.add_argument(
     type = str, 
     help = "select dataset / task", 
     default = "evinf", 
-    choices = ["sst", "evinf", "agnews", "multirc"]
+    choices = ["sst", "evinf", "agnews", "multirc", "evinf_FA"]
 )
 
 parser.add_argument(
     "--data_dir", 
     type = str, 
     help = "directory of saved processed data", 
-    default = "FA_datasets/"
+    default = "datasets/"
 )
 
 parser.add_argument(
@@ -47,7 +47,7 @@ parser.add_argument(
     '--evaluate_models', 
     help='test predictive performance in and out of domain', 
     action='store_true',
-    default=True,
+    default=False,
 )
 
 user_args = vars(parser.parse_args())
@@ -97,8 +97,27 @@ logging.info("\n ----------------------")
 
 
 from src.data_functions.dataholder import classification_dataholder as dataholder
-from src.tRpipeline import train_and_save, test_predictive_performance, keep_best_model_
+from src.tRpipeline import test_predictive_performance_TL, train_and_save, test_predictive_performance, keep_best_model_
 from src.data_functions.useful_functions import describe_data_stats
+
+from sklearn.model_selection import train_test_split
+import pandas as pd
+saved_data_path = user_args['data_dir'] + user_args['dataset'] 
+full_FA = pd.read_csv(saved_data_path + '/data/full_FAdata.csv')
+train, test = train_test_split(full_FA, test_size=0.4, random_state=user_args['seed'])
+dev, test = train_test_split(test, test_size=0.5, random_state=user_args['seed'])
+
+data_folder_path = user_args['data_dir'] + user_args['dataset'] 
+train['exp_split'] = 'train'
+dev['exp_split'] = 'dev'
+
+# dataset_name = str(user_args['dataset'] + '_FA')
+train.to_csv(saved_data_path + '/data/train.csv')
+print(data_folder_path + '/data/train.csv')
+test.to_csv(saved_data_path + '/data/test.csv')
+dev.to_csv(saved_data_path + '/data/dev.csv')
+
+
 
 
 data_desc = describe_data_stats(
@@ -122,6 +141,7 @@ gc.collect()
 # training the models and evaluating their predictive performance
 # on the full text length
 
+
 data = dataholder(
         path = args["data_dir"], 
         b_size = args["batch_size"],
@@ -136,7 +156,7 @@ if args["evaluate_models"]:
         test_data_loader = data.test_loader, 
         for_rationale = False, 
         output_dims = data.nu_of_labels,
-        save_output_probs = True
+        save_output_probs = True,
     )    
 
     del data
@@ -152,5 +172,5 @@ else:
         train_data_loader = data.train_loader, 
         dev_data_loader = data.dev_loader, 
         for_rationale = False, 
-        output_dims = data.nu_of_labels
+        output_dims = data.nu_of_labels,
     )

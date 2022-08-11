@@ -1,0 +1,12 @@
+{
+    "pretrained5": {
+        "model": "/home/cass/PycharmProjects/BP-rationales/trained_models/evinf_FA/pretrained5.pt",
+        "f1": 0.40182624484950064,
+        "loss": 3.938914246029324,
+        "ece-score": 0.04671111226909691
+    },
+    "mean-f1": 0.40182624484950064,
+    "std-f1": 0.0,
+    "mean-ece": 0.04671111226909691,
+    "std-ece": 0.0
+}

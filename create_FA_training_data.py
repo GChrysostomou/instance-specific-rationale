@@ -102,14 +102,11 @@ logging.info("\n ----------------------")
 
 original_data_path = user_args['data_dir'] + user_args['dataset'] + '/data/'
 
-saved_data_path = user_args['FA_data_dir'] + user_args['dataset'] + '/data/'
-
-
+saved_data_path = user_args['data_dir'] + user_args['dataset'] + '_FA/data/'
 os.makedirs(saved_data_path, exist_ok = True)
 
-split = 'test'
-split_name = split+'.csv'
-original_data = original_data_path + split_name
+
+original_data = original_data_path + 'test.csv'
 meta_result_data_path = 'extracted_rationales/' + user_args['dataset'] + '/topk/test-rationale_metadata.npy'
 
 metadata = np.load(meta_result_data_path, allow_pickle=True).item(0)
@@ -119,16 +116,44 @@ for id in id_list:
     best_feat = metadata[id]['var-len_var-feat_var-type']['feature attribution name']
     best_feat_list.append(best_feat)
 
+import collections
+freq_rank = collections.Counter(best_feat_list).most_common()
+
+common_selected_FA = []
+for FA in freq_rank:
+    FA_ratio = FA[1]/len(best_feat_list)
+    if FA_ratio > 0.1:
+        common_selected_FA.append(FA[0])
+
+print('common_selected_FA:  ', common_selected_FA)
+
+
 df = pd.DataFrame(list(zip(id_list, best_feat_list)),
             columns =['annotation_id', 'feat'])
 original_data = pd.read_csv(original_data)
 
 FAdata = pd.merge(original_data, df, on="annotation_id")
-FAdata['label_id'] = FAdata['feat']
-FAdata['label'] = pd.factorize(FAdata['label_id'])[0]
+FAdata['label_id'] = best_feat_list # change original label to features 
 
+
+converted_label_id_list = []
+print(FAdata['label_id'])
+
+for label in FAdata['label_id']:
+    if label not in common_selected_FA:
+        converted_label_id_list.append('others')
+    else:
+        converted_label_id_list.append(label)
+
+FAdata['label_id'] = converted_label_id_list
+print(collections.Counter(converted_label_id_list).most_common())
+
+#df.loc[df['Population(B)'] < 1] = 0
+FAdata['label'] = pd.factorize(FAdata['label_id'])[0]
+print(FAdata['label'])
 
 FAdata.to_csv(saved_data_path + 'full_FAdata.csv')
+print(' ========= full test saved at: ', saved_data_path + 'full_FAdata.csv')
 print('length ', len(FAdata))
 
 

@@ -236,7 +236,7 @@ def test_model(model, loss_function, data, save_output_probs = False, random_see
             
             assert batch["input_ids"].size(0) == len(batch["labels"]), "Error: batch size for item 1 not in correct position"
             
-            yhat, _ =  model(**batch)
+            yhat, _ =  model(**batch)  # get results
 
             if len(yhat.shape) == 1:
                 
@@ -311,3 +311,148 @@ def test_model(model, loss_function, data, save_output_probs = False, random_see
         return results, (total_loss * data.batch_size / len(data)) , to_save_probs
        
     return results, (total_loss * data.batch_size / len(data)) 
+
+
+
+def train_model_TL(model, training, development, loss_function, optimiser, seed,
+            run, epochs = 10, cutoff = True, save_folder  = None, 
+            cutoff_len = 2):
+    
+    """ 
+    Trains the model and saves it at required path
+    Input: 
+        "model" : initialised pytorch model
+        "training" : training dataset
+        "development" : development dataset
+        "loss_function" : loss function to calculate loss at output
+        "optimiser" : pytorch optimiser (Adam)
+        "run" : which of the 5 training runs is this?
+        "epochs" : number of epochs to train the model
+        "cutoff" : early stopping (default False)
+        "cutoff_len" : after how many increases in devel loss to cut training
+        "save_folder" : folder to save checkpoints
+    Output:
+        "saved_model_results" : results for best checkpoint of this run
+        "results_for_run" : analytic results for all epochs during this run
+    """
+
+    results = []
+    
+    results_for_run = ""
+    
+    pbar = trange(len(training) *epochs, desc='running for seed ' + run, leave=True, 
+    bar_format = "{l_bar}{bar}{elapsed}<{remaining}")
+    
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = False
+    torch.manual_seed(int(seed))
+    np.random.seed(int(seed))
+    torch.cuda.manual_seed(int(seed))
+
+    checkpoint = checkpoint_holder(save_model_location = save_folder)
+
+    total_steps = len(training) * args["epochs"]
+    scheduler = get_linear_schedule_with_warmup(
+                                                optimiser,
+                                                num_warmup_steps=int(len(training)*.1),
+                                                num_training_steps=total_steps
+                                                )
+    every = round(len(training) / 3)
+
+    logging.info("***************************************")
+    logging.info("Training on seed {}".format(run))
+    logging.info("*saving checkpoint every {} iterations".format(every))
+
+    if every == 0: every = 1
+
+    model.train()
+
+    for epoch in range(epochs):
+        
+        total_loss = 0
+
+        checks = 0
+               
+        for batch in training:
+            
+            model.zero_grad()
+        
+            batch = {
+                "input_ids" : batch["input_ids"].squeeze(1).to(device),
+                "lengths" : batch["lengths"].to(device),
+                "labels" : batch["label"].to(device),
+                "token_type_ids" : batch["token_type_ids"].squeeze(1).to(device),
+                "attention_mask" : batch["attention_mask"].squeeze(1).to(device),
+                "retain_gradient" : False
+            }
+
+            assert batch["input_ids"].size(0) == len(batch["labels"]), "Error: batch size for item 1 not in correct position"
+
+            yhat, _ =  model(**batch)
+
+            if len(yhat.shape) == 1:
+                
+                yhat = yhat.unsqueeze(0)
+            
+            if args.inherently_faithful:
+
+                loss = model._joint_rationale_objective(
+                    predicted_logits = yhat,
+                    actual_labels = batch["labels"]
+                )
+
+            else:
+
+                loss = loss_function(yhat, batch["labels"]) 
+
+            total_loss += loss.item()
+
+            loss.backward()
+
+            torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm = 1.)
+            
+            optimiser.step()
+            scheduler.step()
+            optimiser.zero_grad()
+
+            pbar.update(1)
+            pbar.refresh()
+                
+            if checks % every == 0:
+
+                dev_results, dev_loss = test_model(
+                    model = model, 
+                    loss_function = loss_function, 
+                    data = development
+                )
+
+                checkpoint_results = checkpoint._store(
+                    model = model, 
+                    point = checks, 
+                    epoch = epoch, 
+                    dev_loss = dev_loss, 
+                    dev_results = dev_results)
+
+
+            checks += 1
+
+        dev_results, dev_loss = test_model(
+                                                model, 
+                                                loss_function, 
+                                                development
+                                            )    
+
+        results.append([epoch, dev_results["macro avg"]["f1-score"], dev_loss, dev_results])
+        
+        logging.info("*** epoch - {} | train loss - {} | dev f1 - {} | dev loss - {}".format(epoch + 1,
+                                    round(total_loss * training.batch_size / len(training),2),
+                                    round(dev_results["macro avg"]["f1-score"], 3),
+                                    round(dev_loss, 2)))
+
+        
+        results_for_run += "epoch - {} | train loss - {} | dev f1 - {} | dev loss - {} \n".format(epoch + 1,
+                                    round(total_loss * training.batch_size / len(training),2),
+                                    round(dev_results["macro avg"]["f1-score"], 3),
+                                    round(dev_loss, 2))
+
+    return checkpoint_results, results_for_run

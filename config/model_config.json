@@ -9,6 +9,13 @@
         "lr_classifier" : 1e-4, 
         "model" : "allenai/scibert_scivocab_uncased"
     },
+    "evinf_FA" : {
+        "rationale_length" : 0.1,
+        "batch_size": 4,
+        "lr_bert" : 1e-5,
+        "lr_classifier" : 1e-4, 
+        "model" : "allenai/scibert_scivocab_uncased"
+    },
     "sst" : {
         "rationale_length" : 0.2,
         "batch_size": 8,

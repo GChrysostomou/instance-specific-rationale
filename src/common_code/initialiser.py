@@ -82,7 +82,7 @@ def prepare_config(user_args : dict, stage : str = "train") -> dict:
   else: eval_dir = None
 
 
-  if user_args["dataset"] == "evinf" or user_args["dataset"] == "multirc": query = True,
+  if "evinf" in user_args["dataset"] or "multirc" in user_args["dataset"]: query = True,
   else: query = False
 
   if stage == "evaluate" or stage == "extract": user_args["seed"] = None
@@ -97,8 +97,12 @@ def prepare_config(user_args : dict, stage : str = "train") -> dict:
 
     epochs = default_args["epochs"]
 
-  model_abbrev = default_args["model_abbreviation"][default_args[user_args["dataset"]]["model"]] 
 
+  # if "_FA" in user_args["dataset"] or "multirc" in user_args["dataset"]: model_abbrev = 'pretrained'
+  # else: model_abbrev = default_args["model_abbreviation"][default_args[user_args["dataset"]]["model"]] 
+
+  model_abbrev = default_args["model_abbreviation"][default_args[user_args["dataset"]]["model"]]  
+  
   comb_args = dict(
     user_args, 
     **default_args[user_args["dataset"]], 

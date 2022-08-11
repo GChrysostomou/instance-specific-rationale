@@ -63,7 +63,17 @@ class classification_dataholder():
         self.max_len = max_len
 
         # load the pretrained tokenizer
-        pretrained_weights = args.model
+        #pretrained_weights = args.model
+        if '_FA' in args["dataset"]:
+            if "evinf" in args["dataset"]:
+                pretrained_weights = "allenai/scibert_scivocab_uncased"
+            elif "multirc" in args["dataset"]:
+                pretrained_weights = "roberta-base"
+            else:
+                pretrained_weights = "bert-base-uncased"
+        else:
+            pretrained_weights = args.model
+        
         self.tokenizer = AutoTokenizer.from_pretrained(pretrained_weights) # by cass ood time dataholders.py (, local_files_only=True)
 
         self.nu_of_labels = len(np.unique([x["label"] for x in train]))
