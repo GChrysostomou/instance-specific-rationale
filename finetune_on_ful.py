@@ -6,7 +6,7 @@ import os
 import argparse
 import logging
 
-device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+
 
 import datetime
 import gc
@@ -76,7 +76,13 @@ logging.basicConfig(
                   )
 
 
-device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+# device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+if torch.cuda.is_available():
+    device = torch.device("cuda:0")
+    print("running on the GPU")
+else:
+    device = torch.device("cpu")
+    print("running on the CPU")
 
 logging.info("Running on cuda : {}".format(torch.cuda.is_available()))
 
