@@ -116,8 +116,9 @@ def extract_importance_(model, data, data_split_name, model_random_seed):
         normalised_attentions = torch.masked_fill(attentions, ~batch["query_mask"].bool(), float("-inf"))
 
         # retrieving attention*attention_grad
-        attention_gradients = model.weights_or.grad[:,:,0,:].mean(1)
-        
+        # print(model.weights_or.size()) # torch.Size([8, 12, 48, 48]) batch size attention 
+        # attention_gradients = model.weights_or.grad[:,:,0,:].mean(1) # changed by cass
+        attention_gradients = model.weights_or[:,:,0,:].mean(1)
         attention_gradients =  (attentions * attention_gradients)
 
         # softmaxing due to negative attention gradients 

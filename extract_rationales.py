@@ -15,7 +15,6 @@ import gc
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
 import datetime
-import sys
 
 
 date_time = str(datetime.date.today()) + "_" + ":".join(str(datetime.datetime.now()).split()[1].split(":")[:2])
@@ -27,7 +26,7 @@ parser.add_argument(
     type = str, 
     help = "select dataset / task", 
     default = "evinf", 
-    choices = ["sst", "evinf", "multirc", "agnews"]
+    #choices = ["sst", "evinf", "multirc", "agnews"]
 )
 
 parser.add_argument(

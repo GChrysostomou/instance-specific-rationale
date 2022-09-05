@@ -20,7 +20,7 @@ parser.add_argument(
     type = str, 
     help = "select dataset / task", 
     default = "evinf", 
-    choices = ["sst", "evinf", "agnews", "multirc", "evinf_FA"]
+    #choices = ["sst", "evinf", "agnews", "multirc", "evinf_FA"]
 )
 
 parser.add_argument(
@@ -47,7 +47,7 @@ parser.add_argument(
     '--evaluate_models', 
     help='test predictive performance in and out of domain', 
     action='store_true',
-    default=True,
+    default=False,
 )
 
 user_args = vars(parser.parse_args())

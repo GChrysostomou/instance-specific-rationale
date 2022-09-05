@@ -67,6 +67,9 @@ class bert(nn.Module):
         self.weights_or = torch.tensor(
             attention_weights[-1], requires_grad=True)  # debug by cass
 
+        # self.weights_or = torch.tensor(
+        #     attention_weights.clone().detach()[-1], requires_grad=True)  # debug by cass
+
         if inputs["retain_gradient"]:
             
             # self.weights_or.retain_grad() 

@@ -1,0 +1,36 @@
+{
+    "20": {
+        "model": "/home/cass/PycharmProjects/BP-rationales/trained_models/sst/bert20.pt",
+        "f1": 0.9054886880449582,
+        "loss": 2.089001325498286,
+        "ece-score": 0.03922911413026213
+    },
+    "25": {
+        "model": "/home/cass/PycharmProjects/BP-rationales/trained_models/sst/bert25.pt",
+        "f1": 0.8879222330835235,
+        "loss": 2.18525860563182,
+        "ece-score": 0.02331613469817756
+    },
+    "5": {
+        "model": "/home/cass/PycharmProjects/BP-rationales/trained_models/sst/bert5.pt",
+        "f1": 0.9203687144604166,
+        "loss": 1.810571080825308,
+        "ece-score": 0.03571053090689931
+    },
+    "10": {
+        "model": "/home/cass/PycharmProjects/BP-rationales/trained_models/sst/bert10.pt",
+        "f1": 0.9114707467648644,
+        "loss": 2.0635349590805148,
+        "ece-score": 0.048376396715739206
+    },
+    "15": {
+        "model": "/home/cass/PycharmProjects/BP-rationales/trained_models/sst/bert15.pt",
+        "f1": 0.8954118955781531,
+        "loss": 2.306964535004737,
+        "ece-score": 0.05043257376049197
+    },
+    "mean-f1": 0.9041324555863831,
+    "std-f1": 0.011472797972385427,
+    "mean-ece": 0.03941295004231403,
+    "std-ece": 0.009742942578888978
+}

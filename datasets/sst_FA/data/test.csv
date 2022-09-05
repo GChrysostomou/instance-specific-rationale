@@ -1,0 +1,369 @@
+,Unnamed: 0,text,label,exp_split,label_id,annotation_id,feat
+1223,1223,well intentioned though it may be its soap opera morality tales have the antiseptic preprogrammed feel of an after school special,1,test,gradients,test_1223,deeplift
+1103,1103,obstacles are too easily overcome and there is n t much in the way of character development in the script,4,test,attention,test_1103,deeplift
+40,40,tender yet lacerating and darkly funny fable,2,test,others,test_40,gradients
+523,523,a pleasant enough comedy that should have found a summer place,0,test,ig,test_523,lime
+919,919,the lack of pace kills it although in a movie about cancer this might be apt,4,test,attention,test_919,attention
+72,72,a sports movie with action that s exciting on the field and a story you care about off it,0,test,ig,test_72,lime
+342,342,anderson uses a hit or miss aesthetic that hits often enough to keep the film entertaining even if none of it makes a lick of sense,0,test,ig,test_342,lime
+513,513,there s a disreputable air about the whole thing and that s what makes it irresistible,0,test,ig,test_513,ig
+1396,1396,these are names to remember in order to avoid them in the future,2,test,others,test_1396,ig
+1501,1501,"k 19 may not hold a lot of water as a submarine epic
+but it holds even less when it turns into an elegiacally soggy saving private ryanovich",0,test,ig,test_1501,ig
+546,546,rich in detail gorgeously shot and beautifully acted les destinees is in its quiet epic way daring inventive and refreshingly unusual,4,test,attention,test_546,gradients
+1320,1320,excellent acting and direction,0,test,ig,test_1320,ig
+735,735,broomfield uncovers a story powerful enough to leave the screen sizzling with intrigue,4,test,attention,test_735,gradients
+495,495,it s rather like a lifetime special pleasant sweet and forgettable,4,test,attention,test_495,deeplift
+444,444,for all its serious sense of purpose it finds a way to lay bare the tragedies of its setting with a good deal of warmth and humor,3,test,lime,test_444,ig
+625,625,this is carion s debut feature but his script and direction hums with a confidence that many spend entire careers trying to reach,1,test,gradients,test_625,ig
+838,838,an epic of grandeur and scale that s been decades gone from the popcorn pushing sound stages of hollywood,4,test,attention,test_838,lime
+1362,1362,unfortunately heartbreak hospital wants to convey the same kind of haughtiness in its own sketchy material but this territory has already been explored previously with better aplomb and sardonic wit,0,test,ig,test_1362,lime
+302,302,a model of what films like this should be like,3,test,lime,test_302,lime
+816,816,mixes likeable personalities inventive photography and cutting and wall to wall toe tapping music to paint a picture of a subculture that is at once exhilarating silly perverse hopeful and always fun,0,test,ig,test_816,gradients
+1277,1277,borrows from so many literary and cinematic sources that this future world feels absolutely deja vu,3,test,lime,test_1277,deeplift
+1349,1349,like a tone deaf singer at a benefit concert john q is a bad movie appearing on behalf of a good cause,0,test,ig,test_1349,ig
+1379,1379,the noble tradition of men in drag hits an all time low in sorority boys whose makers apparently believe that women s clothing can cover up any deficiency in acting writing or direction,2,test,others,test_1379,ig
+1617,1617,overall the film misses the brilliance of jelinek s novel by some way,0,test,ig,test_1617,ig
+1615,1615,this is a great subject for a movie but hollywood has squandered the opportunity using it as a prop for warmed over melodrama and the kind of choreographed mayhem that director john woo has built his career on,2,test,others,test_1615,ig
+348,348,the best movie of its kind since brazil,3,test,lime,test_348,lime
+1699,1699,safe conduct however ambitious and well intentioned fails to hit the entertainment bull s eye,4,test,attention,test_1699,ig
+1549,1549,none of these characters resembles anyone you ve ever met in real life unless you happen to know annoyingly self involved people who speak in glib sentences that could have only come from the pen of a screenwriter,4,test,attention,test_1549,ig
+514,514,an exceedingly clever piece of cinema,3,test,lime,test_514,ig
+672,672,a startling and fresh examination of how the bike still remains an ambiguous icon in chinese society,4,test,attention,test_672,lime
+1324,1324,so routine familiar and predictable it raises the possibility that it wrote itself as a newly automated final draft computer program,3,test,lime,test_1324,gradients
+1475,1475,i d give real money to see the perpetrators of chicago torn apart by dingoes,1,test,gradients,test_1475,deeplift
+423,423,elling really is about a couple of crazy guys and it s therapeutic to laugh along with them,2,test,others,test_423,lime
+591,591,for the first time in several years mr allen has surpassed himself with the magic he s spun with the hollywood empress of ms leoni s ellie,0,test,ig,test_591,lime
+1524,1524,propelled not by characters but by caricatures,4,test,attention,test_1524,ig
+805,805,a worthwhile way to spend two hours,1,test,gradients,test_805,attention
+1420,1420,guided more by intellect than heart his story flattens instead of sharpens,1,test,gradients,test_1420,gradients
+419,419,like old myths and wonder tales spun afresh,4,test,attention,test_419,lime
+218,218,windtalkers is shapelessly gratifying the kind of movie that invites you to pick apart its faults even as you have to admit that somehow it hit you where you live,3,test,lime,test_218,lime
+973,973,guillen rarely gets beneath the surface of things,2,test,others,test_973,attention
+1813,1813,disturbingly superficial in its approach to the material,3,test,lime,test_1813,attention
+958,958,a one trick pony whose few t a bits still ca n t save itself from being unoriginal unfunny and unrecommendable,1,test,gradients,test_958,attention
+1748,1748,there are weird resonances between actor and role here and they re not exactly flattering,0,test,ig,test_1748,ig
+1716,1716,the film is surprisingly well directed by brett ratner who keeps things moving well at least until the problematic third act,3,test,lime,test_1716,lime
+653,653,director benoit jacquot making his first opera to film translation with tosca conveys the heaving passion of puccini s famous love jealousy murder suicide fandango with great cinematic innovation,4,test,attention,test_653,scaled attention
+437,437,almost every scene in this film is a gem that could stand alone a perfectly realized observation of mood behavior and intent,1,test,gradients,test_437,gradients
+1625,1625,all in all there s only one thing to root for expulsion for everyone,0,test,ig,test_1625,attention
+34,34,the story loses its bite in a last minute happy ending that s even less plausible than the rest of the picture,0,test,ig,test_34,ig
+1751,1751,it s drained of life in an attempt to be sober and educational and yet it s so devoid of realism that its lack of whistles and bells just makes it obnoxious and stiff,0,test,ig,test_1751,attention
+494,494,these are lives worth watching paths worth following,4,test,attention,test_494,attention
+15,15,a thoughtful provocative insistently humanizing film,0,test,ig,test_15,gradients
+212,212,the scope of the silberstein family is large and we grow attached to their lives full of strength warmth and vitality,3,test,lime,test_212,gradients
+1490,1490,looks like a high school film project completed the day before it was due,1,test,gradients,test_1490,ig
+1734,1734,if high crimes were any more generic it would have a universal product code instead of a title,4,test,attention,test_1734,attention
+1440,1440,high crimes miscasts nearly every leading character,1,test,gradients,test_1440,attention
+1711,1711,on the right track to something that s creepy and effective it s just going to take more than a man in a bullwinkle costume to get there,0,test,ig,test_1711,attention
+599,599,makes s m seem very romantic and maggie gyllenhaal is a delight,0,test,ig,test_599,lime
+689,689,a provocative movie about loss anger greed jealousy sickness and love,3,test,lime,test_689,lime
+575,575,goyer s screenplay and direction are thankfully understated and he has drawn excellent performances from his cast,0,test,ig,test_575,lime
+51,51,the animated subplot keenly depicts the inner struggles of our adolescent heroes insecure uncontrolled and intense,1,test,gradients,test_51,lime
+404,404,he s super spy,0,test,ig,test_404,gradients
+468,468,hayek is stunning as frida and a star making project,4,test,attention,test_468,lime
+1289,1289,the film is itself a sort of cinematic high crime one that brings military courtroom dramas down very very low,3,test,lime,test_1289,gradients
+586,586,tailored to entertain,4,test,attention,test_586,ig
+1059,1059,you ll be more entertained getting hit by a bus,4,test,attention,test_1059,gradients
+1811,1811,fails to bring as much to the table,3,test,lime,test_1811,gradients
+297,297,even if you ca n t pronounce gyro correctly you ll appreciate much of vardalos humor which transcends ethnic boundaries,3,test,lime,test_297,lime
+1164,1164,with spy kids 2 the island of lost dreams writer director producer robert rodriguez has cobbled together a film that feels like a sugar high gone awry,4,test,attention,test_1164,ig
+701,701,lee jeong hyang tells it so lovingly and films it so beautifully that i could n t help being captivated by it,3,test,lime,test_701,lime
+1752,1752,suffocated at conception by its munchausen by proxy mum,3,test,lime,test_1752,attention
+1044,1044,egoyan s movie is too complicated to sustain involvement and if you ll excuse a little critical heresy too intellectually ambitious,1,test,gradients,test_1044,ig
+515,515,another great what you do n t see is much more terrifying than what you do see thriller coupled with some arresting effects incandescent tones and stupendous performances,1,test,gradients,test_515,ig
+312,312,renner s performance as dahmer is unforgettable deeply absorbing,1,test,gradients,test_312,lime
+405,405,what makes the movie a comedy is the way it avoids the more serious emotions involved,4,test,attention,test_405,lime
+1036,1036,if this is an example of the type of project that robert redford s lab is willing to lend its imprimatur to then perhaps it s time to rethink independent films,3,test,lime,test_1036,deeplift
+131,131,here s a british flick gleefully unconcerned with plausibility yet just as determined to entertain you,0,test,ig,test_131,scaled attention
+540,540,it s the cinematic equivalent of a good page turner and even if it s nonsense its claws dig surprisingly deep,1,test,gradients,test_540,lime
+1406,1406,the title s lameness should clue you in on how bad the movie is,3,test,lime,test_1406,gradients
+746,746,this is the kind of movie that used to be right at home at the saturday matinee and it still is,3,test,lime,test_746,attention
+1784,1784,a woozy roisterous exhausting mess and the off beat casting of its two leads turns out to be as ill starred as you might expect,0,test,ig,test_1784,attention
+1061,1061,flat but with a revelatory performance by michelle williams,4,test,attention,test_1061,deeplift
+1294,1294,trivial where it should be profound and hyper cliched where it should be sincere,4,test,attention,test_1294,gradients
+977,977,it delivers some chills and sustained unease but flounders in its quest for deeper meaning,3,test,lime,test_977,ig
+823,823,but this time there s some mold on the gold,1,test,gradients,test_823,ig
+3,3,perhaps no picture ever made has more literally showed that the road to hell is paved with good intentions,0,test,ig,test_3,lime
+1667,1667,a sophomoric exploration of life problems most people solved long ago or at least got tired of hearing people kvetch about,4,test,attention,test_1667,gradients
+316,316,star wars is back in a major way,1,test,gradients,test_316,lime
+1033,1033,a simple sometimes maddeningly slow film that has just enough charm and good acting to make it interesting but is ultimately pulled under by the pacing and lack of creativity within,4,test,attention,test_1033,ig
+802,802,we can see the wheels turning and we might resent it sometimes but this is still a nice little picture made by bright and friendly souls with a lot of good cheer,1,test,gradients,test_802,attention
+50,50,this is the best american movie about troubled teens since 1998 s whatever,0,test,ig,test_50,attention
+1309,1309,life is a crock or something like it,1,test,gradients,test_1309,deeplift
+1674,1674,a shambles of a movie visually unattractive unbearably loud and utterly silly its hilarity is completely unintentional,3,test,lime,test_1674,ig
+767,767,not a bad journey at all,2,test,others,test_767,ig
+259,259,the film s greatest asset is how much it s not just another connect the dots spy on the run picture,0,test,ig,test_259,attention
+1665,1665,eastwood is an icon of moviemaking one of the best actors directors and producers around responsible for some excellent work,1,test,gradients,test_1665,attention
+1342,1342,just when the movie seems confident enough to handle subtlety it dives into soapy bathos,0,test,ig,test_1342,ig
+1147,1147,dull if not devoid of wit this shaggy dog longs to frisk through the back alleys of history but scarcely manages more than a modest snoozy charm,0,test,ig,test_1147,ig
+1713,1713,one of those movies where you walk out of the theater not feeling cheated exactly but feeling pandered to which in the end might be all the more infuriating,0,test,ig,test_1713,attention
+322,322,if you liked such movies as notting hill four weddings and a funeral bridget jones diary or high fidelity then you wo n t want to miss about a boy,3,test,lime,test_322,lime
+195,195,the result is something quite fresh and delightful,0,test,ig,test_195,ig
+739,739,everywhere the camera looks there is something worth seeing,4,test,attention,test_739,lime
+1526,1526,this extremely unfunny film clocks in at 80 minutes but feels twice as long,0,test,ig,test_1526,deeplift
+723,723,more than makes up for its mawkish posing by offering rousing spates of genuine feeling,4,test,attention,test_723,lime
+475,475,a gentle blend of present day testimonials surviving footage of burstein and his family performing historical archives and telling stills,3,test,lime,test_475,attention
+417,417,the film runs on equal parts of innocence and wisdom wisdom that comes with experience,4,test,attention,test_417,ig
+315,315,energetic and boldly provocative,4,test,attention,test_315,deeplift
+1083,1083,no reason for anyone to invest their hard earned bucks into a movie which obviously did n t invest much into itself either,1,test,gradients,test_1083,attention
+1603,1603,like a marathon runner trying to finish a race you need a constant influx of liquid just to get through it,4,test,attention,test_1603,ig
+995,995,so what is the point,0,test,ig,test_995,deeplift
+1571,1571,shocking only in that it reveals the filmmaker s bottomless pit of self absorption,3,test,lime,test_1571,lime
+1350,1350,adam sandler is to gary cooper what a gnat is to a racehorse,3,test,lime,test_1350,lime
+857,857,after making several adaptations of other writers work armenian canadian director atom egoyan broached an original treatment of a deeply personal subject,4,test,attention,test_857,ig
+1576,1576,when the painted backdrops in a movie are more alive than its characters you know you re in trouble,4,test,attention,test_1576,lime
+1108,1108,do not under any circumstances consider taking a child younger than middle school age to this wallow in crude humor,2,test,others,test_1108,attention
+202,202,lead provocatuers testud and parmentier give superlative performances,0,test,ig,test_202,ig
+1457,1457,i like frank the pug though,1,test,gradients,test_1457,ig
+626,626,an intelligent moving and invigorating film,4,test,attention,test_626,ig
+965,965,this overproduced and generally disappointing effort is n t likely to rouse the rush hour crowd,3,test,lime,test_965,attention
+534,534,an intimate good humored ethnic comedy like numerous others but cuts deeper than expected,1,test,gradients,test_534,ig
+1588,1588,while super troopers is above academy standards its quintet of writers could still use some more schooling,2,test,others,test_1588,gradients
+430,430,despite its flaws secretary stays in your head and makes you question your own firmly held positions,1,test,gradients,test_430,lime
+1190,1190,too slow too boring and occasionally annoying,3,test,lime,test_1190,gradients
+1024,1024,the lack of opposing viewpoints soon grows tiresome the film feels more like a series of toasts at a testimonial dinner than a documentary,0,test,ig,test_1024,attention
+617,617,from the big giant titles of the opening credits to elmer bernstein s perfectly melodic score haynes gets just about everything right,1,test,gradients,test_617,attention
+962,962,the problem it is with most of these things is the script,3,test,lime,test_962,deeplift
+86,86,on the surface it s a lovers on the run crime flick but it has a lot in common with piesiewicz s and kieslowski s earlier work films like the double life of veronique,4,test,attention,test_86,lime
+85,85,a refreshing korean film about five female high school friends who face an uphill battle when they try to take their relationships into deeper waters,3,test,lime,test_85,ig
+1431,1431,the movie succumbs to being nothing more than a formulaic chase in the dark,2,test,others,test_1431,attention
+283,283,a remarkable 179 minute meditation on the nature of revolution,0,test,ig,test_283,lime
+207,207,never mind whether you buy the stuff about barris being a cia hit man,0,test,ig,test_207,attention
+1154,1154,being author wells great grandson you d think filmmaker simon wells would have more reverence for the material,0,test,ig,test_1154,deeplift
+70,70,director kapur is a filmmaker with a real flair for epic landscapes and adventure and this is a better film than his earlier english language movie the overpraised elizabeth,0,test,ig,test_70,attention
+975,975,audiences can be expected to suspend their disbelief only so far and that does not include the 5 o clock shadow on the tall wooden kid as he skips off to school,3,test,lime,test_975,attention
+1513,1513,say this for the soundtrack it drowns out the lousy dialogue,3,test,lime,test_1513,gradients
+1644,1644,ultimately the project comes across as clinical detached uninvolving possibly prompting audience members to wonder what s the point,3,test,lime,test_1644,attention
+1447,1447,has little on its mind aside from scoring points with drag gags,4,test,attention,test_1447,ig
+194,194,mr parker has brilliantly updated his source and grasped its essence composing a sorrowful and hilarious tone poem about alienated labor or an absurdist workplace sitcom,0,test,ig,test_194,attention
+1595,1595,the smug oily demeanor that donovan adopts throughout the stupidly named pipe dream is just repulsive,3,test,lime,test_1595,ig
+366,366,the whole cast looks to be having so much fun with the slapstick antics and silly street patois tossing around obscure expressions like bellini and mullinski that the compact 86 minutes breezes by,4,test,attention,test_366,ig
+1517,1517,maudlin and melodramatic we expected,2,test,others,test_1517,deeplift
+747,747,the spark of special anime magic here is unmistakable and hard to resist,3,test,lime,test_747,attention
+1774,1774,an atonal estrogen opera that demonizes feminism while gifting the most sympathetic male of the piece with a nice vomit bath at his wedding,4,test,attention,test_1774,lime
+1610,1610,maybe it s asking too much but if a movie is truly going to inspire me i want a little more than this,3,test,lime,test_1610,lime
+1816,1816,an imaginative comedy thriller,1,test,gradients,test_1816,ig
+1705,1705,mr wedge and mr saldanha handle the mix of verbal jokes and slapstick well,4,test,attention,test_1705,attention
+1392,1392,an overstuffed compendium of teen catholic movie dogma,1,test,gradients,test_1392,ig
+1740,1740,despite the authenticity of the trappings the film is overblown in its plotting hackneyed in its dialogue and anachronistic in its style,2,test,others,test_1740,attention
+300,300,an intriguing and entertaining introduction to johnson,4,test,attention,test_300,gradients
+988,988,after that it just gets stupid and maudlin,3,test,lime,test_988,attention
+1087,1087,when the first few villians are introduced as spider and snake you know you re in for a real winner creativity at its peak,2,test,others,test_1087,attention
+941,941,this film was made to get laughs from the slowest person in the audience just pure slapstick with lots of inane inoffensive screaming and exaggerated facial expressions,0,test,ig,test_941,attention
+1689,1689,the weight of water uses water as a metaphor for subconscious desire but this leaky script barely stays afloat,4,test,attention,test_1689,gradients
+567,567,it risks seeming slow and pretentious because it thinks the gamble is worth the promise,0,test,ig,test_567,gradients
+1759,1759,gangs of new york is an unapologetic mess whose only saving grace is that it ends by blowing just about everything up,0,test,ig,test_1759,attention
+1686,1686,it s so full of wrong choices that all you can do is shake your head in disbelief and worry about what classic oliver parker intends to mangle next time,2,test,others,test_1686,attention
+690,690,worth the effort to watch,2,test,others,test_690,ig
+600,600,a deliciously mordant bitter black comedy,1,test,gradients,test_600,ig
+952,952,culkin exudes none of the charm or charisma that might keep a more general audience even vaguely interested in his bratty character,1,test,gradients,test_952,ig
+1075,1075,a gimmick in search of a movie how to get carvey into as many silly costumes and deliver as many silly voices as possible plot mechanics be damned,4,test,attention,test_1075,deeplift
+766,766,the movie s eventual success should be credited to dennis quaid in fighting trim shape as an athlete as well as an actor,1,test,gradients,test_766,lime
+1162,1162,one groan inducing familiarity begets another,0,test,ig,test_1162,ig
+343,343,bubba ho tep is a wonderful film with a bravura lead performance by bruce campbell that does n t deserve to leave the building until everyone is aware of it,4,test,attention,test_343,lime
+753,753,noyce s film is contemplative and mournfully reflective,1,test,gradients,test_753,ig
+1755,1755,big fat liar is just futile silliness looking to tap into the kiddie sensibilities,0,test,ig,test_1755,ig
+963,963,proves that a movie about goodness is not the same thing as a good movie,0,test,ig,test_963,ig
+976,976,to imagine the life of harry potter as a martial arts adventure told by a lobotomized woody allen is to have some idea of the fate that lies in store for moviegoers lured to the mediocrity that is kung pow enter the fist,2,test,others,test_976,deeplift
+611,611,you can feel the heat that ignites this gripping tale and the humor and humanity that root it in feeling,3,test,lime,test_611,attention
+84,84,steve irwin s method is ernest hemmingway at accelerated speed and volume,3,test,lime,test_84,attention
+521,521,it suggests the wide ranging effects of media manipulation from the kind of reporting that is done by the supposedly liberal media to the intimate and ultimately tragic heartache of maverick individuals like hatfield and hicks,3,test,lime,test_521,lime
+1378,1378,opens at a funeral ends on the protagonist s death bed and does n t get much livelier in the three hours in between,0,test,ig,test_1378,gradients
+23,23,it helps that lil bow wow tones down his pint sized gangsta act to play someone who resembles a real kid,0,test,ig,test_23,attention
+722,722,the film often achieves a mesmerizing poetry,1,test,gradients,test_722,ig
+849,849,impresses you with its open endedness and surprises,4,test,attention,test_849,deeplift
+292,292,a whole lot foul freaky and funny,3,test,lime,test_292,ig
+912,912,although it s a bit smug and repetitive this documentary engages your brain in a way few current films do,3,test,lime,test_912,lime
+688,688,it helps that the central performers are experienced actors and that they know their roles so well,4,test,attention,test_688,attention
+1486,1486,we miss the quirky amazement that used to come along for an integral part of the ride,3,test,lime,test_1486,ig
+1127,1127,too gory to be a comedy and too silly to be an effective horror film,0,test,ig,test_1127,ig
+1708,1708,watching it is rather like an overlong visit from a large group of your relatives,4,test,attention,test_1708,ig
+916,916,shamelessly sappy and worse runs away from its own provocative theme,0,test,ig,test_916,gradients
+1581,1581,this may be the dumbest sketchiest movie on record about an aspiring writer s coming of age,4,test,attention,test_1581,gradients
+386,386,as the story congeals you feel the pieces of the star wars saga falling into place in a way that makes your spine tingle with revelation and excitement,0,test,ig,test_386,lime
+681,681,an amazing and incendiary movie that dives straight into the rough waters of contradiction,0,test,ig,test_681,ig
+1183,1183,it s all pretty cynical and condescending too,4,test,attention,test_1183,attention
+720,720,the story may not be new but australian director john polson making his american feature debut jazzes it up adroitly,2,test,others,test_720,gradients
+466,466,the movie s quiet affirmation of neighborhood values gives it an honest lived in glow,2,test,others,test_466,gradients
+1554,1554,will only satisfy those who ca n t tell the difference between the good the bad and the ugly,2,test,others,test_1554,gradients
+1489,1489,"for me this opera is n t a favorite
+so it s a long time before the fat lady sings",3,test,lime,test_1489,ig
+680,680,at its best the good girl is a refreshingly adult take on adultery,3,test,lime,test_680,lime
+1520,1520,it almost plays like solaris but with guns and jokes,0,test,ig,test_1520,deeplift
+1446,1446,so lazy and slipshod it confuses the mere flashing of kinky soft core imagery with naughty fun,0,test,ig,test_1446,ig
+1198,1198,the tone shifts abruptly from tense to celebratory to soppy,3,test,lime,test_1198,gradients
+1771,1771,with its hints of a greater intelligence lurking somewhere the ring makes its stupidity more than obvious,3,test,lime,test_1771,ig
+360,360,the movie has an avalanche of eye popping visual effects,3,test,lime,test_360,lime
+1736,1736,the movie makes absolutely no sense,3,test,lime,test_1736,ig
+449,449,daughter from danang is a film that should be seen by all especially those who are n t aware of or have forgotten about the unmentioned victims of war,0,test,ig,test_449,lime
+1225,1225,when a set of pre shooting guidelines a director came up with for his actors turns out to be cleverer better written and of considerable more interest than the finished film that s a bad sign,0,test,ig,test_1225,deeplift
+75,75,katz uses archival footage horrifying documents of lynchings still photographs and charming old reel to reel recordings of meeropol entertaining his children to create his song history but most powerful of all is the song itself,0,test,ig,test_75,ig
+733,733,a fast moving and remarkable film that appears destined to become a landmark in japanese animation,4,test,attention,test_733,lime
+1039,1039,it s just incredibly dull,2,test,others,test_1039,ig
+299,299,audiences conditioned to getting weepy over saucer eyed downy cheeked moppets and their empathetic caretakers will probably feel emotionally cheated by the film s tart sugar free wit,3,test,lime,test_299,ig
+1201,1201,julia is played with exasperating blandness by laura regan,3,test,lime,test_1201,ig
+385,385,only an epic documentary could get it all down and spike lee s jim brown all american at long last gives its subject a movie worthy of his talents,4,test,attention,test_385,attention
+98,98,s personal revelations regarding what the shop means in the big picture iconic characters gambol fluidly through the story with charming results,1,test,gradients,test_98,gradients
+1172,1172,if you collected all the moments of coherent dialogue they still would n t add up to the time required to boil a four minute egg,3,test,lime,test_1172,deeplift
+938,938,you can practically smell the patchouli oil,1,test,gradients,test_938,lime
+390,390,well written nicely acted and beautifully shot and scored the film works on several levels openly questioning social mores while ensnaring the audience with its emotional pull,0,test,ig,test_390,attention
+1432,1432,plays as hollow catharsis with lots of tears but very little in the way of insights,3,test,lime,test_1432,attention
+1187,1187,but that s just the problem with it the director has n t added enough of his own ingredients,4,test,attention,test_1187,attention
+1702,1702,too timid to bring a sense of closure to an ugly chapter of the twentieth century,1,test,gradients,test_1702,ig
+1098,1098,not even the hanson brothers can save it,3,test,lime,test_1098,ig
+1155,1155,but this costly dud is a far cry from either the book or the beloved film,4,test,attention,test_1155,attention
+619,619,has a shambling charm a cheerfully inconsequential diversion,4,test,attention,test_619,lime
+859,859,if it seems like a minor miracle that its septuagenarian star is young enough to be the nonagenarian filmmaker s son more incredible still are the clear eyed boldness and quiet irony with which actor and director take on life s urgent questions,4,test,attention,test_859,ig
+548,548,do we really need a 77 minute film to tell us exactly why a romantic relationship between a 15 year old boy and a 40 year old woman does n t work,3,test,lime,test_548,gradients
+1707,1707,leaves you with a knot in your stomach its power is undercut by its own head banging obviousness,1,test,gradients,test_1707,ig
+80,80,but in imax 3 d the clichés disappear into the vertiginous perspectives opened up by the photography,1,test,gradients,test_80,gradients
+1651,1651,even by dumb action movie standards ballistic ecks vs sever is a dumb action movie,3,test,lime,test_1651,gradients
+824,824,while surprisingly sincere this average little story is adorned with some awesome action photography and surfing,3,test,lime,test_824,gradients
+777,777,you ll be left with the sensation of having just witnessed a great performance and perhaps give in to the urge to get on your feet and shake it,1,test,gradients,test_777,ig
+1240,1240,it s not horrible just horribly mediocre,1,test,gradients,test_1240,ig
+757,757,an elegant exquisitely modulated psychological thriller,0,test,ig,test_757,deeplift
+697,697,a work of intricate elegance literary lyricism and profound common sense,2,test,others,test_697,ig
+1067,1067,ihops do n t pile on this much syrup,3,test,lime,test_1067,ig
+1737,1737,its underlying mythology is a hodgepodge of inconsistencies that pose the question since when did dumb entertainment have to be this dumb,1,test,gradients,test_1737,ig
+1628,1628,myers never knows when to let a gag die thus we re subjected to one mind numbingly lengthy riff on poo and pee jokes after another,2,test,others,test_1628,attention
+891,891,if you love motown music you ll love this documentary,3,test,lime,test_891,attention
+1273,1273,this film s relationship to actual tension is the same as what christmas tree flocking in a spray can is to actual snow a poor if durable imitation,0,test,ig,test_1273,deeplift
+559,559,this is n t my favorite in the series still i enjoyed it enough to recommend,3,test,lime,test_559,lime
+376,376,unfortunately they re sandwiched in between the most impossibly dry account of kahlo s life imaginable,1,test,gradients,test_376,gradients
+1253,1253,extremely boring,4,test,attention,test_1253,deeplift
+464,464,i love the way that it took chances and really asks you to take these great leaps of faith and pays off,2,test,others,test_464,attention
+1373,1373,any film featuring young children threatened by a terrorist bomb can no longer pass as mere entertainment,3,test,lime,test_1373,gradients
+1733,1733,could the country bears really be as bad as its trailers,3,test,lime,test_1733,attention
+61,61,if this movie were a book it would be a page turner you ca n t wait to see what happens next,0,test,ig,test_61,lime
+503,503,director peter jackson and his crew have so steeped themselves in the majesty of tolkien s writing that every frame produces new joys whether you re a fan of the books or not,2,test,others,test_503,attention
+220,220,a thoughtful moving piece that faces difficult issues with honesty and beauty,1,test,gradients,test_220,attention
+436,436,does what a fine documentary does best it extends a warm invitation into an unfamiliar world then illuminates it fully and allows the larger implications of the journey to sink in unobtrusively,0,test,ig,test_436,lime
+1695,1695,it s as flat as an open can of pop left sitting in the sun,4,test,attention,test_1695,gradients
+1080,1080,characters wander into predictably treacherous situations even though they should know better,4,test,attention,test_1080,ig
+1815,1815,i hate this movie,4,test,attention,test_1815,ig
+1146,1146,godawful boring slug of a movie,3,test,lime,test_1146,ig
+6,6,take care of my cat offers a refreshingly different slice of asian cinema,0,test,ig,test_6,gradients
+1430,1430,a minor picture with a major identity crisis it s sort of true and it s sort of bogus and it s ho hum all the way through,4,test,attention,test_1430,deeplift
+358,358,this examination of aquatic life off the shores of the baja california peninsula of mexico offers an engrossing way to demonstrate the virtues of the imax format,0,test,ig,test_358,attention
+1512,1512,an unsatisfying hybrid of blair witch and typical stalk and slash fare where the most conservative protagonist is always the last one living,2,test,others,test_1512,gradients
+1799,1799,i regret to report that these ops are just not extreme enough,3,test,lime,test_1799,ig
+1079,1079,there s no denying the elaborateness of the artist s conceptions nor his ability to depict them with outrageous elan but really the whole series is so much pretentious nonsense lavishly praised by those who equate obscurity with profundity,1,test,gradients,test_1079,lime
+1186,1186,what you would end up with if you took orwell bradbury kafka george lucas and the wachowski brothers and threw them into a blender,3,test,lime,test_1186,deeplift
+1296,1296,theology aside why put someone who ultimately does n t learn at the center of a kids story,0,test,ig,test_1296,gradients
+656,656,nervy and sensitive it taps into genuine artistic befuddlement and at the same time presents a scathing indictment of what drives hollywood,4,test,attention,test_656,attention
+480,480,the best thing the film does is to show us not only what that mind looks like but how the creative process itself operates,1,test,gradients,test_480,attention
+1570,1570,the cartoon that is n t really good enough to be on afternoon tv is now a movie that is n t really good enough to be in theaters,4,test,attention,test_1570,deeplift
+489,489,resourceful and ingenious entertainment,3,test,lime,test_489,ig
+246,246,who knows what exactly godard is on about in this film but his words and images do n t have to add up to mesmerize you,4,test,attention,test_246,deeplift
+441,441,provide s nail biting suspense and credible characters without relying on technology of the moment technique or pretentious dialogue,0,test,ig,test_441,attention
+425,425,there s no denying the physically spectacular qualities of the film or the emotional integrity of the performances,0,test,ig,test_425,lime
+618,618,whether seen on a 10 inch television screen or at your local multiplex the edge of your seat educational antics of steve irwin are priceless entertainment,3,test,lime,test_618,ig
+1641,1641,the movie quickly drags on becoming boring and predictable,3,test,lime,test_1641,attention
+562,562,on its own cinematic terms it successfully showcases the passions of both the director and novelist byatt,4,test,attention,test_562,lime
+1138,1138,taken individually or collectively the stories never add up to as much as they promise,0,test,ig,test_1138,attention
+579,579,gets under the skin of a man who has just lost his wife,3,test,lime,test_579,attention
+1298,1298,the ill conceived modern day ending falls flat where it should deliver a moral punch,3,test,lime,test_1298,attention
+346,346,a film of precious increments artfully camouflaged as everyday activities,1,test,gradients,test_346,ig
+1005,1005,a sermonizing and lifeless paean to teenage dullards,0,test,ig,test_1005,ig
+1371,1371,these people would n t know subtle characterization if it put on a giant furry monster costume and then gave them a lapdance,3,test,lime,test_1371,attention
+1002,1002,the story is naturally poignant but first time screenwriter paul pender overloads it with sugary bits of business,0,test,ig,test_1002,ig
+87,87,the values that have held the enterprise crew together through previous adventures and perils do so again courage self sacrifice and patience under pressure,4,test,attention,test_87,scaled attention
+438,438,a psychologically rich and suspenseful moral thriller with a stellar performance by al pacino,4,test,attention,test_438,attention
+574,574,sam jones became a very lucky filmmaker the day wilco got dropped from their record label proving that one man s ruin may be another s fortune,3,test,lime,test_574,lime
+1582,1582,succumbs to the same kind of maudlin sentimental mysticism that mars the touched by an angel school of non god spiritual uplift movies,4,test,attention,test_1582,deeplift
+557,557,good ol urban legend stuff,0,test,ig,test_557,ig
+196,196,all but the most persnickety preteens should enjoy this nonthreatening but thrilling adventure,0,test,ig,test_196,lime
+186,186,a thoughtful look at a painful incident that made headlines in 1995,4,test,attention,test_186,lime
+295,295,the pianist is a fine valedictory work for polanski made richer by his own experiences making his other movies somehow richer in the bargain,3,test,lime,test_295,attention
+1688,1688,it may be an easy swipe to take but this barbershop just does n t make the cut,3,test,lime,test_1688,attention
+1145,1145,began life as a computer game then morphed into a movie a bad one of course,4,test,attention,test_1145,attention
+362,362,it s still worth a look,0,test,ig,test_362,lime
+718,718,though the controversial korean filmmaker s latest effort is not for all tastes it offers gorgeous imagery effective performances and an increasingly unsettling sense of foreboding,4,test,attention,test_718,lime
+666,666,often hilarious well shot and importantly entertaining hell house is a fascinating document of an event that has to be seen to be believed,0,test,ig,test_666,gradients
+615,615,if you re not into the pokemon franchise this fourth animated movie in four years wo n t convert you or even keep your eyes open,3,test,lime,test_615,deeplift
+856,856,the cast is uniformly excellent and relaxed,2,test,others,test_856,ig
+424,424,an irresistible combination of a rousing good story set on a truly grand scale,1,test,gradients,test_424,gradients
+1589,1589,a mix of velocity and idiocy this ruinous remake lacks the brawn and the brains of the 1970s original,4,test,attention,test_1589,attention
+1345,1345,the only thing in pauline and paulette that you have n t seen before is a scene featuring a football field sized oriental rug crafted out of millions of vibrant flowers,4,test,attention,test_1345,ig
+1773,1773,an uneven film dealing with too many problems to be taken seriously,0,test,ig,test_1773,ig
+58,58,at heart the movie is a deftly wrought suspense yarn whose richer shadings work as coloring rather than substance,0,test,ig,test_58,lime
+156,156,a droll well acted character driven comedy with unexpected deposits of feeling,2,test,others,test_156,attention
+1789,1789,enough similarities to gymkata and howie long s firestorm that my fingernails instinctively crawled towards my long suffering eyeballs,4,test,attention,test_1789,ig
+1017,1017,nair stuffs the film with dancing henna ornamentation and group song but her narrative clichés and telegraphed episodes smell of old soap opera,3,test,lime,test_1017,attention
+1314,1314,given that both movies expect us to root for convicted violent felons over those assigned to protect us from same we need every bit of sympathy the cons can muster this time there is n t much,3,test,lime,test_1314,ig
+1445,1445,with danilo donati s witty designs and dante spinotti s luscious cinematography this might have made a decent children s movie if only benigni had n t insisted on casting himself in the title role,0,test,ig,test_1445,attention
+399,399,as if to prove a female director can make a movie with no soft edges kathryn bigelow offers no sugar coating or interludes of lightness,0,test,ig,test_399,gradients
+1227,1227,still this thing feels flimsy and ephemeral,2,test,others,test_1227,ig
+1738,1738,the problem with this film is that it s forced to make its characters idiots in order to advance the plot,3,test,lime,test_1738,deeplift
+1742,1742,that zhang would make such a strainingly cute film with a blind orphan at its center no less indicates where his ambitions have wandered,4,test,attention,test_1742,deeplift
+258,258,legendary irish writer brendan behan s memoir borstal boy has been given a loving screen transferral,1,test,gradients,test_258,gradients
+793,793,invincible is a wonderful movie,4,test,attention,test_793,ig
+1058,1058,you ll have more fun setting fire to yourself in the parking lot,2,test,others,test_1058,deeplift
+236,236,parker holds true to wilde s own vision of a pure comedy with absolutely no meaning and no desire to be anything but a polished sophisticated entertainment that is in love with its own cleverness,3,test,lime,test_236,attention
+1714,1714,this movie has a glossy coat of action movie excess while remaining heartless at its core,4,test,attention,test_1714,ig
+59,59,i loved it,0,test,ig,test_59,lime
+249,249,it could change america not only because it is full of necessary discussion points but because it is so accessible that it makes complex politics understandable to viewers looking for nothing but energetic entertainment,4,test,attention,test_249,attention
+649,649,barney has created a tour de force that is weird wacky and wonderful,0,test,ig,test_649,ig
+1414,1414,if this holiday movie is supposed to be a gift somebody unwrapped it early took out all the good stuff and left behind the crap literally,3,test,lime,test_1414,scaled attention
+228,228,as a witness to several greek american weddings but happily a victim of none i can testify to the comparative accuracy of ms vardalos memories and insights,3,test,lime,test_228,lime
+1465,1465,the episodic film makes valid points about the depersonalization of modern life,3,test,lime,test_1465,gradients
+1022,1022,it might as well have been problem child iv,3,test,lime,test_1022,attention
+1579,1579,the central story lacks punch,0,test,ig,test_1579,ig
+556,556,complex affecting and uniquely almodóvar the film evokes strong emotions and pushes viewers to question their deepest notions of moral right and wrong,1,test,gradients,test_556,attention
+217,217,provides an intriguing window into the imagination and hermetic analysis of todd solondz,0,test,ig,test_217,gradients
+1410,1410,any one episode of the sopranos would send this ill conceived folly to sleep with the fishes,3,test,lime,test_1410,scaled attention
+861,861,fans of the animated wildlife adventure show will be in warthog heaven others need not necessarily apply,0,test,ig,test_861,lime
+772,772,like a south of the border melrose place,3,test,lime,test_772,attention
+492,492,we need moore s noisy cocky energy his passion and class consciousness we need his shticks we need his stones,1,test,gradients,test_492,lime
+21,21,at about 95 minutes treasure planet maintains a brisk pace as it races through the familiar story,1,test,gradients,test_21,attention
+37,37,the film makes a strong case for the importance of the musicians in creating the motown sound,0,test,ig,test_37,attention
+288,288,it s a terrific american sports movie and dennis quaid is its athletic heart,4,test,attention,test_288,attention
+1605,1605,i just did n t care as much for the story,3,test,lime,test_1605,attention
+253,253,for anyone who remembers the 60s or is interested in one man s response to stroke ram dass fierce grace is worth seeking out,4,test,attention,test_253,lime
+1769,1769,oft described as the antidote to american pie type sex comedies it actually has a bundle in common with them as the film diffuses every opportunity for a breakthrough,1,test,gradients,test_1769,lime
+1587,1587,sucking all the classic out of robert louis stevenson s treasure island and filling the void with sci fi video game graphics and disney fied adolescent angst,4,test,attention,test_1587,gradients
+181,181,narc may not get an a for originality but it wears its b movie heritage like a badge of honor,4,test,attention,test_181,lime
+7,7,this is a film well worth seeing talking and singing heads and all,0,test,ig,test_7,lime
+533,533,in the end punch drunk love is one of those films that i wanted to like much more than i actually did,2,test,others,test_533,lime
+834,834,there are times when a rumor of angels plays like an extended episode of touched by an angel a little too much dancing a few too many weeping scenes but i liked its heart and its spirit,3,test,lime,test_834,lime
+1594,1594,a well acted and well intentioned snoozer,0,test,ig,test_1594,lime
+929,929,no more,4,test,attention,test_929,gradients
+939,939,the actors do n t inhabit their roles they re trapped by them forced to change behavior in bizarre unjustified fashion and spout dialog that consists mostly of platitudes,1,test,gradients,test_939,ig
+812,812,an endlessly fascinating landmark movie that is as bold as anything the cinema has seen in years,4,test,attention,test_812,attention
+1460,1460,a hysterical yet humorless disquisition on the thin line between sucking face and literally sucking face,3,test,lime,test_1460,attention
+1786,1786,a grim flat and boring werewolf movie that refuses to develop an energy level,3,test,lime,test_1786,ig
+101,101,digital video documentary about stand up comedians is a great glimpse into a very different world,2,test,others,test_101,ig
+1328,1328,too close to phantom menace for comfort,0,test,ig,test_1328,ig
+172,172,my goodness queen latifah has a lot to offer and she seemed to have no problem flaunting her natural gifts,0,test,ig,test_172,attention
+1006,1006,before long the film starts playing like general hospital crossed with a saturday night live spoof of dog day afternoon,1,test,gradients,test_1006,deeplift
+501,501,the experience of watching blobby old school cgi animation in this superlarge format is just surreal enough to be diverting,3,test,lime,test_501,lime
+634,634,it s a good film not a classic but odd entertaining and authentic,4,test,attention,test_634,attention
+165,165,"children may not understand everything that happens i m not sure even miyazaki himself does
+but they will almost certainly be fascinated and undoubtedly delighted",0,test,ig,test_165,lime
+1602,1602,any movie this boring should be required to have ushers in the theater that hand you a cup of coffee every few minutes,0,test,ig,test_1602,ig
+1013,1013,lame haphazard teen comedy,1,test,gradients,test_1013,gradients
+1442,1442,de niro looks bored murphy recycles murphy and you mentally add showtime to the pile of hollywood dreck that represents nothing more than the art of the deal,4,test,attention,test_1442,attention
+447,447,a lighthearted feel good film that embraces the time honored truth that the most powerful thing in life is love,3,test,lime,test_447,attention
+797,797,culkin who s in virtually every scene shines as a young man who uses sarcastic lies like a shield,0,test,ig,test_797,lime
+1778,1778,unfortunately the picture failed to capture me,3,test,lime,test_1778,ig
+1175,1175,never engaging utterly predictable and completely void of anything remotely interesting or suspenseful,3,test,lime,test_1175,gradients
+798,798,marvelous merry and yes melancholy film,0,test,ig,test_798,attention
+293,293,attal mixes comedy with a serious exploration of ego and jealousy within a seemingly serene marriage,0,test,ig,test_293,ig
+1073,1073,the filmmakers juggle and juxtapose three story lines but fail to come up with one cogent point unless it s that life stinks especially for sensitive married women who really love other women,2,test,others,test_1073,attention
+924,924,meandering sub aquatic mess it s so bad it s good but only if you slide in on a freebie,1,test,gradients,test_924,attention
+668,668,an inviting piece of film,4,test,attention,test_668,ig
+581,581,for its seriousness high literary aspirations and stunning acting the film can only be applauded,1,test,gradients,test_581,attention
+527,527,what it lacks in originality it makes up for in intelligence and b grade stylishness,4,test,attention,test_527,lime
+1150,1150,it is also at times curiously moving,0,test,ig,test_1150,gradients
+1217,1217,the truth is that the truth about charlie gets increasingly tiresome,4,test,attention,test_1217,ig
+1106,1106,pretentious editing ruins a potentially terrific flick,1,test,gradients,test_1106,gradients
+121,121,as lo fi as the special effects are the folks who cobbled nemesis together indulge the force of humanity over hardware in a way that george lucas has long forgotten,4,test,attention,test_121,lime
+693,693,a work of the utmost subtlety and perception it marks the outstanding feature debut of writer director eric byler who understands the power of the implicit and the virtues of simplicity and economy,3,test,lime,test_693,attention
+1408,1408,it s a movie forged in the fires of chick flick hell,3,test,lime,test_1408,gradients
+953,953,like channel surfing between the discovery channel and a late night made for cable action movie,4,test,attention,test_953,gradients
+187,187,tsai ming liang has taken his trademark style and refined it to a crystalline point,1,test,gradients,test_187,ig
+828,828,nicolas philibert observes life inside a one room schoolhouse in northern france in his documentary to be and to have easily one of the best films of the year,0,test,ig,test_828,lime
+1422,1422,like most sequels it takes what worked last time repeats it and adds more characters more stunts more stuff in attempt to camouflage its sameness,3,test,lime,test_1422,deeplift
+277,277,while this film is not in the least surprising it is still ultimately very satisfying,0,test,ig,test_277,gradients
+254,254,intriguing and beautiful film but those of you who read the book are likely to be disappointed,4,test,attention,test_254,ig

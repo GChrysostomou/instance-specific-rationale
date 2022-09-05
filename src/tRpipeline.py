@@ -183,7 +183,7 @@ def test_predictive_performance(test_data_loader, for_rationale = False, output_
 
         loss_function = nn.CrossEntropyLoss()
 
-        test_results,test_loss, test_predictions = test_model(
+        test_results, test_loss, test_predictions = test_model(
                 model =classifier, 
                 loss_function = loss_function, 
                 data= test_data_loader,
@@ -279,6 +279,7 @@ def test_predictive_performance(test_data_loader, for_rationale = False, output_
             indent = 4
         )
 
+    # print('++++++++++++', stats_report)
     df = pd.DataFrame(stats_report) # bug for run FA --> by cass
 
     if for_rationale:
