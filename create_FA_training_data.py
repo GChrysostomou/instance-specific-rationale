@@ -106,8 +106,17 @@ saved_data_path = user_args['data_dir'] + user_args['dataset'] + '_FA/data/'
 os.makedirs(saved_data_path, exist_ok = True)
 
 
-original_data = original_data_path + 'test.csv'
+original_data = original_data_path + 'dev.csv'
 meta_result_data_path = 'extracted_rationales/' + user_args['dataset'] + '/topk/test-rationale_metadata.npy'
+'''
+-rationale_metadata.npy
+use .item(0) length 0 only 0 available
+keys ---> test_1112 
+keys ------> dict_keys(['original prediction', 'thresholder', 'divergence metric', 'ig', 
+'lime', 'scaled attention', 'gradients', 'deeplift', 'attention', 'random', 
+'fixed-len_var-feat', 'var-len_var-feat', 'var-len_var-feat_var-type', 'fixed-len_var-feat_var-type'])
+'''
+
 
 metadata = np.load(meta_result_data_path, allow_pickle=True).item(0)
 id_list = list(metadata.keys())
