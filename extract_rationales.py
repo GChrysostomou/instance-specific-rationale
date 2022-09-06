@@ -26,11 +26,7 @@ parser.add_argument(
     type = str, 
     help = "select dataset / task", 
     default = "evinf", 
-<<<<<<< HEAD
     #choices = ["sst", "evinf", "multirc", "agnews"]
-=======
-    # choices = ["sst", "evinf", "multirc", "agnews"]
->>>>>>> a9c158c4062338a9f9d7eb0aff61d2fa10f1b812
 )
 
 parser.add_argument(
