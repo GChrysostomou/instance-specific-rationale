@@ -4,6 +4,7 @@ import torch
 import os 
 import argparse
 import logging
+from sklearn.model_selection import train_test_split
 
 
 import datetime
@@ -102,72 +103,54 @@ logging.info("\n ----------------------")
 
 original_data_path = user_args['data_dir'] + user_args['dataset'] + '/data/'
 
-saved_data_path = user_args['data_dir'] + user_args['dataset'] + '_FA/data/'
-os.makedirs(saved_data_path, exist_ok = True)
-
-
-original_data = original_data_path + 'dev.csv'
-meta_result_data_path = 'extracted_rationales/' + user_args['dataset'] + '/topk/test-rationale_metadata.npy'
-'''
--rationale_metadata.npy
-use .item(0) length 0 only 0 available
-keys ---> test_1112 
-keys ------> dict_keys(['original prediction', 'thresholder', 'divergence metric', 'ig', 
-'lime', 'scaled attention', 'gradients', 'deeplift', 'attention', 'random', 
-'fixed-len_var-feat', 'var-len_var-feat', 'var-len_var-feat_var-type', 'fixed-len_var-feat_var-type'])
-'''
-
-
-metadata = np.load(meta_result_data_path, allow_pickle=True).item(0)
-id_list = list(metadata.keys())
-best_feat_list = []
-for id in id_list:
-    best_feat = metadata[id]['var-len_var-feat_var-type']['feature attribution name']
-    best_feat_list.append(best_feat)
-
-import collections
-freq_rank = collections.Counter(best_feat_list).most_common()
-
-common_selected_FA = []
-for FA in freq_rank:
-    FA_ratio = FA[1]/len(best_feat_list)
-    if FA_ratio > 0.1:
-        common_selected_FA.append(FA[0])
-
-print('common_selected_FA:  ', common_selected_FA)
-
-
-df = pd.DataFrame(list(zip(id_list, best_feat_list)),
-            columns =['annotation_id', 'feat'])
-original_data = pd.read_csv(original_data)
-
-FAdata = pd.merge(original_data, df, on="annotation_id")
-FAdata['label_id'] = best_feat_list # change original label to features 
-
-
-converted_label_id_list = []
-print(FAdata['label_id'])
-
-for label in FAdata['label_id']:
-    if label not in common_selected_FA:
-        converted_label_id_list.append('others')
-    else:
-        converted_label_id_list.append(label)
-
-FAdata['label_id'] = converted_label_id_list
-print(collections.Counter(converted_label_id_list).most_common())
-
-#df.loc[df['Population(B)'] < 1] = 0
-FAdata['label'] = pd.factorize(FAdata['label_id'])[0]
-print(FAdata['label'])
-
-FAdata.to_csv(saved_data_path + 'full_FAdata.csv')
-print(' ========= full test saved at: ', saved_data_path + 'full_FAdata.csv')
-print('length ', len(FAdata))
 
 
 
 
-# from src.data_functions.dataholder import classification_dataholder as dataholder
-# from src.tRpipeline import train_and_save, test_predictive_performance, keep_best_model_
-# from src.data_functions.useful_functions import describe_data_stats
+
+
+def feature2label(split, original_data, meta_result_data_path, saved_data_path):
+    metadata = np.load(meta_result_data_path, allow_pickle=True).item(0)
+    id_list = list(metadata.keys())
+    best_feat_list = []
+    for id in id_list:
+        best_feat = metadata[id]['var-len_var-feat_var-type']['feature attribution name']
+        best_feat_list.append(best_feat)
+
+
+    df = pd.DataFrame(list(zip(id_list, best_feat_list)), columns =['annotation_id', 'feat'])
+    original_data = pd.read_csv(original_data)
+    FAdata = pd.merge(original_data, df, on="annotation_id")
+    FAdata['label_id'] = FAdata['feat'] # change original label to features 
+    FAdata['label'] = pd.factorize(FAdata['label_id'])[0]
+    print(FAdata['label'])
+    FAdata.to_csv(saved_data_path + str(split) +'.csv')
+    return FAdata
+
+
+
+spl = ['test', 'dev']
+for split in spl:
+
+    original_data = original_data_path + str(split) + '.csv'
+    saved_data_path_top = user_args['data_dir'] + user_args['dataset'] + '_top/data/'
+    saved_data_path_conti = user_args['data_dir'] + user_args['dataset'] + '_conti/data/'
+    os.makedirs(saved_data_path_top, exist_ok = True)
+    os.makedirs(saved_data_path_conti, exist_ok = True)
+    meta_result_data_path_top = 'extracted_rationales/' + user_args['dataset'] + '/topk/'+ str(split) +'-rationale_metadata.npy'
+    meta_result_data_path_conti = 'extracted_rationales/' + user_args['dataset'] + '/contigious/'+ str(split) +'-rationale_metadata.npy'
+
+    test_top = feature2label(str(split), original_data, meta_result_data_path_top, saved_data_path_top)
+    test_conti = feature2label(str(split), original_data, meta_result_data_path_conti, saved_data_path_conti)
+
+
+
+train, dev = train_test_split(test_top, test_size=0.2, random_state=412)
+train.to_csv(saved_data_path_top + 'train.csv')
+dev.to_csv(saved_data_path_top + 'dev.csv')
+
+train, dev = train_test_split(test_conti, test_size=0.2, random_state=412)
+train.to_csv(saved_data_path_conti + 'train.csv')
+dev.to_csv(saved_data_path_conti + 'dev.csv')
+
+print('train: ',len(train), ' test:', len(test_conti), ' dev:', len(dev))
