@@ -39,3 +39,5 @@ full_fidelity/faithfulness_metrics/*/*metrics.json
 datasets/*.csv
 
 datasets/*.zip*
+extracted_rationales/*
+*npy
