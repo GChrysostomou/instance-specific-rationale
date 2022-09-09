@@ -4,6 +4,7 @@ import torch
 import os 
 import argparse
 import logging
+from sklearn.model_selection import train_test_split
 
 
 import datetime
@@ -124,11 +125,12 @@ def feature2label(split, original_data, meta_result_data_path, saved_data_path):
     FAdata['label'] = pd.factorize(FAdata['label_id'])[0]
     print(FAdata['label'])
     FAdata.to_csv(saved_data_path + str(split) +'.csv')
+    return FAdata
 
 
 
-split = ['dev', 'test']
-for spl in split:
+spl = ['test', 'dev']
+for split in spl:
 
     original_data = original_data_path + str(split) + '.csv'
     saved_data_path_top = user_args['data_dir'] + user_args['dataset'] + '_top/data/'
@@ -138,5 +140,17 @@ for spl in split:
     meta_result_data_path_top = 'extracted_rationales/' + user_args['dataset'] + '/topk/'+ str(split) +'-rationale_metadata.npy'
     meta_result_data_path_conti = 'extracted_rationales/' + user_args['dataset'] + '/contigious/'+ str(split) +'-rationale_metadata.npy'
 
-    feature2label(str(split), original_data, meta_result_data_path_top, saved_data_path_top)
-    feature2label(str(split), original_data, meta_result_data_path_conti, saved_data_path_conti)
+    test_top = feature2label(str(split), original_data, meta_result_data_path_top, saved_data_path_top)
+    test_conti = feature2label(str(split), original_data, meta_result_data_path_conti, saved_data_path_conti)
+
+
+
+train, dev = train_test_split(test_top, test_size=0.2, random_state=412)
+train.to_csv(saved_data_path_top + 'train.csv')
+dev.to_csv(saved_data_path_top + 'dev.csv')
+
+train, dev = train_test_split(test_conti, test_size=0.2, random_state=412)
+train.to_csv(saved_data_path_conti + 'train.csv')
+dev.to_csv(saved_data_path_conti + 'dev.csv')
+
+print('train: ',len(train), ' test:', len(test_conti), ' dev:', len(dev))
