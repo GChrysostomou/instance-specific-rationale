@@ -1,0 +1,5 @@
+,0,1,2,3,4,5,accuracy,macro avg,weighted avg,epoch,point,dev_loss,model-name
+precision,0.6666666666666666,0.0,0.27325581395348836,0.0,0.0,0.0,0.28,0.15665374677002583,0.24637873754152825,1,29,12.651032361117275,/jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/trained_models/sst_top/bert25.pt
+recall,0.044444444444444446,0.0,0.9791666666666666,0.0,0.0,0.0,0.28,0.17060185185185184,0.28,1,29,12.651032361117275,/jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/trained_models/sst_top/bert25.pt
+f1-score,0.08333333333333334,0.0,0.4272727272727273,0.0,0.0,0.0,0.28,0.08510101010101011,0.13862337662337665,1,29,12.651032361117275,/jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/trained_models/sst_top/bert25.pt
+support,45.0,43.0,48.0,17.0,21.0,1.0,0.28,175.0,175.0,1,29,12.651032361117275,/jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/trained_models/sst_top/bert25.pt
