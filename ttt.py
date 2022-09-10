@@ -1,9 +1,16 @@
 
 
 
+from regex import B
+import pandas as pd
 
 
 
+a = [1,2,3,4,5]
+b = [1,2,3,4,5]
+
+df = pd.DataFrame(list(zip(a, b)), columns =['annotation_id', 'feat'])
+print(df)
 
 
 
