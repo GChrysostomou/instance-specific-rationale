@@ -41,3 +41,6 @@ datasets/*.csv
 datasets/*.zip*
 extracted_rationales/*
 *npy
+faithfulness_metrics/*
+
+
