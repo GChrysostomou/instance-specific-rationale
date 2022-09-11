@@ -3,13 +3,21 @@ import pandas as pd
 import numpy as np
 import json
 from sklearn.metrics import accuracy_score
+import glob
 #from src.evaluation.experiments.increasing_feature_scoring import compute_faithfulness_
 
 #### check accuracy and sufficiency...
 
+#evinf 15
 dataset = 'evinf'
 rationale_type_dataset = str(dataset) + '_top'
-result = np.load(f'./trained_models/{rationale_type_dataset}/scibert-output_seed-sci15.npy', allow_pickle= True)
+
+file_name = glob.glob(f'./trained_models/{rationale_type_dataset}/*.pt')
+num = file_name[0][-5:-3]
+
+fea_classify_result_path = glob.glob(f'./trained_models/{rationale_type_dataset}/*seed*{num}.npy')[0]
+result = np.load(fea_classify_result_path, allow_pickle= True)
+
 meta_top = f'./faithfulness_metrics/{dataset}/topk-test-faithfulness-metrics.json'
 meta_conti = f'./faithfulness_metrics/{dataset}/contigious-test-faithfulness-metrics.json'
 
@@ -49,13 +57,15 @@ print(df['actual'])
 print('accuracy: ', accuracy_score(list(df['actual']), pred_labels))
 
 
-print('-----------')
+print('++++++++++++++++++++')
 
 suff_list_top = []
 comp_list_top = []
 best_suff_list_top = []
 best_comp_list_top = []
 
+
+# 原数据，top的faithful
 for id in prediction_data_top.keys():
     label_num = df.loc[id]['pred_labels']
     label_feat = 'fixed-' + str(map.get(label_num))
@@ -69,7 +79,9 @@ for id in prediction_data_top.keys():
     best_suff_list_top.append(best_suff_top)
     best_comp_list_top.append(best_comp_top)
 
-print('--- top ----')
+
+print(rationale_type_dataset)
+print('--- 使用top rationales 的faithful  on original task ----')
 print('--- classifier ----suff-->comp')
 print(sum(suff_list_top)/len(suff_list_top))
 print(sum(comp_list_top)/len(comp_list_top))
@@ -89,7 +101,7 @@ suff_list_conti = []
 comp_list_conti = []
 best_suff_list_conti = []
 best_comp_list_conti = []
-
+# 原数据，conti的faithful
 for id in prediction_data_conti.keys():
     label_num = df.loc[id]['pred_labels']
     label_feat = 'fixed-' + str(map.get(label_num))
@@ -103,7 +115,7 @@ for id in prediction_data_conti.keys():
     best_suff_list_conti.append(best_suff_conti)
     best_comp_list_conti.append(best_comp_conti)
 
-print('--- conti ----')
+print('--- 使用conti rationales 的faithful  on original task  ----')
 print('--- classifier ----suff-->comp')
 print(sum(suff_list_conti)/len(suff_list_conti))
 print(sum(comp_list_conti)/len(comp_list_conti))
