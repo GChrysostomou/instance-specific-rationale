@@ -1,0 +1,36 @@
+{
+    "15": {
+        "model": "/jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/trained_models/agnews_top/bert15.pt",
+        "f1": 0.07117703515349523,
+        "loss": 25.619912386442486,
+        "ece-score": 0.4387784657901839
+    },
+    "5": {
+        "model": "/jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/trained_models/agnews_top/bert5.pt",
+        "f1": 0.08295622516380914,
+        "loss": 29.434922674078692,
+        "ece-score": 0.4833753192620842
+    },
+    "10": {
+        "model": "/jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/trained_models/agnews_top/bert10.pt",
+        "f1": 0.07341875687474277,
+        "loss": 25.514316030803478,
+        "ece-score": 0.4067050800982274
+    },
+    "25": {
+        "model": "/jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/trained_models/agnews_top/bert25.pt",
+        "f1": 0.07646245691804114,
+        "loss": 28.0981576939633,
+        "ece-score": 0.48267614955572713
+    },
+    "20": {
+        "model": "/jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/trained_models/agnews_top/bert20.pt",
+        "f1": 0.07193822005761816,
+        "loss": 25.927836663095576,
+        "ece-score": 0.4679278193963201
+    },
+    "mean-f1": 0.07519053883354129,
+    "std-f1": 0.004283658723877897,
+    "mean-ece": 0.45589256682050855,
+    "std-ece": 0.029427234306314113
+}
