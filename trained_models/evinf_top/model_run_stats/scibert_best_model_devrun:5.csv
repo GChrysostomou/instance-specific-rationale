@@ -1,5 +1,5 @@
 ,0,1,2,3,4,5,accuracy,macro avg,weighted avg,epoch,point,dev_loss,model-name
-precision,0.0,0.4473684210526316,1.0,0.5543478260869565,0.0,0.0,0.5109489051094891,0.3336193745232647,0.4251448996976733,3,0,5.114520290919713,/jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/trained_models/evinf_top/scibert5.pt
-recall,0.0,0.4857142857142857,0.3333333333333333,0.7727272727272727,0.0,0.0,0.5109489051094891,0.2652958152958153,0.5109489051094891,3,0,5.114520290919713,/jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/trained_models/evinf_top/scibert5.pt
-f1-score,0.0,0.4657534246575342,0.5,0.6455696202531646,0.0,0.0,0.5109489051094891,0.2685538408184498,0.45189025401257343,3,0,5.114520290919713,/jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/trained_models/evinf_top/scibert5.pt
-support,13.0,35.0,6.0,66.0,9.0,8.0,0.5109489051094891,137.0,137.0,3,0,5.114520290919713,/jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/trained_models/evinf_top/scibert5.pt
+precision,0.0,0.0,0.0,0.48175182481751827,0.0,0.0,0.48175182481751827,0.08029197080291971,0.2320848207150088,2,12,22.247857093811035,/jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/trained_models/evinf_top/scibert5.pt
+recall,0.0,0.0,0.0,1.0,0.0,0.0,0.48175182481751827,0.16666666666666666,0.48175182481751827,2,12,22.247857093811035,/jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/trained_models/evinf_top/scibert5.pt
+f1-score,0.0,0.0,0.0,0.6502463054187192,0.0,0.0,0.48175182481751827,0.1083743842364532,0.3132573442163173,2,12,22.247857093811035,/jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/trained_models/evinf_top/scibert5.pt
+support,13.0,35.0,6.0,66.0,9.0,8.0,0.48175182481751827,137.0,137.0,2,12,22.247857093811035,/jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/trained_models/evinf_top/scibert5.pt
