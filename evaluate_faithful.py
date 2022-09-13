@@ -27,7 +27,7 @@ parser.add_argument(
     "--dataset", 
     type = str, 
     help = "select dataset / task", 
-    default = "sst", 
+    default = "evinf", 
     #choices = ["sst", "evinf", "multirc", "agnews"]
 )
 
@@ -121,13 +121,14 @@ from src.evaluation import evaluation_pipeline
 
 
 dataset = user_args["dataset"]
+data_split_name = 'dev'
 best_model = glob.glob(f'trained_models/{dataset}/*.pt')
 print('best model: ', best_model)
 best_model_num = str(best_model)[-7:-5]
 print(best_model_num)
 
-likelihood_meta_result_path = glob.glob(f'./trained_models/{dataset}/*seed*{best_model_num}.npy')[0]
-likelihood_meta = np.load(likelihood_meta_result_path, allow_pickle= True)
+# likelihood_meta_result_path = glob.glob(f'./trained_models/{dataset}/*seed*{best_model_num}.npy')[0]
+# likelihood_meta = np.load(likelihood_meta_result_path, allow_pickle= True)
 
 '''
 {'test_82': {'predicted': array([-0.72803926, -1.0137744 ], dtype=float32), 'actual': 1}, 
@@ -136,15 +137,34 @@ likelihood_meta = np.load(likelihood_meta_result_path, allow_pickle= True)
 'test_1211': {'predicted': array([ 1.4527382, -3.0300527], dtype=float32), 'actual': 0}}
 '''
 
-meta = f'extracted_rationales/{dataset}/topk/dev-rationale_metadata.npy'
-meta = np.load(meta,allow_pickle=True)
+# meta = f'extracted_rationales/{dataset}/topk/dev-rationale_metadata.npy'
+# meta = np.load(meta,allow_pickle=True)
+fname = os.path.join(
+        os.getcwd(),
+        args["data_dir"],
+        "importance_scores",
+        ""
+    )
+#fname += f"{data_split_name}_importance_scores_{best_model_num}.npy"
+
+importance_score_path = glob.glob(fname+f'{data_split_name}*{best_model_num}*')[0]
+
+## retrieve importance scores
+importance_scores = np.load(importance_score_path, allow_pickle = True).item() # dictionary
+
+
 print('===========================================')
-print(meta)
-print(meta.shape)
-print(meta.shape())
+#print(importance_scores)
+print(importance_scores.keys())  # 'dev_624', 'dev_672', 'dev_740', 'dev_801', 'dev_845'
+                                # '3897026_1', '3897026_4', '3897026_5'
+print(importance_scores.get('3897026_1').keys()) #dict_keys(['random', 'attention', 'gradients', 'ig', 'scaled attention', 'lime', 'deeplift'])
 print('===========================================')
-print(meta.get('dev_740').keys())
+print(len(importance_scores.get('3897026_1').get('deeplift')))
+print(len(importance_scores.get('3897026_4').get('deeplift')))
+print(len(importance_scores.get('3897026_5').get('deeplift')))
+print(len(importance_scores.get('3897026_5').get('random')))
+print(importance_scores.get('3897026_5').get('deeplift')) # [          -inf  1.52082415e-03  2.31635128e-03  .....] 长度等于上面的长度
 print('===========================================')
-print(meta.get('dev_740'))
+#print(importance_scores.get('dev_740'))
 # print('===========================================')
 # print(meta.keys())
