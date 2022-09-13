@@ -2,35 +2,35 @@
     "roa20": {
         "model": "/jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/trained_models/multirc/roberta20.pt",
         "f1": 0.7352995025148543,
-        "loss": 2.1568553171338816,
-        "ece-score": 0.04466959483700225
+        "loss": 2.156855318166635,
+        "ece-score": 0.04466961011929875
     },
     "roa5": {
         "model": "/jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/trained_models/multirc/roberta5.pt",
         "f1": 0.759984022926325,
-        "loss": 2.013830237705322,
-        "ece-score": 0.07124144788032317
+        "loss": 2.0138302430658057,
+        "ece-score": 0.07124144398290723
     },
     "roa15": {
         "model": "/jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/trained_models/multirc/roberta15.pt",
         "f1": 0.6954884210943713,
-        "loss": 2.3335728337465733,
-        "ece-score": 0.041620506742114705
+        "loss": 2.3335728394513082,
+        "ece-score": 0.041620491472112886
     },
     "roa25": {
         "model": "/jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/trained_models/multirc/roberta25.pt",
         "f1": 0.7672748663117204,
-        "loss": 2.1727238465162,
-        "ece-score": 0.106254453362018
+        "loss": 2.172723847376828,
+        "ece-score": 0.10625444615733115
     },
     "roa10": {
         "model": "/jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/trained_models/multirc/roberta10.pt",
         "f1": 0.740724997986415,
-        "loss": 2.1222372118494297,
-        "ece-score": 0.03481794215074861
+        "loss": 2.1222372175541646,
+        "ece-score": 0.03481795080620858
     },
     "mean-f1": 0.7397543621667372,
     "std-f1": 0.025087362437197874,
-    "mean-ece": 0.05972078899444135,
-    "std-ece": 0.026353056538998876
+    "mean-ece": 0.05972078850757172,
+    "std-ece": 0.026353052369979008
 }

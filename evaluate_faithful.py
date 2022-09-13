@@ -126,4 +126,25 @@ print('best model: ', best_model)
 best_model_num = str(best_model)[-7:-5]
 print(best_model_num)
 
-metaresult = np.load
+likelihood_meta_result_path = glob.glob(f'./trained_models/{dataset}/*seed*{best_model_num}.npy')[0]
+likelihood_meta = np.load(likelihood_meta_result_path, allow_pickle= True)
+
+'''
+{'test_82': {'predicted': array([-0.72803926, -1.0137744 ], dtype=float32), 'actual': 1}, 
+'test_156': {'predicted': array([-3.1670673,  3.6749783], dtype=float32), 'actual': 1}, 
+'test_1701': {'predicted': array([ 1.3215427, -2.890399 ], dtype=float32), 'actual': 0}, 
+'test_1211': {'predicted': array([ 1.4527382, -3.0300527], dtype=float32), 'actual': 0}}
+'''
+
+meta = f'extracted_rationales/{dataset}/topk/dev-rationale_metadata.npy'
+meta = np.load(meta,allow_pickle=True)
+print('===========================================')
+print(meta)
+print(meta.shape)
+print(meta.shape())
+print('===========================================')
+print(meta.get('dev_740').keys())
+print('===========================================')
+print(meta.get('dev_740'))
+# print('===========================================')
+# print(meta.keys())
