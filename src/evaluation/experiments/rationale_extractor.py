@@ -609,3 +609,267 @@ def rationale_creator_(data, data_split_name, variable, tokenizer):
     return
 
 
+
+#### build upon func rationale_creator_
+def rank_rationales_save_importance_scores(data, data_split_name, variable, tokenizer):
+
+    ## get the thresholder fun
+    thresholder = getattr(thresholders, 'topk')
+
+    fname = os.path.join(
+        os.getcwd(),
+        args["extracted_rationale_dir"],
+        "topk", # args["thresholder"],
+        ""
+    )
+
+    if data_split_name == "train":
+
+        return
+
+    fname += data_split_name + "-rationale_metadata.npy"
+    rationale_metadata = np.load(fname, allow_pickle = True).item()
+
+    fname = os.path.join(
+        os.getcwd(),
+        args["data_dir"],
+        "importance_scores",
+        ""
+    )
+
+
+    fname += data_split_name + "_importance_scores*.npy"
+
+    fname = glob.glob(fname)[0]
+
+    ## retrieve importance scores
+    importance_scores = np.load(fname, allow_pickle = True).item()
+
+
+    ## filter only relevant parts in our dataset
+    data = data[["input_ids", "annotation_id", "exp_split", "label", "label_id"]]
+
+    annotation_text = dict(data[["annotation_id", "input_ids"]].values)
+
+    del data["input_ids"]
+
+    ## time to register rationales
+    for feature_attribution in {"attention", "gradients", "ig", "scaled attention", "lime", "deeplift"}:
+        
+
+        temp_registry = {}
+
+        for annotation_id, sequence_text in annotation_text.items():
+            
+
+            temp_registry[annotation_id] = {}
+
+            sequence_text = sequence_text.squeeze(0)
+
+            sos_eos = torch.where(sequence_text == tokenizer.sep_token_id)[0]
+            seq_length = sos_eos[0]
+
+            full_doc = tokenizer.convert_ids_to_tokens(sequence_text[1:seq_length])
+            full_doc = tokenizer.convert_tokens_to_string(full_doc)
+            
+            if args.query:
+
+                query_end = sos_eos[1]
+
+                query = tokenizer.convert_ids_to_tokens(sequence_text[seq_length + 1:query_end])
+                query = tokenizer.convert_tokens_to_string(query)
+
+            sequence_importance = importance_scores[annotation_id][feature_attribution][:seq_length + 1]
+            ## zero out cls and sep
+            sequence_importance[0] = float("-inf")
+            sequence_importance[-1] = float("-inf")
+            sequence_text = sequence_text[:seq_length + 1]
+
+            # if variable:
+
+            #     # untokenize sequence and sequence importance scores
+            #     sequence_text, sequence_importance = wpiece2word(
+            #         tokenizer = tokenizer, 
+            #         sentence = sequence_text, 
+            #         weights = sequence_importance
+            #     )
+
+            #     rationale_indxs = thresholder(
+            #         scores = sequence_importance, 
+            #         original_length = len(sequence_text) - 2,
+            #         rationale_length =  rationale_metadata[annotation_id][feature_attribution]["variable rationale ratio"]
+            #     )
+
+            # else:
+
+                ## untokenize sequence and sequence importance scores
+            sequence_text, sequence_importance = wpiece2word(
+                tokenizer = tokenizer, 
+                sentence = sequence_text, 
+                weights = sequence_importance
+            )
+
+            rationale_indxs = thresholder(
+                scores = sequence_importance, 
+                original_length = len(sequence_text) -2,
+                rationale_length = int((len(sequence_text) -2)*0.5) # args["rationale_length"]
+            )
+            print(rationale_indxs)
+
+            rationale = sequence_text[rationale_indxs]
+            print(rationale)
+
+            temp_registry[annotation_id]["rationale"] = " ".join(rationale)
+            temp_registry[annotation_id]["full text doc"] = full_doc
+            temp_registry[annotation_id]["original prediction"] = rationale_metadata[annotation_id]["original prediction"].argmax()
+
+            # if variable:
+
+            #     temp_registry[annotation_id]["rationale length"] = rationale_metadata[annotation_id][feature_attribution]["variable rationale length"]
+
+            # else:
+
+            temp_registry[annotation_id]["rationale length"] = rationale_metadata[annotation_id][feature_attribution]["fixed rationale length"]
+
+            if args.query: 
+                
+                temp_registry[annotation_id]["query"]  = query
+
+        if args.query:
+            
+            data["document"] = data.annotation_id.apply(lambda x : temp_registry[x]["rationale"])
+            data["query"] = data.annotation_id.apply(lambda x : temp_registry[x]["query"])
+
+        else:
+
+            data["text"] = data.annotation_id.apply(lambda x : temp_registry[x]["rationale"])
+
+        data["full text doc"] = data.annotation_id.apply(lambda x : temp_registry[x]["full text doc"])
+        data["full text prediction"] = data.annotation_id.apply(lambda x : temp_registry[x]["original prediction"])
+        data["rationale length"] = data.annotation_id.apply(lambda x : temp_registry[x]["rationale length"])
+        
+        fname = os.path.join(
+            os.getcwd(),
+            args["extracted_rationale_dir"],
+            "rank",
+            ""
+        )
+
+        os.makedirs(fname, exist_ok=True)
+
+        
+        # if variable:
+        #     fname += "var_len-" + feature_attribution + "-" + data_split_name + ".csv"
+        # else:
+        fname += feature_attribution + "-" + data_split_name + ".csv"
+
+        print(f"saved in -> {fname}")
+
+        data.to_csv(fname)
+
+    ## now to save our (fixed-len + var-feat) and (var-len + var-feat rationales)
+
+    temp_registry = {}
+
+    for annotation_id, sequence_text in annotation_text.items():
+        
+        temp_registry[annotation_id] = {}
+
+        sequence_text = sequence_text.squeeze(0)
+
+        sos_eos = torch.where(sequence_text == tokenizer.sep_token_id)[0]
+        seq_length = sos_eos[0]
+
+        full_doc = tokenizer.convert_ids_to_tokens(sequence_text[1:seq_length])
+        full_doc = tokenizer.convert_tokens_to_string(full_doc)
+        
+        if args.query:
+
+            query_end = sos_eos[1]
+
+            query = tokenizer.convert_ids_to_tokens(sequence_text[seq_length + 1:query_end])
+            query = tokenizer.convert_tokens_to_string(query)
+
+        if variable:
+            
+            for_our_approach = rationale_metadata[annotation_id]['var-len_var-feat']["feature attribution name"]
+
+        else:
+            
+            for_our_approach = rationale_metadata[annotation_id]['fixed-len_var-feat']["feature attribution name"]
+
+        sequence_importance = importance_scores[annotation_id][for_our_approach][:seq_length + 1]
+        ## zero out cls and sep
+        sequence_importance[0] = float("-inf")
+        sequence_importance[-1] = float("-inf")
+        sequence_text = sequence_text[:seq_length + 1]
+
+
+        # untokenize sequence and sequence importance scores
+        sequence_text, sequence_importance = wpiece2word(
+            tokenizer = tokenizer, 
+            sentence = sequence_text, 
+            weights = sequence_importance
+        )
+
+        rationale_indxs = thresholder(
+            scores = sequence_importance, 
+            original_length = len(sequence_text) - 2,
+            rationale_length =  rationale_metadata[annotation_id][for_our_approach]["variable rationale ratio"]
+        )
+
+        rationale = sequence_text[rationale_indxs]
+
+        temp_registry[annotation_id]["rationale"] = " ".join(rationale)
+        temp_registry[annotation_id]["full text doc"] = full_doc
+        temp_registry[annotation_id]["original prediction"] = rationale_metadata[annotation_id]["original prediction"].argmax()
+
+        if variable:
+
+            temp_registry[annotation_id]["rationale length"] = rationale_metadata[annotation_id][feature_attribution]["variable rationale length"]
+
+        else:
+
+            temp_registry[annotation_id]["rationale length"] = rationale_metadata[annotation_id][feature_attribution]["fixed rationale length"]
+
+        if args.query: 
+            
+            temp_registry[annotation_id]["query"]  = query
+
+    if args.query:
+        
+        data["document"] = data.annotation_id.apply(lambda x : temp_registry[x]["rationale"])
+        data["query"] = data.annotation_id.apply(lambda x : temp_registry[x]["query"])
+
+    else:
+
+        data["text"] = data.annotation_id.apply(lambda x : temp_registry[x]["rationale"])
+
+    data["full text doc"] = data.annotation_id.apply(lambda x : temp_registry[x]["full text doc"])
+    data["full text prediction"] = data.annotation_id.apply(lambda x : temp_registry[x]["original prediction"])
+    data["rationale length"] = data.annotation_id.apply(lambda x : temp_registry[x]["rationale length"])
+        
+
+    fname = os.path.join(
+        os.getcwd(),
+        args["extracted_rationale_dir"],
+        args["thresholder"],
+        "data",
+        ""
+    )
+
+    os.makedirs(fname, exist_ok=True)
+
+    
+    if variable:
+        fname += "var-len_var-feat-" + data_split_name + ".csv"
+    else:
+        fname += "fixed-len_var-feat-" + "-" + data_split_name + ".csv"
+
+    print(f"saved in -> {fname}")
+
+    data.to_csv(fname)
+
+
+    return
+
