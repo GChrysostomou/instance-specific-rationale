@@ -157,14 +157,25 @@ print('===========================================')
 #print(importance_scores)
 print(importance_scores.keys())  # 'dev_624', 'dev_672', 'dev_740', 'dev_801', 'dev_845'
                                 # '3897026_1', '3897026_4', '3897026_5'
-print(importance_scores.get('3897026_1').keys()) #dict_keys(['random', 'attention', 'gradients', 'ig', 'scaled attention', 'lime', 'deeplift'])
+print(importance_scores.get('dev_624').keys()) #dict_keys(['random', 'attention', 'gradients', 'ig', 'scaled attention', 'lime', 'deeplift'])
 print('===========================================')
-print(len(importance_scores.get('3897026_1').get('deeplift')))
-print(len(importance_scores.get('3897026_4').get('deeplift')))
-print(len(importance_scores.get('3897026_5').get('deeplift')))
-print(len(importance_scores.get('3897026_5').get('random')))
-print(importance_scores.get('3897026_5').get('deeplift')) # [          -inf  1.52082415e-03  2.31635128e-03  .....] 长度等于上面的长度
+print(len(importance_scores.get('dev_624').get('deeplift')))
+# print(len(importance_scores.get('3897026_4').get('deeplift')))
+# print(len(importance_scores.get('3897026_5').get('deeplift')))
+print(len(importance_scores.get('dev_624').get('random')))
+print(importance_scores.get('dev_624').get('deeplift')) # [          -inf  1.52082415e-03  2.31635128e-03  .....] 长度等于上面的长度
 print('===========================================')
 #print(importance_scores.get('dev_740'))
 # print('===========================================')
 # print(meta.keys())
+
+
+# ask georgy, if removed it / stopwords from rationales and then take out rationales
+# the length of importance score (non -inf) is not equal to the text length
+
+'''
+>> sorted_importance_score = list(numpy.argsort(attention_importance_scores)).reverse()
+>>> sorted_importance_score
+>>> sorted_importance_score = numpy.argsort(attention_importance_scores)
+
+'''
