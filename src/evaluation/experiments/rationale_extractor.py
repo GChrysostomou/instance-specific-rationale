@@ -717,6 +717,7 @@ def rank_rationales_save_importance_scores(data, data_split_name, variable, toke
             print(rationale_indxs)
 
             rationale = sequence_text[rationale_indxs]
+            print(sequence_text)
             print(rationale)
 
             temp_registry[annotation_id]["rationale"] = " ".join(rationale)
@@ -768,7 +769,7 @@ def rank_rationales_save_importance_scores(data, data_split_name, variable, toke
         data.to_csv(fname)
 
     ## now to save our (fixed-len + var-feat) and (var-len + var-feat rationales)
-
+'''
     temp_registry = {}
 
     for annotation_id, sequence_text in annotation_text.items():
@@ -869,7 +870,7 @@ def rank_rationales_save_importance_scores(data, data_split_name, variable, toke
     print(f"saved in -> {fname}")
 
     data.to_csv(fname)
-
+'''
 
     return
 

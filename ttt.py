@@ -3,7 +3,12 @@
 
 from regex import B
 import pandas as pd
+import numpy as np
 
+x = np.array([3, 1, 2])
+print(np.argsort(x))
+print(np.argsort(-x))
+quit()
 
 
 a = [1,2,3,4,5]

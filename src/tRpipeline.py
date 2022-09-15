@@ -295,6 +295,132 @@ def test_predictive_performance(test_data_loader, for_rationale = False, output_
     return stats_report
 
 
+def test_predictive_performance_rank(test_data_loader, for_rationale = False, output_dims = 2, save_output_probs = True, variable = False):    
+
+    """
+    Runs trained models on test set
+    Also keeps the best model for experimentation
+    and produces statistics    
+    """
+    
+    if for_rationale: trained_models = glob.glob(os.path.join(args["model_dir"], args["thresholder"],"") + args["importance_metric"] + "*.pt")
+    else: trained_models = glob.glob(args["model_dir"] + args["model_abbreviation"] +"*.pt")
+    
+    stats_report = {}
+
+    logging.info("-------------------------------------")
+    logging.info("evaluating trained models")
+    
+    for model in trained_models:
+        
+        classifier = bert(
+            output_dim = output_dims
+        )
+        
+        classifier.to(device)
+        # loading the trained model
+    
+        classifier.load_state_dict(torch.load(model, map_location=device))
+        
+        logging.info(
+            "Loading model: {}".format(
+                model
+            )
+        )
+
+        classifier.to(device)
+        
+        seed = re.sub("bert", "", model.split(".pt")[0].split("/")[-1])
+
+        loss_function = nn.CrossEntropyLoss()
+
+        test_results, test_loss, test_predictions = test_model(
+                model =classifier, 
+                loss_function = loss_function, 
+                data= test_data_loader,
+                save_output_probs = save_output_probs,
+                random_seed = seed,
+                for_rationale = for_rationale,
+                variable = variable
+            )
+
+        ## save stats of evaluated model
+
+        df = pd.DataFrame.from_dict(test_results)
+
+        if for_rationale:
+
+            df.to_csv(os.path.join(args["model_dir"], args["thresholder"], "")  +"/model_run_stats/" + args["importance_metric"] + "_" +  args["model_abbreviation"] + "_best_model_test_seed:" + seed + ".csv")
+
+        else:
+
+            df.to_csv(args["model_dir"]  +"/model_run_stats/" + args["model_abbreviation"] + "_best_model_test_seed:" + seed + ".csv")
+     
+        
+
+        logging.info(
+            "Seed: '{0}' -- Test loss: '{1}' -- Test accuracy: '{2}'".format(
+                seed, 
+                round(test_loss, 3),
+                round(test_results["macro avg"]["f1-score"], 3)
+            )
+        )
+
+        del classifier
+        gc.collect()
+        torch.cuda.empty_cache()
+
+
+        ### conducting ece test
+        unc_metr = uncertainty_metrics(
+                                        data = test_predictions, 
+                                        save_dir = model.split(".")[0], #remove .pt
+                                        variable = variable
+                                    )
+
+        ece_stats = unc_metr.ece()
+
+        stats_report[seed] = {}
+        stats_report[seed]["model"] = model
+        stats_report[seed]["f1"] = test_results["macro avg"]["f1-score"]
+        stats_report[seed]["loss"] = test_loss
+        stats_report[seed]["ece-score"] = ece_stats["ece"]
+
+    f1s = np.asarray([x["f1"] for k,x in stats_report.items()])
+    eces = np.asarray([x["ece-score"] for k,x in stats_report.items()])
+
+    stats_report["mean-f1"] = f1s.mean()
+    stats_report["std-f1"] = f1s.std()
+    
+    stats_report["mean-ece"] = eces.mean()
+    stats_report["std-ece"] = eces.std()
+
+    if for_rationale:
+
+        fname = os.path.join(args["model_dir"], args["thresholder"], "") + args["importance_metric"] + "_" + args["model_abbreviation"] + "_predictive_performances.json"
+
+    else:
+    
+        fname =  args["model_dir"] + args["model_abbreviation"] + "_predictive_performances.json"
+
+    with open(fname, 'w') as file:
+        json.dump(
+            stats_report,
+            file,
+            indent = 4
+        )
+
+    # print('++++++++++++', stats_report)
+    df = pd.DataFrame(stats_report) # bug for run FA --> by cass
+
+    if for_rationale:
+        df.to_csv(os.path.join(args["model_dir"], args["thresholder"], "") + args["importance_metric"] + "_" + args["model_abbreviation"] + "_predictive_performances.csv")
+    
+    else:
+        df.to_csv(args["model_dir"] + args["model_abbreviation"] + "_predictive_performances.csv")
+    return stats_report
+
+
 
 
 def keep_best_model_(keep_models = False, for_rationale = False):
