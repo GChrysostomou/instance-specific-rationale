@@ -56,8 +56,8 @@ parser.add_argument(
     "--thresholder", 
     type = str, 
     help = "thresholder for extracting rationales", 
-    default = "topk",
-    choices = ["contigious", "topk"]
+    default = "rank",
+    #choices = ["contigious", "topk", "rank"]
 )
 
 parser.add_argument(
@@ -76,8 +76,8 @@ parser.add_argument(
 user_args = vars(parser.parse_args())
 user_args["importance_metric"] = None
 
-log_dir = "experiment_logs/evaluate_" + user_args["dataset"] + "_" +  date_time + "/"
-config_dir = "experiment_config/evaluate_" + user_args["dataset"] + "_" +  date_time + "/"
+log_dir = "experiment_logs/evaluate_rank_" + user_args["dataset"] + "_" +  date_time + "/"
+config_dir = "experiment_config/evaluate_rank_" + user_args["dataset"] + "_" +  date_time + "/"
 
 
 os.makedirs(log_dir, exist_ok = True)
@@ -132,8 +132,9 @@ evaluator = evaluation_pipeline.evaluate(
 
 logging.info("*********conducting in-domain flip experiments")
 
-evaluator.faithfulness_metrics_(data)
-print(' DONE faithfulness metrics')
+evaluator.faithfulness_metrics_(data) #-->conduct_tests_-->sufficiency_(erasure_tests.py)-->
+print(' DONE faithfulness metrics')   # -rationale_metadata.npy is from 
+                                    #    func get_rationale_metadata_
 
 evaluator.feature_scoring_performance_()  ## debug by cass
 

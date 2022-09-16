@@ -97,7 +97,7 @@ def topk_rank(scores, original_length, rationale_length = 0.5):
             "info" : returns indexes that form the rationale from the sequence
             }
     """
-
+    #print('============', rationale_length)
     assert rationale_length > 0. and rationale_length <= 1.
 
     max_lengths = math.ceil(float(original_length) * rationale_length)
