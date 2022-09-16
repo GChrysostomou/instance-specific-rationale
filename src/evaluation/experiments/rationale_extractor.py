@@ -611,11 +611,12 @@ def rationale_creator_(data, data_split_name, variable, tokenizer):
 
 
 #### build upon func rationale_creator_
-def rank_rationales_save_importance_scores(data, data_split_name, variable, tokenizer):
+def rationale_creator_rank_(data, data_split_name, tokenizer): # variable,
 
     ## get the thresholder fun
-    thresholder = getattr(thresholders, 'topk')
+    thresholder = getattr(thresholders, 'topk_rank')
 
+    ## get the topk rationale_metadata
     fname = os.path.join(
         os.getcwd(),
         args["extracted_rationale_dir"],
@@ -624,12 +625,12 @@ def rank_rationales_save_importance_scores(data, data_split_name, variable, toke
     )
 
     if data_split_name == "train":
-
         return
 
     fname += data_split_name + "-rationale_metadata.npy"
     rationale_metadata = np.load(fname, allow_pickle = True).item()
 
+    ## get the importance scores
     fname = os.path.join(
         os.getcwd(),
         args["data_dir"],
@@ -637,12 +638,8 @@ def rank_rationales_save_importance_scores(data, data_split_name, variable, toke
         ""
     )
 
-
     fname += data_split_name + "_importance_scores*.npy"
-
     fname = glob.glob(fname)[0]
-
-    ## retrieve importance scores
     importance_scores = np.load(fname, allow_pickle = True).item()
 
 
@@ -712,13 +709,15 @@ def rank_rationales_save_importance_scores(data, data_split_name, variable, toke
             rationale_indxs = thresholder(
                 scores = sequence_importance, 
                 original_length = len(sequence_text) -2,
-                rationale_length = int((len(sequence_text) -2)*0.5) # args["rationale_length"]
+                rationale_length = 0.5, #int((len(sequence_text) -2)*0.5) # args["rationale_length"] # to change how much percentage for evaluate
             )
-            print(rationale_indxs)
+            # print(sequence_text)
+            # print(rationale_indxs)
 
             rationale = sequence_text[rationale_indxs]
-            print(sequence_text)
-            print(rationale)
+            # print(rationale)
+
+
 
             temp_registry[annotation_id]["rationale"] = " ".join(rationale)
             temp_registry[annotation_id]["full text doc"] = full_doc
@@ -870,7 +869,8 @@ def rank_rationales_save_importance_scores(data, data_split_name, variable, toke
     print(f"saved in -> {fname}")
 
     data.to_csv(fname)
-'''
+
 
     return
 
+'''

@@ -76,9 +76,6 @@ def conduct_tests_(model, data, split, model_random_seed):
                 "special_tokens" : batch["special tokens"],
                 "retain_gradient" : False ## we do not need it
             }
-        # if i == 0:
-        #     print('the first batch in data after assignment for reference: ')
-        #     print(batch)
             
         assert batch["input_ids"].size(0) == len(batch["labels"]), "Error: batch size for item 1 not in correct position"
         
