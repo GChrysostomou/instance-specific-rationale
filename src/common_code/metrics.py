@@ -115,13 +115,13 @@ Faithfulness metrics
 def sufficiency_(full_text_probs : np.array, reduced_probs : np.array) -> np.array:
 
     sufficiency = 1 - np.maximum(0, full_text_probs - reduced_probs)
-    print('=====full_text_probs====')
-    print(full_text_probs)
-    print('=====reduced_probs====')
-    print(reduced_probs)
-    print('=====sufficiency====')
-    print(sufficiency)
-    quit()
+    # print('=====full_text_probs====')
+    # print(full_text_probs)
+    # print('=====reduced_probs====')
+    # print(reduced_probs)
+    # print('=====sufficiency====')
+    # print(sufficiency)
+    # quit()
 
     return sufficiency
 
