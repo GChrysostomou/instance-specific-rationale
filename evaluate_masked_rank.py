@@ -132,6 +132,18 @@ evaluator = evaluation_pipeline.evaluate(
 
 logging.info("*********conducting in-domain flip experiments")
 
+
+# get input x-t for t1 to tn
+
+# get y'x-t for t1 to tn
+
+# for each input,
+# for each feature attribution method,
+# get importance scores
+# get changes of output distribution (y - y'x-t , 1 < t n, )
+
+
+# for each input, get correlation coefficient (kendal) for importance scores and changes of output distribution (y - y'x-t , 1 < t , )
 evaluator.faithfulness_metrics_(data) #-->conduct_tests_-->sufficiency_(erasure_tests.py)-->
 print(' DONE faithfulness metrics')   # -rationale_metadata.npy is from 
                                     #    func get_rationale_metadata_
