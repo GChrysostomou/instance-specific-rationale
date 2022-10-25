@@ -1,9 +1,4 @@
 
 
-try different classifier
-==========
-create dataset
+faithfulness evaluation / prediction F1 results are in: ./faithfulness_metrics/dataset_name/....description.json
 
-train model by loop for different sampling size
-
-measure 

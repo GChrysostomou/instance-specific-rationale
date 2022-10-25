@@ -26,7 +26,7 @@ parser.add_argument(
     "--dataset", 
     type = str, 
     help = "select dataset / task", 
-    default = "sst", 
+    default = "agnews", 
     #choices = ["sst", "evinf", "multirc", "agnews"]
 )
 
@@ -56,8 +56,8 @@ parser.add_argument(
     "--thresholder", 
     type = str, 
     help = "thresholder for extracting rationales", 
-    default = "rank",
-    #choices = ["contigious", "topk", "rank"]
+    default = "topk",
+    choices = ["contigious", "topk"]
 )
 
 parser.add_argument(
@@ -76,8 +76,8 @@ parser.add_argument(
 user_args = vars(parser.parse_args())
 user_args["importance_metric"] = None
 
-log_dir = "experiment_logs/evaluate_rank_" + user_args["dataset"] + "_" +  date_time + "/"
-config_dir = "experiment_config/evaluate_rank_" + user_args["dataset"] + "_" +  date_time + "/"
+log_dir = "experiment_logs/evaluate_" + user_args["dataset"] + "_" +  date_time + "/"
+config_dir = "experiment_config/evaluate_" + user_args["dataset"] + "_" +  date_time + "/"
 
 
 os.makedirs(log_dir, exist_ok = True)
@@ -132,23 +132,12 @@ evaluator = evaluation_pipeline.evaluate(
 
 logging.info("*********conducting in-domain flip experiments")
 
+evaluator.soft_faithfulness_metrics_(data)
+print(' DONE faithfulness metrics')
 
-# get input x-t for t1 to tn
-
-# get y'x-t for t1 to tn
-
-# for each input,
-# for each feature attribution method,
-# get importance scores
-# get changes of output distribution (y - y'x-t , 1 < t n, )
-
-
-# for each input, get correlation coefficient (kendal) for importance scores and changes of output distribution (y - y'x-t , 1 < t , )
-evaluator.faithfulness_metrics_(data) #-->conduct_tests_-->sufficiency_(erasure_tests.py)-->
-print(' DONE faithfulness metrics')   # -rationale_metadata.npy is from 
-                                    #    func get_rationale_metadata_
-
-evaluator.feature_scoring_performance_()  ## debug by cass
+# evaluator.feature_scoring_performance_()  ## debug by cass
+# # this one use func compute_faithfulness_
+# # which count increasing feature scoring
 
 del data
 del evaluator
