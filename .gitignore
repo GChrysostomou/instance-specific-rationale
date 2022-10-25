@@ -69,3 +69,12 @@ faithfulness_metrics/*
 ./trained_models/evinf/scibert10.pt
 ./extracted_rationales/agnews/topk/test-rationale_metadata.npy
 ./extracted_rationales/agnews/topk/dev-rationale_metadata.npy
+./trained_models/evinf_FA/pretrained5.pt
+./trained_models/evinf_FA/scibert10.pt
+./trained_models/agnews/bert10.pt
+./trained_models/sst/bert10.pt
+./trained_models/sst_FA/bert15.pt
+./trained_models/evinf/scibert10.pt
+./extracted_rationales/agnews/topk/test-rationale_metadata.npy
+./extracted_rationales/agnews/topk/dev-rationale_metadata.npy
+./faithfulness_metrics/agnews/topk-dev-faithfulness-metrics.json

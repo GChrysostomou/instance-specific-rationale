@@ -27,6 +27,14 @@ from src.common_code.metrics import normalized_comprehensiveness_, normalized_su
 
 from sklearn.metrics import classification_report
 
+
+def comprehensiveness_(full_text_probs : np.array, reduced_probs : np.array) -> np.array:
+
+    comprehensiveness = np.maximum(0, full_text_probs - reduced_probs)
+
+    return comprehensiveness
+
+    
 def soft_conduct_tests_(model, data, split, model_random_seed):
 
     """
@@ -163,6 +171,7 @@ def soft_conduct_tests_(model, data, split, model_random_seed):
                         ) # bug
 
                         ## measuring faithfulness
+                        ## for soft-comprehensiveness, change this
                         comp, reduced_probs  = normalized_comprehensiveness_(
                             model = model, 
                             original_sentences = original_sentences, 
@@ -174,17 +183,17 @@ def soft_conduct_tests_(model, data, split, model_random_seed):
                             suff_y_zero = suff_y_zero
                         )
 
-                        suff = normalized_sufficiency_(
-                            model = model, 
-                            original_sentences = original_sentences, 
-                            rationale_mask = rationale_mask, 
-                            inputs = batch, 
-                            full_text_probs = full_text_probs, 
-                            full_text_class = full_text_class, 
-                            rows = rows,
-                            suff_y_zero = suff_y_zero,
-                            only_query_mask=only_query_mask
-                        )
+                        # suff = normalized_sufficiency_(
+                        #     model = model, 
+                        #     original_sentences = original_sentences, 
+                        #     rationale_mask = rationale_mask, 
+                        #     inputs = batch, 
+                        #     full_text_probs = full_text_probs, 
+                        #     full_text_class = full_text_class, 
+                        #     rows = rows,
+                        #     suff_y_zero = suff_y_zero,
+                        #     only_query_mask=only_query_mask
+                        # )
                         
                         for j_, annot_id in enumerate(batch["annotation_id"]):
                             
