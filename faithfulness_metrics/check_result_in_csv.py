@@ -1,7 +1,8 @@
 import pandas as pd
 import json
 
-dataset = './agnews'
+
+dataset = './multirc'  # sst
 path = str(dataset)+'/topk-test-faithfulness-metrics-description.json'
 
 df = pd.read_json(path, orient ='index')
