@@ -131,7 +131,7 @@ logging.info("\n ----------------------")
 
 
 
-from src.data_functions.dataholders import BERT_HOLDER 
+from src.data_functions.dataholder import BERT_HOLDER
 from src.evaluation import evaluation_pipeline
 
 data = BERT_HOLDER(

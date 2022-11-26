@@ -103,7 +103,7 @@ logging.info("\n ----------------------")
 
 
 
-from src.data_functions.dataholder import classification_dataholder as dataholder
+from src.data_functions.dataholder import BERT_HOLDER as dataholder
 from src.tRpipeline import train_and_save, test_predictive_performance, keep_best_model_
 from src.data_functions.useful_functions import describe_data_stats
 

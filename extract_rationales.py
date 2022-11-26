@@ -25,7 +25,7 @@ parser.add_argument(
     "--dataset", 
     type = str, 
     help = "select dataset / task", 
-    default = "evinf", 
+    default = "sst", 
     #choices = ["sst", "evinf", "multirc", "agnews"]
 )
 
@@ -118,10 +118,10 @@ logging.info("config  : \n ----------------------")
 [logging.info(k + " : " + str(v)) for k,v in args.items()]
 logging.info("\n ----------------------")
 
-from src.data_functions.dataholder import classification_dataholder 
+from src.data_functions.dataholder import BERT_HOLDER 
 from src.evaluation import evaluation_pipeline
 
-data = classification_dataholder(
+data = BERT_HOLDER(
     args["data_dir"], 
     b_size = args["batch_size"],
     return_as_frames = True,

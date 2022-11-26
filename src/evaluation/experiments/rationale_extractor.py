@@ -135,9 +135,9 @@ def extract_importance_(model, data, data_split_name, model_random_seed):
             feature_attribution[annotation_id] = {
                 "random" : normalised_random[_i_].cpu().detach().numpy(),
                 "attention" : normalised_attentions[_i_].cpu().detach().numpy(),
+                "scaled attention" : normalised_attention_grads[_i_].cpu().detach().numpy(),
                 "gradients" : normalised_grads[_i_].cpu().detach().numpy(),
                 "ig" : normalised_ig[_i_].cpu().detach().numpy(),
-                "scaled attention" : normalised_attention_grads[_i_].cpu().detach().numpy()
             }
 
         pbar.update(data.batch_size)
