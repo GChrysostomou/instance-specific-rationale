@@ -5,6 +5,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 from sklearn.metrics import classification_report
+import config.cfg
+from config.cfg import AttrDict
 
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 CUDA_LAUNCH_BLOCKING=1

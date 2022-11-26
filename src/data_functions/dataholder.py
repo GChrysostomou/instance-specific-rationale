@@ -15,7 +15,7 @@ from config.cfg import AttrDict
 with open(config.cfg.config_directory + 'instance_config.json', 'r') as f:
     args = AttrDict(json.load(f))
 
-class BERT_HOLDER():
+class classification_dataholder():
     """
     class that holds our data, pretrained tokenizer and set sequence length 
     for a classification task
