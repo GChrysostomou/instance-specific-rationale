@@ -19,7 +19,7 @@ parser.add_argument(
     "--dataset", 
     type = str, 
     help = "select dataset / task", 
-    default = "evinf", 
+    default = "agnews", 
     #choices = ["sst", "evinf", "agnews", "multirc", "evinf_FA"]
 )
 
@@ -40,7 +40,8 @@ parser.add_argument(
 parser.add_argument(
     "--seed",   
     type = int, 
-    help = "random seed for experiment"
+    help = "random seed for experiment",
+    default = 5
 )
 
 parser.add_argument(
@@ -142,7 +143,7 @@ if args["evaluate_models"]:
         test_data_loader = data.test_loader, 
         for_rationale = False, 
         output_dims = data.nu_of_labels,
-        save_output_probs = True
+        save_output_probs = True,
     )    
 
     del data

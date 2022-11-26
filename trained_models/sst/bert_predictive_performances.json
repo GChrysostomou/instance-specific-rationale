@@ -1,36 +1,36 @@
 {
-    "20": {
-        "model": "/home/cass/PycharmProjects/BP-rationales/trained_models/sst/bert20.pt",
-        "f1": 0.9054886880449582,
-        "loss": 2.089001325498286,
-        "ece-score": 0.03922911413026213
-    },
-    "25": {
-        "model": "/home/cass/PycharmProjects/BP-rationales/trained_models/sst/bert25.pt",
-        "f1": 0.8879222330835235,
-        "loss": 2.18525860563182,
-        "ece-score": 0.02331613469817756
+    "15": {
+        "model": "/jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/trained_models/sst/bert15.pt",
+        "f1": 0.9027776730431456,
+        "loss": 2.0028690050045648,
+        "ece-score": 0.0414878913558885
     },
     "5": {
-        "model": "/home/cass/PycharmProjects/BP-rationales/trained_models/sst/bert5.pt",
-        "f1": 0.9203687144604166,
-        "loss": 1.810571080825308,
-        "ece-score": 0.03571053090689931
+        "model": "/jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/trained_models/sst/bert5.pt",
+        "f1": 0.9037567412562617,
+        "loss": 2.126380209598625,
+        "ece-score": 0.03664982449805458
     },
     "10": {
-        "model": "/home/cass/PycharmProjects/BP-rationales/trained_models/sst/bert10.pt",
-        "f1": 0.9114707467648644,
-        "loss": 2.0635349590805148,
-        "ece-score": 0.048376396715739206
+        "model": "/jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/trained_models/sst/bert10.pt",
+        "f1": 0.8976026072024572,
+        "loss": 2.2207700862434874,
+        "ece-score": 0.053125141054506435
     },
-    "15": {
-        "model": "/home/cass/PycharmProjects/BP-rationales/trained_models/sst/bert15.pt",
-        "f1": 0.8954118955781531,
-        "loss": 2.306964535004737,
-        "ece-score": 0.05043257376049197
+    "25": {
+        "model": "/jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/trained_models/sst/bert25.pt",
+        "f1": 0.9137785391054165,
+        "loss": 1.9460064068828757,
+        "ece-score": 0.038283628366073325
     },
-    "mean-f1": 0.9041324555863831,
-    "std-f1": 0.011472797972385427,
-    "mean-ece": 0.03941295004231403,
-    "std-ece": 0.009742942578888978
+    "20": {
+        "model": "/jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/trained_models/sst/bert20.pt",
+        "f1": 0.9044473850548369,
+        "loss": 2.265498311961429,
+        "ece-score": 0.05806962910882072
+    },
+    "mean-f1": 0.9044725891324236,
+    "std-f1": 0.005237999056795206,
+    "mean-ece": 0.04552322287666871,
+    "std-ece": 0.008516270278364343
 }

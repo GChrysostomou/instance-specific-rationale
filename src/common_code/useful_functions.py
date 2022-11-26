@@ -13,7 +13,58 @@ from config.cfg import AttrDict
 
 with open(config.cfg.config_directory + 'instance_config.json', 'r') as f:
     args = AttrDict(json.load(f))
-    
+
+
+device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+
+
+# def move_to(obj, device):
+#   if torch.is_tensor(obj):
+#     return obj.to(device)
+#   elif isinstance(obj, dict):
+#     res = {}
+#     for k, v in obj.items():
+#       res[k] = move_to(v, device)
+#     return res
+#   elif isinstance(obj, list):
+#     res = []
+#     for v in obj:
+#       res.append(move_to(v, device))
+#     return res
+#   else:
+#     raise TypeError("Invalid type for move_to")
+
+
+def batch_from_dict_(batch_data, metadata, target_key = "original prediction"):
+    new_tensor = []
+    print(batch_data)
+    for _id_ in batch_data["annotation_id"]:
+        
+        new_tensor.append(
+            metadata[_id_][target_key]
+        )
+    print(' ===================  ++++++++++ ')
+    print(len(new_tensor))
+    print(new_tensor[0])
+    return torch.tensor(new_tensor)#.to(device)
+
+
+def batch_from_dict_(batch_data, metadata, target_key = "original prediction", extra_layer = None):
+    new_tensor = []
+    for _id_ in batch_data["annotation_id"]:
+        ## for double nested dics
+        if extra_layer :
+            new_tensor.append(
+                metadata[_id_][extra_layer][target_key]
+            )
+        else:
+            #print('no extra layer')
+            new_tensor.append(
+                metadata[_id_][target_key]
+            )
+    return torch.tensor(new_tensor).to(device)
+
+
 def wpiece2word(tokenizer, sentence, weights, print_err = False):  
 
     """
@@ -47,7 +98,7 @@ def wpiece2word(tokenizer, sentence, weights, print_err = False):
 
     return np.asarray(list(new_words.values())), np.asarray(list(new_score.values()))
 
-device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+
 
 def mask_topk(sentences, scores, length_to_mask):
 
@@ -86,39 +137,6 @@ def mask_contigious(sentences, scores, length_to_mask):
     mask = mask.scatter_(-1,  indexes.long().to(device), 0)
     
     return sentences * mask.long()
-
-def batch_from_dict(batch_data, metadata, target_key = "original prediction", extra_layer = None):
-
-    new_tensor = []
-
-    # print(batch_data)
-    # print(' DONE BATCH DATA PRESENT')
-
-    for _id_ in batch_data["annotation_id"]:
-        
-        ## for double nested dics
-        
-        if extra_layer :
-            # print(' extra layer')
-            # print(target_key) # fixed rationale mask
-            # # print('_id_',_id_)
-            # #print(metadata[_id_])
-            # print(extra_layer)
-            # print(str(extra_layer))
-            # print(metadata[_id_][extra_layer])
-            new_tensor.append(
-                metadata[_id_][extra_layer][target_key]
-            )
-           
-        else:
-            #print('no extra layer')
-            new_tensor.append(
-                metadata[_id_][target_key]
-            )
-
-
-    
-    return torch.tensor(new_tensor).to(device)
 
 
 def create_rationale_mask_(

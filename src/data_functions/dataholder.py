@@ -15,20 +15,18 @@ from config.cfg import AttrDict
 with open(config.cfg.config_directory + 'instance_config.json', 'r') as f:
     args = AttrDict(json.load(f))
 
-class classification_dataholder():
+class BERT_HOLDER():
     """
     class that holds our data, pretrained tokenizer and set sequence length 
     for a classification task
     """
-    def __init__(self, path = str, b_size = 8 , mask_list = list, 
+    def __init__(self, path = str, b_size = 8 , #mask_list = list, 
                 for_rationale = False, variable = False, 
-                return_as_frames = False, stage = "train"):
+                return_as_frames = False, stage = "train", interpolation=False):
         
         assert type(b_size) == int
     
         self.batch_size = b_size
-
-
         """
         loads data for a classification task from preprocessed .csv =
         files in the dataset/data folder
@@ -41,9 +39,13 @@ class classification_dataholder():
             
             path += args["importance_metric"] + "-"
 
-        train = pd.read_csv(path + "train.csv").to_dict("records")#
+        train = pd.read_csv(path + "train.csv").to_dict("records")# list of dic
         dev = pd.read_csv(path + "dev.csv").to_dict("records")#[:10] # for testing by cass
         test = pd.read_csv(path + "test.csv").to_dict("records")#[:10] # for testing by cass
+        # print(' ======= test set ---- one data')
+        # print(len(test))
+        # print(test[0])
+        
 
         print("*** loading data in dataholder")
 
@@ -63,16 +65,7 @@ class classification_dataholder():
         self.max_len = max_len
 
         # load the pretrained tokenizer
-        #pretrained_weights = args.model
-        if '_FA' in args["dataset"]:
-            if "evinf" in args["dataset"]:
-                pretrained_weights = "allenai/scibert_scivocab_uncased"
-            elif "multirc" in args["dataset"]:
-                pretrained_weights = "roberta-base"
-            else:
-                pretrained_weights = "bert-base-uncased"
-        else:
-            pretrained_weights = args.model
+        pretrained_weights = args.model
         
         self.tokenizer = AutoTokenizer.from_pretrained(pretrained_weights) # by cass ood time dataholders.py (, local_files_only=True)
 
@@ -116,21 +109,21 @@ class classification_dataholder():
             train,
             batch_size = self.batch_size,
             shuffle = shuffle_during_iter,
-            pin_memory = False
+            pin_memory = False,
         )
 
         self.dev_loader = DataLoader(
             dev,
             batch_size = self.batch_size,
             shuffle = shuffle_during_iter,
-            pin_memory = False
+            pin_memory = False,
         )
 
         self.test_loader = DataLoader(
             test,
             batch_size = self.batch_size,
             shuffle = shuffle_during_iter,
-            pin_memory = False
+            pin_memory = False,
         )  
 
         print("*** dataholder ready")
@@ -139,12 +132,215 @@ class classification_dataholder():
 
         return self.return_as_frames 
 
-       
+
+
+
+class BERT_HOLDER_interpolation():
+    """
+    class that holds our data, pretrained tokenizer and set sequence length 
+    for a classification task
+    """
+    def __init__(self, path = str, b_size = 8 , 
+                for_rationale = False, 
+                stage = "train", return_as_frames = False, interpolation=True, importance_scores=None, M_set = 0):
+  
+        """
+        loads data for a classification task from preprocessed .csv 
+        files in the dataset/data folder
+        and returns three dataholders : train, dev, test
+        """
+
+        assert type(b_size) == int
+    
+        self.batch_size = b_size
+
+        if for_rationale:
+            
+            if args.use_tasc: args["importance_metric"] = "tasc_" + args["importance_metric"]
+            path += args["thresholder"] + "/" + args["importance_metric"] + "-"
+
+        with open(f"{path}train.json", "r") as file: train = json.load(file)#[111:132]
+        with open(f"{path}dev.json", "r") as file: dev = json.load(file)#[111:132]
+        with open(f"{path}test.json", "r") as file: test = json.load(file)#[222:332]
+
+        ## load data
+        if interpolation == True: 
+            test = sample(test, 50)
+            print(' for interpolation !!!!!!!111  the test len is ', len(test))
+        else:
+            pass
+
+
+        print("*** loading data in dataholder")
+
+        ## if we are dealing with a query we need to account for the query length as well
+        if args.query:
+            
+            max_len = round(max([len(x["document"].split()) for x in train])) + \
+                        max([len(x["query"].split()) for x in train])
+            max_len = round(max_len)
+
+        else:
+            max_len = round(max([len(x["text"].split()) for x in train]))
+
+        if args['dataset'] == 'SST':
+            max_len = 48
+
+        self.max_len = min(max_len, 256)
+        print(' ------ max_len', max_len)
+        # load the pretrained tokenizer
+        pretrained_weights = args.model
+        self.tokenizer = AutoTokenizer.from_pretrained(pretrained_weights, local_files_only=False)
+
+        self.nu_of_labels = len(np.unique([x["label"] for x in train]))
+        self.vocab_size = len(self.tokenizer)
+
+        if args.query:
+            
+            train = [encode_plusplus_(dic, self.tokenizer, self.max_len,  dic["document"], dic["query"]) for dic in train]
+            dev = [encode_plusplus_(dic, self.tokenizer, self.max_len,  dic["document"], dic["query"]) for dic in dev]
+            test_S4 = [encode_plusplus_(dic, self.tokenizer, self.max_len,  dic["text"]) for dic in test.copy()]
+            test_S3 = [encode_plusplus_(dic, self.tokenizer, self.max_len,  dic["text"]) for dic in test.copy()]
+            test_S2 = [encode_plusplus_(dic, self.tokenizer, self.max_len,  dic["text"]) for dic in test.copy()]
+            test_S1 = [encode_plusplus_(dic, self.tokenizer, self.max_len,  dic["text"]) for dic in test.copy()]
+
+        else:
+
+            train = [encode_plusplus_(dic, self.tokenizer, self.max_len,  dic["text"]) for dic in train]
+            dev = [encode_plusplus_(dic, self.tokenizer, self.max_len,  dic["text"]) for dic in dev]
+            cpy_list = []
+            for li in test:
+                d2 = copy.deepcopy(li)
+                cpy_list.append(d2)
+            test_S4 = [encode_plusplus_(dic, self.tokenizer, self.max_len,  dic["text"]) for dic in cpy_list]
+
+            cpy_list = []
+            for li in test:
+                d2 = copy.deepcopy(li)
+                cpy_list.append(d2)
+            test_S3 = [encode_plusplus_(dic, self.tokenizer, self.max_len,  dic["text"]) for dic in cpy_list]
+
+            cpy_list = []
+            for li in test:
+                d2 = copy.deepcopy(li)
+                cpy_list.append(d2)
+            test_S2 = [encode_plusplus_(dic, self.tokenizer, self.max_len,  dic["text"]) for dic in cpy_list]
+
+            cpy_list = []
+            for li in test:
+                d2 = copy.deepcopy(li)
+                cpy_list.append(d2)
+            test_S1 = [encode_plusplus_(dic, self.tokenizer, self.max_len,  dic["text"]) for dic in cpy_list]
+
+
+        importance_scores = importance_scores
+
+        # print(importance_scores.get('test_358').get('attention')) # dict_keys(['random', 'attention', 'gradients', 'ig', 'scaled attention', 'deeplift', 'gradientshap'])
+        # x = np.argsort(importance_scores.get('test_358').get('attention'))[::-1][:4]
+        # print("Indices:",x)
+
+
+        for i, test_single_data in enumerate(test_S4): # together 50 test 
+            annotation_id = test_single_data['annotation_id']
+            this_token_attention_importance = np.argsort(importance_scores.get(annotation_id).get('attention'))[::-1][:4].copy()
+            test_S4[i]['input_ids'][0][this_token_attention_importance] = test_single_data['input_ids'][0][this_token_attention_importance] + random.randint(1, 9999) 
+        
+        for i, test_single_data in enumerate(test_S3): # together 50 test 
+            annotation_id = test_single_data['annotation_id']
+            this_token_attention_importance = np.argsort(importance_scores.get(annotation_id).get('attention'))[::-1][:4][-3:].copy()
+            test_S3[i]['input_ids'][0][this_token_attention_importance] = test_single_data['input_ids'][0][this_token_attention_importance] + random.randint(1, 9999) 
+        
+        for i, test_single_data in enumerate(test_S2): # together 50 test 
+            annotation_id = test_single_data['annotation_id']
+            this_token_attention_importance = np.argsort(importance_scores.get(annotation_id).get('attention'))[::-1][:4][-2:].copy()
+            test_S2[i]['input_ids'][0][this_token_attention_importance] = test_single_data['input_ids'][0][this_token_attention_importance] + random.randint(1, 9999) 
+        
+        for i, test_single_data in enumerate(test_S1): # together 50 test 
+            annotation_id = test_single_data['annotation_id']
+            this_token_attention_importance = np.argsort(importance_scores.get(annotation_id).get('attention'))[::-1][:4][-1:].copy()
+            test_S1[i]['input_ids'][0][this_token_attention_importance] = test_single_data['input_ids'][0][this_token_attention_importance] + random.randint(1, 9999) 
+        
+
+
+        shuffle_during_iter = True
+
+        if stage != "train": 
+
+            # sort by length for evaluation and rationale extraction
+            train = sorted(train, key = lambda x : x["lengths"], reverse = False)
+            dev = sorted(dev, key = lambda x : x["lengths"], reverse = False)
+            test_S1 = sorted(test_S1, key = lambda x : x["lengths"], reverse = False)
+            test_S2 = sorted(test_S2, key = lambda x : x["lengths"], reverse = False)
+            test_S3 = sorted(test_S3, key = lambda x : x["lengths"], reverse = False)
+            test_S4 = sorted(test_S4, key = lambda x : x["lengths"], reverse = False)
+
+            shuffle_during_iter = False
+        
+        if return_as_frames:
+
+            self.return_as_frames = {
+                "train" : pd.DataFrame(train),
+                "dev" : pd.DataFrame(dev),
+                "test_S1" : pd.DataFrame(test_S1),
+                "test_S2" : pd.DataFrame(test_S2),
+                "test_S3" : pd.DataFrame(test_S3),
+                "test_S4" : pd.DataFrame(test_S4),
+            }
+
+        # prepare data-loaders for training
+        self.train_loader = DataLoader(
+            train,
+            batch_size = self.batch_size,
+            shuffle = shuffle_during_iter,
+            pin_memory = False,
+            #collate_fn=lambda x: x, # for not "equal size" batch issue # debug by cass
+        )
+
+        self.dev_loader = DataLoader(
+            dev,
+            batch_size = self.batch_size,
+            shuffle = shuffle_during_iter,
+            pin_memory = False,
+            #collate_fn=lambda x: x, # for not "equal size" batch issue
+        )
+
+
+        self.test_loader_S4 = DataLoader(  # the S4
+            test_S4,
+            batch_size = self.batch_size,
+            shuffle = shuffle_during_iter,
+            pin_memory = False,
+            #collate_fn=lambda x: x, # for not "equal size" batch issue
+        )
+
+        self.test_loader_S3 = DataLoader(  # the S4
+            test_S3,
+            batch_size = self.batch_size,
+            shuffle = shuffle_during_iter,
+            pin_memory = False,
+            #collate_fn=lambda x: x, # for not "equal size" batch issue
+        ) 
+
+        self.test_loader_S2 = DataLoader(  # the S4
+            test_S2,
+            batch_size = self.batch_size,
+            shuffle = shuffle_during_iter,
+            pin_memory = False,
+            #collate_fn=lambda x: x, # for not "equal size" batch issue
+        )
+
+        self.test_loader_S1 = DataLoader(  # the S4
+            test_S1,
+            batch_size = self.batch_size,
+            shuffle = shuffle_during_iter,
+            pin_memory = False,
+            #collate_fn=lambda x: x, # for not "equal size" batch issue
+        ) 
+        print("*** dataholder ready")
+
     def as_dataframes_(self):
 
-        return self.return_as_frames
-
-
+        return self.return_as_frames 
 
 ### copy from ood 
 '''

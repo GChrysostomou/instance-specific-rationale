@@ -1,5 +1,0 @@
-,0,1,2,3,4,5,accuracy,macro avg,weighted avg,epoch,point,dev_loss,model-name
-precision,0.0,0.23529411764705882,0.0,0.5083333333333333,0.0,0.0,0.4744525547445255,0.12393790849673203,0.30500214684413907,3,46,10.85507329305013,/jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/trained_models/evinf_conti/scibert5.pt
-recall,0.0,0.11428571428571428,0.0,0.9242424242424242,0.0,0.0,0.4744525547445255,0.17308802308802307,0.4744525547445255,3,46,10.85507329305013,/jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/trained_models/evinf_conti/scibert5.pt
-f1-score,0.0,0.15384615384615385,0.0,0.6559139784946235,0.0,0.0,0.4744525547445255,0.13496002205679622,0.35529151799460246,3,46,10.85507329305013,/jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/trained_models/evinf_conti/scibert5.pt
-support,13.0,35.0,6.0,66.0,9.0,8.0,0.4744525547445255,137.0,137.0,3,46,10.85507329305013,/jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/trained_models/evinf_conti/scibert5.pt

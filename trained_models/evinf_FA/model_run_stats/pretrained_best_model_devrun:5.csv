@@ -1,5 +1,0 @@
-,0,1,2,accuracy,macro avg,weighted avg,epoch,point,dev_loss,model-name
-precision,0.2,0.5,0.5569620253164557,0.5208333333333334,0.4189873417721519,0.451714135021097,3,0,4.064151366551717,/home/cass/PycharmProjects/BP-rationales/trained_models/evinf_FA/pretrained5.pt
-recall,0.029411764705882353,0.5660377358490566,0.7719298245614035,0.5208333333333334,0.4557931083721141,0.5208333333333334,3,0,4.064151366551717,/home/cass/PycharmProjects/BP-rationales/trained_models/evinf_FA/pretrained5.pt
-f1-score,0.05128205128205128,0.5309734513274337,0.6470588235294117,0.5208333333333334,0.40977144204629895,0.4636634417022236,3,0,4.064151366551717,/home/cass/PycharmProjects/BP-rationales/trained_models/evinf_FA/pretrained5.pt
-support,34.0,53.0,57.0,0.5208333333333334,144.0,144.0,3,0,4.064151366551717,/home/cass/PycharmProjects/BP-rationales/trained_models/evinf_FA/pretrained5.pt

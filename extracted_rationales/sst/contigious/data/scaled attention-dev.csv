@@ -6,7 +6,7 @@
 4,dev_556,dev,0,negative,on,oh come on,0,1
 5,dev_302,dev,1,positive,and,lovely and poignant,1,1
 6,dev_335,dev,1,positive,one,one from the heart,1,1
-7,dev_420,dev,0,negative,low,part low rent godfather,0,1
+7,dev_420,dev,0,negative,part,part low rent godfather,0,1
 8,dev_530,dev,1,positive,a,a giggle a minute,1,1
 9,dev_617,dev,0,negative,cheat,that s a cheat,0,1
 10,dev_843,dev,0,negative,bad,this is so bad,0,1
@@ -14,129 +14,129 @@
 12,dev_21,dev,1,positive,a,a deep and meaningful film,1,2
 13,dev_43,dev,1,positive,a,a smart witty follow up,1,2
 14,dev_103,dev,1,positive,finest,people cinema at its finest,1,2
-15,dev_134,dev,1,positive,quiet,a quiet pure elliptical film,1,2
+15,dev_134,dev,1,positive,a,a quiet pure elliptical film,1,2
 16,dev_309,dev,1,positive,lite,it s fun lite,1,2
-17,dev_346,dev,1,positive,madness,it s a beautiful madness,1,2
+17,dev_346,dev,1,positive,s,it s a beautiful madness,1,2
 18,dev_351,dev,1,positive,a,a gorgeous witty seductive movie,1,2
-19,dev_459,dev,1,positive,piece,slick piece of cross promotion,1,2
+19,dev_459,dev,1,positive,slick,slick piece of cross promotion,1,2
 20,dev_481,dev,0,negative,maddening,this movie is maddening,0,2
 21,dev_482,dev,0,negative,should,should have been someone else,0,2
 22,dev_518,dev,0,negative,it,it treats women like idiots,0,2
 23,dev_531,dev,0,negative,waste,big fat waste of time,0,2
 24,dev_558,dev,0,negative,knees,not exactly the bees knees,0,2
-25,dev_568,dev,0,negative,filler,it s just filler,0,2
+25,dev_568,dev,0,negative,just,it s just filler,0,2
 26,dev_584,dev,0,negative,this,do not see this film,0,2
 27,dev_703,dev,0,negative,fancy,fancy a real downer,0,2
-28,dev_727,dev,0,negative,wildly,a wildly inconsistent emotional experience,0,2
+28,dev_727,dev,0,negative,a,a wildly inconsistent emotional experience,0,2
 29,dev_729,dev,0,negative,a,a sometimes tedious film,0,2
 30,dev_735,dev,0,negative,not,just not campy enough,0,2
 31,dev_855,dev,0,negative,or,or emptying rat traps,0,2
 32,dev_40,dev,1,positive,a fast,a fast funny highly enjoyable movie,1,2
-33,dev_96,dev,1,positive,great fun,it s also clearly great fun,1,2
+33,dev_96,dev,1,positive,also clearly,it s also clearly great fun,1,2
 34,dev_127,dev,1,positive,are thrilling,the film s performances are thrilling,1,2
 35,dev_171,dev,1,positive,is,ahhhh revenge is sweet,1,2
 36,dev_179,dev,1,positive,a,a tender heartfelt family drama,1,2
 37,dev_199,dev,1,positive,good,good film but very glum,1,2
-38,dev_233,dev,1,positive,but,funny but perilously slight,1,2
+38,dev_233,dev,1,positive,funny,funny but perilously slight,1,2
 39,dev_389,dev,1,positive,a delightful,a delightful coming of age story,1,2
-40,dev_490,dev,0,negative,bad idea,just one bad idea after another,0,2
+40,dev_490,dev,0,negative,just one,just one bad idea after another,0,2
 41,dev_526,dev,0,negative,cliche,how do you spell cliche,0,2
 42,dev_609,dev,0,negative,coarse and,a coarse and stupid gross out,0,2
 43,dev_641,dev,1,positive,hilariously,hilariously inept and ridiculous,0,2
-44,dev_661,dev,0,negative,very slow,it s slow very very slow,0,2
-45,dev_663,dev,0,negative,pr,that s pure pr hype,1,2
+44,dev_661,dev,0,negative,slow very,it s slow very very slow,0,2
+45,dev_663,dev,0,negative,pure,that s pure pr hype,1,2
 46,dev_675,dev,0,negative,word disappointment,my reaction in a word disappointment,0,2
 47,dev_714,dev,0,negative,and,dull lifeless and amateurishly assembled,0,2
-48,dev_749,dev,0,negative,drag,it s a buggy drag,0,2
-49,dev_766,dev,1,positive,routine harmless,routine harmless diversion and little else,1,2
+48,dev_749,dev,0,negative,s,it s a buggy drag,0,2
+49,dev_766,dev,1,positive,and little,routine harmless diversion and little else,1,2
 50,dev_840,dev,0,negative,not,nervous breakdowns are not entertaining,0,2
-51,dev_854,dev,0,negative,scrubbing,something like scrubbing the toilet,0,2
+51,dev_854,dev,0,negative,something,something like scrubbing the toilet,0,2
 52,dev_863,dev,0,negative,been worse,but it could have been worse,0,2
 53,dev_4,dev,1,positive,entertains by,entertains by providing good lively company,1,2
-54,dev_131,dev,1,positive,good fun,it all adds up to good fun,1,2
-55,dev_170,dev,1,positive,its best,old form moviemaking at its best,1,2
+54,dev_131,dev,1,positive,adds up,it all adds up to good fun,1,2
+55,dev_170,dev,1,positive,moviemaking at,old form moviemaking at its best,1,2
 56,dev_185,dev,1,positive,were focused,my thoughts were focused on the characters,1,2
 57,dev_261,dev,1,positive,a marvel,a marvel like none you ve seen,1,2
 58,dev_279,dev,1,positive,a painfully,a painfully funny ode to bad behavior,1,2
 59,dev_289,dev,1,positive,is powerful,the film is powerful accessible and funny,1,2
 60,dev_391,dev,1,positive,an exquisitely,an exquisitely crafted and acted tale,1,2
-61,dev_398,dev,1,positive,drama well,a magnificent drama well worth tracking down,1,2
+61,dev_398,dev,1,positive,a magnificent,a magnificent drama well worth tracking down,1,2
 62,dev_403,dev,0,negative,this gut,nothing is sacred in this gut buster,0,2
 63,dev_466,dev,0,negative,falls flat,too much of the humor falls flat,0,2
-64,dev_467,dev,0,negative,a pointless,detox is ultimately a pointless endeavor,0,2
+64,dev_467,dev,0,negative,is ultimately,detox is ultimately a pointless endeavor,0,2
 65,dev_525,dev,0,negative,almost gags,almost gags on its own gore,0,2
 66,dev_545,dev,0,negative,and,forced familiar and thoroughly condescending,0,2
 67,dev_554,dev,0,negative,did,holden caulfield did it better,1,2
 68,dev_702,dev,0,negative,one,one long string of cliches,0,2
-69,dev_720,dev,0,negative,vulgar as,as vulgar as it is banal,0,2
+69,dev_720,dev,0,negative,as vulgar,as vulgar as it is banal,0,2
 70,dev_763,dev,0,negative,directed in,directed in a paint by numbers manner,1,2
 71,dev_807,dev,0,negative,pretty unpleasant,makes for a pretty unpleasant viewing experience,0,2
-72,dev_836,dev,0,negative,too bored,i m just too bored to care,0,2
+72,dev_836,dev,0,negative,m just,i m just too bored to care,0,2
 73,dev_107,dev,1,positive,and contains,dense with characters and contains some thrilling moments,1,2
-74,dev_229,dev,1,positive,well honed,the story and structure are well honed,1,2
+74,dev_229,dev,1,positive,are well,the story and structure are well honed,1,2
 75,dev_246,dev,1,positive,is back,good old fashioned slash and hack is back,1,2
-76,dev_252,dev,1,positive,it s,it s a charming and often affecting journey,1,2
-77,dev_274,dev,0,negative,unflinchingly,unflinchingly bleak and desperate,1,2
+76,dev_252,dev,1,positive,s a,it s a charming and often affecting journey,1,2
+77,dev_274,dev,0,negative,and,unflinchingly bleak and desperate,1,2
 78,dev_292,dev,0,negative,like watching,it s like watching a nightmare made flesh,0,2
-79,dev_308,dev,1,positive,still jingles,but it still jingles in the pocket,0,2
-80,dev_311,dev,1,positive,this film,i just loved every minute of this film,1,2
-81,dev_402,dev,1,positive,and,smart provocative and blisteringly funny,1,2
+79,dev_308,dev,1,positive,it still,but it still jingles in the pocket,0,2
+80,dev_311,dev,1,positive,just loved,i just loved every minute of this film,1,2
+81,dev_402,dev,1,positive,smart,smart provocative and blisteringly funny,1,2
 82,dev_414,dev,1,positive,a very,a very well made funny and entertaining picture,1,2
 83,dev_454,dev,0,negative,it gutterball,they should have called it gutterball,0,2
 84,dev_473,dev,0,negative,just embarrassment,just embarrassment and a vague sense of shame,0,2
 85,dev_486,dev,0,negative,leukemia looked,rarely has leukemia looked so shimmering and benign,1,2
-86,dev_521,dev,0,negative,too slim,for starters the story is just too slim,0,2
+86,dev_521,dev,0,negative,just too,for starters the story is just too slim,0,2
 87,dev_566,dev,0,negative,too slow,too slow too long and too little happens,0,2
-88,dev_701,dev,0,negative,old monster,the movie is just a plain old monster,0,2
+88,dev_701,dev,0,negative,is just,the movie is just a plain old monster,0,2
 89,dev_706,dev,0,negative,and overheated,at once half baked and overheated,0,2
-90,dev_730,dev,0,negative,really hit,teen movies have really hit the skids,1,2
+90,dev_730,dev,0,negative,have really,teen movies have really hit the skids,1,2
 91,dev_788,dev,0,negative,s no,there s no emotional pulse to solaris,0,2
-92,dev_834,dev,0,negative,of ridiculous,a sequence of ridiculous shoot em up scenes,0,2
+92,dev_834,dev,0,negative,a sequence,a sequence of ridiculous shoot em up scenes,0,2
 93,dev_25,dev,1,positive,a poignant,a poignant artfully crafted meditation on mortality,1,2
-94,dev_104,dev,1,positive,higher level,the performances take the movie to a higher level,1,2
+94,dev_104,dev,1,positive,the performances,the performances take the movie to a higher level,1,2
 95,dev_124,dev,1,positive,and terribly,fun flip and terribly hip bit of cinematic entertainment,1,2
-96,dev_126,dev,1,positive,the category,falls neatly into the category of good stupid fun,1,2
+96,dev_126,dev,1,positive,falls neatly,falls neatly into the category of good stupid fun,1,2
 97,dev_186,dev,1,positive,that is,that is a compliment to kuras and miller,1,2
 98,dev_210,dev,1,positive,binoche makes,binoche makes it interesting trying to find out,1,2
 99,dev_247,dev,1,positive,as unseemly,as unseemly as its title suggests,0,2
-100,dev_286,dev,1,positive,and brilliantly,a strangely compelling and brilliantly acted psychological drama,1,2
+100,dev_286,dev,1,positive,a strangely,a strangely compelling and brilliantly acted psychological drama,1,2
 101,dev_313,dev,1,positive,just as,just as moving uplifting and funny as ever,1,2
 102,dev_339,dev,1,positive,the most,the most compelling wiseman epic of recent years,1,2
-103,dev_366,dev,1,positive,instead he,instead he shows them the respect they are due,1,2
+103,dev_366,dev,1,positive,shows them,instead he shows them the respect they are due,1,2
 104,dev_369,dev,1,positive,a solid,a solid examination of the male midlife crisis,1,2
 105,dev_397,dev,1,positive,performance confirms,blanchett s performance confirms her power once again,1,2
 106,dev_399,dev,1,positive,a good,a good piece of work more often than not,1,2
-107,dev_428,dev,1,positive,his healthy,his healthy sense of satire is light and fun,1,2
-108,dev_440,dev,1,positive,movie with,a movie with a real anarchic flair,1,2
-109,dev_465,dev,0,negative,this meaningless,i got a headache watching this meaningless downer,0,2
-110,dev_470,dev,0,negative,of junk,no way i can believe this load of junk,0,2
+107,dev_428,dev,1,positive,is light,his healthy sense of satire is light and fun,1,2
+108,dev_440,dev,1,positive,a real,a movie with a real anarchic flair,1,2
+109,dev_465,dev,0,negative,watching this,i got a headache watching this meaningless downer,0,2
+110,dev_470,dev,0,negative,this load,no way i can believe this load of junk,0,2
 111,dev_472,dev,0,negative,is no,there is no pleasure in watching a child suffer,0,2
 112,dev_484,dev,0,negative,why make,why make a documentary about these marginal historical figures,0,2
-113,dev_488,dev,0,negative,god awful,i had to look away this was god awful,0,2
+113,dev_488,dev,0,negative,this was,i had to look away this was god awful,0,2
 114,dev_572,dev,0,negative,scores no,scores no points for originality wit or intelligence,0,2
 115,dev_614,dev,0,negative,so little,rarely has so much money delivered so little entertainment,0,2
-116,dev_643,dev,0,negative,desperate entertainment,a shapeless blob of desperate entertainment,0,2
+116,dev_643,dev,0,negative,of desperate,a shapeless blob of desperate entertainment,0,2
 117,dev_662,dev,0,negative,s not,it s not the ultimate depression era gangster movie,0,2
-118,dev_693,dev,0,negative,this is,this is n t even madonna s swept away,0,2
+118,dev_693,dev,0,negative,t even,this is n t even madonna s swept away,0,2
 119,dev_698,dev,0,negative,has all,has all the depth of a wading pool,0,2
 120,dev_717,dev,0,negative,no aspirations,no aspirations to social import inform the movie version,0,2
 121,dev_742,dev,0,negative,is nothing,and the lesson in the end is nothing new,0,2
-122,dev_852,dev,0,negative,s neither,the end result is a film that s neither,0,2
+122,dev_852,dev,0,negative,is a,the end result is a film that s neither,0,2
 123,dev_24,dev,1,positive,enormously entertaining,enormously entertaining for moviegoers of any age,1,3
 124,dev_64,dev,1,positive,a quiet,a quiet treasure a film to be savored,1,3
-125,dev_80,dev,1,positive,miraculously unsentimental,beautifully observed miraculously unsentimental comedy drama,1,3
-126,dev_82,dev,1,positive,entertainment nonstop,crackerjack entertainment nonstop romance music suspense and action,1,3
+125,dev_80,dev,1,positive,observed miraculously,beautifully observed miraculously unsentimental comedy drama,1,3
+126,dev_82,dev,1,positive,suspense and,crackerjack entertainment nonstop romance music suspense and action,1,3
 127,dev_99,dev,1,positive,warm but,a warm but realistic meditation on friendship family and affection,1,3
-128,dev_101,dev,1,positive,strangely diverting,turns potentially forgettable formula into something strangely diverting,1,3
+128,dev_101,dev,1,positive,turns potentially,turns potentially forgettable formula into something strangely diverting,1,3
 129,dev_146,dev,1,positive,will amuse,will amuse and provoke adventurous adults in specialty venues,1,3
 130,dev_151,dev,1,positive,are good,affleck and jackson are good sparring partners,1,3
-131,dev_206,dev,1,positive,a jolly,the wild thornberrys movie is a jolly surprise,1,3
+131,dev_206,dev,1,positive,is a,the wild thornberrys movie is a jolly surprise,1,3
 132,dev_218,dev,0,negative,an absurdist,an absurdist comedy about alienation separation and loss,0,3
 133,dev_234,dev,1,positive,overall very,overall very good for what it s trying to do,1,3
 134,dev_237,dev,1,positive,proves quite,it proves quite compelling as an intense brooding character study,1,3
-135,dev_258,dev,1,positive,comedy to,uses high comedy to evoke surprising poignance,1,3
-136,dev_331,dev,1,positive,and unforgettable,the film is quiet threatening and unforgettable,1,3
-137,dev_393,dev,1,positive,jones does,jones does offer a brutal form of charisma,1,3
+135,dev_258,dev,1,positive,uses high,uses high comedy to evoke surprising poignance,1,3
+136,dev_331,dev,1,positive,is quiet,the film is quiet threatening and unforgettable,1,3
+137,dev_393,dev,1,positive,does offer,jones does offer a brutal form of charisma,1,3
 138,dev_394,dev,1,positive,is never,despite its title punch drunk love is never heavy handed,0,3
 139,dev_450,dev,0,negative,indifferently implausible,indifferently implausible popcorn programmer of a movie,0,3
 140,dev_485,dev,0,negative,ll enjoy,the lower your expectations the more you ll enjoy it,1,3
@@ -147,141 +147,141 @@
 145,dev_712,dev,0,negative,it lacks,the problem with this film is that it lacks focus,0,3
 146,dev_775,dev,0,negative,theater at,but what are adults doing in the theater at all,0,3
 147,dev_856,dev,0,negative,or doing,or doing last year s taxes with your ex wife,0,3
-148,dev_23,dev,1,positive,it s a,it s a remarkably solid and subtly satirical tour de force,1,3
-149,dev_30,dev,1,positive,stunning lyrical work,it s a stunning lyrical work of considerable force and truth,1,3
-150,dev_72,dev,1,positive,the year,one of the most significant moviegoing pleasures of the year,1,3
-151,dev_119,dev,1,positive,s frustrating,like leon it s frustrating and still oddly likable,1,3
+148,dev_23,dev,1,positive,s a remarkably,it s a remarkably solid and subtly satirical tour de force,1,3
+149,dev_30,dev,1,positive,a stunning lyrical,it s a stunning lyrical work of considerable force and truth,1,3
+150,dev_72,dev,1,positive,one of,one of the most significant moviegoing pleasures of the year,1,3
+151,dev_119,dev,1,positive,it s,like leon it s frustrating and still oddly likable,1,3
 152,dev_139,dev,1,positive,has a lot,has a lot of the virtues of eastwood at his best,1,3
-153,dev_155,dev,1,positive,a subtle,a subtle and well crafted for the most part chiller,1,3
-154,dev_165,dev,1,positive,to make it,rare birds has more than enough charm to make it memorable,1,3
+153,dev_155,dev,1,positive,and well,a subtle and well crafted for the most part chiller,1,3
+154,dev_165,dev,1,positive,has more than,rare birds has more than enough charm to make it memorable,1,3
 155,dev_174,dev,1,positive,finally delivers,collateral damage finally delivers the goods for schwarzenegger fans,1,3
 156,dev_222,dev,1,positive,is amusing and,it is amusing and that s all it needs to be,1,3
-157,dev_223,dev,1,positive,most intriguing,among the year s most intriguing explorations of alientation,1,3
+157,dev_223,dev,1,positive,among the,among the year s most intriguing explorations of alientation,1,3
 158,dev_231,dev,1,positive,deftly unsettling,it s made with deftly unsettling genre flair,1,3
-159,dev_264,dev,1,positive,script good dialogue,this is a good script good dialogue funny even for adults,1,3
+159,dev_264,dev,1,positive,is a good,this is a good script good dialogue funny even for adults,1,3
 160,dev_280,dev,1,positive,easily my choice,easily my choice for one of the year s best films,1,3
 161,dev_337,dev,1,positive,an entertaining colorful,an entertaining colorful action filled crime story with an intimate heart,1,3
 162,dev_385,dev,0,negative,this film seems,this film seems thirsty for reflection itself taking on adolescent qualities,0,3
-163,dev_430,dev,1,positive,is human comedy,this is human comedy at its most amusing interesting and confirming,1,3
-164,dev_434,dev,1,positive,form a,the minor figures surrounding bobby form a gritty urban mosaic,1,3
-165,dev_471,dev,0,negative,just not scary,it s dumb but more importantly it s just not scary,0,3
+163,dev_430,dev,1,positive,interesting and confirming,this is human comedy at its most amusing interesting and confirming,1,3
+164,dev_434,dev,1,positive,a gritty,the minor figures surrounding bobby form a gritty urban mosaic,1,3
+165,dev_471,dev,0,negative,s just not,it s dumb but more importantly it s just not scary,0,3
 166,dev_537,dev,0,negative,chokes on,chokes on its own depiction of upper crust decorum,0,3
-167,dev_573,dev,0,negative,cutter movie a,it s a cookie cutter movie a cut and paste job,0,3
+167,dev_573,dev,0,negative,a cut and,it s a cookie cutter movie a cut and paste job,0,3
 168,dev_605,dev,0,negative,too big,a sequel that s much too big for its britches,0,3
 169,dev_630,dev,0,negative,it has,it has all the excitement of eating oatmeal,1,3
 170,dev_638,dev,0,negative,plays like,plays like a volatile and overlong w magazine fashion spread,0,3
 171,dev_640,dev,0,negative,written using,this movie seems to have been written using mad libs,0,3
-172,dev_688,dev,0,negative,but overall limp,an occasionally funny but overall limp fish out of water story,0,3
+172,dev_688,dev,0,negative,an occasionally funny,an occasionally funny but overall limp fish out of water story,0,3
 173,dev_691,dev,0,negative,is forced and,the humor is forced and heavy handed and occasionally simply unpleasant,0,3
 174,dev_696,dev,0,negative,never really,burns never really harnesses to full effect the energetic cast,0,3
 175,dev_709,dev,0,negative,still quite bad,of course by more objective measurements it s still quite bad,0,3
 176,dev_754,dev,0,negative,manages to,manages to be both repulsively sadistic and mundane,1,3
 177,dev_800,dev,0,negative,complete lack,complete lack of originality cleverness or even visible effort,0,3
 178,dev_821,dev,0,negative,this films lacks,but this films lacks the passion required to sell the material,0,3
-179,dev_823,dev,0,negative,not enough here,there s not enough here to justify the almost two hours,0,3
-180,dev_839,dev,0,negative,gone horribly wrong,it all feels like a monty python sketch gone horribly wrong,0,3
-181,dev_848,dev,0,negative,film is,the heavy handed film is almost laughable as a consequence,0,3
+179,dev_823,dev,0,negative,s not enough,there s not enough here to justify the almost two hours,0,3
+180,dev_839,dev,0,negative,feels like a,it all feels like a monty python sketch gone horribly wrong,0,3
+181,dev_848,dev,0,negative,the heavy,the heavy handed film is almost laughable as a consequence,0,3
 182,dev_37,dev,0,negative,quickly recognize him,you wo n t like roger but you will quickly recognize him,1,3
-183,dev_71,dev,1,positive,film is full,leigh s film is full of memorable performances from top to bottom,1,3
+183,dev_71,dev,1,positive,is full of,leigh s film is full of memorable performances from top to bottom,1,3
 184,dev_112,dev,1,positive,the best film,the best film about baseball to hit theaters since field of dreams,1,3
 185,dev_166,dev,1,positive,manages to be,manages to be sweet and wickedly satisfying at the same time,1,3
-186,dev_220,dev,1,positive,bourne identity we,with the bourne identity we return to the more traditional action genre,1,3
+186,dev_220,dev,1,positive,we return to,with the bourne identity we return to the more traditional action genre,1,3
 187,dev_276,dev,1,positive,challenging intermittently,challenging intermittently engrossing and unflaggingly creative,1,3
 188,dev_285,dev,1,positive,is economically,michael gerbosi s script is economically packed with telling scenes,1,3
 189,dev_348,dev,1,positive,a grimly,a grimly competent and stolid and earnest military courtroom drama,1,3
 190,dev_358,dev,1,positive,is an amusing,birthday girl is an amusing joy ride with some surprisingly violent moments,1,3
 191,dev_395,dev,1,positive,are short carefully,the jabs it employs are short carefully placed and dead center,0,3
-192,dev_448,dev,0,negative,feels like a,looks and feels like a project better suited for the small screen,0,3
+192,dev_448,dev,0,negative,looks and feels,looks and feels like a project better suited for the small screen,0,3
 193,dev_468,dev,0,negative,needs more,the piquant story needs more dramatic meat on its bones,0,3
 194,dev_505,dev,0,negative,excessive profane,excessive profane packed with cartoonish violence and comic strip characters,0,3
-195,dev_522,dev,1,positive,such cute,so much facile technique such cute ideas so little movie,1,3
-196,dev_540,dev,0,negative,enjoy really bad,unfortunately it s not silly fun unless you enjoy really bad movies,0,3
+195,dev_522,dev,1,positive,so little,so much facile technique such cute ideas so little movie,1,3
+196,dev_540,dev,0,negative,really bad movies,unfortunately it s not silly fun unless you enjoy really bad movies,0,3
 197,dev_543,dev,0,negative,downright repellent,not only unfunny but downright repellent,0,3
 198,dev_557,dev,0,negative,this turkey rotting,like you could n t smell this turkey rotting from miles away,0,3
 199,dev_597,dev,0,negative,for some awful,nothing scary here except for some awful acting and lame special effects,0,3
 200,dev_625,dev,0,negative,that has no,the time machine is a movie that has no interest in itself,0,3
 201,dev_628,dev,1,positive,it s about,it s about following your dreams no matter what your parents think,1,3
-202,dev_639,dev,0,negative,a better title,a better title for all concerned might be swept under the rug,0,3
-203,dev_724,dev,0,negative,downer than,more whiny downer than corruscating commentary,0,3
+202,dev_639,dev,0,negative,might be swept,a better title for all concerned might be swept under the rug,0,3
+203,dev_724,dev,0,negative,more whiny,more whiny downer than corruscating commentary,0,3
 204,dev_737,dev,0,negative,it s everything,it s everything you do n t go to the movies for,0,3
 205,dev_792,dev,0,negative,does n t,serving sara does n t serve up a whole lot of laughs,0,3
 206,dev_808,dev,0,negative,movie fails to,the movie fails to live up to the sum of its parts,0,3
 207,dev_813,dev,0,negative,bad,stultifyingly dumbfoundingly mind numbingly bad,0,3
 208,dev_828,dev,0,negative,an unwise,an unwise amalgam of broadcast news and vibes,0,3
-209,dev_830,dev,0,negative,mostly,trite banal cliched mostly inoffensive,0,3
-210,dev_38,dev,1,positive,of why we,and that s a big part of why we go to the movies,1,3
+209,dev_830,dev,0,negative,cliched,trite banal cliched mostly inoffensive,0,3
+210,dev_38,dev,1,positive,and that s,and that s a big part of why we go to the movies,1,3
 211,dev_50,dev,1,positive,chilling well,chilling well acted and finely directed david jacobson s dahmer,1,3
 212,dev_86,dev,0,negative,suffers from,suffers from the lack of a compelling or comprehensible narrative,0,3
 213,dev_87,dev,1,positive,is almost,still as a visual treat the film is almost unsurpassed,0,3
-214,dev_114,dev,1,positive,into a grief,the film tunes into a grief that could lead a man across centuries,1,3
-215,dev_137,dev,1,positive,subtle plot maneuvers,a study in shades of gray offering itself up in subtle plot maneuvers,1,3
+214,dev_114,dev,1,positive,the film tunes,the film tunes into a grief that could lead a man across centuries,1,3
+215,dev_137,dev,1,positive,gray offering itself,a study in shades of gray offering itself up in subtle plot maneuvers,1,3
 216,dev_187,dev,1,positive,one of the,one of the more intelligent children s movies to hit theaters this year,1,3
-217,dev_221,dev,1,positive,the character,holm embodies the character with an effortlessly regal charisma,1,3
-218,dev_266,dev,1,positive,film will play,the film will play equally well on both the standard and giant screens,1,3
-219,dev_297,dev,1,positive,the film is,though only 60 minutes long the film is packed with information and impressions,1,3
+217,dev_221,dev,1,positive,holm embodies,holm embodies the character with an effortlessly regal charisma,1,3
+218,dev_266,dev,1,positive,will play equally,the film will play equally well on both the standard and giant screens,1,3
+219,dev_297,dev,1,positive,is packed with,though only 60 minutes long the film is packed with information and impressions,1,3
 220,dev_303,dev,1,positive,puts a human,puts a human face on a land most westerners are unfamiliar with,1,3
 221,dev_307,dev,0,negative,is small change,if the first men in black was money the second is small change,0,3
 222,dev_316,dev,1,positive,a tender witty,a tender witty captivating film about friendship love memory trust and loyalty,1,3
 223,dev_344,dev,1,positive,with resonance,a woman s pic directed with resonance by ilya chaiken,1,3
 224,dev_350,dev,1,positive,also refreshingly,very psychoanalytical provocatively so and also refreshingly literary,1,3
-225,dev_388,dev,1,positive,a romantic comedy,a romantic comedy enriched by a sharp eye for manners and mores,1,3
+225,dev_388,dev,1,positive,enriched by a,a romantic comedy enriched by a sharp eye for manners and mores,1,3
 226,dev_404,dev,1,positive,are treasures and,filmmakers who can deftly change moods are treasures and even marvels,1,3
-227,dev_447,dev,0,negative,for this,no telegraphing is too obvious or simplistic for this movie,0,3
-228,dev_476,dev,0,negative,leaves a hole,and that leaves a hole in the center of the salton sea,0,3
+227,dev_447,dev,0,negative,no telegraphing,no telegraphing is too obvious or simplistic for this movie,0,3
+228,dev_476,dev,0,negative,and that leaves,and that leaves a hole in the center of the salton sea,0,3
 229,dev_479,dev,0,negative,this just felt,the iditarod lasts for days this just felt like it did,0,3
 230,dev_487,dev,0,negative,an arthritic,is an arthritic attempt at directing by callie khouri,0,3
 231,dev_500,dev,0,negative,has been lost,it appears that something has been lost in the translation to the screen,0,3
 232,dev_502,dev,0,negative,unclassifiably awful,an unclassifiably awful study in self and audience abuse,0,3
 233,dev_504,dev,0,negative,one to skip,this one is definitely one to skip even for horror movie fanatics,0,3
 234,dev_512,dev,0,negative,just with different,expect the same old lame old slasher nonsense just with different scenery,0,3
-235,dev_550,dev,0,negative,boring and sad,the entire movie is about a boring sad man being boring and sad,0,3
-236,dev_564,dev,0,negative,more irritating cartoons,one of the more irritating cartoons you will see this or any year,0,3
-237,dev_646,dev,0,negative,that covers all,a by the numbers patient doctor pic that covers all the usual ground,1,3
-238,dev_707,dev,1,positive,admirable ambition,serry wants to blend politics and drama an admirable ambition,1,3
-239,dev_722,dev,0,negative,are off almost,the film s tone and pacing are off almost from the get go,0,3
-240,dev_0,dev,1,positive,lovely film with,it s a lovely film with lovely performances by buy and accorsi,1,3
+235,dev_550,dev,0,negative,is about a,the entire movie is about a boring sad man being boring and sad,0,3
+236,dev_564,dev,0,negative,one of the,one of the more irritating cartoons you will see this or any year,0,3
+237,dev_646,dev,0,negative,pic that covers,a by the numbers patient doctor pic that covers all the usual ground,1,3
+238,dev_707,dev,1,positive,wants to,serry wants to blend politics and drama an admirable ambition,1,3
+239,dev_722,dev,0,negative,pacing are off,the film s tone and pacing are off almost from the get go,0,3
+240,dev_0,dev,1,positive,s a lovely,it s a lovely film with lovely performances by buy and accorsi,1,3
 241,dev_51,dev,1,positive,a swashbuckling tale,a swashbuckling tale of love betrayal revenge and above all faith,1,3
-242,dev_58,dev,1,positive,it creeped me,against all odds in heaven and hell it creeped me out just fine,1,3
-243,dev_67,dev,1,positive,huston nails both,huston nails both the glad handing and the choking sense of hollow despair,1,3
+242,dev_58,dev,1,positive,out just fine,against all odds in heaven and hell it creeped me out just fine,1,3
+243,dev_67,dev,1,positive,nails both the,huston nails both the glad handing and the choking sense of hollow despair,1,3
 244,dev_94,dev,1,positive,is a film,the second coming of harry potter is a film far superior to its predecessor,1,3
 245,dev_117,dev,1,positive,t miss it,if your taste runs to difficult films you absolutely ca n t miss it,1,3
 246,dev_128,dev,1,positive,is mesmerizing,even in its most tedious scenes russian ark is mesmerizing,1,3
-247,dev_130,dev,1,positive,barrage is absorbing,reggio s continual visual barrage is absorbing as well as thought provoking,1,3
+247,dev_130,dev,1,positive,is absorbing as,reggio s continual visual barrage is absorbing as well as thought provoking,1,3
 248,dev_175,dev,1,positive,has always been,there has always been something likable about the marquis de sade,1,3
-249,dev_205,dev,1,positive,flick is about,this flick is about as cool and crowd pleasing as a documentary can get,0,3
-250,dev_215,dev,0,negative,should inspire reaction,a subject like this should inspire reaction in its audience the pianist does not,1,3
-251,dev_273,dev,1,positive,tosca is a,for movie lovers as well as opera lovers tosca is a real treat,1,3
+249,dev_205,dev,1,positive,is about as,this flick is about as cool and crowd pleasing as a documentary can get,0,3
+250,dev_215,dev,0,negative,pianist does not,a subject like this should inspire reaction in its audience the pianist does not,1,3
+251,dev_273,dev,1,positive,is a real,for movie lovers as well as opera lovers tosca is a real treat,1,3
 252,dev_359,dev,1,positive,and ultimately more,more romantic more emotional and ultimately more satisfying than the teary eyed original,1,3
 253,dev_423,dev,1,positive,a gripping movie,a gripping movie played with performances that are all understated and touching,1,3
 254,dev_427,dev,1,positive,demonstrates a wry,director andrew niccol demonstrates a wry understanding of the quirks of fame,1,3
 255,dev_529,dev,0,negative,and underdeveloped,too much of it feels unfocused and underdeveloped,0,3
-256,dev_590,dev,0,negative,big problems here,i d have to say the star and director are the big problems here,0,3
+256,dev_590,dev,0,negative,and director are,i d have to say the star and director are the big problems here,0,3
 257,dev_600,dev,0,negative,it merely lacks,not an objectionable or dull film it merely lacks everything except good intentions,0,3
-258,dev_631,dev,0,negative,lot more fun,i ll bet the video game is a lot more fun than the film,1,3
+258,dev_631,dev,0,negative,is a lot,i ll bet the video game is a lot more fun than the film,1,3
 259,dev_654,dev,0,negative,missing is,all that s missing is the spontaneity originality and delight,1,3
 260,dev_665,dev,0,negative,comes uncomfortably close,comes uncomfortably close to coasting in the treads of the bicycle thief,0,3
-261,dev_748,dev,0,negative,costner flailing away,dragonfly has no atmosphere no tension nothing but costner flailing away,0,3
-262,dev_822,dev,1,positive,film but more,a solid film but more conscientious than it is truly stirring,1,3
+261,dev_748,dev,0,negative,no tension nothing,dragonfly has no atmosphere no tension nothing but costner flailing away,0,3
+262,dev_822,dev,1,positive,a solid film,a solid film but more conscientious than it is truly stirring,1,3
 263,dev_12,dev,1,positive,a beguiling splash,a beguiling splash of pastel colors and prankish comedy from disney,1,4
 264,dev_47,dev,1,positive,s a good,add yet another hat to a talented head clooney s a good director,1,4
-265,dev_56,dev,1,positive,through on some,for the most part stevens glides through on some solid performances and witty dialogue,1,4
-266,dev_69,dev,1,positive,to see how,it s fascinating to see how bettany and mcdowell play off each other,1,4
+265,dev_56,dev,1,positive,for the most,for the most part stevens glides through on some solid performances and witty dialogue,1,4
+266,dev_69,dev,1,positive,it s fascinating,it s fascinating to see how bettany and mcdowell play off each other,1,4
 267,dev_93,dev,1,positive,what better message,what better message than love thyself could young women of any size receive,0,4
 268,dev_106,dev,1,positive,manages to transcend,manages to transcend the sex drugs and show tunes plot into something far richer,1,4
 269,dev_133,dev,1,positive,is an engaging,sade is an engaging look at the controversial eponymous and fiercely atheistic hero,1,4
-270,dev_197,dev,1,positive,breathtaking scenery and,awesome creatures breathtaking scenery and epic battle scenes add up to another spectacular spectacle,1,4
+270,dev_197,dev,1,positive,add up to,awesome creatures breathtaking scenery and epic battle scenes add up to another spectacular spectacle,1,4
 271,dev_225,dev,1,positive,so closely matched,seldom has a movie so closely matched the spirit of a man and his work,1,4
 272,dev_243,dev,1,positive,that profoundly deepen,there is a fabric of complex ideas here and feelings that profoundly deepen them,1,4
 273,dev_265,dev,1,positive,are interesting and,the characters are interesting and often very creatively constructed from figure to backstory,1,4
 274,dev_275,dev,0,negative,moretti s compelling,moretti s compelling anatomy of grief and the difficult process of adapting to loss,1,4
 275,dev_290,dev,1,positive,movie and enjoy,if you dig on david mamet s mind tricks rent this movie and enjoy,1,4
-276,dev_296,dev,1,positive,fun little timewaster,a fun little timewaster helped especially by the cool presence of jean reno,1,4
-277,dev_361,dev,1,positive,a solid performance,the draw for big bad love is a solid performance by arliss howard,1,4
+276,dev_296,dev,1,positive,timewaster helped especially,a fun little timewaster helped especially by the cool presence of jean reno,1,4
+277,dev_361,dev,1,positive,is a solid,the draw for big bad love is a solid performance by arliss howard,1,4
 278,dev_365,dev,1,positive,it wants to,it wants to tweak them with a taste of tangy new humor,1,4
-279,dev_390,dev,1,positive,original that pleases,one of those energetic surprises an original that pleases almost everyone who sees it,1,4
-280,dev_405,dev,1,positive,is this comedy,so too is this comedy about mild culture clashing in today s new delhi,1,4
+279,dev_390,dev,1,positive,an original that,one of those energetic surprises an original that pleases almost everyone who sees it,1,4
+280,dev_405,dev,1,positive,too is this,so too is this comedy about mild culture clashing in today s new delhi,1,4
 281,dev_431,dev,1,positive,stays within the,an artful intelligent film that stays within the confines of a well established genre,1,4
-282,dev_458,dev,0,negative,before it begins,less dizzying than just dizzy the jaunt is practically over before it begins,0,4
+282,dev_458,dev,0,negative,is practically over,less dizzying than just dizzy the jaunt is practically over before it begins,0,4
 283,dev_474,dev,0,negative,accumulated force still,the movie s accumulated force still feels like an ugly knot tightening in your stomach,0,4
 284,dev_496,dev,0,negative,effort that wo,a by the numbers effort that wo n t do much to enhance the franchise,0,4
 285,dev_517,dev,0,negative,when leguizamo finally,when leguizamo finally plugged an irritating character late in the movie,0,4
@@ -289,56 +289,56 @@
 287,dev_547,dev,0,negative,to generate cheap,k 19 exploits our substantial collective fear of nuclear holocaust to generate cheap hollywood tension,0,4
 288,dev_563,dev,0,negative,is far less,in execution this clever idea is far less funny than the original killers from space,0,4
 289,dev_577,dev,0,negative,of very bad,at its worst it implodes in a series of very bad special effects,0,4
-290,dev_607,dev,0,negative,now seems pedestrian,what was once original has been co opted so frequently that it now seems pedestrian,0,4
-291,dev_622,dev,0,negative,basically a static,basically a static series of semi improvised and semi coherent raps between the stars,0,4
+290,dev_607,dev,0,negative,has been co,what was once original has been co opted so frequently that it now seems pedestrian,0,4
+291,dev_622,dev,0,negative,improvised and semi,basically a static series of semi improvised and semi coherent raps between the stars,0,4
 292,dev_637,dev,0,negative,been so painful,not since freddy got fingered has a major release been so painful to sit through,0,4
-293,dev_686,dev,0,negative,but others will,outer space buffs might love this film but others will find its pleasures intermittent,1,4
+293,dev_686,dev,0,negative,its pleasures intermittent,outer space buffs might love this film but others will find its pleasures intermittent,1,4
 294,dev_695,dev,0,negative,suffers from a,the film suffers from a lack of humor something needed to balance out the violence,0,4
-295,dev_697,dev,0,negative,ultimately tedious,an overemphatic would be wacky ultimately tedious sex farce,0,4
+295,dev_697,dev,0,negative,overemphatic would,an overemphatic would be wacky ultimately tedious sex farce,0,4
 296,dev_726,dev,0,negative,coughs and,coughs and sputters on its own postmodern conceit,0,4
-297,dev_731,dev,0,negative,plot holes big,there are plot holes big enough for shamu the killer whale to swim through,0,4
-298,dev_741,dev,0,negative,encourages rueful laughter,american chai encourages rueful laughter at stereotypes only an indian american would recognize,1,4
-299,dev_756,dev,0,negative,be a directing,there ought to be a directing license so that ed burns can have his revoked,0,4
+297,dev_731,dev,0,negative,are plot holes,there are plot holes big enough for shamu the killer whale to swim through,0,4
+298,dev_741,dev,0,negative,chai encourages rueful,american chai encourages rueful laughter at stereotypes only an indian american would recognize,1,4
+299,dev_756,dev,0,negative,a directing license,there ought to be a directing license so that ed burns can have his revoked,0,4
 300,dev_761,dev,0,negative,is n t,there is n t nearly enough fun here despite the presence of some appealing ingredients,0,4
 301,dev_833,dev,0,negative,it offers little,it offers little beyond the momentary joys of pretty and weightless intellectual entertainment,0,4
 302,dev_841,dev,0,negative,does n t,scorsese does n t give us a character worth giving a damn about,0,4
-303,dev_851,dev,0,negative,the film tries,the film tries too hard to be funny and tries too hard to be hip,0,4
+303,dev_851,dev,0,negative,and tries too,the film tries too hard to be funny and tries too hard to be hip,0,4
 304,dev_857,dev,1,positive,you both look,scooby dooby doo and shaggy too you both look and sound great,1,4
 305,dev_120,dev,1,positive,it s worth checking,if you can stomach the rough content it s worth checking out for the performances alone,1,4
 306,dev_148,dev,1,positive,that is accessible and,a film about a young man finding god that is accessible and touching to the marrow,1,4
-307,dev_159,dev,1,positive,a delectable and,a delectable and intriguing thriller filled with surprises read my lips is an original,1,4
-308,dev_167,dev,0,negative,have more homosexual,this nickleby thing might have more homosexual undertones than an eddie murphy film,0,4
+307,dev_159,dev,1,positive,is an original,a delectable and intriguing thriller filled with surprises read my lips is an original,1,4
+308,dev_167,dev,0,negative,might have more,this nickleby thing might have more homosexual undertones than an eddie murphy film,0,4
 309,dev_193,dev,0,negative,disappointing that it only,it s a bit disappointing that it only manages to be decent instead of dead brilliant,0,4
-310,dev_242,dev,1,positive,the smartest takes,one of the smartest takes on singles culture i ve seen in a long time,1,4
+310,dev_242,dev,1,positive,of the smartest,one of the smartest takes on singles culture i ve seen in a long time,1,4
 311,dev_253,dev,1,positive,has the showmanship,no screen fantasy adventure in recent memory has the showmanship of clones last 45 minutes,0,4
 312,dev_255,dev,1,positive,chateau cleverly probes,the chateau cleverly probes the cross cultural differences between gauls and yanks,1,4
-313,dev_294,dev,1,positive,arkin being better,it s hard to imagine alan arkin being better than he is in this performance,1,4
-314,dev_342,dev,1,positive,great fight scenes and,good car chases great fight scenes and a distinctive blend of european american and asian influences,1,4
-315,dev_354,dev,1,positive,a lean economical,with rabbit proof fence noyce has tailored an epic tale into a lean economical movie,1,4
+313,dev_294,dev,1,positive,in this performance,it s hard to imagine alan arkin being better than he is in this performance,1,4
+314,dev_342,dev,1,positive,and a distinctive blend,good car chases great fight scenes and a distinctive blend of european american and asian influences,1,4
+315,dev_354,dev,1,positive,has tailored an,with rabbit proof fence noyce has tailored an epic tale into a lean economical movie,1,4
 316,dev_380,dev,1,positive,exciting and direct with,exciting and direct with ghost imagery that shows just enough to keep us on our toes,1,4
 317,dev_383,dev,1,positive,is for you,if you enjoy more thoughtful comedies with interesting conflicted characters this one is for you,1,4
 318,dev_396,dev,1,positive,s a wickedly,there s a wickedly subversive bent to the best parts of birthday girl,1,4
 319,dev_408,dev,1,positive,it s brilliant,it s a scattershot affair but when it hits its mark it s brilliant,1,4
-320,dev_419,dev,1,positive,and following the,brilliantly explores the conflict between following one s heart and following the demands of tradition,1,4
-321,dev_433,dev,1,positive,fine performances as,richard gere and diane lane put in fine performances as does french actor oliver martinez,1,4
-322,dev_446,dev,0,negative,i was unable,i am sorry that i was unable to get the full brunt of the comedy,0,4
+320,dev_419,dev,1,positive,brilliantly explores the,brilliantly explores the conflict between following one s heart and following the demands of tradition,1,4
+321,dev_433,dev,1,positive,performances as does,richard gere and diane lane put in fine performances as does french actor oliver martinez,1,4
+322,dev_446,dev,0,negative,that i was,i am sorry that i was unable to get the full brunt of the comedy,0,4
 323,dev_449,dev,0,negative,moments resembles a bad,in its best moments resembles a bad high school production of grease without benefit of song,0,4
 324,dev_511,dev,1,positive,seen such hilarity,we have n t seen such hilarity since say it is n t so,0,4
-325,dev_569,dev,0,negative,sacrifices the value of,sacrifices the value of its wealth of archival foot age with its less than objective stance,0,4
-326,dev_620,dev,0,negative,of rehashed,a string of rehashed sight gags based in insipid vulgarity,0,4
+325,dev_569,dev,0,negative,with its less than,sacrifices the value of its wealth of archival foot age with its less than objective stance,0,4
+326,dev_620,dev,0,negative,a string,a string of rehashed sight gags based in insipid vulgarity,0,4
 327,dev_636,dev,0,negative,you is pure junk,do n t be fooled by the impressive cast list eye see you is pure junk,0,4
 328,dev_670,dev,0,negative,pretty big problem,and when you re talking about a slapstick comedy that s a pretty big problem,0,4
 329,dev_678,dev,1,positive,intriguing documentary which,intriguing documentary which is emotionally diluted by focusing on the story s least interesting subject,1,4
-330,dev_718,dev,0,negative,shameless sham calculated,this is a shameless sham calculated to cash in on the popularity of its stars,0,4
-331,dev_753,dev,0,negative,should have hidden,instead of hiding pinocchio from critics miramax should have hidden it from everyone,0,4
-332,dev_755,dev,0,negative,t lift this,a great ensemble cast ca n t lift this heartfelt enterprise out of the familiar,1,4
-333,dev_778,dev,0,negative,alabama is taking,every time you look sweet home alabama is taking another bummer of a wrong turn,0,4
-334,dev_787,dev,0,negative,the only excitement comes,the only excitement comes when the credits finally roll and you get to leave the theater,0,4
-335,dev_817,dev,0,negative,bag of stale,the result is a gaudy bag of stale candy something from a halloween that died,0,4
-336,dev_18,dev,1,positive,entertainment of a superior,it provides the grand intelligent entertainment of a superior cast playing smart people amid a compelling plot,1,4
+330,dev_718,dev,0,negative,is a shameless,this is a shameless sham calculated to cash in on the popularity of its stars,0,4
+331,dev_753,dev,0,negative,have hidden it,instead of hiding pinocchio from critics miramax should have hidden it from everyone,0,4
+332,dev_755,dev,0,negative,a great ensemble,a great ensemble cast ca n t lift this heartfelt enterprise out of the familiar,1,4
+333,dev_778,dev,0,negative,is taking another,every time you look sweet home alabama is taking another bummer of a wrong turn,0,4
+334,dev_787,dev,0,negative,only excitement comes when,the only excitement comes when the credits finally roll and you get to leave the theater,0,4
+335,dev_817,dev,0,negative,is a gaudy,the result is a gaudy bag of stale candy something from a halloween that died,0,4
+336,dev_18,dev,1,positive,it provides the grand,it provides the grand intelligent entertainment of a superior cast playing smart people amid a compelling plot,1,4
 337,dev_19,dev,1,positive,there s tremendous energy,there s tremendous energy from the cast a sense of playfulness and excitement that seems appropriate,1,4
 338,dev_39,dev,1,positive,but it held my,we know the plot s a little crazy but it held my interest from start to finish,1,4
-339,dev_45,dev,1,positive,with a tasty,an infectious cultural fable with a tasty balance of family drama and frenetic comedy,1,4
+339,dev_45,dev,1,positive,an infectious cultural,an infectious cultural fable with a tasty balance of family drama and frenetic comedy,1,4
 340,dev_46,dev,1,positive,provides an honest,it provides an honest look at a community striving to anchor itself in new grounds,1,4
 341,dev_49,dev,0,negative,ultimately feels empty,ultimately feels empty and unsatisfying like swallowing a communion wafer without the wine,0,4
 342,dev_63,dev,1,positive,a rewarding work,a rewarding work of art for only the most patient and challenge hungry moviegoers,1,4
@@ -346,180 +346,180 @@
 344,dev_189,dev,1,positive,travels a fascinating,travels a fascinating arc from hope and euphoria to reality and disillusionment,1,4
 345,dev_196,dev,1,positive,it inspires a continuing,it inspires a continuing and deeply satisfying awareness of the best movies as monumental picture shows,1,4
 346,dev_204,dev,1,positive,bleakly funny its,bleakly funny its characters all the more touching for refusing to pity or memorialize themselves,1,4
-347,dev_207,dev,1,positive,continually raises the,griffiths proves she s that rare luminary who continually raises the standard of her profession,1,4
+347,dev_207,dev,1,positive,proves she s,griffiths proves she s that rare luminary who continually raises the standard of her profession,1,4
 348,dev_245,dev,1,positive,are raw and will,the emotions are raw and will strike a nerve with anyone who s ever had family trauma,1,4
-349,dev_251,dev,1,positive,exceptional performances the film,anchored by friel and williams s exceptional performances the film s power lies in its complexity,1,4
-350,dev_263,dev,1,positive,a very original artist,mr tsai is a very original artist in his medium and what time is it there,1,4
-351,dev_295,dev,1,positive,for a surprisingly,despite the 2 d animation the wild thornberrys movie makes for a surprisingly cinematic experience,1,4
-352,dev_322,dev,1,positive,this is your,if you re hard up for raunchy college humor this is your ticket right here,1,4
-353,dev_356,dev,1,positive,is a pretty amazing,preaches to two completely different choirs at the same time which is a pretty amazing accomplishment,1,4
+349,dev_251,dev,1,positive,lies in its complexity,anchored by friel and williams s exceptional performances the film s power lies in its complexity,1,4
+350,dev_263,dev,1,positive,is a very original,mr tsai is a very original artist in his medium and what time is it there,1,4
+351,dev_295,dev,1,positive,makes for a,despite the 2 d animation the wild thornberrys movie makes for a surprisingly cinematic experience,1,4
+352,dev_322,dev,1,positive,ticket right here,if you re hard up for raunchy college humor this is your ticket right here,1,4
+353,dev_356,dev,1,positive,a pretty amazing accomplishment,preaches to two completely different choirs at the same time which is a pretty amazing accomplishment,1,4
 354,dev_377,dev,1,positive,but it introduces viewers,hardly a masterpiece but it introduces viewers to a good charitable enterprise and some interesting real people,1,4
-355,dev_392,dev,1,positive,a taut psychological thriller,a taut psychological thriller that does n t waste a moment of its two hour running time,1,4
+355,dev_392,dev,1,positive,that does n t,a taut psychological thriller that does n t waste a moment of its two hour running time,1,4
 356,dev_406,dev,1,positive,is a glorious,if steven soderbergh s solaris is a failure it is a glorious failure,1,4
 357,dev_444,dev,0,negative,kicks in and,the script kicks in and mr hartley s distended pace and foot dragging rhythms follow,0,4
 358,dev_445,dev,0,negative,is flushed down,e ventually every idea in this film is flushed down the latrine of heroism,0,4
 359,dev_455,dev,1,positive,will probably stay,thekids will probably stay amused at the kaleidoscope of big colorful characters,1,4
-360,dev_491,dev,0,negative,a very bad feeling,because of an unnecessary and clumsy last scene swimfan left me with a very bad feeling,0,4
+360,dev_491,dev,0,negative,because of an unnecessary,because of an unnecessary and clumsy last scene swimfan left me with a very bad feeling,0,4
 361,dev_533,dev,0,negative,sometimes seems less like,sometimes seems less like storytelling than something the otherwise compelling director needed to get off his chest,0,4
-362,dev_565,dev,0,negative,s pretty toxic,a broad melodramatic estrogen opera that s pretty toxic in its own right,0,4
+362,dev_565,dev,0,negative,a broad melodramatic,a broad melodramatic estrogen opera that s pretty toxic in its own right,0,4
 363,dev_576,dev,1,positive,queen is campy fun,at its best queen is campy fun like the vincent price horror classics of the 60s,1,4
 364,dev_583,dev,0,negative,manages to show life,manages to show life in all of its banality when the intention is quite the opposite,1,4
 365,dev_603,dev,0,negative,the words frankly my,the words frankly my dear i do n t give a damn have never been more appropriate,0,4
-366,dev_606,dev,0,negative,unremittingly awful that,so unremittingly awful that labeling it a dog probably constitutes cruelty to canines,0,4
-367,dev_615,dev,0,negative,taste is all too,tries to add some spice to its quirky sentiments but the taste is all too familiar,0,4
-368,dev_721,dev,0,negative,wonder why enough was,you wonder why enough was n t just a music video rather than a full length movie,0,4
+366,dev_606,dev,0,negative,so unremittingly awful,so unremittingly awful that labeling it a dog probably constitutes cruelty to canines,0,4
+367,dev_615,dev,0,negative,but the taste is,tries to add some spice to its quirky sentiments but the taste is all too familiar,0,4
+368,dev_721,dev,0,negative,enough was n t,you wonder why enough was n t just a music video rather than a full length movie,0,4
 369,dev_734,dev,1,positive,but makhmalbaf keeps,does paint some memorable images but makhmalbaf keeps her distance from the characters,1,4
 370,dev_791,dev,0,negative,undercut by amateurish,one of those pictures whose promising if rather precious premise is undercut by amateurish execution,0,4
 371,dev_826,dev,0,negative,verbinski implements every,verbinski implements every hack artist trick to give us the ooky spookies,1,4
-372,dev_842,dev,0,negative,gross be so boring,like being trapped at a perpetual frat party how can something so gross be so boring,0,4
+372,dev_842,dev,0,negative,like being trapped at,like being trapped at a perpetual frat party how can something so gross be so boring,0,4
 373,dev_844,dev,0,negative,there s little,prurient playthings aside there s little to love about this english trifle,0,4
-374,dev_847,dev,0,negative,faced fashion with little,it s played in the most straight faced fashion with little humor to lighten things up,0,4
-375,dev_849,dev,0,negative,is so disgusting that,at least one scene is so disgusting that viewers may be hard pressed to retain their lunch,0,4
+374,dev_847,dev,0,negative,it s played in,it s played in the most straight faced fashion with little humor to lighten things up,0,4
+375,dev_849,dev,0,negative,scene is so disgusting,at least one scene is so disgusting that viewers may be hard pressed to retain their lunch,0,4
 376,dev_870,dev,0,negative,but the lazy people,the title not only describes its main characters but the lazy people behind the camera as well,0,4
-377,dev_109,dev,1,positive,looks as if it,reign of fire looks as if it was made without much thought and is best watched that way,0,4
+377,dev_109,dev,1,positive,and is best watched,reign of fire looks as if it was made without much thought and is best watched that way,0,4
 378,dev_111,dev,1,positive,we root for clara,we root for clara and paul even like them though perhaps it s an emotion closer to pity,1,4
 379,dev_201,dev,1,positive,it haunts horrifies,it haunts horrifies startles and fascinates it is impossible to look away,1,4
-380,dev_238,dev,1,positive,gentility that earns,the son s room is a triumph of gentility that earns its moments of pathos,1,4
-381,dev_256,dev,1,positive,impression in his underwear,not since tom cruise in risky business has an actor made such a strong impression in his underwear,1,4
+380,dev_238,dev,1,positive,that earns its,the son s room is a triumph of gentility that earns its moments of pathos,1,4
+381,dev_256,dev,1,positive,made such a strong,not since tom cruise in risky business has an actor made such a strong impression in his underwear,1,4
 382,dev_260,dev,1,positive,excel in insightful,vera s three actors molla gil and bardem excel in insightful empathetic performances,1,4
-383,dev_277,dev,0,negative,in a muddle,but it s too long and too convoluted and it ends in a muddle,0,4
-384,dev_291,dev,1,positive,this film seems to,the primitive force of this film seems to bubble up from the vast collective memory of the combatants,1,4
+383,dev_277,dev,0,negative,too convoluted and,but it s too long and too convoluted and it ends in a muddle,0,4
+384,dev_291,dev,1,positive,seems to bubble up,the primitive force of this film seems to bubble up from the vast collective memory of the combatants,1,4
 385,dev_293,dev,1,positive,india that exquisitely blends,a gorgeous high spirited musical from india that exquisitely blends music dance song and high drama,1,4
 386,dev_326,dev,0,negative,every dance becomes,every dance becomes about seduction where backstabbing and betrayals are celebrated and sex is currency,1,4
 387,dev_333,dev,1,positive,funny fast and,deliriously funny fast and loose accessible to the uninitiated and full of surprises,1,4
-388,dev_373,dev,1,positive,this moving effective little,first time writer director serry shows a remarkable gift for storytelling with this moving effective little film,1,4
+388,dev_373,dev,1,positive,with this moving effective,first time writer director serry shows a remarkable gift for storytelling with this moving effective little film,1,4
 389,dev_416,dev,1,positive,may be the best,oscar wilde s masterpiece the importance of being earnest may be the best play of the 19th century,1,4
-390,dev_432,dev,1,positive,majidi is an,majidi is an unconventional storyteller capable of finding beauty in the most depressing places,1,4
-391,dev_460,dev,0,negative,appears to have blown,taylor appears to have blown his entire budget on soundtrack rights and had nothing left over for jokes,0,4
-392,dev_528,dev,0,negative,salvage this lifeless boxing,while hill has learned new tricks the tricks alone are not enough to salvage this lifeless boxing film,0,4
+390,dev_432,dev,1,positive,is an unconventional,majidi is an unconventional storyteller capable of finding beauty in the most depressing places,1,4
+391,dev_460,dev,0,negative,rights and had nothing,taylor appears to have blown his entire budget on soundtrack rights and had nothing left over for jokes,0,4
+392,dev_528,dev,0,negative,alone are not enough,while hill has learned new tricks the tricks alone are not enough to salvage this lifeless boxing film,0,4
 393,dev_551,dev,0,negative,convolutions ultimately add,the plot convolutions ultimately add up to nothing more than jerking the audience s chain,0,4
 394,dev_574,dev,0,negative,hand often feels unsure,even on those rare occasions when the narrator stops yammering miller s hand often feels unsure,0,4
 395,dev_612,dev,0,negative,s one pussy,it s one pussy ass world when even killer thrillers revolve around group therapy sessions,0,4
-396,dev_626,dev,0,negative,of humor it s,it does n t believe in itself it has no sense of humor it s just plain bored,0,4
+396,dev_626,dev,0,negative,s just plain bored,it does n t believe in itself it has no sense of humor it s just plain bored,0,4
 397,dev_710,dev,0,negative,mendes has become,sam mendes has become valedictorian at the school for soft landings and easy ways out,1,4
 398,dev_750,dev,0,negative,but then has nothing,works hard to establish rounded characters but then has nothing fresh or particularly interesting to say about them,0,4
-399,dev_777,dev,0,negative,s another stale kill,it s another stale kill by numbers flick complete with blade thin characters and terrible pun laden dialogue,0,4
+399,dev_777,dev,0,negative,it s another stale,it s another stale kill by numbers flick complete with blade thin characters and terrible pun laden dialogue,0,4
 400,dev_789,dev,0,negative,it ca n t,it ca n t decide if it wants to be a mystery thriller a romance or a comedy,0,4
 401,dev_790,dev,0,negative,is not sufficiently,the character of zigzag is not sufficiently developed to support a film constructed around him,0,4
-402,dev_803,dev,0,negative,make a lifeless movie,it takes talent to make a lifeless movie about the most heinous man who ever lived,0,4
+402,dev_803,dev,0,negative,takes talent to make,it takes talent to make a lifeless movie about the most heinous man who ever lived,0,4
 403,dev_815,dev,0,negative,settle for this imposter,if looking for a thrilling sci fi cinematic ride do n t settle for this imposter,0,4
-404,dev_827,dev,1,positive,dragons are okay,mcconaughey s fun to watch the dragons are okay not much fire in the script,1,4
+404,dev_827,dev,1,positive,are okay not,mcconaughey s fun to watch the dragons are okay not much fire in the script,1,4
 405,dev_17,dev,1,positive,an otherwise intense twist,an otherwise intense twist and turn thriller that certainly should n t hurt talented young gaghan s resume,1,4
-406,dev_44,dev,1,positive,a wry dark humor,while the ideas about techno saturation are far from novel they re presented with a wry dark humor,1,4
-407,dev_53,dev,1,positive,presentation that wonderfully weaves,a literate presentation that wonderfully weaves a murderous event in 1873 with murderous rage in 2002,1,4
-408,dev_57,dev,1,positive,that could really help,broomfield turns his distinctive blundering style into something that could really help clear up the case,1,4
-409,dev_59,dev,1,positive,s refreshing to see,it s refreshing to see a girl power movie that does n t feel it has to prove anything,1,4
-410,dev_62,dev,1,positive,also a troubling,this surreal gilliam esque film is also a troubling interpretation of ecclesiastes,1,4
+406,dev_44,dev,1,positive,presented with a wry,while the ideas about techno saturation are far from novel they re presented with a wry dark humor,1,4
+407,dev_53,dev,1,positive,literate presentation that wonderfully,a literate presentation that wonderfully weaves a murderous event in 1873 with murderous rage in 2002,1,4
+408,dev_57,dev,1,positive,broomfield turns his distinctive,broomfield turns his distinctive blundering style into something that could really help clear up the case,1,4
+409,dev_59,dev,1,positive,it s refreshing to,it s refreshing to see a girl power movie that does n t feel it has to prove anything,1,4
+410,dev_62,dev,1,positive,is also a,this surreal gilliam esque film is also a troubling interpretation of ecclesiastes,1,4
 411,dev_79,dev,1,positive,jaglom put s,jaglom put s the audience in the privileged position of eavesdropping on his characters,1,4
-412,dev_85,dev,1,positive,but it is a,the very definition of the small movie but it is a good stepping stone for director sprecher,1,4
-413,dev_92,dev,1,positive,richness of its performances,the magic of the film lies not in the mysterious spring but in the richness of its performances,1,4
+412,dev_85,dev,1,positive,it is a good,the very definition of the small movie but it is a good stepping stone for director sprecher,1,4
+413,dev_92,dev,1,positive,the richness of its,the magic of the film lies not in the mysterious spring but in the richness of its performances,1,4
 414,dev_116,dev,0,negative,he does n t,if director michael dowse only superficially understands his characters he does n t hold them in contempt,1,4
 415,dev_136,dev,1,positive,is that it never,the subtle strength of elling is that it never loses touch with the reality of the grim situation,1,4
-416,dev_184,dev,0,negative,that s not quite,in all this is a watchable movie that s not quite the memorable experience it might have been,0,4
+416,dev_184,dev,0,negative,movie that s not,in all this is a watchable movie that s not quite the memorable experience it might have been,0,4
 417,dev_278,dev,1,positive,but the journey is,the vivid lead performances sustain interest and empathy but the journey is far more interesting than the final destination,1,4
 418,dev_324,dev,1,positive,of heartwarming nonetheless,corny schmaltzy and predictable but still manages to be kind of heartwarming nonetheless,1,4
-419,dev_345,dev,1,positive,another winning star vehicle,grant s bumbling magic takes over the film and it turns out to be another winning star vehicle,1,4
-420,dev_347,dev,1,positive,wonderfully fresh moments that,there are some wonderfully fresh moments that smooth the moral stiffness with human kindness and hopefulness,1,4
+419,dev_345,dev,1,positive,to be another winning,grant s bumbling magic takes over the film and it turns out to be another winning star vehicle,1,4
+420,dev_347,dev,1,positive,there are some wonderfully,there are some wonderfully fresh moments that smooth the moral stiffness with human kindness and hopefulness,1,4
 421,dev_349,dev,1,positive,is warmly affecting,escaping the studio piccoli is warmly affecting and so is this adroitly minimalist movie,1,4
-422,dev_368,dev,1,positive,an amazing job,zhang has done an amazing job of getting realistic performances from his mainly nonprofessional cast,1,4
-423,dev_370,dev,1,positive,and diggs are charming,as the two leads lathan and diggs are charming and have chemistry both as friends and lovers,1,4
-424,dev_374,dev,1,positive,multilayered work that,atom egoyan has conjured up a multilayered work that tackles any number of fascinating issues,1,4
-425,dev_387,dev,1,positive,comedy that has the,a breezy romantic comedy that has the punch of a good sitcom while offering exceptionally well detailed characters,1,4
+422,dev_368,dev,1,positive,has done an,zhang has done an amazing job of getting realistic performances from his mainly nonprofessional cast,1,4
+423,dev_370,dev,1,positive,are charming and have,as the two leads lathan and diggs are charming and have chemistry both as friends and lovers,1,4
+424,dev_374,dev,1,positive,egoyan has conjured,atom egoyan has conjured up a multilayered work that tackles any number of fascinating issues,1,4
+425,dev_387,dev,1,positive,that has the punch,a breezy romantic comedy that has the punch of a good sitcom while offering exceptionally well detailed characters,1,4
 426,dev_421,dev,1,positive,dilithium crystals better than,light years several warp speeds levels and levels of dilithium crystals better than the pitiful insurrection,1,4
 427,dev_578,dev,0,negative,is a totally formulaic,from the opening scenes it s clear that all about the benjamins is a totally formulaic movie,0,4
 428,dev_651,dev,0,negative,that do n t,it s a grab bag of genres that do n t add up to a whole lot of sense,0,4
-429,dev_681,dev,0,negative,film it s not,i ve always dreamed of attending cannes but after seeing this film it s not that big a deal,0,4
-430,dev_694,dev,0,negative,war is strictly sitcom,the director knows how to apply textural gloss but his portrait of sex as war is strictly sitcom,0,4
-431,dev_708,dev,0,negative,also a heavy one,it s too bad that the helping hand he uses to stir his ingredients is also a heavy one,0,4
+429,dev_681,dev,0,negative,but after seeing this,i ve always dreamed of attending cannes but after seeing this film it s not that big a deal,0,4
+430,dev_694,dev,0,negative,gloss but his portrait,the director knows how to apply textural gloss but his portrait of sex as war is strictly sitcom,0,4
+431,dev_708,dev,0,negative,is also a heavy,it s too bad that the helping hand he uses to stir his ingredients is also a heavy one,0,4
 432,dev_743,dev,0,negative,them at the screen,it made me want to wrench my eyes out of my head and toss them at the screen,0,4
 433,dev_752,dev,0,negative,is a grim hollow,nonsensical dull cyber horror flick is a grim hollow exercise in flat scares and bad acting,0,4
 434,dev_774,dev,0,negative,and shallowly characterized,adults will wish the movie were less simplistic obvious clumsily plotted and shallowly characterized,0,4
-435,dev_780,dev,0,negative,the overall effect is,the overall effect is less like a children s movie than a recruitment film for future hollywood sellouts,0,4
-436,dev_798,dev,0,negative,your face wallow in,another in your face wallow in the lower depths made by people who have never sung those blues,0,4
+435,dev_780,dev,0,negative,overall effect is less,the overall effect is less like a children s movie than a recruitment film for future hollywood sellouts,0,4
+436,dev_798,dev,0,negative,another in your face,another in your face wallow in the lower depths made by people who have never sung those blues,0,4
 437,dev_806,dev,0,negative,offers very little genuine,offers very little genuine romance and even fewer laughs a sad sitcom of a movie largely devoid of charm,0,4
-438,dev_829,dev,0,negative,a big ole miss,hit and miss as far as the comedy goes and a big ole miss in the way of story,0,4
+438,dev_829,dev,0,negative,ole miss in the,hit and miss as far as the comedy goes and a big ole miss in the way of story,0,4
 439,dev_858,dev,0,negative,you ve lost weight,but daphne you re too buff fred thinks he s tough and velma wow you ve lost weight,0,4
-440,dev_10,dev,1,positive,hippies this one included,the band s courage in the face of official repression is inspiring especially for aging hippies this one included,1,5
-441,dev_28,dev,1,positive,the film feels like,in a way the film feels like a breath of fresh air but only to those that allow it in,1,5
-442,dev_60,dev,1,positive,s worth seeing just,it s worth seeing just on the basis of the wisdom and at times the startling optimism of the children,1,5
+440,dev_10,dev,1,positive,is inspiring especially for,the band s courage in the face of official repression is inspiring especially for aging hippies this one included,1,5
+441,dev_28,dev,1,positive,but only to those,in a way the film feels like a breath of fresh air but only to those that allow it in,1,5
+442,dev_60,dev,1,positive,seeing just on the,it s worth seeing just on the basis of the wisdom and at times the startling optimism of the children,1,5
 443,dev_76,dev,1,positive,but they bring a,neither parker nor donovan is a typical romantic lead but they bring a fresh quirky charm to the formula,1,5
 444,dev_84,dev,1,positive,far more imaginative and,far more imaginative and ambitious than the trivial cash in features nickelodeon has made from its other animated tv series,1,5
 445,dev_132,dev,1,positive,that delivers its,a big gorgeous sprawling swashbuckler that delivers its diversions in grand uncomplicated fashion,1,5
-446,dev_135,dev,1,positive,rather delivers a performance,kinnear does n t aim for our sympathy but rather delivers a performance of striking skill and depth,1,5
-447,dev_172,dev,1,positive,s lively and,yakusho and shimizu create engaging characterizations in imamura s lively and enjoyable cultural mix,1,5
-448,dev_202,dev,1,positive,it has charm to,it has charm to spare and unlike many romantic comedies it does not alienate either gender in the audience,1,5
-449,dev_203,dev,1,positive,is great summer fun,it is great summer fun to watch arnold and his buddy gerald bounce off a quirky cast of characters,1,5
+446,dev_135,dev,1,positive,delivers a performance of,kinnear does n t aim for our sympathy but rather delivers a performance of striking skill and depth,1,5
+447,dev_172,dev,1,positive,and shimizu create,yakusho and shimizu create engaging characterizations in imamura s lively and enjoyable cultural mix,1,5
+448,dev_202,dev,1,positive,comedies it does not,it has charm to spare and unlike many romantic comedies it does not alienate either gender in the audience,1,5
+449,dev_203,dev,1,positive,it is great summer,it is great summer fun to watch arnold and his buddy gerald bounce off a quirky cast of characters,1,5
 450,dev_209,dev,1,positive,an important movie a,an important movie a reminder of the power of film to move us and to make us examine our values,1,5
 451,dev_211,dev,1,positive,grounded and keep,the mesmerizing performances of the leads keep the film grounded and keep the audience riveted,1,5
 452,dev_214,dev,1,positive,it s one heck,it s one heck of a character study not of hearst or davies but of the unique relationship between them,1,5
-453,dev_304,dev,1,positive,displaying about equal amounts,displaying about equal amounts of naivete passion and talent beneath clouds establishes sen as a filmmaker of considerable potential,1,5
+453,dev_304,dev,1,positive,establishes sen as a,displaying about equal amounts of naivete passion and talent beneath clouds establishes sen as a filmmaker of considerable potential,1,5
 454,dev_329,dev,1,positive,delicious colors and the,director of photography benoit delhomme shot the movie in delicious colors and the costumes and sets are grand,1,5
-455,dev_330,dev,1,positive,well with the,the movie s relatively simple plot and uncomplicated morality play well with the affable cast,1,5
-456,dev_336,dev,1,positive,movie achieves as great,the movie achieves as great an impact by keeping these thoughts hidden as quills did by showing them,1,5
-457,dev_341,dev,1,positive,escapist fun that recreates,it s great escapist fun that recreates a place and time that will never happen again,1,5
-458,dev_355,dev,1,positive,charming and hilarious film,a n utterly charming and hilarious film that reminded me of the best of the disney comedies from the 60s,1,5
+455,dev_330,dev,1,positive,play well with,the movie s relatively simple plot and uncomplicated morality play well with the affable cast,1,5
+456,dev_336,dev,1,positive,achieves as great an,the movie achieves as great an impact by keeping these thoughts hidden as quills did by showing them,1,5
+457,dev_341,dev,1,positive,s great escapist fun,it s great escapist fun that recreates a place and time that will never happen again,1,5
+458,dev_355,dev,1,positive,a n utterly charming,a n utterly charming and hilarious film that reminded me of the best of the disney comedies from the 60s,1,5
 459,dev_375,dev,1,positive,sincere passion that,de niro is a veritable source of sincere passion that this hollywood contrivance orbits around,1,5
-460,dev_497,dev,0,negative,badly drawn characters that,involves two mysteries one it gives away and the other featuring such badly drawn characters that its outcome hardly matters,0,5
-461,dev_539,dev,0,negative,my way through clockstoppers,i thought my own watch had stopped keeping time as i slogged my way through clockstoppers,0,5
-462,dev_541,dev,0,negative,s actually pretty good,the longer the movie goes the worse it gets but it s actually pretty good in the first few minutes,1,5
+460,dev_497,dev,0,negative,other featuring such badly,involves two mysteries one it gives away and the other featuring such badly drawn characters that its outcome hardly matters,0,5
+461,dev_539,dev,0,negative,watch had stopped keeping,i thought my own watch had stopped keeping time as i slogged my way through clockstoppers,0,5
+462,dev_541,dev,0,negative,but it s actually,the longer the movie goes the worse it gets but it s actually pretty good in the first few minutes,1,5
 463,dev_546,dev,0,negative,does little more than,does little more than play an innocuous game of fill in the blanks with a tragic past,0,5
 464,dev_548,dev,0,negative,wretchedness is exhausting,whaley s determination to immerse you in sheer unrelenting wretchedness is exhausting,0,5
 465,dev_553,dev,0,negative,and monstrously sanctimonious,made with no discernible craft and monstrously sanctimonious in dealing with childhood loss,0,5
 466,dev_555,dev,0,negative,that seems positively decadent,a synthesis of cliches and absurdities that seems positively decadent in its cinematic flash and emptiness,1,5
-467,dev_561,dev,0,negative,instead into a somber,chabrol has taken promising material for a black comedy and turned it instead into a somber chamber drama,0,5
+467,dev_561,dev,0,negative,chabrol has taken promising,chabrol has taken promising material for a black comedy and turned it instead into a somber chamber drama,0,5
 468,dev_570,dev,0,negative,is an astonishingly bad,utterly lacking in charm wit and invention roberto benigni s pinocchio is an astonishingly bad film,0,5
 469,dev_586,dev,0,negative,delivers the same old,delivers the same old same old tarted up with latin flava and turned out by hollywood playas,0,5
-470,dev_599,dev,0,negative,very long movie dull,a very long movie dull in stretches with entirely too much focus on meal preparation and igloo construction,0,5
+470,dev_599,dev,0,negative,dull in stretches with,a very long movie dull in stretches with entirely too much focus on meal preparation and igloo construction,0,5
 471,dev_618,dev,1,positive,brains are in no,harrison s flowers puts its heart in the right place but its brains are in no particular place at all,0,5
 472,dev_629,dev,0,negative,script is n t,the script is n t very good not even someone as gifted as hoffman the actor can make it work,0,5
 473,dev_644,dev,0,negative,feels too formulaic,feels too formulaic and too familiar to produce the transgressive thrills of early underground work,0,5
 474,dev_684,dev,0,negative,in this crude 70s,director uwe boll and the actors provide scant reason to care in this crude 70s throwback,0,5
-475,dev_687,dev,0,negative,trash is quite frankly,this piece of channel 5 grade trash is quite frankly an insult to the intelligence of the true genre enthusiast,0,5
+475,dev_687,dev,0,negative,grade trash is quite,this piece of channel 5 grade trash is quite frankly an insult to the intelligence of the true genre enthusiast,0,5
 476,dev_758,dev,0,negative,a boring parade of,a boring parade of talking heads and technical gibberish that will do little to advance the linux cause,0,5
 477,dev_764,dev,0,negative,a lackluster unessential sequel,a lackluster unessential sequel to the classic disney adaptation of j m barrie s peter pan,0,5
 478,dev_770,dev,0,negative,who is out of,it s hampered by a lifetime channel kind of plot and a lead actress who is out of her depth,0,5
 479,dev_773,dev,0,negative,collapses on its shaky,in the end the movie collapses on its shaky foundation despite the best efforts of director joe carnahan,0,5
-480,dev_796,dev,0,negative,filth that attempts to,a misogynistic piece of filth that attempts to pass itself off as hip young adult entertainment,0,5
-481,dev_802,dev,1,positive,itself far more seriously,something akin to a japanese alice through the looking glass except that it seems to take itself far more seriously,1,5
+480,dev_796,dev,0,negative,that attempts to pass,a misogynistic piece of filth that attempts to pass itself off as hip young adult entertainment,0,5
+481,dev_802,dev,1,positive,take itself far more,something akin to a japanese alice through the looking glass except that it seems to take itself far more seriously,1,5
 482,dev_820,dev,0,negative,humor did n t,determined to be fun and bouncy with energetic musicals the humor did n t quite engage this adult,0,5
 483,dev_831,dev,0,negative,is tiresomely grave,mattei is tiresomely grave and long winded as if circularity itself indicated profundity,0,5
 484,dev_3,dev,1,positive,uses sharp humor and insight,uses sharp humor and insight into human nature to examine class conflict adolescent yearning the roots of friendship and sexual identity,1,5
-485,dev_81,dev,1,positive,appreciates intelligent stylish moviemaking,a must see for the david mamet enthusiast and for anyone who appreciates intelligent stylish moviemaking,1,5
+485,dev_81,dev,1,positive,a must see for,a must see for the david mamet enthusiast and for anyone who appreciates intelligent stylish moviemaking,1,5
 486,dev_83,dev,1,positive,are all astounding given,the acting costumes music cinematography and sound are all astounding given the production s austere locales,0,5
-487,dev_88,dev,1,positive,pure of heart you,so unassuming and pure of heart you ca n t help but warmly extend your arms and yell safe,1,5
-488,dev_147,dev,1,positive,the film s easygoing,you do n t have to know about music to appreciate the film s easygoing blend of comedy and romance,1,5
-489,dev_157,dev,1,positive,film is a refreshingly,although laced with humor and a few fanciful touches the film is a refreshingly serious look at young women,1,5
-490,dev_224,dev,1,positive,been presented onscreen not,a full world has been presented onscreen not some series of carefully structured plot points building to a pat resolution,0,5
+487,dev_88,dev,1,positive,so unassuming and pure,so unassuming and pure of heart you ca n t help but warmly extend your arms and yell safe,1,5
+488,dev_147,dev,1,positive,s easygoing blend of,you do n t have to know about music to appreciate the film s easygoing blend of comedy and romance,1,5
+489,dev_157,dev,1,positive,is a refreshingly serious,although laced with humor and a few fanciful touches the film is a refreshingly serious look at young women,1,5
+490,dev_224,dev,1,positive,has been presented onscreen,a full world has been presented onscreen not some series of carefully structured plot points building to a pat resolution,0,5
 491,dev_250,dev,1,positive,allows us to hope,allows us to hope that nolan is poised to embark a major career as a commercial yet inventive filmmaker,1,5
 492,dev_305,dev,1,positive,the actors keeps the,the vitality of the actors keeps the intensity of the film high even as the strafings blend together,1,5
-493,dev_371,dev,1,positive,my big fat greek,my big fat greek wedding uses stereotypes in a delightful blend of sweet romance and lovingly dished out humor,1,5
-494,dev_372,dev,1,positive,hope for popular cinema yet,the sort of film that makes me miss hitchcock but also feel optimistic that there s hope for popular cinema yet,1,5
+493,dev_371,dev,1,positive,uses stereotypes in a,my big fat greek wedding uses stereotypes in a delightful blend of sweet romance and lovingly dished out humor,1,5
+494,dev_372,dev,1,positive,but also feel optimistic that,the sort of film that makes me miss hitchcock but also feel optimistic that there s hope for popular cinema yet,1,5
 495,dev_411,dev,1,positive,a spellbinding african film,a spellbinding african film about the modern condition of rootlessness a state experienced by millions around the globe,1,5
-496,dev_424,dev,1,positive,piece plays as well,the piece plays as well as it does thanks in large measure to anspaugh s three lead actresses,1,5
+496,dev_424,dev,1,positive,plays as well as,the piece plays as well as it does thanks in large measure to anspaugh s three lead actresses,1,5
 497,dev_456,dev,0,negative,it s too self,it s too self important and plodding to be funny and too clipped and abbreviated to be an epic,0,5
-498,dev_461,dev,0,negative,watching a miserable relationship,it all drags on so interminably it s like watching a miserable relationship unfold in real time,0,5
-499,dev_477,dev,0,negative,drained and wanted to,when the film ended i felt tired and drained and wanted to lie on my own deathbed for a while,0,5
+498,dev_461,dev,0,negative,drags on so interminably,it all drags on so interminably it s like watching a miserable relationship unfold in real time,0,5
+499,dev_477,dev,0,negative,and drained and wanted,when the film ended i felt tired and drained and wanted to lie on my own deathbed for a while,0,5
 500,dev_489,dev,0,negative,as a commodified sold,velocity represents everything wrong with independent film as a commodified sold out concept on the american filmmaking scene,0,5
 501,dev_499,dev,0,negative,it s of the quality,it s of the quality of a lesser harrison ford movie six days seven nights maybe or that dreadful sabrina remake,0,5
 502,dev_633,dev,0,negative,but do n t,i do n t mind having my heartstrings pulled but do n t treat me like a fool,1,5
 503,dev_689,dev,0,negative,grotesquely impressed by,a bloated gasbag thesis grotesquely impressed by its own gargantuan aura of self importance,1,5
-504,dev_715,dev,0,negative,has about as much,it s a bad thing when a movie has about as much substance as its end credits blooper reel,0,5
+504,dev_715,dev,0,negative,a bad thing when,it s a bad thing when a movie has about as much substance as its end credits blooper reel,0,5
 505,dev_767,dev,0,negative,s stiffness is unlikely,late marriage s stiffness is unlikely to demonstrate the emotional clout to sweep u s viewers off their feet,0,5
 506,dev_794,dev,0,negative,is a triple espresso,with virtually no interesting elements for an audience to focus on chelsea walls is a triple espresso endurance challenge,0,5
 507,dev_838,dev,0,negative,are so heavy handed,attempts by this ensemble film to impart a message are so heavy handed that they instead pummel the audience,0,5
 508,dev_850,dev,0,negative,a disappointment for those,a disappointment for those who love alternate versions of the bard particularly ones that involve deep fryers and hamburgers,0,5
-509,dev_859,dev,0,negative,ripe for a warmed,is the time really ripe for a warmed over james bond adventure with a village idiot as the 007 clone,0,5
+509,dev_859,dev,0,negative,is the time really,is the time really ripe for a warmed over james bond adventure with a village idiot as the 007 clone,0,5
 510,dev_862,dev,0,negative,the humor is n t,the humor is n t as sharp the effects not as innovative nor the story as imaginative as in the original,0,5
 511,dev_1,dev,1,positive,you ve got ice water,and if you re not nearly moved to tears by a couple of scenes you ve got ice water in your veins,1,5
-512,dev_36,dev,1,positive,be said to suck,but taken as a stylish and energetic one shot the queen of the damned can not be said to suck,1,5
+512,dev_36,dev,1,positive,but taken as a,but taken as a stylish and energetic one shot the queen of the damned can not be said to suck,1,5
 513,dev_41,dev,1,positive,a celebration of quirkiness,a celebration of quirkiness eccentricity and certain individuals tendency to let it all hang out and damn the consequences,1,5
 514,dev_113,dev,1,positive,it s an unpretentious,instead of a hyperbolic beat charged urban western it s an unpretentious sociologically pointed slice of life,1,5
 515,dev_141,dev,1,positive,it deserves to be seen,it deserves to be seen by anyone with even a passing interest in the events shaping the world beyond their own horizons,1,5
 516,dev_160,dev,1,positive,together they are magnificent,this is a story of two misfits who do n t stand a chance alone but together they are magnificent,1,5
 517,dev_164,dev,1,positive,pacino is brilliant as,pacino is brilliant as the sleep deprived dormer his increasing weariness as much existential as it is physical,1,5
 518,dev_176,dev,1,positive,that provides frailty with its,as a first time director paxton has tapped something in himself as an actor that provides frailty with its dark soul,1,5
-519,dev_177,dev,1,positive,extraordinarily well acted drama,for the most part director anne sophie birot s first feature is a sensitive extraordinarily well acted drama,1,5
-520,dev_181,dev,1,positive,the most part it,for the most part it s a work of incendiary genius steering clear of knee jerk reactions and quick solutions,1,5
+519,dev_177,dev,1,positive,is a sensitive extraordinarily,for the most part director anne sophie birot s first feature is a sensitive extraordinarily well acted drama,1,5
+520,dev_181,dev,1,positive,s a work of,for the most part it s a work of incendiary genius steering clear of knee jerk reactions and quick solutions,1,5
 521,dev_200,dev,1,positive,is a film that,dazzling in its complexity disturbing for its extraordinary themes the piano teacher is a film that defies categorisation,1,5
 522,dev_208,dev,1,positive,offers much to enjoy and,offers much to enjoy and a lot to mull over in terms of love loyalty and the nature of staying friends,1,5
 523,dev_257,dev,1,positive,it looks even better,aside from minor tinkering this is the same movie you probably loved in 1994 except that it looks even better,1,5
@@ -527,300 +527,300 @@
 525,dev_327,dev,1,positive,commands the screen using,harris commands the screen using his frailty to suggest the ravages of a life of corruption and ruthlessness,1,5
 526,dev_343,dev,1,positive,and has completely transformed,liotta put on 30 pounds for the role and has completely transformed himself from his smooth goodfellas image,1,5
 527,dev_407,dev,1,positive,mostly martha is a bright,mostly martha is a bright light modern day family parable that wears its heart on its sleeve for all to see,1,5
-528,dev_418,dev,1,positive,movie does a good job,the movie does a good job of laying out some of the major issues that we encounter as we journey through life,1,5
-529,dev_425,dev,1,positive,the inspirational screenplay by mike,the inspirational screenplay by mike rich covers a lot of ground perhaps too much but ties things together neatly by the end,1,5
+528,dev_418,dev,1,positive,does a good job of,the movie does a good job of laying out some of the major issues that we encounter as we journey through life,1,5
+529,dev_425,dev,1,positive,together neatly by the end,the inspirational screenplay by mike rich covers a lot of ground perhaps too much but ties things together neatly by the end,1,5
 530,dev_429,dev,1,positive,it s energetic and satisfying,about a manga like heroine who fights back at her abusers it s energetic and satisfying if not deep and psychological,1,5
 531,dev_498,dev,0,negative,feels like a low budget,overall the film feels like a low budget tv pilot that could not find a buyer to play it on the tube,0,5
-532,dev_514,dev,0,negative,the reality of the,the reality of the new live action pinocchio he directed cowrote and starred in borders on the grotesque,0,5
+532,dev_514,dev,0,negative,and starred in borders,the reality of the new live action pinocchio he directed cowrote and starred in borders on the grotesque,0,5
 533,dev_552,dev,0,negative,confirms the nagging suspicion that,confirms the nagging suspicion that ethan hawke would be even worse behind the camera than he is in front of it,1,5
-534,dev_642,dev,0,negative,ends up selling his,vera s technical prowess ends up selling his film short he smoothes over hard truths even as he uncovers them,0,5
+534,dev_642,dev,0,negative,he smoothes over hard,vera s technical prowess ends up selling his film short he smoothes over hard truths even as he uncovers them,0,5
 535,dev_655,dev,0,negative,should have to sit,no one but a convict guilty of some truly heinous crime should have to sit through the master of disguise,0,5
-536,dev_676,dev,0,negative,his latest has nothing,his last movie was poetically romantic and full of indelible images but his latest has nothing going for it,0,5
-537,dev_682,dev,0,negative,be enjoyed even on the,it can not be enjoyed even on the level that one enjoys a bad slasher flick primarily because it is dull,0,5
+536,dev_676,dev,0,negative,but his latest has,his last movie was poetically romantic and full of indelible images but his latest has nothing going for it,0,5
+537,dev_682,dev,0,negative,primarily because it is dull,it can not be enjoyed even on the level that one enjoys a bad slasher flick primarily because it is dull,0,5
 538,dev_704,dev,0,negative,schlock like this shoddy,professionally speaking it s tempting to jump ship in january to avoid ridiculous schlock like this shoddy suspense thriller,0,5
-539,dev_759,dev,0,negative,that ski mask as robbery,green might want to hang onto that ski mask as robbery may be the only way to pay for his next project,0,5
-540,dev_781,dev,0,negative,water is appropriately titled,portentous and pretentious the weight of water is appropriately titled given the heavy handedness of it drama,1,5
-541,dev_784,dev,0,negative,better in wilder s some,to say this was done better in wilder s some like it hot is like saying the sun rises in the east,0,5
+539,dev_759,dev,0,negative,onto that ski mask as,green might want to hang onto that ski mask as robbery may be the only way to pay for his next project,0,5
+540,dev_781,dev,0,negative,given the heavy handedness,portentous and pretentious the weight of water is appropriately titled given the heavy handedness of it drama,1,5
+541,dev_784,dev,0,negative,was done better in wilder,to say this was done better in wilder s some like it hot is like saying the sun rises in the east,0,5
 542,dev_835,dev,0,negative,in reno ever inspired me,nothing in waking up in reno ever inspired me to think of its inhabitants as anything more than markers in a screenplay,0,5
-543,dev_13,dev,1,positive,is at times imaginatively overwhelming,as surreal as a dream and as detailed as a photograph as visually dexterous as it is at times imaginatively overwhelming,1,5
+543,dev_13,dev,1,positive,and as detailed as a,as surreal as a dream and as detailed as a photograph as visually dexterous as it is at times imaginatively overwhelming,1,5
 544,dev_29,dev,1,positive,latest is an ambling broad,woody allen s latest is an ambling broad comedy about all there is to love and hate about the movie biz,1,5
-545,dev_35,dev,0,negative,franchise mucking up its,here s yet another studio horror franchise mucking up its storyline with glitches casual fans could correct in their sleep,0,5
+545,dev_35,dev,0,negative,mucking up its storyline,here s yet another studio horror franchise mucking up its storyline with glitches casual fans could correct in their sleep,0,5
 546,dev_61,dev,1,positive,a rigorously structured and exquisitely,a rigorously structured and exquisitely filmed drama about a father and son connection that is a brief shooting star of love,1,5
 547,dev_74,dev,1,positive,generally clockstoppers will fulfill,generally clockstoppers will fulfill your wildest fantasies about being a different kind of time traveler while happily killing 94 minutes,1,5
 548,dev_95,dev,1,positive,a movie that successfully crushes,a movie that successfully crushes a best selling novel into a timeframe that mandates that you avoid the godzilla sized soda,0,5
 549,dev_97,dev,1,positive,baseball and melds it with,takes the beauty of baseball and melds it with a story that could touch anyone regardless of their familiarity with the sport,1,5
-550,dev_140,dev,1,positive,to leigh for actually casting,though it s become almost redundant to say so major kudos go to leigh for actually casting people who look working class,0,5
+550,dev_140,dev,1,positive,kudos go to leigh for,though it s become almost redundant to say so major kudos go to leigh for actually casting people who look working class,0,5
 551,dev_162,dev,1,positive,one of creepiest scariest,one of creepiest scariest movies to come along in a long long time easily rivaling blair witch or the others,1,5
-552,dev_192,dev,1,positive,t wait for the sequel,it seems like i have been waiting my whole life for this movie and now i ca n t wait for the sequel,0,5
-553,dev_194,dev,1,positive,sprawling picture that s entertainingly,an operatic sprawling picture that s entertainingly acted magnificently shot and gripping enough to sustain most of its 170 minute length,1,5
+552,dev_192,dev,1,positive,now i ca n t,it seems like i have been waiting my whole life for this movie and now i ca n t wait for the sequel,0,5
+553,dev_194,dev,1,positive,that s entertainingly acted magnificently,an operatic sprawling picture that s entertainingly acted magnificently shot and gripping enough to sustain most of its 170 minute length,1,5
 554,dev_232,dev,1,positive,book which is a treasure,it just may inspire a few younger moviegoers to read stevenson s book which is a treasure in and of itself,1,5
-555,dev_236,dev,1,positive,weirdly retro thriller that recalls,a lean deftly shot well acted weirdly retro thriller that recalls a raft of 60s and 70s european set spy pictures,1,5
+555,dev_236,dev,1,positive,a lean deftly shot well,a lean deftly shot well acted weirdly retro thriller that recalls a raft of 60s and 70s european set spy pictures,1,5
 556,dev_254,dev,1,positive,a bumpy but satisfying journey,a poignant and compelling story about relationships food of love takes us on a bumpy but satisfying journey of the heart,1,5
-557,dev_259,dev,1,positive,the service of psychological insight,it confirms fincher s status as a film maker who artfully bends technical know how to the service of psychological insight,1,5
-558,dev_270,dev,1,positive,brings an absolutely riveting,macdowell whose wifty southern charm has anchored lighter affairs brings an absolutely riveting conviction to her role,1,5
+557,dev_259,dev,1,positive,it confirms fincher s status,it confirms fincher s status as a film maker who artfully bends technical know how to the service of psychological insight,1,5
+558,dev_270,dev,1,positive,an absolutely riveting conviction,macdowell whose wifty southern charm has anchored lighter affairs brings an absolutely riveting conviction to her role,1,5
 559,dev_340,dev,1,positive,in earnest strides and,the socio histo political treatise is told in earnest strides and personal illusion is deconstructed with poignancy,1,5
-560,dev_452,dev,0,negative,his comedy premises are often,his comedy premises are often hackneyed or just plain crude calculated to provoke shocked laughter without following up on a deeper level,0,5
-561,dev_464,dev,0,negative,off as indie film naturalism,it s another video movie photographed like a film with the bad lighting that s often written off as indie film naturalism,0,5
+560,dev_452,dev,0,negative,are often hackneyed or just,his comedy premises are often hackneyed or just plain crude calculated to provoke shocked laughter without following up on a deeper level,0,5
+561,dev_464,dev,0,negative,s another video movie photographed,it s another video movie photographed like a film with the bad lighting that s often written off as indie film naturalism,0,5
 562,dev_493,dev,0,negative,wore out its welcome,corpus collosum while undeniably interesting wore out its welcome well before the end credits rolled about 45 minutes in,0,5
 563,dev_509,dev,0,negative,there are simply too many,there are simply too many ideas floating around part farce part sliding doors part pop video and yet failing to exploit them,0,5
 564,dev_520,dev,0,negative,the movie does n t,impostor has a handful of thrilling moments and a couple of good performances but the movie does n t quite fly,0,5
 565,dev_523,dev,0,negative,is a rewarding one the,the experience of going to a film festival is a rewarding one the experiencing of sampling one through this movie is not,1,5
 566,dev_524,dev,0,negative,feels generic derivative and,it has its moments of swaggering camaraderie but more often just feels generic derivative and done to death,0,5
 567,dev_532,dev,0,negative,it ai n t pretty,the movie is what happens when you blow up small potatoes to 10 times their natural size and it ai n t pretty,0,5
-568,dev_579,dev,0,negative,but ghost ship somehow manages,it takes a certain kind of horror movie to qualify as worse than expected but ghost ship somehow manages to do exactly that,1,5
-569,dev_580,dev,0,negative,be made for a different,a tv style murder mystery with a few big screen moments including one that seems to be made for a different film altogether,0,5
+568,dev_579,dev,0,negative,somehow manages to do exactly,it takes a certain kind of horror movie to qualify as worse than expected but ghost ship somehow manages to do exactly that,1,5
+569,dev_580,dev,0,negative,including one that seems to,a tv style murder mystery with a few big screen moments including one that seems to be made for a different film altogether,0,5
 570,dev_582,dev,0,negative,wincing back in repugnance,too often the viewer is n t reacting to humor so much as they are wincing back in repugnance,0,5
 571,dev_594,dev,0,negative,t do is make either,what the director ca n t do is make either of val kilmer s two personas interesting or worth caring about,0,5
-572,dev_645,dev,0,negative,worst thing soderbergh has,given how heavy handed and portent heavy it is this could be the worst thing soderbergh has ever done,0,5
+572,dev_645,dev,0,negative,soderbergh has ever done,given how heavy handed and portent heavy it is this could be the worst thing soderbergh has ever done,0,5
 573,dev_647,dev,0,negative,a dumb movie with dumb,a dumb movie with dumb characters doing dumb things and you have to be really dumb not to see where this is going,0,5
 574,dev_648,dev,0,negative,but stands convicted of,stealing harvard aspires to comedic grand larceny but stands convicted of nothing more than petty theft of your time,0,5
-575,dev_786,dev,0,negative,one is pretty miserable resorting,as chick flicks go this one is pretty miserable resorting to string pulling rather than legitimate character development and intelligent plotting,0,5
-576,dev_809,dev,0,negative,although huppert s intensity,although huppert s intensity and focus has a raw exhilaration about it the piano teacher is anything but fun,1,5
+575,dev_786,dev,0,negative,is pretty miserable resorting to,as chick flicks go this one is pretty miserable resorting to string pulling rather than legitimate character development and intelligent plotting,0,5
+576,dev_809,dev,0,negative,is anything but fun,although huppert s intensity and focus has a raw exhilaration about it the piano teacher is anything but fun,1,5
 577,dev_814,dev,0,negative,but this fictional film looks,may reawaken discussion of the kennedy assassination but this fictional film looks made for cable rather than for the big screen,0,5
 578,dev_846,dev,0,negative,and is more missed,the film flat lines when it should peak and is more missed opportunity and trifle than dark decadent truffle,0,5
-579,dev_853,dev,0,negative,guy reminds you that,every nanosecond of the the new guy reminds you that you could be doing something else far more pleasurable,1,5
-580,dev_866,dev,0,negative,off like a rejected,comes off like a rejected abc afterschool special freshened up by the dunce of a screenwriting 101 class,0,5
+579,dev_853,dev,0,negative,reminds you that you,every nanosecond of the the new guy reminds you that you could be doing something else far more pleasurable,1,5
+580,dev_866,dev,0,negative,comes off like a,comes off like a rejected abc afterschool special freshened up by the dunce of a screenwriting 101 class,0,5
 581,dev_31,dev,1,positive,and gets fine performances from,næs directed the stage version of elling and gets fine performances from his two leads who originated the characters on stage,1,5
-582,dev_54,dev,1,positive,contemporary individuals a psychological masterpiece,one of the best films of the year with its exploration of the obstacles to happiness faced by five contemporary individuals a psychological masterpiece,1,5
-583,dev_55,dev,1,positive,the surface this reconfigured,not far beneath the surface this reconfigured tale asks disturbing questions about those things we expect from military epics,1,5
+582,dev_54,dev,1,positive,the year with its exploration,one of the best films of the year with its exploration of the obstacles to happiness faced by five contemporary individuals a psychological masterpiece,1,5
+583,dev_55,dev,1,positive,asks disturbing questions about,not far beneath the surface this reconfigured tale asks disturbing questions about those things we expect from military epics,1,5
 584,dev_108,dev,1,positive,to make this a two,lapaglia s ability to convey grief and hope works with weaver s sensitive reactions to make this a two actor master class,1,5
 585,dev_110,dev,1,positive,altogether this is successful as,altogether this is successful as a film while at the same time being a most touching reconsideration of the familiar masterpiece,1,5
-586,dev_121,dev,1,positive,costumes rampling gives a performance,looking aristocratic luminous yet careworn in jane hamilton s exemplary costumes rampling gives a performance that could not be improved upon,1,5
+586,dev_121,dev,1,positive,rampling gives a performance that,looking aristocratic luminous yet careworn in jane hamilton s exemplary costumes rampling gives a performance that could not be improved upon,1,5
 587,dev_142,dev,1,positive,a movie that reminds us,a movie that reminds us of just how exciting and satisfying the fantasy cinema can be when it s approached with imagination and flair,1,5
 588,dev_191,dev,1,positive,it s an eye opener,for anyone unfamiliar with pentacostal practices in general and theatrical phenomenon of hell houses in particular it s an eye opener,1,5
-589,dev_212,dev,1,positive,documents a culture in the,worth watching for dong jie s performance and for the way it documents a culture in the throes of rapid change,1,5
-590,dev_239,dev,1,positive,morton uses her face and,morton uses her face and her body language to bring us morvern s soul even though the character is almost completely deadpan,1,5
+589,dev_212,dev,1,positive,worth watching for dong jie,worth watching for dong jie s performance and for the way it documents a culture in the throes of rapid change,1,5
+590,dev_239,dev,1,positive,uses her face and her,morton uses her face and her body language to bring us morvern s soul even though the character is almost completely deadpan,1,5
 591,dev_249,dev,1,positive,s an offbeat treat that,it s an offbeat treat that pokes fun at the democratic exercise while also examining its significance for those who take part,1,5
 592,dev_262,dev,1,positive,with tightly organized efficiency numerous,with tightly organized efficiency numerous flashbacks and a constant edge of tension miller s film is one of 2002 s involvingly adult surprises,1,5
-593,dev_268,dev,1,positive,is a harrowing drama,true tale of courage and complicity at auschwitz is a harrowing drama that tries to tell of the unspeakable,1,5
-594,dev_301,dev,1,positive,simple but gritty and well,a simple but gritty and well acted ensemble drama that encompasses a potent metaphor for a country still dealing with its fascist past,1,5
+593,dev_268,dev,1,positive,harrowing drama that tries,true tale of courage and complicity at auschwitz is a harrowing drama that tries to tell of the unspeakable,1,5
+594,dev_301,dev,1,positive,a simple but gritty and,a simple but gritty and well acted ensemble drama that encompasses a potent metaphor for a country still dealing with its fascist past,1,5
 595,dev_363,dev,1,positive,gives a star performance,the terrific and bewilderingly underrated campbell scott gives a star performance that is nothing short of mesmerizing,1,5
 596,dev_409,dev,1,positive,a pleasant enough romance,a pleasant enough romance with intellectual underpinnings the kind of movie that entertains even as it turns maddeningly predictable,1,5
 597,dev_417,dev,1,positive,s so good that its,it s so good that its relentless polished wit can withstand not only inept school productions but even oliver parker s movie adaptation,1,5
 598,dev_422,dev,1,positive,seems better not just bigger,the lion king was a roaring success when it was released eight years ago but on imax it seems better not just bigger,1,5
-599,dev_438,dev,1,positive,film is an enjoyable and,all in all the film is an enjoyable and frankly told tale of a people who live among us but not necessarily with us,1,5
+599,dev_438,dev,1,positive,is an enjoyable and frankly,all in all the film is an enjoyable and frankly told tale of a people who live among us but not necessarily with us,1,5
 600,dev_506,dev,0,negative,we find ourselves longing for,once the 50 year old benigni appears as the title character we find ourselves longing for the block of wood to come back,0,5
 601,dev_507,dev,1,positive,opera that leaves no,a working class us vs them opera that leaves no heartstring untugged and no liberal cause unplundered,0,5
-602,dev_515,dev,0,negative,zaidan s script has barely,zaidan s script has barely enough plot to string the stunts together and not quite enough characterization to keep the faces straight,0,5
+602,dev_515,dev,0,negative,s script has barely enough,zaidan s script has barely enough plot to string the stunts together and not quite enough characterization to keep the faces straight,0,5
 603,dev_534,dev,0,negative,the big loser is the,this is not the undisputed worst boxing movie ever but it s certainly not a champion the big loser is the audience,0,5
-604,dev_538,dev,0,negative,poetry it remains depressingly,well nigh unendurable though the picture strains to become cinematic poetry it remains depressingly prosaic and dull,0,5
+604,dev_538,dev,0,negative,it remains depressingly prosaic,well nigh unendurable though the picture strains to become cinematic poetry it remains depressingly prosaic and dull,0,5
 605,dev_601,dev,0,negative,so lacking in originality that,a science fiction pastiche so lacking in originality that if you stripped away its inspirations there would be precious little left,0,5
 606,dev_671,dev,0,negative,it s so mediocre,it s so mediocre despite the dynamic duo on the marquee that we just ca n t get no satisfaction,0,5
-607,dev_728,dev,0,negative,your dvd player will do,sit through this one and you wo n t need a magic watch to stop time your dvd player will do it for you,1,5
-608,dev_733,dev,0,negative,missing here is a script,what is 100 missing here is a script of even the most elemental literacy an inkling of genuine wit and anything resembling acting,1,5
+607,dev_728,dev,0,negative,player will do it for,sit through this one and you wo n t need a magic watch to stop time your dvd player will do it for you,1,5
+608,dev_733,dev,0,negative,is a script of even,what is 100 missing here is a script of even the most elemental literacy an inkling of genuine wit and anything resembling acting,1,5
 609,dev_744,dev,0,negative,trails off into inconsequentiality,due to some script weaknesses and the casting of the director s brother the film trails off into inconsequentiality,0,5
 610,dev_818,dev,0,negative,insufferable the character is,davis is so enamored of her own creation that she ca n t see how insufferable the character is,0,5
-611,dev_864,dev,0,negative,end pumpkin is far more,some of their jokes work but most fail miserably and in the end pumpkin is far more offensive than it is funny,0,5
-612,dev_865,dev,0,negative,the movie lacks both thrills,even horror fans will most likely not find what they re seeking with trouble every day the movie lacks both thrills and humor,0,5
-613,dev_868,dev,0,negative,art of ripping people off,it seems to me the film is about the art of ripping people off without ever letting them consciously know you have done so,0,5
+611,dev_864,dev,0,negative,the end pumpkin is far,some of their jokes work but most fail miserably and in the end pumpkin is far more offensive than it is funny,0,5
+612,dev_865,dev,0,negative,every day the movie lacks,even horror fans will most likely not find what they re seeking with trouble every day the movie lacks both thrills and humor,0,5
+613,dev_868,dev,0,negative,me the film is about,it seems to me the film is about the art of ripping people off without ever letting them consciously know you have done so,0,5
 614,dev_7,dev,1,positive,queens is lots of fun,nothing s at stake just a twisty double cross you can smell a mile away still the derivative nine queens is lots of fun,1,6
 615,dev_123,dev,1,positive,tadpole is very much a,on this tricky topic tadpole is very much a step in the right direction with its blend of frankness civility and compassion,1,6
-616,dev_168,dev,1,positive,director sam mendes who segues,no sophomore slump for director sam mendes who segues from oscar winner to oscar winning potential with a smooth sleight of hand,1,6
+616,dev_168,dev,1,positive,with a smooth sleight of,no sophomore slump for director sam mendes who segues from oscar winner to oscar winning potential with a smooth sleight of hand,1,6
 617,dev_182,dev,1,positive,it has the charm of,it has the charm of the original american road movies feasting on the gorgeous ramshackle landscape of the filmmaker s motherland,1,6
-618,dev_241,dev,1,positive,of one woman at the,a superbly acted and funny gritty fable of the humanizing of one woman at the hands of the unseen forces of fate,1,6
+618,dev_241,dev,1,positive,a superbly acted and funny,a superbly acted and funny gritty fable of the humanizing of one woman at the hands of the unseen forces of fate,1,6
 619,dev_267,dev,1,positive,moody heartbreaking and filmed in,moody heartbreaking and filmed in a natural unforced style that makes its characters seem entirely convincing even when its script is not,1,6
 620,dev_478,dev,0,negative,hackneyed message is not,the film s hackneyed message is not helped by the thin characterizations nonexistent plot and pretentious visual style,0,6
-621,dev_588,dev,0,negative,heaven appalling would be,to call the other side of heaven appalling would be to underestimate just how dangerous entertainments like it can be,0,6
-622,dev_616,dev,0,negative,stale in fact that its,paid in full is so stale in fact that its most vibrant scene is one that uses clips from brian de palma s scarface,0,6
-623,dev_649,dev,1,positive,chelsea walls deserves a medal,for this reason and this reason only the power of its own steadfast hoity toity convictions chelsea walls deserves a medal,1,6
+621,dev_588,dev,0,negative,entertainments like it can,to call the other side of heaven appalling would be to underestimate just how dangerous entertainments like it can be,0,6
+622,dev_616,dev,0,negative,is so stale in fact,paid in full is so stale in fact that its most vibrant scene is one that uses clips from brian de palma s scarface,0,6
+623,dev_649,dev,1,positive,only the power of its,for this reason and this reason only the power of its own steadfast hoity toity convictions chelsea walls deserves a medal,1,6
 624,dev_668,dev,0,negative,there seems to be no,there seems to be no clear path as to where the story s going or how long it s going to take to get there,0,6
 625,dev_705,dev,0,negative,brutally unsentimental approach sucks,nelson s brutally unsentimental approach sucks the humanity from the film leaving behind an horrific but weirdly unemotional spectacle,0,6
-626,dev_711,dev,0,negative,old but why did it,its story may be a thousand years old but why did it have to seem like it took another thousand to tell it to us,0,6
-627,dev_736,dev,0,negative,leaves no cliche unturned from,the movie directed by mick jackson leaves no cliche unturned from the predictable plot to the characters straight out of central casting,0,6
+626,dev_711,dev,0,negative,but why did it have,its story may be a thousand years old but why did it have to seem like it took another thousand to tell it to us,0,6
+627,dev_736,dev,0,negative,by mick jackson leaves no,the movie directed by mick jackson leaves no cliche unturned from the predictable plot to the characters straight out of central casting,0,6
 628,dev_738,dev,0,negative,but something s just a,like watching a dress rehearsal the week before the show goes up everything s in place but something s just a little off kilter,0,6
-629,dev_746,dev,0,negative,intelligible story that it makes,so devoid of any kind of intelligible story that it makes films like xxx and collateral damage seem like thoughtful treatises,0,6
+629,dev_746,dev,0,negative,that it makes films like,so devoid of any kind of intelligible story that it makes films like xxx and collateral damage seem like thoughtful treatises,0,6
 630,dev_776,dev,0,negative,sweet sentimentality clumsy plotting and,sticky sweet sentimentality clumsy plotting and a rosily myopic view of life in the wwii era mississippi delta undermine this adaptation,0,6
 631,dev_804,dev,0,negative,whole the movie lacks,on the whole the movie lacks wit feeling and believability to compensate for its incessant coarseness and banality,0,6
-632,dev_816,dev,0,negative,distasteful we need kidnapping,not really bad so much as distasteful we need kidnapping suspense dramas right now like we need doomsday thrillers,0,6
+632,dev_816,dev,0,negative,as distasteful we need,not really bad so much as distasteful we need kidnapping suspense dramas right now like we need doomsday thrillers,0,6
 633,dev_861,dev,0,negative,will stomp away in disgust,however it may please those who love movies that blare with pop songs young science fiction fans will stomp away in disgust,0,6
-634,dev_26,dev,1,positive,iranian films it s a,a rarity among recent iranian films it s a comedy full of gentle humor that chides the absurdity of its protagonist s plight,1,6
+634,dev_26,dev,1,positive,full of gentle humor that,a rarity among recent iranian films it s a comedy full of gentle humor that chides the absurdity of its protagonist s plight,1,6
 635,dev_98,dev,1,positive,is a precise and moving,seldahl s barbara is a precise and moving portrait of someone whose world is turned upside down first by passion and then by illness,1,6
 636,dev_102,dev,1,positive,tantalizes by offering a,bogdanovich tantalizes by offering a peep show into the lives of the era s creme de la celluloid,1,6
 637,dev_118,dev,1,positive,and it s a story that,a story we have n t seen on the big screen before and it s a story that we as americans and human beings should know,1,6
 638,dev_156,dev,1,positive,is a quirky and poignant,warm water under a red bridge is a quirky and poignant japanese film that explores the fascinating connections between women water nature and sexuality,1,6
-639,dev_161,dev,1,positive,last found a worthy follow,highbrow self appointed guardians of culture need not apply but those who loved cool as ice have at last found a worthy follow up,1,6
+639,dev_161,dev,1,positive,have at last found a,highbrow self appointed guardians of culture need not apply but those who loved cool as ice have at last found a worthy follow up,1,6
 640,dev_178,dev,0,negative,this riveting world war ii,this riveting world war ii moral suspense story deals with the shadow side of american culture racial prejudice in its ugly and diverse forms,1,6
 641,dev_217,dev,1,positive,lurid topic prove recommendation enough,the weight of the piece the unerring professionalism of the chilly production and the fascination embedded in the lurid topic prove recommendation enough,1,6
-642,dev_240,dev,1,positive,but it goes deeper than that,the film may appear naked in its narrative form but it goes deeper than that to fundamental choices that include the complexity of the catholic doctrine,1,6
+642,dev_240,dev,1,positive,it goes deeper than that to,the film may appear naked in its narrative form but it goes deeper than that to fundamental choices that include the complexity of the catholic doctrine,1,6
 643,dev_288,dev,1,positive,naturalistic performance speaks volumes more,bennett s naturalistic performance speaks volumes more truth than any reality show and anybody contemplating their own drastic life changes should watch some body first,1,6
 644,dev_323,dev,1,positive,few films capture so perfectly the,few films capture so perfectly the hopes and dreams of little boys on baseball fields as well as the grown men who sit in the stands,1,6
 645,dev_332,dev,1,positive,this illuminating documentary transcends,this illuminating documentary transcends our preconceived vision of the holy land and its inhabitants revealing the human complexities beneath,1,6
 646,dev_415,dev,1,positive,a giggle inducing comedy with,a giggle inducing comedy with snappy dialogue and winning performances by an unlikely team of oscar winners susan sarandon and goldie hawn,1,6
 647,dev_457,dev,0,negative,ritchie is that he obviously does,the best that can be said about the work here of scottish director ritchie is that he obviously does n t have his heart in it,0,6
-648,dev_462,dev,0,negative,villeneuve spends too much time,villeneuve spends too much time wallowing in bibi s generic angst there are a lot of shots of her gazing out windows,0,6
+648,dev_462,dev,0,negative,there are a lot of,villeneuve spends too much time wallowing in bibi s generic angst there are a lot of shots of her gazing out windows,0,6
 649,dev_475,dev,0,negative,seems to be posing rather,even with a green mohawk and a sheet of fire red flame tattoos covering his shoulder however kilmer seems to be posing rather than acting,0,6
 650,dev_483,dev,0,negative,real story starts just around the,the film is based on truth and yet there is something about it that feels incomplete as if the real story starts just around the corner,0,6
-651,dev_503,dev,0,negative,is something of an impostor,this movie is something of an impostor itself stretching and padding its material in a blur of dead ends and distracting camera work,0,6
-652,dev_619,dev,0,negative,that ironically it becomes everything,this re do is so dumb and so exploitative in its violence that ironically it becomes everything that the rather clumsy original was railing against,0,6
+651,dev_503,dev,0,negative,impostor itself stretching and padding,this movie is something of an impostor itself stretching and padding its material in a blur of dead ends and distracting camera work,0,6
+652,dev_619,dev,0,negative,is so dumb and so,this re do is so dumb and so exploitative in its violence that ironically it becomes everything that the rather clumsy original was railing against,0,6
 653,dev_627,dev,0,negative,a hollow joke told,a hollow joke told by a cinematic gymnast having too much fun embellishing the misanthropic tale to actually engage it,0,6
-654,dev_723,dev,0,negative,and clever robert rodriguez perhaps put,the talented and clever robert rodriguez perhaps put a little too much heart into his first film and did n t reserve enough for his second,0,6
-655,dev_8,dev,1,positive,the heart of italian for,unlike the speedy wham bam effect of most hollywood offerings character development and more importantly character empathy is at the heart of italian for beginners,1,6
+654,dev_723,dev,0,negative,the talented and clever robert rodriguez,the talented and clever robert rodriguez perhaps put a little too much heart into his first film and did n t reserve enough for his second,0,6
+655,dev_8,dev,1,positive,at the heart of italian,unlike the speedy wham bam effect of most hollywood offerings character development and more importantly character empathy is at the heart of italian for beginners,1,6
 656,dev_52,dev,1,positive,expertly weaves this novelistic,without ever becoming didactic director carlos carrera expertly weaves this novelistic story of entangled interrelationships and complex morality,1,6
-657,dev_66,dev,1,positive,the life of a young monarch,a compelling spanish film about the withering effects of jealousy in the life of a young monarch whose sexual passion for her husband becomes an obsession,1,6
-658,dev_149,dev,1,positive,digs deep emotionally perhaps because,for the first time in years de niro digs deep emotionally perhaps because he s been stirred by the powerful work of his co stars,1,6
-659,dev_169,dev,1,positive,s witty and inventive too,the movie is n t just hilarious it s witty and inventive too and in hindsight it is n t even all that dumb,1,6
+657,dev_66,dev,1,positive,a compelling spanish film about the,a compelling spanish film about the withering effects of jealousy in the life of a young monarch whose sexual passion for her husband becomes an obsession,1,6
+658,dev_149,dev,1,positive,s been stirred by the,for the first time in years de niro digs deep emotionally perhaps because he s been stirred by the powerful work of his co stars,1,6
+659,dev_169,dev,1,positive,witty and inventive too and,the movie is n t just hilarious it s witty and inventive too and in hindsight it is n t even all that dumb,1,6
 660,dev_282,dev,1,positive,make the film touching despite,that dogged good will of the parents and vain jia s defoliation of ego make the film touching despite some doldrums,1,6
 661,dev_284,dev,1,positive,film and an audacious return,a densely constructed highly referential film and an audacious return to form that can comfortably sit among jean luc godard s finest work,1,6
 662,dev_314,dev,1,positive,is an utterly charming french comedy,my wife is an actress is an utterly charming french comedy that feels so american in sensibility and style it s virtually its own hollywood remake,1,6
 663,dev_315,dev,1,positive,rap as it cuts to,it will grip even viewers who are n t interested in rap as it cuts to the heart of american society in an unnerving way,1,6
-664,dev_400,dev,1,positive,movie understands like few others how,the movie understands like few others how the depth and breadth of emotional intimacy give the physical act all of its meaning and most of its pleasure,1,6
-665,dev_412,dev,1,positive,message that he can improvise,it s a work by an artist so in control of both his medium and his message that he can improvise like a jazzman,1,6
+664,dev_400,dev,1,positive,understands like few others how the,the movie understands like few others how the depth and breadth of emotional intimacy give the physical act all of its meaning and most of its pleasure,1,6
+665,dev_412,dev,1,positive,it s a work by,it s a work by an artist so in control of both his medium and his message that he can improvise like a jazzman,1,6
 666,dev_441,dev,0,negative,is just another winter,without non stop techno or the existential overtones of a kieslowski morality tale maelstrom is just another winter sleepers,0,6
-667,dev_527,dev,0,negative,the moviegoing equivalent of going to,the moviegoing equivalent of going to a dinner party and being forced to watch the host and hostess s home video of their baby s birth,0,6
-668,dev_596,dev,0,negative,script but here s guessing that,it s difficult to imagine the process that produced such a script but here s guessing that spray cheese and underarm noises played a crucial role,0,6
+667,dev_527,dev,0,negative,and being forced to watch the,the moviegoing equivalent of going to a dinner party and being forced to watch the host and hostess s home video of their baby s birth,0,6
+668,dev_596,dev,0,negative,but here s guessing that spray,it s difficult to imagine the process that produced such a script but here s guessing that spray cheese and underarm noises played a crucial role,0,6
 669,dev_608,dev,0,negative,overdoses there s no sense,for all the writhing and wailing tears rage and opium overdoses there s no sense of actual passion being washed away in love s dissolution,0,6
-670,dev_666,dev,0,negative,ultimately a handsome looking bore,visually rather stunning but ultimately a handsome looking bore the true creativity would have been to hide treasure planet entirely and completely reimagine it,0,6
+670,dev_666,dev,0,negative,but ultimately a handsome looking,visually rather stunning but ultimately a handsome looking bore the true creativity would have been to hide treasure planet entirely and completely reimagine it,0,6
 671,dev_673,dev,0,negative,turns so unforgivably trite in,turns so unforgivably trite in its last 10 minutes that anyone without a fortified sweet tooth will likely go into sugar shock,0,6
 672,dev_732,dev,0,negative,plays like somebody spliced random,plays like somebody spliced random moments of a chris rock routine into what is otherwise a cliche riddled but self serious spy thriller,0,6
-673,dev_760,dev,0,negative,is the sort of infantile,i can take infantile humor but this is the sort of infantile that makes you wonder about changing the director and writer s diapers,0,6
-674,dev_768,dev,0,negative,sentimentality trips him up again,this time mr burns is trying something in the martin scorsese street realist mode but his self regarding sentimentality trips him up again,0,6
+673,dev_760,dev,0,negative,humor but this is the,i can take infantile humor but this is the sort of infantile that makes you wonder about changing the director and writer s diapers,0,6
+674,dev_768,dev,0,negative,but his self regarding sentimentality,this time mr burns is trying something in the martin scorsese street realist mode but his self regarding sentimentality trips him up again,0,6
 675,dev_771,dev,0,negative,they are not executed with,there is very little dread or apprehension and though i like the creepy ideas they are not executed with anything more than perfunctory skill,1,6
 676,dev_783,dev,0,negative,and jason still kills on,jason x is positively anti darwinian nine sequels and 400 years later the teens are none the wiser and jason still kills on auto pilot,0,6
 677,dev_795,dev,0,negative,deadeningly dull mired,deadeningly dull mired in convoluted melodrama nonsensical jargon and stiff upper lip laboriousness,0,6
 678,dev_799,dev,0,negative,easy chuckles but lead nowhere,shaky close ups of turkey on rolls stubbly chins liver spots red noses and the filmmakers new bobbed do draw easy chuckles but lead nowhere,0,6
-679,dev_867,dev,0,negative,crossroads instead provokes a,designed to provide a mix of smiles and tears crossroads instead provokes a handful of unintentional howlers and numerous yawns,0,6
-680,dev_100,dev,1,positive,fascinates us and he never,byler reveals his characters in a way that intrigues and even fascinates us and he never reduces the situation to simple melodrama,1,6
+679,dev_867,dev,0,negative,instead provokes a handful,designed to provide a mix of smiles and tears crossroads instead provokes a handful of unintentional howlers and numerous yawns,0,6
+680,dev_100,dev,1,positive,us and he never reduces,byler reveals his characters in a way that intrigues and even fascinates us and he never reduces the situation to simple melodrama,1,6
 681,dev_154,dev,1,positive,khouri then gets terrific performances from,having had the good sense to cast actors who are generally speaking adored by the movie going public khouri then gets terrific performances from them all,1,6
 682,dev_158,dev,1,positive,just be living well because this,the best revenge may just be living well because this film unlike other dumas adaptations is far more likened to a treasure than a lengthy jail sentence,1,6
 683,dev_173,dev,1,positive,you will emerge with a clearer,you will emerge with a clearer view of how the gears of justice grind on and the death report comes to share airtime alongside the farm report,1,6
-684,dev_198,dev,1,positive,the creation of an extraordinary piece,by candidly detailing the politics involved in the creation of an extraordinary piece of music jones calls our attention to the inherent conflict between commerce and creativity,1,6
-685,dev_287,dev,1,positive,candid and comfortable a film,candid and comfortable a film that deftly balances action and reflection as it lets you grasp and feel the passion others have for their work,1,6
-686,dev_299,dev,1,positive,provoking foreign cinema is smack,further proof that the epicenter of cool beautiful thought provoking foreign cinema is smack dab in the middle of dubya s axis of evil,1,6
+684,dev_198,dev,1,positive,detailing the politics involved in the,by candidly detailing the politics involved in the creation of an extraordinary piece of music jones calls our attention to the inherent conflict between commerce and creativity,1,6
+685,dev_287,dev,1,positive,and comfortable a film that,candid and comfortable a film that deftly balances action and reflection as it lets you grasp and feel the passion others have for their work,1,6
+686,dev_299,dev,1,positive,cinema is smack dab in,further proof that the epicenter of cool beautiful thought provoking foreign cinema is smack dab in the middle of dubya s axis of evil,1,6
 687,dev_300,dev,1,positive,with an unforgettable visual panache,there s really only one good idea in this movie but the director runs with it and presents it with an unforgettable visual panache,1,6
 688,dev_362,dev,1,positive,and is engrossing and moving in,it gets onto the screen just about as much of the novella as one could reasonably expect and is engrossing and moving in its own right,1,6
 689,dev_376,dev,1,positive,scene is soaringly transparently moving,while its careful pace and seemingly opaque story may not satisfy every moviegoer s appetite the film s final scene is soaringly transparently moving,1,6
-690,dev_401,dev,1,positive,other thrillers is its underlying concern,what distinguishes time of favor from countless other thrillers is its underlying concern with the consequences of words and with the complicated emotions fueling terrorist acts,1,6
-691,dev_469,dev,0,negative,effects brilliantly bold colors and heightened,very special effects brilliantly bold colors and heightened reality ca n t hide the giant achilles heel in stuart little 2 there s just no story folks,1,6
+690,dev_401,dev,1,positive,thrillers is its underlying concern with,what distinguishes time of favor from countless other thrillers is its underlying concern with the consequences of words and with the complicated emotions fueling terrorist acts,1,6
+691,dev_469,dev,0,negative,special effects brilliantly bold colors and,very special effects brilliantly bold colors and heightened reality ca n t hide the giant achilles heel in stuart little 2 there s just no story folks,1,6
 692,dev_549,dev,0,negative,silly the picture fails to,uncommonly stylish but equally silly the picture fails to generate much suspense nor does it ask searching enough questions to justify its pretensions,0,6
 693,dev_571,dev,0,negative,hamfisted romantic comedy that makes,a hamfisted romantic comedy that makes our girl the hapless facilitator of an extended cheap shot across the mason dixon line,0,6
 694,dev_587,dev,0,negative,i can make you a real,if you believe any of this i can make you a real deal on leftover enron stock that will double in value a week from friday,1,6
-695,dev_604,dev,0,negative,we ve been here done that,all the amped up tony hawk style stunts and thrashing rap metal ca n t disguise the fact that really we ve been here done that,0,6
-696,dev_650,dev,0,negative,the exception of some fleetingly,with the exception of some fleetingly amusing improvisations by cedric the entertainer as perry s boss there is n t a redeeming moment here,0,6
-697,dev_674,dev,0,negative,this startlingly unfunny comedy,the notion that bombing buildings is the funniest thing in the world goes entirely unexamined in this startlingly unfunny comedy,0,6
-698,dev_713,dev,0,negative,movie does n t do,i sympathize with the plight of these families but the movie does n t do a very good job conveying the issue at hand,0,6
-699,dev_769,dev,1,positive,production has little else to,while there s something intrinsically funny about sir anthony hopkins saying get in the car bitch this jerry bruckheimer production has little else to offer,0,6
+695,dev_604,dev,0,negative,t disguise the fact that really,all the amped up tony hawk style stunts and thrashing rap metal ca n t disguise the fact that really we ve been here done that,0,6
+696,dev_650,dev,0,negative,there is n t a,with the exception of some fleetingly amusing improvisations by cedric the entertainer as perry s boss there is n t a redeeming moment here,0,6
+697,dev_674,dev,0,negative,in this startlingly unfunny,the notion that bombing buildings is the funniest thing in the world goes entirely unexamined in this startlingly unfunny comedy,0,6
+698,dev_713,dev,0,negative,the movie does n t,i sympathize with the plight of these families but the movie does n t do a very good job conveying the issue at hand,0,6
+699,dev_769,dev,1,positive,bruckheimer production has little else,while there s something intrinsically funny about sir anthony hopkins saying get in the car bitch this jerry bruckheimer production has little else to offer,0,6
 700,dev_793,dev,0,negative,the most hopelessly monotonous film,the most hopelessly monotonous film of the year noteworthy only for the gimmick of being filmed as a single unbroken 87 minute take,0,6
 701,dev_9,dev,1,positive,nasty sea shed an errant tear,you ll gasp appalled and laugh outraged and possibly watching the spectacle of a promising young lad treading desperately in a nasty sea shed an errant tear,0,6
-702,dev_14,dev,1,positive,sweating mopping his face and generally,lawrence bounces all over the stage dancing running sweating mopping his face and generally displaying the wacky talent that brought him fame in the first place,0,6
-703,dev_33,dev,1,positive,wow who can now add movies,like mike is a winner for kids and no doubt a winner for lil bow wow who can now add movies to the list of things he does well,1,6
+702,dev_14,dev,1,positive,mopping his face and generally displaying,lawrence bounces all over the stage dancing running sweating mopping his face and generally displaying the wacky talent that brought him fame in the first place,0,6
+703,dev_33,dev,1,positive,like mike is a winner for,like mike is a winner for kids and no doubt a winner for lil bow wow who can now add movies to the list of things he does well,1,6
 704,dev_75,dev,1,positive,movie is beautiful to behold and,the movie is beautiful to behold and engages one in a sense of epic struggle inner and outer that s all too rare in hollywood s hastier productions,1,6
 705,dev_143,dev,1,positive,most compelling variations on in the,thanks to scott s charismatic roger and eisenberg s sweet nephew roger dodger is one of the most compelling variations on in the company of men,1,6
-706,dev_183,dev,1,positive,lively convincing dialogue she creates,chaiken s talent lies in an evocative accurate observation of a distinctive milieu and in the lively convincing dialogue she creates for her characters,1,6
+706,dev_183,dev,1,positive,talent lies in an evocative,chaiken s talent lies in an evocative accurate observation of a distinctive milieu and in the lively convincing dialogue she creates for her characters,1,6
 707,dev_195,dev,1,positive,this film is most transporting when,the far future may be awesome to consider but from period detail to matters of the heart this film is most transporting when it stays put in the past,1,6
-708,dev_271,dev,1,positive,its conception and are able to,it haunts you you ca n t forget it you admire its conception and are able to resolve some of the confusions you had while watching it,1,6
-709,dev_319,dev,1,positive,directing debut is a creepy slice,a psychological thriller with a genuinely spooky premise and an above average cast actor bill paxton s directing debut is a creepy slice of gothic rural americana,1,6
+708,dev_271,dev,1,positive,you admire its conception and are,it haunts you you ca n t forget it you admire its conception and are able to resolve some of the confusions you had while watching it,1,6
+709,dev_319,dev,1,positive,s directing debut is a creepy,a psychological thriller with a genuinely spooky premise and an above average cast actor bill paxton s directing debut is a creepy slice of gothic rural americana,1,6
 710,dev_334,dev,1,positive,the intelligent french drama that deftly,trademark american triteness and simplicity are tossed out the window with the intelligent french drama that deftly explores the difficult relationship between a father and son,1,6
 711,dev_338,dev,1,positive,gripping tidy little movie that takes,while undisputed is n t exactly a high it is a gripping tidy little movie that takes mr hill higher than he s been in a while,1,6
-712,dev_357,dev,1,positive,actually pulls off this stylistic juggling,thanks to haynes absolute control of the film s mood and buoyed by three terrific performances far from heaven actually pulls off this stylistic juggling act,1,6
-713,dev_378,dev,1,positive,laughs but never at the,based on a devilishly witty script by heather mcgowan and niels mueller the film gets great laughs but never at the expense of its characters,1,6
+712,dev_357,dev,1,positive,performances far from heaven actually pulls,thanks to haynes absolute control of the film s mood and buoyed by three terrific performances far from heaven actually pulls off this stylistic juggling act,1,6
+713,dev_378,dev,1,positive,gets great laughs but never,based on a devilishly witty script by heather mcgowan and niels mueller the film gets great laughs but never at the expense of its characters,1,6
 714,dev_386,dev,1,positive,character development are a lot better,another one of those estrogen overdose movies like divine secrets of the ya ya sisterhood except that the writing acting and character development are a lot better,1,6
-715,dev_437,dev,1,positive,is good enough and will likely,there is nothing outstanding about this film but it is good enough and will likely be appreciated most by sailors and folks who know their way around a submarine,1,6
+715,dev_437,dev,1,positive,but it is good enough and,there is nothing outstanding about this film but it is good enough and will likely be appreciated most by sailors and folks who know their way around a submarine,1,6
 716,dev_442,dev,0,negative,runs the gamut from stale,nicks seemingly uncertain what s going to make people laugh runs the gamut from stale parody to raunchy sex gags to formula romantic comedy,0,6
-717,dev_560,dev,0,negative,rises above the level of embarrassment,the film contains no good jokes no good scenes barely a moment when carvey s saturday night live honed mimicry rises above the level of embarrassment,0,6
+717,dev_560,dev,0,negative,film contains no good jokes no,the film contains no good jokes no good scenes barely a moment when carvey s saturday night live honed mimicry rises above the level of embarrassment,0,6
 718,dev_592,dev,0,negative,the movie really only succeeds in,while the resident evil games may have set new standards for thrills suspense and gore for video games the movie really only succeeds in the third of these,0,6
 719,dev_593,dev,0,negative,dysfunctional families for the price,for close to two hours the audience is forced to endure three terminally depressed mostly inarticulate hyper dysfunctional families for the price of one,0,6
-720,dev_595,dev,0,negative,offends by just being wishy,in an effort i suspect not to offend by appearing either too serious or too lighthearted it offends by just being wishy washy,0,6
+720,dev_595,dev,0,negative,it offends by just being,in an effort i suspect not to offend by appearing either too serious or too lighthearted it offends by just being wishy washy,0,6
 721,dev_611,dev,0,negative,does n t offer much,does n t offer much besides glib soullessness raunchy language and a series of brutal set pieces that raise the bar on stylized screen violence,0,6
-722,dev_634,dev,0,negative,punch this picture so conspicuously lacks,its well of thorn and vinegar and simple humanity has long been plundered by similar works featuring the insight and punch this picture so conspicuously lacks,0,6
+722,dev_634,dev,0,negative,featuring the insight and punch this,its well of thorn and vinegar and simple humanity has long been plundered by similar works featuring the insight and punch this picture so conspicuously lacks,0,6
 723,dev_653,dev,0,negative,contributed to the screenplay falls short,director o fallon manages to put some lovely pictures up on the big screen but his skill at telling a story he also contributed to the screenplay falls short,0,6
 724,dev_659,dev,0,negative,the film never percolates,despite the evocative aesthetics evincing the hollow state of modern love life the film never percolates beyond a monotonous whine,0,6
-725,dev_680,dev,0,negative,amazingly lifelike tara reid whose acting,for each chuckle there are at least 10 complete misses many coming from the amazingly lifelike tara reid whose acting skills are comparable to a cardboard cutout,1,6
-726,dev_772,dev,0,negative,if you ve ever entertained the,if you ve ever entertained the notion of doing what the title of this film implies what sex with strangers actually shows may put you off the idea forever,0,6
-727,dev_779,dev,0,negative,three episodes of a rejected,partway through watching this saccharine easter egg colored concoction you realize that it is made up of three episodes of a rejected tv show,0,6
+725,dev_680,dev,0,negative,whose acting skills are comparable to,for each chuckle there are at least 10 complete misses many coming from the amazingly lifelike tara reid whose acting skills are comparable to a cardboard cutout,1,6
+726,dev_772,dev,0,negative,actually shows may put you off,if you ve ever entertained the notion of doing what the title of this film implies what sex with strangers actually shows may put you off the idea forever,0,6
+727,dev_779,dev,0,negative,is made up of three,partway through watching this saccharine easter egg colored concoction you realize that it is made up of three episodes of a rejected tv show,0,6
 728,dev_782,dev,1,positive,a fitfully amusing romp that,a fitfully amusing romp that if nothing else will appeal to fans of malcolm in the middle and its pubescent star frankie muniz,1,6
 729,dev_810,dev,0,negative,but not nearly enough and not,it showcases carvey s talent for voices but not nearly enough and not without taxing every drop of one s patience to get to the good stuff,1,6
-730,dev_869,dev,0,negative,never does more than scratch the,it s just disappointingly superficial a movie that has all the elements necessary to be a fascinating involving character study but never does more than scratch the surface,0,6
-731,dev_11,dev,1,positive,martha could make deutchland a popular,although german cooking does not come readily to mind when considering the world s best cuisine mostly martha could make deutchland a popular destination for hungry tourists,1,7
-732,dev_15,dev,1,positive,the movie still manage to break,what s surprising about full frontal is that despite its overt self awareness parts of the movie still manage to break past the artifice and thoroughly engage you,1,7
-733,dev_70,dev,1,positive,beautifully mounted but more to the,the film is beautifully mounted but more to the point the issues are subtly presented managing to walk a fine line with regard to the question of joan s madness,1,7
-734,dev_122,dev,1,positive,regurgitation of cinematic violence that gives,mafia rap stars and hood rats butt their ugly heads in a regurgitation of cinematic violence that gives brutal birth to an unlikely but likable hero,1,7
-735,dev_125,dev,1,positive,his nicely nuanced narrative and,montias pumps a lot of energy into his nicely nuanced narrative and surrounds himself with a cast of quirky but not stereotyped street characters,1,7
+730,dev_869,dev,0,negative,it s just disappointingly superficial a,it s just disappointingly superficial a movie that has all the elements necessary to be a fascinating involving character study but never does more than scratch the surface,0,6
+731,dev_11,dev,1,positive,mostly martha could make deutchland a,although german cooking does not come readily to mind when considering the world s best cuisine mostly martha could make deutchland a popular destination for hungry tourists,1,7
+732,dev_15,dev,1,positive,s surprising about full frontal is,what s surprising about full frontal is that despite its overt self awareness parts of the movie still manage to break past the artifice and thoroughly engage you,1,7
+733,dev_70,dev,1,positive,presented managing to walk a fine,the film is beautifully mounted but more to the point the issues are subtly presented managing to walk a fine line with regard to the question of joan s madness,1,7
+734,dev_122,dev,1,positive,that gives brutal birth to an,mafia rap stars and hood rats butt their ugly heads in a regurgitation of cinematic violence that gives brutal birth to an unlikely but likable hero,1,7
+735,dev_125,dev,1,positive,and surrounds himself with a,montias pumps a lot of energy into his nicely nuanced narrative and surrounds himself with a cast of quirky but not stereotyped street characters,1,7
 736,dev_153,dev,1,positive,an effectively creepy fear inducing not,an effectively creepy fear inducing not fear reducing film from japanese director hideo nakata who takes the superstitious curse on chain letters and actually applies it,1,7
 737,dev_180,dev,1,positive,a difficult absorbing film that manages,a difficult absorbing film that manages to convey more substance despite its repetitions and inconsistencies than do most films than are far more pointed and clear,1,7
-738,dev_188,dev,1,positive,a cartoon that s truly cinematic,a cartoon that s truly cinematic in scope and a story that s compelling and heartfelt even if the heart belongs to a big four legged herbivore,1,7
+738,dev_188,dev,1,positive,and a story that s compelling,a cartoon that s truly cinematic in scope and a story that s compelling and heartfelt even if the heart belongs to a big four legged herbivore,1,7
 739,dev_306,dev,1,positive,visualized with such operatic grandeur,not since japanese filmmaker akira kurosawa s ran have the savagery of combat and the specter of death been visualized with such operatic grandeur,1,7
 740,dev_367,dev,1,positive,quickly snowballs out of control while,drops you into a dizzying volatile pressure cooker of a situation that quickly snowballs out of control while focusing on the what much more than the why,0,7
 741,dev_413,dev,1,positive,is a thought provoking haunting film,a moody multi dimensional love story and sci fi mystery solaris is a thought provoking haunting film that allows the seeds of the imagination to germinate,1,7
 742,dev_443,dev,0,negative,s movies about college that are,if there s one thing this world needs less of it s movies about college that are written and directed by people who could n t pass an entrance exam,0,7
-743,dev_535,dev,0,negative,script as utterly diabolical as this,you really have to wonder how on earth anyone anywhere could have thought they d make audiences guffaw with a script as utterly diabolical as this,0,7
+743,dev_535,dev,0,negative,with a script as utterly diabolical,you really have to wonder how on earth anyone anywhere could have thought they d make audiences guffaw with a script as utterly diabolical as this,0,7
 744,dev_657,dev,0,negative,fizzles into a dull ridiculous attempt,there s too much falseness to the second half and what began as an intriguing look at youth fizzles into a dull ridiculous attempt at heart tugging,0,7
 745,dev_716,dev,0,negative,is nothing but a sticky,with its dogged hollywood naturalism and the inexorable passage of its characters toward sainthood windtalkers is nothing but a sticky sweet soap,0,7
 746,dev_751,dev,0,negative,is too tenuous to anchor the,the action switches between past and present but the material link is too tenuous to anchor the emotional connections that purport to span a 125 year divide,0,7
 747,dev_805,dev,0,negative,the story and the friendship proceeds,the story and the friendship proceeds in such a way that you re watching a soap opera rather than a chronicle of the ups and downs that accompany lifelong friendships,1,7
-748,dev_819,dev,0,negative,work that groans along thinking itself,the man from elysian fields is a cold bliss less work that groans along thinking itself some important comment on how life throws us some beguiling curves,0,7
-749,dev_837,dev,0,negative,this particular result is ultimately held,irwin is a man with enough charisma and audacity to carry a dozen films but this particular result is ultimately held back from being something greater,0,7
+748,dev_819,dev,0,negative,that groans along thinking itself some,the man from elysian fields is a cold bliss less work that groans along thinking itself some important comment on how life throws us some beguiling curves,0,7
+749,dev_837,dev,0,negative,but this particular result is ultimately,irwin is a man with enough charisma and audacity to carry a dozen films but this particular result is ultimately held back from being something greater,0,7
 750,dev_5,dev,1,positive,its determined stylishness which always,dazzles with its fully written characters its determined stylishness which always relates to characters and story and johnny dankworth s best soundtrack in years,1,7
-751,dev_20,dev,1,positive,it moves quickly adroitly and without,it moves quickly adroitly and without fuss it does n t give you time to reflect on the inanity and the cold war datedness of its premise,0,7
-752,dev_34,dev,1,positive,t his beguiling belgian fable very,t his beguiling belgian fable very much its own droll and delicate little film has some touching things to say about what is important in life and why,1,7
-753,dev_150,dev,1,positive,tension that keeps you in your seat,inside the film s conflict powered plot there is a decent moral trying to get out but it s not that it s the tension that keeps you in your seat,1,7
+751,dev_20,dev,1,positive,adroitly and without fuss it does,it moves quickly adroitly and without fuss it does n t give you time to reflect on the inanity and the cold war datedness of its premise,0,7
+752,dev_34,dev,1,positive,film has some touching things to,t his beguiling belgian fable very much its own droll and delicate little film has some touching things to say about what is important in life and why,1,7
+753,dev_150,dev,1,positive,but it s not that it s,inside the film s conflict powered plot there is a decent moral trying to get out but it s not that it s the tension that keeps you in your seat,1,7
 754,dev_213,dev,1,positive,opera s a pleasure when you,two hours fly by opera s a pleasure when you do n t have to endure intermissions and even a novice to the form comes away exhilarated,1,7
-755,dev_310,dev,0,negative,passable entertainment but it s the,passable entertainment but it s the kind of motion picture that wo n t make much of a splash when it s released and will not be remembered long afterwards,0,7
+755,dev_310,dev,0,negative,entertainment but it s the kind,passable entertainment but it s the kind of motion picture that wo n t make much of a splash when it s released and will not be remembered long afterwards,0,7
 756,dev_312,dev,1,positive,winning ensemble comedy that shows canadians can,this is a winning ensemble comedy that shows canadians can put gentle laughs and equally gentle sentiments on the button just as easily as their counterparts anywhere else in the world,1,7
 757,dev_317,dev,1,positive,it s a memorable performance in,belongs to daniel day lewis as much as it belongs to martin scorsese it s a memorable performance in a big brassy disturbing unusual and highly successful film,1,7
-758,dev_353,dev,1,positive,a similarly morose and humorless horror,on the heels of the ring comes a similarly morose and humorless horror movie that although flawed is to be commended for its straight ahead approach to creepiness,0,7
+758,dev_353,dev,1,positive,comes a similarly morose and humorless,on the heels of the ring comes a similarly morose and humorless horror movie that although flawed is to be commended for its straight ahead approach to creepiness,0,7
 759,dev_360,dev,1,positive,s effort has tons of,writer director s mehta s effort has tons of charm and the whimsy is in the mixture the intoxicating masala of cultures and film genres,1,7
 760,dev_382,dev,1,positive,in compassion as corcuera manages to,what the film lacks in general focus it makes up for in compassion as corcuera manages to find the seeds of hope in the form of collective action,1,7
 761,dev_567,dev,0,negative,few ideas are stretched to the,the film s few ideas are stretched to the point of evaporation the whole central section is one big chase that seems to have no goal and no urgency,0,7
 762,dev_632,dev,0,negative,all conspire to test trekkie,wince inducing dialogue thrift shop costumes prosthetic makeup by silly putty and kmart blue light special effects all conspire to test trekkie loyalty,0,7
-763,dev_658,dev,1,positive,miller is playing so free with,miller is playing so free with emotions and the fact that children are hostages to fortune that he makes the audience hostage to his swaggering affectation of seriousness,1,7
-764,dev_660,dev,1,positive,but her raw performance and utter,this is an egotistical endeavor from the daughter of horror director dario argento a producer here but her raw performance and utter fearlessness make it strangely magnetic,1,7
-765,dev_785,dev,0,negative,at the very least if you,at the very least if you do n t know anything about derrida when you walk into the theater you wo n t know much more when you leave,0,7
+763,dev_658,dev,1,positive,that he makes the audience hostage,miller is playing so free with emotions and the fact that children are hostages to fortune that he makes the audience hostage to his swaggering affectation of seriousness,1,7
+764,dev_660,dev,1,positive,raw performance and utter fearlessness make,this is an egotistical endeavor from the daughter of horror director dario argento a producer here but her raw performance and utter fearlessness make it strangely magnetic,1,7
+765,dev_785,dev,0,negative,theater you wo n t know,at the very least if you do n t know anything about derrida when you walk into the theater you wo n t know much more when you leave,0,7
 766,dev_22,dev,1,positive,make it mostly worth the,the film s welcome breeziness and some unbelievably hilarious moments most portraying the idiocy of the film industry make it mostly worth the trip,1,7
-767,dev_48,dev,1,positive,a significant character study that is,building slowly and subtly the film sporting a breezy spontaneity and realistically drawn characterizations develops into a significant character study that is both moving and wise,1,7
-768,dev_68,dev,1,positive,this chamber drama is superbly acted,exquisitely nuanced in mood tics and dialogue this chamber drama is superbly acted by the deeply appealing veteran bouquet and the chilling but quite human berling,1,7
+767,dev_48,dev,1,positive,that is both moving and wise,building slowly and subtly the film sporting a breezy spontaneity and realistically drawn characterizations develops into a significant character study that is both moving and wise,1,7
+768,dev_68,dev,1,positive,is superbly acted by the deeply,exquisitely nuanced in mood tics and dialogue this chamber drama is superbly acted by the deeply appealing veteran bouquet and the chilling but quite human berling,1,7
 769,dev_144,dev,1,positive,is not only than a frighteningly,nine queens is not only than a frighteningly capable debut and genre piece but also a snapshot of a dangerous political situation on the verge of coming to a head,1,7
 770,dev_145,dev,1,positive,anna chancellor that makes this two,it s the chemistry between the women and the droll scene stealing wit and wolfish pessimism of anna chancellor that makes this two weddings and a funeral fun,1,7
 771,dev_228,dev,1,positive,statesmen he d sure make a,even if you do n t think kissinger s any more guilty of criminal activity than most contemporary statesmen he d sure make a courtroom trial great fun to watch,1,7
 772,dev_272,dev,1,positive,then esther s story is a compelling,if you are an actor who can relate to the search for inner peace by dramatically depicting the lives of others onstage then esther s story is a compelling quest for truth,1,7
 773,dev_283,dev,1,positive,this unhurried low key film that,the volatile dynamics of female friendship is the subject of this unhurried low key film that is so off hollywood that it seems positively french in its rhythms and resonance,1,7
 774,dev_410,dev,1,positive,featuring a dangerously seductive performance,featuring a dangerously seductive performance from the great daniel auteuil sade covers the same period as kaufmann s quills with more unsettlingly realistic results,1,7
-775,dev_426,dev,1,positive,charm about the film that makes it,not the kind of film that will appeal to a mainstream american audience but there is a certain charm about the film that makes it a suitable entry into the fest circuit,1,7
-776,dev_439,dev,1,positive,fairly well and scored to perfection,an interesting story with a pertinent cinematically unique message told fairly well and scored to perfection i found myself struggling to put my finger on that elusive missing thing,1,7
+775,dev_426,dev,1,positive,there is a certain charm about the,not the kind of film that will appeal to a mainstream american audience but there is a certain charm about the film that makes it a suitable entry into the fest circuit,1,7
+776,dev_439,dev,1,positive,an interesting story with a pertinent,an interesting story with a pertinent cinematically unique message told fairly well and scored to perfection i found myself struggling to put my finger on that elusive missing thing,1,7
 777,dev_508,dev,0,negative,is far too self conscious to,if the movie succeeds in instilling a wary sense of there but for the grace of god it is far too self conscious to draw you deeply into its world,0,7
-778,dev_516,dev,0,negative,to see this movie even though,try as i may i ca n t think of a single good reason to see this movie even though everyone in my group extemporaneously shouted thank you,0,7
-779,dev_581,dev,0,negative,came time to get to the heart,by getting myself wrapped up in the visuals and eccentricities of many of the characters i found myself confused when it came time to get to the heart of the movie,0,7
+778,dev_516,dev,0,negative,see this movie even though everyone,try as i may i ca n t think of a single good reason to see this movie even though everyone in my group extemporaneously shouted thank you,0,7
+779,dev_581,dev,0,negative,i found myself confused when it came,by getting myself wrapped up in the visuals and eccentricities of many of the characters i found myself confused when it came time to get to the heart of the movie,0,7
 780,dev_602,dev,0,negative,price to pay for a shimmering,once kim begins to overplay the shock tactics and bait and tackle metaphors you may decide it s too high a price to pay for a shimmering picture postcard,0,7
 781,dev_623,dev,0,negative,to be engaging the isle defies,too restrained to be a freak show too mercenary and obvious to be cerebral too dull and pretentious to be engaging the isle defies an easy categorization,0,7
 782,dev_745,dev,0,negative,plot holes so large and obvious,plot holes so large and obvious a marching band might as well be stomping through them in clown clothes playing a college football fight song on untuned instruments,0,7
-783,dev_115,dev,1,positive,movies maybe the filmmakers know that,d oes n t bother being as cloying or preachy as equivalent evangelical christian movies maybe the filmmakers know that the likely audience will already be among the faithful,0,7
-784,dev_129,dev,1,positive,going with enough amusing banter blessedly,the continued good chemistry between carmen and juni is what keeps this slightly disappointing sequel going with enough amusing banter blessedly curse free to keep both kids and parents entertained,1,7
-785,dev_138,dev,1,positive,best to capture the dizzying,the format gets used best to capture the dizzying heights achieved by motocross and bmx riders whose balletic hotdogging occasionally ends in bone crushing screwups,1,7
-786,dev_216,dev,1,positive,make their hopes and frustrations vivid,martin and barbara are complex characters sometimes tender sometimes angry and the delicate performances by sven wollter and viveka seldahl make their hopes and frustrations vivid,1,7
+783,dev_115,dev,1,positive,christian movies maybe the filmmakers know,d oes n t bother being as cloying or preachy as equivalent evangelical christian movies maybe the filmmakers know that the likely audience will already be among the faithful,0,7
+784,dev_129,dev,1,positive,is what keeps this slightly disappointing,the continued good chemistry between carmen and juni is what keeps this slightly disappointing sequel going with enough amusing banter blessedly curse free to keep both kids and parents entertained,1,7
+785,dev_138,dev,1,positive,gets used best to capture,the format gets used best to capture the dizzying heights achieved by motocross and bmx riders whose balletic hotdogging occasionally ends in bone crushing screwups,1,7
+786,dev_216,dev,1,positive,and the delicate performances by sven,martin and barbara are complex characters sometimes tender sometimes angry and the delicate performances by sven wollter and viveka seldahl make their hopes and frustrations vivid,1,7
 787,dev_230,dev,1,positive,and jolting images have a way,fresnadillo s dark and jolting images have a way of plying into your subconscious like the nightmare you had a week ago that wo n t go away,1,7
-788,dev_384,dev,1,positive,script allow the filmmakers to present the,the quality of the art combined with the humor and intelligence of the script allow the filmmakers to present the biblical message of forgiveness without it ever becoming preachy or syrupy,1,7
-789,dev_510,dev,0,negative,strange kind of laziness to waste,it takes a strange kind of laziness to waste the talents of robert forster anne meara eugene levy and reginald veljohnson all in the same movie,0,7
+788,dev_384,dev,1,positive,of the script allow the filmmakers to,the quality of the art combined with the humor and intelligence of the script allow the filmmakers to present the biblical message of forgiveness without it ever becoming preachy or syrupy,1,7
+789,dev_510,dev,0,negative,takes a strange kind of laziness,it takes a strange kind of laziness to waste the talents of robert forster anne meara eugene levy and reginald veljohnson all in the same movie,0,7
 790,dev_667,dev,0,negative,are wheezing to an end along,stealing harvard is evidence that the farrelly bros peter and bobby and their brand of screen comedy are wheezing to an end along with green s half hearted movie career,0,7
 791,dev_685,dev,0,negative,chimpanzees is short on the,w hile long on amiable monkeys and worthy environmentalism jane goodall s wild chimpanzees is short on the thrills the oversize medium demands,0,7
-792,dev_747,dev,0,negative,seems to be under the illusion that,combining quick cut editing and a blaring heavy metal much of the time beck seems to be under the illusion that he s shooting the latest system of a down video,0,7
-793,dev_757,dev,1,positive,officially completes a good will hunting,the structure the film takes may find matt damon and ben affleck once again looking for residuals as this officially completes a good will hunting trilogy that was never planned,1,7
-794,dev_871,dev,0,negative,his persistently useless movies and it,schaeffer has to find some hook on which to hang his persistently useless movies and it might as well be the resuscitation of the middle aged character,0,7
+792,dev_747,dev,0,negative,combining quick cut editing and a blaring,combining quick cut editing and a blaring heavy metal much of the time beck seems to be under the illusion that he s shooting the latest system of a down video,0,7
+793,dev_757,dev,1,positive,for residuals as this officially completes,the structure the film takes may find matt damon and ben affleck once again looking for residuals as this officially completes a good will hunting trilogy that was never planned,1,7
+794,dev_871,dev,0,negative,hang his persistently useless movies and,schaeffer has to find some hook on which to hang his persistently useless movies and it might as well be the resuscitation of the middle aged character,0,7
 795,dev_6,dev,1,positive,instructive and thoroughly delightful it takes,visually imaginative thematically instructive and thoroughly delightful it takes us on a roller coaster ride from innocence to experience without even a hint of that typical kiddie flick sentimentality,1,7
 796,dev_90,dev,1,positive,so refreshingly incisive is grant that for,so refreshingly incisive is grant that for the first time he ll probably appeal more to guys than to their girlfriends who drag them to this movie for the hugh factor,1,7
 797,dev_163,dev,1,positive,but labute pulls off a neater,maud and roland s search for an unknowable past makes for a haunting literary detective story but labute pulls off a neater trick in possession he makes language sexy,1,7
-798,dev_244,dev,1,positive,than a new voice that deserves to,cq s reflection of artists and the love of cinema and self suggests nothing less than a new voice that deserves to be considered as a possible successor to the best european directors,1,7
+798,dev_244,dev,1,positive,s reflection of artists and the love,cq s reflection of artists and the love of cinema and self suggests nothing less than a new voice that deserves to be considered as a possible successor to the best european directors,1,7
 799,dev_281,dev,1,positive,charles entertaining film chronicles seinfeld s return,charles entertaining film chronicles seinfeld s return to stand up comedy after the wrap of his legendary sitcom alongside wannabe comic adams attempts to get his shot at the big time,1,7
-800,dev_298,dev,1,positive,the project is sensational and,immersing us in the endlessly inventive fiercely competitive world of hip hop djs the project is sensational and revelatory even if scratching makes you itch,1,7
-801,dev_536,dev,0,negative,we are left with something like two,in the end we are left with something like two ships passing in the night rather than any insights into gay love chinese society or the price one pays for being dishonest,0,7
+800,dev_298,dev,1,positive,is sensational and revelatory even,immersing us in the endlessly inventive fiercely competitive world of hip hop djs the project is sensational and revelatory even if scratching makes you itch,1,7
+801,dev_536,dev,0,negative,rather than any insights into gay love,in the end we are left with something like two ships passing in the night rather than any insights into gay love chinese society or the price one pays for being dishonest,0,7
 802,dev_589,dev,0,negative,sank from quirky to jerky to,in exactly 89 minutes most of which passed as slowly as if i d been sitting naked on an igloo formula 51 sank from quirky to jerky to utter turkey,0,7
-803,dev_621,dev,0,negative,movie is dawn of the dead crossed,the movie is dawn of the dead crossed with john carpenter s ghosts of mars with zombies not as ghoulish as the first and trains not as big as the second,0,7
+803,dev_621,dev,0,negative,mars with zombies not as ghoulish as,the movie is dawn of the dead crossed with john carpenter s ghosts of mars with zombies not as ghoulish as the first and trains not as big as the second,0,7
 804,dev_635,dev,0,negative,lily chou chou never really builds,for all its impressive craftsmanship and despite an overbearing series of third act crescendos lily chou chou never really builds up a head of emotional steam,0,7
 805,dev_677,dev,0,negative,sustains its dreamlike glide through,sustains its dreamlike glide through a succession of cheesy coincidences and voluptuous cheap effects not the least of which is rebecca romijn stamos,0,7
-806,dev_700,dev,0,negative,it s surreal dubbing featuring the,the so inept it s surreal dubbing featuring the voices of glenn close regis philbin and breckin meyer brings back memories of cheesy old godzilla flicks,1,7
+806,dev_700,dev,0,negative,and breckin meyer brings back memories,the so inept it s surreal dubbing featuring the voices of glenn close regis philbin and breckin meyer brings back memories of cheesy old godzilla flicks,1,7
 807,dev_719,dev,0,negative,and even more clear that they lack,it s clear the filmmakers were n t sure where they wanted their story to go and even more clear that they lack the skills to get us to this undetermined destination,0,7
 808,dev_725,dev,0,negative,uptight characters this musty adaptation is,suffocated by its fussy script and uptight characters this musty adaptation is all the more annoying since it s been packaged and sold back to us by hollywood,0,7
-809,dev_832,dev,0,negative,it s not original and robbed,it s not original and robbed of the element of surprise it does n t have any huge laughs in its story of irresponsible cops who love to play pranks,0,7
+809,dev_832,dev,0,negative,it does n t have any,it s not original and robbed of the element of surprise it does n t have any huge laughs in its story of irresponsible cops who love to play pranks,0,7
 810,dev_16,dev,1,positive,talent or the power of this movie,whether you like rap music or loathe it you ca n t deny either the tragic loss of two young men in the prime of their talent or the power of this movie,1,8
 811,dev_32,dev,1,positive,the pinochet case splits time between a,a coda in every sense the pinochet case splits time between a minute by minute account of the british court s extradition chess game and the regime s talking head survivors,0,8
 812,dev_91,dev,1,positive,s refreshing to see a cartoon that,at a time when half the so called real movies are little more than live action cartoons it s refreshing to see a cartoon that knows what it is and knows the form s history,1,8
-813,dev_219,dev,1,positive,this tenth feature is a big deal,this tenth feature is a big deal indeed at least the third best and maybe even a notch above the previous runner up nicholas meyer s star trek vi the undiscovered country,1,8
+813,dev_219,dev,1,positive,tenth feature is a big deal indeed,this tenth feature is a big deal indeed at least the third best and maybe even a notch above the previous runner up nicholas meyer s star trek vi the undiscovered country,1,8
 814,dev_248,dev,1,positive,french school life is a refreshing departure,the fly on the wall method used to document rural french school life is a refreshing departure from the now more prevalent technique of the docu makers being a visible part of their work,1,8
 815,dev_318,dev,1,positive,a gripping story delivering a riveting,an exhilarating futuristic thriller noir minority report twists the best of technology around a gripping story delivering a riveting pulse intensifying escapist adventure of the first order,1,8
 816,dev_492,dev,0,negative,the movie is too predictable and too,though moonlight mile is replete with acclaimed actors and actresses and tackles a subject that s potentially moving the movie is too predictable and too self conscious to reach a level of high drama,0,8
-817,dev_542,dev,0,negative,arcana can alienate even the savviest,while it s genuinely cool to hear characters talk about early rap records sugar hill gang etc the constant referencing of hip hop arcana can alienate even the savviest audiences,0,8
+817,dev_542,dev,0,negative,etc the constant referencing of hip,while it s genuinely cool to hear characters talk about early rap records sugar hill gang etc the constant referencing of hip hop arcana can alienate even the savviest audiences,0,8
 818,dev_575,dev,0,negative,but its ambitions far exceed the abilities,pumpkin means to be an outrageous dark satire on fraternity life but its ambitions far exceed the abilities of writer adam larson broder and his co director tony r abrams in their feature debut,0,8
 819,dev_664,dev,0,negative,characters still need to function according,characters still need to function according to some set of believable and comprehensible impulses no matter how many drugs they do or how much artistic license avary employs,0,8
 820,dev_679,dev,0,negative,feels haphazard as if the writers,feels haphazard as if the writers mistakenly thought they could achieve an air of frantic spontaneity by simply tossing in lots of characters doing silly stuff and stirring the pot,0,8
-821,dev_690,dev,0,negative,sudsy tub of supernatural hokum not,as a rumor of angels reveals itself to be a sudsy tub of supernatural hokum not even ms redgrave s noblest efforts can redeem it from hopeless sentimentality,0,8
+821,dev_690,dev,0,negative,can redeem it from hopeless sentimentality,as a rumor of angels reveals itself to be a sudsy tub of supernatural hokum not even ms redgrave s noblest efforts can redeem it from hopeless sentimentality,0,8
 822,dev_692,dev,0,negative,entry with little of the nervy,as the latest bid in the tv to movie franchise game i spy makes its big screen entry with little of the nervy originality of its groundbreaking small screen progenitor,0,8
 823,dev_797,dev,0,negative,film makes a fatal mistake it asks,the film makes a fatal mistake it asks us to care about a young man whose only apparent virtue is that he is not quite as unpleasant as some of the people in his life,0,8
 824,dev_27,dev,1,positive,s also one of the smarter savvier,not only is undercover brother as funny if not more so than both austin powers films but it s also one of the smarter savvier spoofs to come along in some time,1,8
@@ -828,46 +828,46 @@
 826,dev_73,dev,1,positive,jose campanella delivers a loosely autobiographical,jose campanella delivers a loosely autobiographical story brushed with sentimentality but brimming with gentle humor bittersweet pathos and lyric moments that linger like snapshots of memory,1,8
 827,dev_235,dev,1,positive,remains a filmmaker with an acid viewpoint,ramsay as in ratcatcher remains a filmmaker with an acid viewpoint and a real gift for teasing chilly poetry out of lives and settings that might otherwise seem drab and sordid,1,8
 828,dev_320,dev,1,positive,will enjoy a fast paced comedy with,while locals will get a kick out of spotting cleveland sites the rest of the world will enjoy a fast paced comedy with quirks that might make the award winning coen brothers envious,1,8
-829,dev_610,dev,0,negative,a nightmare date with a half,a nightmare date with a half formed wit done a great disservice by a lack of critical distance and a sad trust in liberal arts college bumper sticker platitudes,0,8
-830,dev_762,dev,0,negative,a sleek sociopath on the trail,the tale of tok andy lau a sleek sociopath on the trail of o takashi sorimachi the most legendary of asian hitmen is too scattershot to take hold,0,8
+829,dev_610,dev,0,negative,done a great disservice by a,a nightmare date with a half formed wit done a great disservice by a lack of critical distance and a sad trust in liberal arts college bumper sticker platitudes,0,8
+830,dev_762,dev,0,negative,lau a sleek sociopath on the,the tale of tok andy lau a sleek sociopath on the trail of o takashi sorimachi the most legendary of asian hitmen is too scattershot to take hold,0,8
 831,dev_860,dev,0,negative,yet director muccino s characters are,there s enough melodrama in this magnolia primavera to make pta proud yet director muccino s characters are less worthy of puccini than they are of daytime television,0,8
-832,dev_77,dev,1,positive,it s a much more emotional journey,it s a much more emotional journey than what shyamalan has given us in his past two movies and gibson stepping in for bruce willis is the perfect actor to take us on the trip,1,8
-833,dev_226,dev,1,positive,and in this literate french comedy,audrey tatou has a knack for picking roles that magnify her outrageous charm and in this literate french comedy she s as morning glory exuberant as she was in amelie,1,8
+832,dev_77,dev,1,positive,and gibson stepping in for bruce willis,it s a much more emotional journey than what shyamalan has given us in his past two movies and gibson stepping in for bruce willis is the perfect actor to take us on the trip,1,8
+833,dev_226,dev,1,positive,this literate french comedy she s,audrey tatou has a knack for picking roles that magnify her outrageous charm and in this literate french comedy she s as morning glory exuberant as she was in amelie,1,8
 834,dev_321,dev,0,negative,with such an uneven tone that,pumpkin takes an admirable look at the hypocrisy of political correctness but it does so with such an uneven tone that you never know when humor ends and tragedy begins,0,8
-835,dev_379,dev,0,negative,climax and some nice chills along the,it s somewhat clumsy and too lethargically paced but its story about a mysterious creature with psychic abilities offers a solid build up a terrific climax and some nice chills along the way,1,8
+835,dev_379,dev,0,negative,and some nice chills along the way,it s somewhat clumsy and too lethargically paced but its story about a mysterious creature with psychic abilities offers a solid build up a terrific climax and some nice chills along the way,1,8
 836,dev_381,dev,1,positive,it is as seductive as it is haunting,whether writer director anne fontaine s film is a ghost story an account of a nervous breakdown a trip down memory lane all three or none of the above it is as seductive as it is haunting,1,8
-837,dev_463,dev,0,negative,silliness of the whole affair defeats them,t here s only so much anyone can do with a florid overplotted anne rice rock n roll vampire novel before the built in silliness of the whole affair defeats them,0,8
-838,dev_480,dev,0,negative,fancy special effects and watching its rote,it feels like an after school special gussied up with some fancy special effects and watching its rote plot points connect is about as exciting as gazing at an egg timer for 93 minutes,0,8
+837,dev_463,dev,0,negative,anyone can do with a florid overplotted,t here s only so much anyone can do with a florid overplotted anne rice rock n roll vampire novel before the built in silliness of the whole affair defeats them,0,8
+838,dev_480,dev,0,negative,and watching its rote plot points connect,it feels like an after school special gussied up with some fancy special effects and watching its rote plot points connect is about as exciting as gazing at an egg timer for 93 minutes,0,8
 839,dev_544,dev,0,negative,but he never really embraces the joy,care deftly captures the wonder and menace of growing up but he never really embraces the joy of fuhrman s destructive escapism or the grace in rebellion found by his characters,0,8
-840,dev_562,dev,0,negative,released now when it has become even weaker,it s as if you re watching a movie that was made in 1978 but not released then because it was so weak and it has been unearthed and released now when it has become even weaker,0,8
-841,dev_591,dev,0,negative,it s like every bad idea that,it s like every bad idea that s ever gone into an after school special compiled in one place minus those daytime programs slickness and sophistication and who knew they even had any,0,8
-842,dev_824,dev,0,negative,the x potion gives the quickly named,the x potion gives the quickly named blossom bubbles and buttercup supernatural powers that include extraordinary strength and laser beam eyes which unfortunately do n t enable them to discern flimsy screenplays,1,8
-843,dev_190,dev,1,positive,with this challenging report so liable to,there s something auspicious and daring too about the artistic instinct that pushes a majority oriented director like steven spielberg to follow a i with this challenging report so liable to unnerve the majority,1,8
+840,dev_562,dev,0,negative,so weak and it has been unearthed and,it s as if you re watching a movie that was made in 1978 but not released then because it was so weak and it has been unearthed and released now when it has become even weaker,0,8
+841,dev_591,dev,0,negative,special compiled in one place minus those,it s like every bad idea that s ever gone into an after school special compiled in one place minus those daytime programs slickness and sophistication and who knew they even had any,0,8
+842,dev_824,dev,0,negative,gives the quickly named blossom bubbles and,the x potion gives the quickly named blossom bubbles and buttercup supernatural powers that include extraordinary strength and laser beam eyes which unfortunately do n t enable them to discern flimsy screenplays,1,8
+843,dev_190,dev,1,positive,s something auspicious and daring too about,there s something auspicious and daring too about the artistic instinct that pushes a majority oriented director like steven spielberg to follow a i with this challenging report so liable to unnerve the majority,1,8
 844,dev_494,dev,0,negative,redeeming but most of the movie is,the last 20 minutes are somewhat redeeming but most of the movie is the same teenage american road trip drek we ve seen before only this time you have to read the fart jokes,0,8
 845,dev_495,dev,0,negative,guy who is utterly unlikeable and shiner starring,it s hard to like a film about a guy who is utterly unlikeable and shiner starring michael caine as an aging british boxing promoter desperate for a taste of fame and fortune is certainly that,0,8
-846,dev_656,dev,0,negative,this movie anything more than a trashy,even the finest chef ca n t make a hotdog into anything more than a hotdog and robert de niro ca n t make this movie anything more than a trashy cop buddy comedy,0,8
+846,dev_656,dev,0,negative,ca n t make this movie anything,even the finest chef ca n t make a hotdog into anything more than a hotdog and robert de niro ca n t make this movie anything more than a trashy cop buddy comedy,0,8
 847,dev_699,dev,0,negative,is a drunken roundhouse and whatever passes,this is the sort of burly action flick where one coincidence pummels another narrative necessity is a drunken roundhouse and whatever passes for logic is a factor of the last plot device left standing,0,8
 848,dev_739,dev,0,negative,has a tough time emerging from between,the affectionate loopiness that once seemed congenital to demme s perspective has a tough time emerging from between the badly dated cutesy pie mystery scenario and the newfangled hollywood post production effects,0,8
 849,dev_78,dev,1,positive,harry but the film conjures the magic,not only are the special effects and narrative flow much improved and daniel radcliffe more emotionally assertive this time around as harry but the film conjures the magic of author j k rowling s books,1,8
-850,dev_152,dev,1,positive,the end of monsoon wedding sent my,the old world meets new mesh is incarnated in the movie s soundtrack a joyful effusion of disco bollywood that by the end of monsoon wedding sent my spirit soaring out of the theater,1,8
+850,dev_152,dev,1,positive,effusion of disco bollywood that by the,the old world meets new mesh is incarnated in the movie s soundtrack a joyful effusion of disco bollywood that by the end of monsoon wedding sent my spirit soaring out of the theater,1,8
 851,dev_328,dev,1,positive,settings is a pleasant enough thing tis,stephen rea aidan quinn and alan bates play desmond s legal eagles and when joined by brosnan the sight of this grandiloquent quartet lolling in pretty irish settings is a pleasant enough thing tis,1,8
 852,dev_825,dev,0,negative,far too clunky didactic and saddled with,perceptive in its vision of nascent industrialized world politics as a new art form but far too clunky didactic and saddled with scenes that seem simply an ill fit for this movie,0,8
 853,dev_613,dev,0,negative,is obscured by the majority of the film,but the power of these subjects is obscured by the majority of the film that shows a stationary camera on a subject that could be mistaken for giving a public oration rather than contributing to a film s narrative,0,9
-854,dev_352,dev,1,positive,good or better than in the original while,the special effects and many scenes of weightlessness look as good or better than in the original while the oscar winning sound and james horner s rousing score make good use of the hefty audio system,1,9
-855,dev_559,dev,0,negative,old story except to show fisticuffs in this,it does nothing new with the old story except to show fisticuffs in this sort of stop go slow motion that makes the gang rumbles look like they re being streamed over a 28 k modem,0,9
-856,dev_65,dev,1,positive,wonderfully respectful of its past and thrilling enough,may be far from the best of the series but it s assured wonderfully respectful of its past and thrilling enough to make it abundantly clear that this movie phenomenon has once again reinvented itself for a new generation,1,9
-857,dev_435,dev,1,positive,this is wild surreal stuff but brilliant and the,this is wild surreal stuff but brilliant and the camera just kind of sits there and lets you look at this and its like you re going from one room to the next and none of them have any relation to the other,1,9
-858,dev_436,dev,1,positive,but it s savvy about celebrity and has,it s a demented kitsch mess although the smeary digital video does match the muddled narrative but it s savvy about celebrity and has more guts and energy than much of what will open this year,1,9
+854,dev_352,dev,1,positive,s rousing score make good use of the,the special effects and many scenes of weightlessness look as good or better than in the original while the oscar winning sound and james horner s rousing score make good use of the hefty audio system,1,9
+855,dev_559,dev,0,negative,to show fisticuffs in this sort of stop,it does nothing new with the old story except to show fisticuffs in this sort of stop go slow motion that makes the gang rumbles look like they re being streamed over a 28 k modem,0,9
+856,dev_65,dev,1,positive,but it s assured wonderfully respectful of its,may be far from the best of the series but it s assured wonderfully respectful of its past and thrilling enough to make it abundantly clear that this movie phenomenon has once again reinvented itself for a new generation,1,9
+857,dev_435,dev,1,positive,but brilliant and the camera just kind of sits,this is wild surreal stuff but brilliant and the camera just kind of sits there and lets you look at this and its like you re going from one room to the next and none of them have any relation to the other,1,9
+858,dev_436,dev,1,positive,it s savvy about celebrity and has more,it s a demented kitsch mess although the smeary digital video does match the muddled narrative but it s savvy about celebrity and has more guts and energy than much of what will open this year,1,9
 859,dev_451,dev,0,negative,it s inoffensive cheerful built to inspire the,it s inoffensive cheerful built to inspire the young people set to an unending soundtrack of beach party pop numbers and aside from its remarkable camerawork and awesome scenery it s about as exciting as a sunburn,1,9
-860,dev_598,dev,0,negative,just is n t any funnier than bad,it s not that kung pow is n t funny some of the time it just is n t any funnier than bad martial arts movies are all by themselves without all oedekerk s impish augmentation,0,9
+860,dev_598,dev,0,negative,it just is n t any funnier than,it s not that kung pow is n t funny some of the time it just is n t any funnier than bad martial arts movies are all by themselves without all oedekerk s impish augmentation,0,9
 861,dev_765,dev,0,negative,reflections coming through are torpid and banal,samira makhmalbaf s new film blackboards is much like the ethos of a stream of consciousness although it s unfortunate for the viewer that the thoughts and reflections coming through are torpid and banal,0,9
-862,dev_105,dev,1,positive,surrounds him with interesting characters and sends us out,what really makes it special is that it pulls us into its world gives us a hero whose suffering and triumphs we can share surrounds him with interesting characters and sends us out of the theater feeling we ve shared a great adventure,1,9
+862,dev_105,dev,1,positive,what really makes it special is that it pulls,what really makes it special is that it pulls us into its world gives us a hero whose suffering and triumphs we can share surrounds him with interesting characters and sends us out of the theater feeling we ve shared a great adventure,1,9
 863,dev_227,dev,1,positive,the movie has an infectious exuberance that will engage,the movie has an infectious exuberance that will engage anyone with a passing interest in the skate surf culture the l a beach scene and the imaginative and sometimes illegal ways kids can make a playground out of the refuse of adults,1,9
 864,dev_269,dev,1,positive,gives you the steady pulse of life in,gives you the steady pulse of life in a beautiful city viewed through the eyes of a character who in spite of tragic loss and increasing decrepitude knows in his bones that he is one of the luckiest men alive,1,9
-865,dev_453,dev,0,negative,by the end there s a sense that,at times the suspense is palpable but by the end there s a sense that the crux of the mystery hinges on a technicality that strains credulity and leaves the viewer haunted by the waste of potential,0,9
+865,dev_453,dev,0,negative,but by the end there s a sense,at times the suspense is palpable but by the end there s a sense that the crux of the mystery hinges on a technicality that strains credulity and leaves the viewer haunted by the waste of potential,0,9
 866,dev_501,dev,0,negative,this clunker has somehow managed to pose as,despite all evidence to the contrary this clunker has somehow managed to pose as an actual feature movie the kind that charges full admission and gets hyped on tv and purports to amuse small children and ostens,0,10
 867,dev_624,dev,1,positive,it s one of those baseball pictures where the,it s one of those baseball pictures where the hero is stoic the wife is patient the kids are as cute as all get out and the odds against success are long enough to intimidate but short enough to make a dream seem,1,10
 868,dev_672,dev,0,negative,preschooler s fancy but when it costs a,slapstick buffoonery can tickle many a preschooler s fancy but when it costs a family of four about 40 to see a film in theaters why spend money on a dog like this when you can rent a pedigree,0,10
-869,dev_740,dev,0,negative,the film is so mired in juvenile,for all its technical virtuosity the film is so mired in juvenile and near xenophobic pedagogy that it s enough to make one pine for the day when godard can no longer handle the rigors,0,10
-870,dev_801,dev,0,negative,breathe life into the disjointed haphazard script,though perry and hurley make inspiring efforts to breathe life into the disjointed haphazard script by jay scherick and david ronn neither the actors nor director reginald hudlin can make it more than fitfully,0,10
+869,dev_740,dev,0,negative,film is so mired in juvenile and,for all its technical virtuosity the film is so mired in juvenile and near xenophobic pedagogy that it s enough to make one pine for the day when godard can no longer handle the rigors,0,10
+870,dev_801,dev,0,negative,to breathe life into the disjointed haphazard,though perry and hurley make inspiring efforts to breathe life into the disjointed haphazard script by jay scherick and david ronn neither the actors nor director reginald hudlin can make it more than fitfully,0,10
 871,dev_845,dev,0,negative,is a train wreck of an action film a,this is a train wreck of an action film a stupefying attempt by the filmmakers to force feed james bond into the mindless xxx mold and throw 40 years of cinematic history down the toilet in favor of bright flashes and loud,0,10

@@ -11,11 +11,15 @@ import argparse
 import json
 import logging
 import gc
+import datetime
+import sys
+
+
+
 
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
-import datetime
-import sys
+
 
 
 date_time = str(datetime.date.today()) + "_" + ":".join(str(datetime.datetime.now()).split()[1].split(":")[:2])
@@ -85,9 +89,7 @@ os.makedirs(config_dir, exist_ok = True)
 
 
 import config.cfg
-
 config.cfg.config_directory = config_dir
-
 logging.basicConfig(
                     filename= log_dir + "/out.log", 
                     format='%(asctime)s %(levelname)-8s %(message)s',
@@ -96,16 +98,15 @@ logging.basicConfig(
                   )
 
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
-
+#CUDA_LAUNCH_BLOCKING=1
 logging.info("Running on cuda ? {}".format(torch.cuda.is_available()))
 
 torch.backends.cudnn.deterministic = True
 torch.backends.cudnn.benchmark = False
-
+torch.cuda.empty_cache()
 
 from src.common_code.initialiser import initial_preparations
-import datetime
-import sys
+
 
 # creating unique config from stage_config.json file and model_config.json file
 args = initial_preparations(user_args, stage = "evaluate")
@@ -120,19 +121,28 @@ from src.evaluation import evaluation_pipeline
 
 data = classification_dataholder(
     args["data_dir"], 
-    b_size = args["batch_size"],
-    stage = "evaluate"
+    b_size = 4, # args["batch_size"] 4 
+    stage = "evaluate", # stage = "eval",
 )
 
 evaluator = evaluation_pipeline.evaluate(
     model_path = args["model_dir"], 
     output_dims = data.nu_of_labels
 )
+evaluator.faithfulness_metrics_(data)
 
+'''
+evaluator = evaluation_pipeline.evaluate(
+    model_path = args["model_dir"], 
+    output_dims = data.nu_of_labels
+)
+
+evaluator.faithfulness_experiments_(data)
+'''
 
 logging.info("*********conducting in-domain flip experiments")
 
-evaluator.faithfulness_metrics_(data)
+
 print(' DONE faithfulness metrics')
 
 evaluator.feature_scoring_performance_()  ## debug by cass

@@ -14,7 +14,7 @@ with open(config.cfg.config_directory + 'instance_config.json', 'r') as f:
 
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
-from src.common_code.useful_functions import mask_topk, mask_contigious, batch_from_dict, create_rationale_mask_, create_only_query_mask_
+from src.common_code.useful_functions import mask_topk, mask_contigious, create_rationale_mask_, create_only_query_mask_
 import math
 
 nn.deterministic = True
@@ -274,7 +274,7 @@ def get_rationale_metadata_(model, data_split_name, data, model_random_seed):
         ## percentage of flips
         for feat_name in {"lime", "random", "attention",  "gradients",   "ig", "scaled attention", "deeplift"}:
             
-            feat_score = batch_from_dict(
+            feat_score = batch_from_dict_(
                 batch_data = batch,
                 metadata = importance_scores,
                 target_key =  feat_name,
@@ -434,7 +434,7 @@ def get_rationale_metadata_rank_(model, data_split_name, data, model_random_seed
         ## percentage of flips
         for feat_name in {"lime", "random", "attention",  "gradients",   "ig", "scaled attention", "deeplift"}:
             
-            feat_score = batch_from_dict(
+            feat_score = batch_from_dict_(
                 batch_data = batch,
                 metadata = importance_scores,
                 target_key =  feat_name,

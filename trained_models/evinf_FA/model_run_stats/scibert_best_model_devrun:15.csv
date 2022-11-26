@@ -1,5 +1,0 @@
-,0,1,2,accuracy,macro avg,weighted avg,epoch,point,dev_loss,model-name
-precision,0.0,0.0,0.4027777777777778,0.4027777777777778,0.13425925925925927,0.16222993827160492,3,36,4.317228231165144,/home/cass/PycharmProjects/BP-rationales/trained_models/evinf_FA/scibert15.pt
-recall,0.0,0.0,1.0,0.4027777777777778,0.3333333333333333,0.4027777777777778,3,36,4.317228231165144,/home/cass/PycharmProjects/BP-rationales/trained_models/evinf_FA/scibert15.pt
-f1-score,0.0,0.0,0.5742574257425743,0.4027777777777778,0.19141914191419143,0.23129812981298134,3,36,4.317228231165144,/home/cass/PycharmProjects/BP-rationales/trained_models/evinf_FA/scibert15.pt
-support,34.0,52.0,58.0,0.4027777777777778,144.0,144.0,3,36,4.317228231165144,/home/cass/PycharmProjects/BP-rationales/trained_models/evinf_FA/scibert15.pt

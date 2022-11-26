@@ -1,30 +1,36 @@
 {
-    "sci25": {
-        "model": "/home/cass/PycharmProjects/BP-rationales/trained_models/evinf/scibert25.pt",
-        "f1": 0.8254403829254487,
-        "loss": 2.605802743266233,
-        "ece-score": 0.11376540441479947
-    },
-    "sci10": {
-        "model": "/home/cass/PycharmProjects/BP-rationales/trained_models/evinf/scibert10.pt",
-        "f1": 0.8327949999795337,
-        "loss": 3.024190958181862,
-        "ece-score": 0.12661225547393162
+    "sci15": {
+        "model": "/jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/trained_models/evinf/scibert15.pt",
+        "f1": 0.8502912269248903,
+        "loss": 2.5450283507506053,
+        "ece-score": 0.0931403391063213
     },
     "sci20": {
-        "model": "/home/cass/PycharmProjects/BP-rationales/trained_models/evinf/scibert20.pt",
-        "f1": 0.7755149070338945,
-        "loss": 2.8846528730044763,
-        "ece-score": 0.14576108348038458
+        "model": "/jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/trained_models/evinf/scibert20.pt",
+        "f1": 0.7922774422110203,
+        "loss": 2.460383488568995,
+        "ece-score": 0.11708371461265621
     },
     "sci5": {
-        "model": "/home/cass/PycharmProjects/BP-rationales/trained_models/evinf/scibert5.pt",
-        "f1": 0.7818602109864244,
-        "loss": 2.536707724020299,
-        "ece-score": 0.11107263904478817
+        "model": "/jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/trained_models/evinf/scibert5.pt",
+        "f1": 0.8014797877220294,
+        "loss": 2.7478890200455983,
+        "ece-score": 0.12726539054678543
     },
-    "mean-f1": 0.8039026252313253,
-    "std-f1": 0.025447862853696747,
-    "mean-ece": 0.12430284560347596,
-    "std-ece": 0.013710081866295647
+    "sci25": {
+        "model": "/jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/trained_models/evinf/scibert25.pt",
+        "f1": 0.8330074890366738,
+        "loss": 2.5851478811767366,
+        "ece-score": 0.11309444780151048
+    },
+    "sci10": {
+        "model": "/jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/trained_models/evinf/scibert10.pt",
+        "f1": 0.8397858207838104,
+        "loss": 2.7882126539945604,
+        "ece-score": 0.12820560965273115
+    },
+    "mean-f1": 0.8233683533356848,
+    "std-f1": 0.022507960173937438,
+    "mean-ece": 0.11575790034400094,
+    "std-ece": 0.012710418066004649
 }

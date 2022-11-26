@@ -1,3 +1,0 @@
-epoch - 1 | train loss - 4.91 | dev f1 - 0.187 | dev loss - 5.26 
-epoch - 2 | train loss - 4.47 | dev f1 - 0.255 | dev loss - 4.33 
-epoch - 3 | train loss - 4.25 | dev f1 - 0.213 | dev loss - 4.29 

@@ -60,10 +60,10 @@ def prepare_config(user_args : dict, stage : str = "train") -> dict:
 
   if stage == "evaluate":
 
-    if user_args["extract_double"]:
+    # if user_args["extract_double"]:
 
-      user_args["extracted_rationale_dir"] = "double_" + user_args["extracted_rationale_dir"]
-      user_args["evaluation_dir"] = "double_" + user_args["evaluation_dir"]
+    #   user_args["extracted_rationale_dir"] = "double_" + user_args["extracted_rationale_dir"]
+    #   user_args["evaluation_dir"] = "double_" + user_args["evaluation_dir"]
 
     eval_dir = os.path.join(
         os.getcwd(), 

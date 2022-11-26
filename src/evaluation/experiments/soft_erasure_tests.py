@@ -22,7 +22,7 @@ torch.manual_seed(25)
 torch.cuda.manual_seed(25)
 np.random.seed(25)
 
-from src.common_code.useful_functions import batch_from_dict, create_only_query_mask_
+from src.common_code.useful_functions import create_only_query_mask_
 from src.common_code.metrics import normalized_comprehensiveness_, normalized_sufficiency_, sufficiency_
 
 from sklearn.metrics import classification_report
@@ -163,7 +163,7 @@ def soft_conduct_tests_(model, data, split, model_random_seed):
 
                             feat_attribution_name = var_alias + "-len_var-feat"
 
-                        rationale_mask = batch_from_dict(
+                        rationale_mask = batch_from_dict_(
                             batch_data = batch,
                             metadata = rationale_metadata,
                             target_key =  f"{length_of_rationale} rationale mask",

@@ -1,5 +1,0 @@
-,0,1,2,3,4,accuracy,macro avg,weighted avg,epoch,point,dev_loss,model-name
-precision,0.30303030303030304,0.0,0.0,0.0,0.0,0.3021978021978022,0.06060606060606061,0.09240759240759241,2,92,12.604926669079324,/home/cass/PycharmProjects/BP-rationales/trained_models/sst_FA/bert5.pt
-recall,0.990990990990991,0.0,0.0,0.0,0.0,0.3021978021978022,0.1981981981981982,0.3021978021978022,2,92,12.604926669079324,/home/cass/PycharmProjects/BP-rationales/trained_models/sst_FA/bert5.pt
-f1-score,0.4641350210970464,0.0,0.0,0.0,0.0,0.3021978021978022,0.09282700421940929,0.14153567951036305,2,92,12.604926669079324,/home/cass/PycharmProjects/BP-rationales/trained_models/sst_FA/bert5.pt
-support,111.0,50.0,46.0,61.0,96.0,0.3021978021978022,364.0,364.0,2,92,12.604926669079324,/home/cass/PycharmProjects/BP-rationales/trained_models/sst_FA/bert5.pt
