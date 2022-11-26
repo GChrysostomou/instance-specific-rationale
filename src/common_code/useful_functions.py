@@ -7,6 +7,7 @@ import numpy as np
 import math
 import json 
 import torch
+import gc
 
 import config.cfg
 from config.cfg import AttrDict
@@ -37,32 +38,31 @@ device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
 def batch_from_dict_(batch_data, metadata, target_key = "original prediction"):
     new_tensor = []
-    print(batch_data)
     for _id_ in batch_data["annotation_id"]:
         
         new_tensor.append(
             metadata[_id_][target_key]
         )
-    print(' ===================  ++++++++++ ')
-    print(len(new_tensor))
-    print(new_tensor[0])
+    # print(' ===================  ++++++++++ ')
+    # print(len(new_tensor))
+    # print(new_tensor[0])
     return torch.tensor(new_tensor)#.to(device)
 
 
-def batch_from_dict_(batch_data, metadata, target_key = "original prediction", extra_layer = None):
-    new_tensor = []
-    for _id_ in batch_data["annotation_id"]:
-        ## for double nested dics
-        if extra_layer :
-            new_tensor.append(
-                metadata[_id_][extra_layer][target_key]
-            )
-        else:
-            #print('no extra layer')
-            new_tensor.append(
-                metadata[_id_][target_key]
-            )
-    return torch.tensor(new_tensor).to(device)
+# def batch_from_dict_(batch_data, metadata, target_key = "original prediction", extra_layer = None):
+#     new_tensor = []
+#     for _id_ in batch_data["annotation_id"]:
+#         ## for double nested dics
+#         if extra_layer :
+#             new_tensor.append(
+#                 metadata[_id_][extra_layer][target_key]
+#             )
+#         else:
+#             #print('no extra layer')
+#             new_tensor.append(
+#                 metadata[_id_][target_key]
+#             )
+#     return torch.tensor(new_tensor).to(device)
 
 
 def wpiece2word(tokenizer, sentence, weights, print_err = False):  
@@ -102,11 +102,11 @@ def wpiece2word(tokenizer, sentence, weights, print_err = False):
 
 def mask_topk(sentences, scores, length_to_mask):
 
-    length_to_mask = torch.topk(scores, length_to_mask)
-    mask = torch.ones(sentences.shape).to(device)
+    length_to_mask = torch.topk(scores, length_to_mask) #.to(device)
+    mask = torch.ones(sentences.shape)
     mask = mask.scatter_(-1,  length_to_mask[1], 0)
 
-    return sentences * mask.long()
+    return sentences * mask.long().to(device)
 
 def mask_contigious(sentences, scores, length_to_mask):
     
@@ -213,3 +213,129 @@ def topk_indxs_(importance_scores, tokens_to_mask):
     top_k = torch.topk(importance_scores, tokens_to_mask).indices
 
     return top_k
+
+
+
+# nlp = spacy.load('en', disable=['parser', 'tagger', 'ner'])
+
+
+def describe_data_stats(path_to_data, path_to_stats):
+    """ 
+    returns dataset statistics such as : 
+                                        - number of documens
+                                        - average sequence length
+                                        - average query length (if QA)
+    """
+
+    descriptions = {"train":{}, "dev":{}, "test":{}}
+    
+    for split_name in descriptions.keys():
+
+        data = pd.read_csv(f"{path_to_data}{split_name}.csv").to_dict("records")
+
+        if "query" in data[0].keys(): 
+
+
+            avg_ctx_len = np.asarray([len(x["document"].split(" ")) for x in data]).mean()
+            avg_query_len = np.asarray([len(x["query"].split(" ")) for x in data]).mean()
+
+            descriptions[split_name]["avg. context length"] = int(avg_ctx_len)
+            descriptions[split_name]["avg. query length"] = int(avg_query_len)
+
+        else:
+
+            avg_seq_len = np.asarray([len(x["text"].split(" ")) for x in data]).mean()
+
+            descriptions[split_name]["avg. sequence length"] = int(avg_seq_len)
+
+        descriptions[split_name]["no. of documents"] = int(len(data))
+        
+        label_nos = np.unique(np.asarray([x["label"] for x in data]), return_counts = True)
+
+        for label, no_of_docs in zip(label_nos[0], label_nos[1]):
+
+            descriptions[split_name][f"docs in label-{label}"] = int(no_of_docs)
+    
+    ## save descriptors
+    fname = path_to_stats + "dataset_statistics.json"
+
+    with open(fname, 'w') as file:
+        
+            json.dump(
+                descriptions,
+                file,
+                indent = 4
+            ) 
+
+
+    del data
+    del descriptions
+    gc.collect()
+
+    return
+
+def encode_plusplus_(data_dict, tokenizer, max_length, *arguments):
+
+    """
+    returns token type ids, padded doc and 
+    """
+
+    ## if len(args)  > 1 that means that we have ctx + query
+    if len(arguments) > 1:
+
+        model_inputs = tokenizer.encode_plus(
+            arguments[0], 
+            arguments[1],
+            add_special_tokens = True,
+            max_length = max_length,
+            padding = 'max_length',
+            return_token_type_ids = True,
+            truncation = True,
+            return_tensors = "pt"             
+        )
+
+        data_dict.update(model_inputs)
+
+        del data_dict["document"]
+        del data_dict["query"]
+
+        ## query mask used_only for rationale extraction and for masking importance metrics
+        ## i.e. keeping only the contxt not the query
+        init_mask_ = torch.where(model_inputs["input_ids"] == tokenizer.sep_token_id)[1][0]
+        fin_mask = model_inputs["input_ids"].size(-1)
+        range_to_zero = torch.arange(init_mask_, fin_mask)
+        model_inputs["query_mask"] = model_inputs["attention_mask"].clone()
+        model_inputs["query_mask"].squeeze(0)[range_to_zero] = 0
+        ## preserve cls token
+        model_inputs["query_mask"].squeeze(0)[0] = 0
+        
+
+    else:
+  
+        model_inputs = tokenizer.encode_plus(
+            arguments[0], 
+            add_special_tokens = True,
+            max_length = max_length,
+            padding = 'max_length',
+            return_token_type_ids = True,
+            truncation = True,
+            return_tensors = "pt"             
+        )
+
+        del data_dict["text"]
+    
+        init_mask_ = torch.where(model_inputs["input_ids"] == tokenizer.sep_token_id)[1][0]
+        model_inputs["query_mask"] = model_inputs["attention_mask"].clone()
+        ## preserve cls token
+        model_inputs["query_mask"].squeeze(0)[0] = 0
+
+    ## context length
+    model_inputs["lengths"] = init_mask_
+    model_inputs["special tokens"] = {
+        "pad_token_id" : tokenizer.pad_token_id,
+        "sep_token_id" : tokenizer.sep_token_id
+    }
+
+    data_dict.update(model_inputs)
+
+    return data_dict

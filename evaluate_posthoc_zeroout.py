@@ -134,7 +134,7 @@ logging.info("\n ----------------------")
 
 
 import glob
-from src.data_functions.dataholder import classification_dataholder, BERT_HOLDER_interpolation
+from src.data_functions.dataholder import BERT_HOLDER, BERT_HOLDER_interpolation
 from src.evaluation import evaluation_pipeline
 
 model_path = os.path.join(
@@ -145,7 +145,7 @@ model_path = os.path.join(
 
 print(model_path)
 
-data = classification_dataholder(
+data = BERT_HOLDER(
     args["data_dir"], 
     stage = "eval",
     b_size = 4,
