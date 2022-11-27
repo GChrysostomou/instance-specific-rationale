@@ -562,19 +562,19 @@ def conduct_tests_(model, data, model_random_seed):
 
 
 def conduct_experiments_zeroout_(model, data, model_random_seed,faithful_method, set):
-
     ## now to create folder where results will be saved
     fname = os.path.join(
         os.getcwd(),
-        args["extracted_rationale_dir"],
-        args["extracted_rationale_dir"],
-        args["thresholder"],
-        #"importance_scores",
+        args["data_dir"],
+        "importance_scores",
         ""
     )
+
     os.makedirs(fname, exist_ok = True)
-    # fname = f"{fname}test_importance_scores-{model_random_seed}.npy"
-    fname = f"{fname}test-rationale_metadata.npy"
+    fname = f"{fname}test_importance_scores_{model_random_seed}.npy"
+
+    
+
     ## retrieve importance scores
     importance_scores = np.load(fname, allow_pickle = True).item()
 
@@ -795,12 +795,13 @@ def conduct_experiments_noise_(model, data, model_random_seed,faithful_method, s
     ## now to create folder where results will be saved
     fname = os.path.join(
         os.getcwd(),
-        args["extracted_rationale_dir"],
-        #"importance_scores",
+        args["data_dir"],
+        "importance_scores",
         ""
     )
+
     os.makedirs(fname, exist_ok = True)
-    fname = f"{fname}test_importance_scores-{model_random_seed}.npy"
+    fname = f"{fname}test_importance_scores_{model_random_seed}.npy"
     ## retrieve importance scores
     importance_scores = np.load(fname, allow_pickle = True).item()
 
@@ -1011,12 +1012,13 @@ def conduct_experiments_attention_(model, data, model_random_seed, std): #faithf
     ## now to create folder where results will be saved
     fname = os.path.join(
         os.getcwd(),
-        args["extracted_rationale_dir"],
-        #"importance_scores",
+        args["data_dir"],
+        "importance_scores",
         ""
     )
+
     os.makedirs(fname, exist_ok = True)
-    fname = f"{fname}test_importance_scores-{model_random_seed}.npy"
+    fname = f"{fname}test_importance_scores_{model_random_seed}.npy"
     ## retrieve importance scores
     importance_scores = np.load(fname, allow_pickle = True).item()
 
