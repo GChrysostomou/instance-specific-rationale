@@ -15,7 +15,7 @@ from config.cfg import AttrDict
 with open(config.cfg.config_directory + 'instance_config.json', 'r') as f:
     args = AttrDict(json.load(f))
 
-from src.models.bert import bert, BertClassifier_soft
+from src.models.bert import BertClassifier_noise, BertClassifier_zeroout, bert, BertClassifier_attention
 from src.variable_rationales.var_length_feat import get_rationale_metadata_
 #from src.variable_rationales.var_type import select_between_types_
 from src.evaluation.experiments.rationale_extractor import rationale_creator_, rationale_creator_rank_, extract_importance_, extract_lime_scores_, extract_shap_values_
@@ -243,8 +243,9 @@ class evaluate():
             model_random_seed = re.sub("bert", "", model_name.split(".pt")[0].split("/")[-1])
 
             ## train neglected as we are evaluating on dev and test
-            for data_split_name, data_split in {"test":  data.test_loader , \
-                                                "dev":  data.dev_loader}.items():
+            for data_split_name, data_split in {"test":  data.test_loader
+                                                #"dev":  data.dev_loader
+                                                }.items():
             
                 conduct_tests_(
                     model = model, 
@@ -482,7 +483,7 @@ class evaluate_zeroout():
             else:
                 tasc_mech = None
             
-            model = BertClassifier_soft(
+            model = BertClassifier_zeroout(
                 output_dim = self.output_dims,
                 tasc = tasc_mech,
                 # faithful_method='comp',

@@ -24,7 +24,7 @@ torch.cuda.manual_seed(25)
 np.random.seed(25)
 
 from src.common_code.useful_functions import batch_from_dict_, create_only_query_mask_, create_rationale_mask_ # batch_from_dict --> batch_from_dict_
-from src.common_code.metrics import normalized_comprehensiveness_, normalized_sufficiency_, sufficiency_
+from src.common_code.metrics import normalized_comprehensiveness_, normalized_sufficiency_, sufficiency_, normalized_comprehensiveness_soft_, normalized_sufficiency_soft_
 
 from sklearn.metrics import classification_report
 
@@ -300,14 +300,8 @@ def conduct_tests_(model, data, model_random_seed):
         "importance_scores",
         ""
     )
-
     os.makedirs(fname, exist_ok = True)
     fname = f"{fname}test_importance_scores_{model_random_seed}.npy"
-
-    #test_importance_scores_sci25
-
-    ## retrieve importance scores
-    
     importance_scores = np.load(fname, allow_pickle = True).item()  ### change it back later fname
 
 
@@ -376,20 +370,14 @@ def conduct_tests_(model, data, model_random_seed):
                 batch_input_ids=batch["input_ids"],
                 special_tokens=batch["special_tokens"]
             )
-
             batch["input_ids"] = only_query_mask * original_sentences
-
         else:
-
             only_query_mask=torch.zeros_like(batch["input_ids"]).long()
-
             batch["input_ids"] = only_query_mask
 
 
         yhat, _  = model(**batch)
-
         yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
-
         reduced_probs = yhat[rows, full_text_class]
 
         ## baseline sufficiency
@@ -453,11 +441,6 @@ def conduct_tests_(model, data, model_random_seed):
                         rows = rows,
                         suff_y_zero = suff_y_zero,
                     )
-                    # print(comp, comp_probs)
-
-                    # print( ' /////////')
-
-                    # print(only_query_mask)
 
                     suff, suff_probs = normalized_sufficiency_(
                         model = model, 
@@ -471,15 +454,6 @@ def conduct_tests_(model, data, model_random_seed):
                         only_query_mask=only_query_mask[0],
                     )
 
-                    # def normalized_sufficiency_(model, 
-                    #         original_sentences : torch.tensor, 
-                    #         rationale_mask : torch.tensor, 
-                    #         inputs : dict, 
-                    #         full_text_probs : np.array, 
-                    #         full_text_class : np.array, 
-                    #         rows : np.array, 
-                    #         suff_y_zero : np.array, 
-                    #         only_query_mask : torch.tensor) -> np.array:
 
                     suff_aopc[:,_i_] = suff
                     comp_aopc[:,_i_] = comp
@@ -562,20 +536,15 @@ def conduct_tests_(model, data, model_random_seed):
 
 
 def conduct_experiments_zeroout_(model, data, model_random_seed,faithful_method, set):
-    ## now to create folder where results will be saved
+    ## ## retrieve importance scores
     fname = os.path.join(
         os.getcwd(),
         args["data_dir"],
         "importance_scores",
         ""
     )
-
     os.makedirs(fname, exist_ok = True)
     fname = f"{fname}test_importance_scores_{model_random_seed}.npy"
-
-    
-
-    ## retrieve importance scores
     importance_scores = np.load(fname, allow_pickle = True).item()
 
     ## retrieve original prediction probability
@@ -586,7 +555,6 @@ def conduct_experiments_zeroout_(model, data, model_random_seed,faithful_method,
     fname2 = glob.glob(fname2 + f"*output*{model_random_seed}.npy")[0]
     original_prediction_output = np.load(fname2, allow_pickle = True).item()
 
-    print(fname2)
 
     desc = 'faithfulness evaluation -> id'
     pbar = trange(len(data) * data.batch_size, desc=desc, leave=True)
@@ -594,7 +562,6 @@ def conduct_experiments_zeroout_(model, data, model_random_seed,faithful_method,
     desired_rationale_length = args.rationale_length
 
     print(f"*** desired_rationale_length --> {desired_rationale_length}")
-
 
     for batch in data:
         
@@ -616,8 +583,6 @@ def conduct_experiments_zeroout_(model, data, model_random_seed,faithful_method,
 
         assert batch["input_ids"].size(0) == len(batch["labels"]), "Error: batch size for item 1 not in correct position"
         
-        # original_prediction, _ =  model(**batch)
-        # original_prediction.max(-1)[0].sum().backward(retain_graph = True)
         original_prediction =  batch_from_dict_(
                     batch_data = batch, 
                     metadata = original_prediction_output, 
@@ -652,16 +617,12 @@ def conduct_experiments_zeroout_(model, data, model_random_seed,faithful_method,
             batch["input_ids"] = only_query_mask * original_sentences
 
         else:
-            # print(' NOT QUERY task')
-            # print('original_sentences', original_sentences)
             only_query_mask=torch.zeros_like(batch["input_ids"]).long()
             # print('only_query_mask', only_query_mask)
             batch["input_ids"] = only_query_mask
 
         
         yhat, _  = model(**batch) # 此时 input id 全为o, 做的baseline ---> suff(x, y', 0)
-        # print('after get the baseline from the first model func, the batch is', batch) #已经是0
-        # quit()
         yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
         reduced_probs = yhat[rows, full_text_class]
 
@@ -672,13 +633,13 @@ def conduct_experiments_zeroout_(model, data, model_random_seed,faithful_method,
         )
 
 
-
+        ###### NO NEED TO DO DIFFERENT LENGTH !!!!!!
         for _j_, annot_id in enumerate(batch["annotation_id"]):
                 
             faithfulness_results[annot_id]["full text prediction"] = original_prediction[_j_] 
             faithfulness_results[annot_id]["true label"] = batch["labels"][_j_].detach().cpu().item()
         
-        for feat_name in {"random", "attention", "scaled attention", "gradients", "ig", "gradientshap",
+        for feat_name in {"random", "attention", "scaled attention", "gradients", "ig", # "gradientshap",
         "deeplift"}: #"ig" ,"lime", "deeplift", "deepliftshap", 
 
             feat_score =  batch_from_dict_(
@@ -686,6 +647,27 @@ def conduct_experiments_zeroout_(model, data, model_random_seed,faithful_method,
                 metadata = importance_scores, 
                 target_key = feat_name,
             )
+
+            if args.query:
+
+                rationale_mask = create_rationale_mask_(
+                    importance_scores = feat_score, 
+                    no_of_masked_tokens = torch.ceil(batch["lengths"].float() * rationale_length).detach().cpu().numpy(),
+                    #method = rationale_type,
+                    batch_input_ids = original_sentences,
+                    #special_tokens = batch["special_tokens"],
+                )
+
+            else:
+
+                rationale_mask = create_rationale_mask_(
+                    importance_scores = feat_score, 
+                    no_of_masked_tokens = torch.ceil(batch["lengths"].float() * rationale_length).detach().cpu().numpy(),
+                    #method = rationale_type
+                )
+
+
+            
 
             #  feat_score is get by new_tensor.append(metadata[_id_][target_key])
 
@@ -695,8 +677,7 @@ def conduct_experiments_zeroout_(model, data, model_random_seed,faithful_method,
             soft_comp, soft_comp_probs  = normalized_comprehensiveness_soft_(
                 model = model, 
                 original_sentences = original_sentences, 
-                # 下面改成了 其实是 importance scores --> feat_score
-                # rationale_mask = feat_score,
+                rationale_mask = rationale_mask, 
                 inputs = batch, 
                 full_text_probs = full_text_probs, 
                 full_text_class = full_text_class, 
@@ -709,7 +690,7 @@ def conduct_experiments_zeroout_(model, data, model_random_seed,faithful_method,
             soft_suff, soft_suff_probs = normalized_sufficiency_soft_(
                 model = model, 
                 original_sentences = original_sentences, 
-                # rationale_mask = feat_score, 
+                rationale_mask = rationale_mask, 
                 inputs = batch, 
                 full_text_probs = full_text_probs, 
                 full_text_class = full_text_class, 
@@ -899,7 +880,7 @@ def conduct_experiments_noise_(model, data, model_random_seed,faithful_method, s
             faithfulness_results[annot_id]["full text prediction"] = original_prediction[_j_] 
             faithfulness_results[annot_id]["true label"] = batch["labels"][_j_].detach().cpu().item()
         
-        for feat_name in {"random", "attention", "gradients", "scaled attention", "ig", "gradientshap",
+        for feat_name in {"random", "attention", "gradients", "scaled attention", "ig",# "gradientshap",
         "deeplift"}: #"ig" ,"lime", "deeplift", "deepliftshap", 
             feat_score =  batch_from_dict_(
                 batch_data = batch, 
@@ -907,6 +888,24 @@ def conduct_experiments_noise_(model, data, model_random_seed,faithful_method, s
                 target_key = feat_name,
             )
             #  feat_score is get by new_tensor.append(metadata[_id_][target_key])
+
+            # if args.query:
+
+            #     rationale_mask = create_rationale_mask_(
+            #         importance_scores = feat_score, 
+            #         no_of_masked_tokens = torch.ceil(batch["lengths"].float() * rationale_length).detach().cpu().numpy(),
+            #         #method = rationale_type,
+            #         batch_input_ids = original_sentences,
+            #         #special_tokens = batch["special_tokens"],
+            #     )
+
+            # else:
+
+            #     rationale_mask = create_rationale_mask_(
+            #         importance_scores = feat_score, 
+            #         no_of_masked_tokens = torch.ceil(batch["lengths"].float() * rationale_length).detach().cpu().numpy(),
+            #         #method = rationale_type
+            #     )
 
             suff_aopc = np.zeros([yhat.shape[0], 1], dtype=np.float64)
             comp_aopc = np.zeros([yhat.shape[0], 1], dtype=np.float64)
@@ -916,6 +915,7 @@ def conduct_experiments_noise_(model, data, model_random_seed,faithful_method, s
             soft_comp, soft_comp_probs  = normalized_comprehensiveness_soft_(
                 model = model, 
                 original_sentences = original_sentences, 
+                #rationale_mask = rationale_mask, 
                 inputs = batch, 
                 full_text_probs = full_text_probs,   
                 full_text_class = full_text_class,  
@@ -926,7 +926,7 @@ def conduct_experiments_noise_(model, data, model_random_seed,faithful_method, s
             soft_suff, soft_suff_probs = normalized_sufficiency_soft_(
                 model = model, 
                 original_sentences = original_sentences, 
-                # rationale_mask = feat_score, 
+                #rationale_mask = rationale_mask, 
                 inputs = batch, 
                 full_text_probs = full_text_probs, 
                 full_text_class = full_text_class, 
@@ -1117,69 +1117,87 @@ def conduct_experiments_attention_(model, data, model_random_seed, std): #faithf
 
 
 
-        for rationale_type in {args.thresholder}:
+        for _j_, annot_id in enumerate(batch["annotation_id"]):
 
+                
+            faithfulness_results[annot_id]["full text prediction"] = original_prediction[_j_] 
+            faithfulness_results[annot_id]["true label"] = batch["labels"][_j_].detach().cpu().item()
+        
+        for feat_name in {"random", "attention", "gradients", "scaled attention", "ig", #"gradientshap",
+        "deeplift"}: # ,"lime", , "deepliftshap", 
+
+            feat_score =  batch_from_dict_(
+                batch_data = batch, 
+                metadata = importance_scores, 
+                target_key = feat_name,
+            )
+
+
+            # if args.query:
+
+            #     rationale_mask = create_rationale_mask_(
+            #         importance_scores = feat_score, 
+            #         no_of_masked_tokens = torch.ceil(batch["lengths"].float() * rationale_length).detach().cpu().numpy(),
+            #         #method = rationale_type,
+            #         batch_input_ids = original_sentences,
+            #         #special_tokens = batch["special_tokens"],
+            #     )
+
+            # else:
+
+            #     rationale_mask = create_rationale_mask_(
+            #         importance_scores = feat_score, 
+            #         no_of_masked_tokens = torch.ceil(batch["lengths"].float() * rationale_length).detach().cpu().numpy(),
+            #         #method = rationale_type
+            #     )
+            #  feat_score is get by new_tensor.append(metadata[_id_][target_key])
+
+            suff_aopc = np.zeros([yhat.shape[0], 1], dtype=np.float64)
+            comp_aopc = np.zeros([yhat.shape[0], 1], dtype=np.float64)
+    
+            # 在这里面决定用 comprehensive 还是 sufficiency
+            soft_comp, soft_comp_probs  = normalized_comprehensiveness_soft_(
+                model = model, 
+                original_sentences = original_sentences, 
+                #rationale_mask = rationale_mask,
+                inputs = batch, 
+                full_text_probs = full_text_probs,   
+                full_text_class = full_text_class,  
+                rows = rows,    
+                importance_scores = feat_score,
+                suff_y_zero = suff_y_zero,
+            )
+            soft_suff, soft_suff_probs = normalized_sufficiency_soft_(
+                model = model, 
+                original_sentences = original_sentences, 
+                #rationale_mask = rationale_mask, 
+                inputs = batch, 
+                full_text_probs = full_text_probs, 
+                full_text_class = full_text_class, 
+                rows = rows,
+                suff_y_zero = suff_y_zero,
+                importance_scores = feat_score,
+                #only_query_mask=only_query_mask,
+            )
+
+                
             for _j_, annot_id in enumerate(batch["annotation_id"]):
-
-                    
-                faithfulness_results[annot_id]["full text prediction"] = original_prediction[_j_] 
-                faithfulness_results[annot_id]["true label"] = batch["labels"][_j_].detach().cpu().item()
-            
-            for feat_name in {"random", "attention", "gradients", "scaled attention", "ig", "gradientshap",
-            "deeplift"}: #"ig" ,"lime", "deeplift", "deepliftshap", 
-
-                feat_score =  batch_from_dict_(
-                    batch_data = batch, 
-                    metadata = importance_scores, 
-                    target_key = feat_name,
-                )
-
-                #  feat_score is get by new_tensor.append(metadata[_id_][target_key])
-
-                suff_aopc = np.zeros([yhat.shape[0], 1], dtype=np.float64)
-                comp_aopc = np.zeros([yhat.shape[0], 1], dtype=np.float64)
-     
-                # 在这里面决定用 comprehensive 还是 sufficiency
-                soft_comp, soft_comp_probs  = normalized_comprehensiveness_soft_(
-                    model = model, 
-                    original_sentences = original_sentences, 
-                    inputs = batch, 
-                    full_text_probs = full_text_probs,   
-                    full_text_class = full_text_class,  
-                    rows = rows,    
-                    importance_scores = feat_score,
-                    suff_y_zero = suff_y_zero,
-                )
-                soft_suff, soft_suff_probs = normalized_sufficiency_soft_(
-                    model = model, 
-                    original_sentences = original_sentences, 
-                    # rationale_mask = feat_score, 
-                    inputs = batch, 
-                    full_text_probs = full_text_probs, 
-                    full_text_class = full_text_class, 
-                    rows = rows,
-                    suff_y_zero = suff_y_zero,
-                    importance_scores = feat_score,
-                )
-
-                    
-                for _j_, annot_id in enumerate(batch["annotation_id"]):
-                    
-                    faithfulness_results[annot_id][feat_name] = {
-                        f"sufficiency" : soft_suff[_j_],
-                        f"comprehensiveness" : soft_comp[_j_],
-                        f"masked R probs (comp)" : soft_comp_probs[_j_].astype(np.float64),
-                        f"only R probs (suff)" : soft_suff_probs[_j_].astype(np.float64),
-                        "sufficiency aopc" : {
-                            "mean" : suff_aopc[_j_],
-                            "per ratio" : suff_aopc[_j_]
-                        },
-                        "comprehensiveness aopc" : {
-                            "mean" : comp_aopc[_j_],
-                            "per ratio" : comp_aopc[_j_]
-                        }
+                
+                faithfulness_results[annot_id][feat_name] = {
+                    f"sufficiency" : soft_suff[_j_],
+                    f"comprehensiveness" : soft_comp[_j_],
+                    f"masked R probs (comp)" : soft_comp_probs[_j_].astype(np.float64),
+                    f"only R probs (suff)" : soft_suff_probs[_j_].astype(np.float64),
+                    "sufficiency aopc" : {
+                        "mean" : suff_aopc[_j_],
+                        "per ratio" : suff_aopc[_j_]
+                    },
+                    "comprehensiveness aopc" : {
+                        "mean" : comp_aopc[_j_],
+                        "per ratio" : comp_aopc[_j_]
                     }
-            
+                }
+        
            
         pbar.update(data.batch_size)
 
@@ -1187,7 +1205,7 @@ def conduct_experiments_attention_(model, data, model_random_seed, std): #faithf
     descriptor = {}
 
     # filling getting averages
-    for feat_attr in {"random", "attention", "scaled attention", "ig", "gradients", "gradientshap", "deeplift"}: #"ig", "lime","deepliftshap",
+    for feat_attr in {"random", "attention", "scaled attention", "ig", "gradients", "deeplift"}: #"gradientshap", "lime","deepliftshap",
         
         sufficiencies = np.asarray([faithfulness_results[k][feat_attr][f"sufficiency"] for k in faithfulness_results.keys()])
         comprehensivenesses = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness"] for k in faithfulness_results.keys()])

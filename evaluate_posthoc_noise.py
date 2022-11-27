@@ -30,8 +30,8 @@ parser.add_argument(
     "--dataset", 
     type = str, 
     help = "select dataset / task", 
-    default = "agnews",
-    # choices = ["evinf", "agnews", "SST","IMDB", "Yelp", "AmazDigiMu", "AmazPantry", "AmazInstr", "fc1", "fc2", "fc3"]
+    default = "sst",
+    # choices = ["evinf", "agnews", "sst","IMDB", "Yelp", "AmazDigiMu", "AmazPantry", "AmazInstr", "fc1", "fc2", "fc3"]
 )
 
 parser.add_argument(
@@ -92,7 +92,7 @@ parser.add_argument(
     "--std", 
     type = float, 
     help = "decide noise density, the higher the smaller noise, 1 is the normal distribution", 
-    default = 0.05, 
+    default = 1, 
 )
 
 

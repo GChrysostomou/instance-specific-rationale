@@ -202,24 +202,26 @@ def normalized_comprehensiveness_(model, original_sentences : torch.tensor, rati
 
 def normalized_sufficiency_soft_(model, 
                             original_sentences : torch.tensor, 
-                            rationale_mask : torch.tensor, 
+                            # rationale_mask : torch.tensor, # by Cass, 这里用上rationale nikos想要的
                             inputs : dict, 
                             full_text_probs : np.array, 
                             full_text_class : np.array, 
                             rows : np.array, 
                             suff_y_zero : np.array, 
-                            only_query_mask : torch.tensor,
+                            #only_query_mask : torch.tensor,
                             importance_scores: torch.tensor,
                             ) -> np.array:
 
     ## for sufficiency we always keep the rationale
     ## since ones represent rationale tokens
     ## preserve cls
-    rationale_mask[:,0] = 1
+    #rationale_mask[:,0] = 1
     ## preserve sep
-    rationale_mask[torch.arange(rationale_mask.size(0)).to(device), inputs["lengths"]] = 1
+    #rationale_mask[torch.arange(rationale_mask.size(0)).to(device), inputs["lengths"]] = 1
     
-    inputs["input_ids"]  =  (rationale_mask + only_query_mask) * original_sentences
+    #inputs["input_ids"]  =  (rationale_mask + only_query_mask) * original_sentences
+    inputs["input_ids"]  =  original_sentences
+
     
     inputs["faithful_method"]="soft_suff"           # for soft, by cass
     inputs["importance_scores"]=importance_scores   # for soft, by cass
@@ -242,20 +244,22 @@ def normalized_sufficiency_soft_(model,
     return norm_suff, reduced_probs
 
 
-def normalized_comprehensiveness_soft_(model, original_sentences : torch.tensor, rationale_mask : torch.tensor, 
+def normalized_comprehensiveness_soft_(model, original_sentences : torch.tensor, #rationale_mask : torch.tensor, 
                                   inputs : dict, full_text_probs : np.array, full_text_class : np.array, rows : np.array, 
                                   suff_y_zero : np.array,
                                   importance_scores: torch.tensor,) -> np.array:
     
     ## for comprehensivness we always remove the rationale and keep the rest of the input
     ## since ones represent rationale tokens, invert them and multiply the original input
-    rationale_mask = (rationale_mask == 0)
-    ## preserve cls
-    rationale_mask[:,0] = 1
-    ## preserve sep
-    rationale_mask[torch.arange(rationale_mask.size(0)).to(device), inputs["lengths"]] = 1
+    # rationale_mask = (rationale_mask == 0)
+    # ## preserve cls
+    # rationale_mask[:,0] = 1
+    # ## preserve sep
+    # rationale_mask[torch.arange(rationale_mask.size(0)).to(device), inputs["lengths"]] = 1
 
-    inputs["input_ids"] =  original_sentences * rationale_mask.long()
+    #inputs["input_ids"] =  original_sentences * rationale_mask.long()
+
+    inputs["input_ids"] =  original_sentences
     inputs["faithful_method"]="soft_comp"
     inputs["importance_scores"]=importance_scores
     inputs["add_noise"] = True
