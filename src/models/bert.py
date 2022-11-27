@@ -133,7 +133,7 @@ class bert(nn.Module):  # equal to "BertClassifier"
 class BertClassifier_zeroout(nn.Module):
     def __init__(self, output_dim = 2, dropout=0.1, tasc = None):
         
-        super(BertClassifier_soft, self).__init__()
+        super(BertClassifier_zeroout, self).__init__()
 
         self.output_dim = output_dim        
         self.dropout = dropout
@@ -172,11 +172,7 @@ class BertClassifier_zeroout(nn.Module):
             importance_scores = inputs["importance_scores"],
             faithful_method = inputs["faithful_method"],
         )
-        # print(' HERE, finish one forward/one wrapper func')
-        # print('inputs["input_ids"] inside classifier and AFTER wrapper   --->', 
-                # inputs["input_ids"])  
-                # 这里OKAY， 但是第二次就不okay了
-        # to retain gradients
+
         self.weights_or = attention_weights[-1]
 
         if inputs["retain_gradient"]:

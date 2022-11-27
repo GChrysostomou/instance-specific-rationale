@@ -648,23 +648,23 @@ def conduct_experiments_zeroout_(model, data, model_random_seed,faithful_method,
                 target_key = feat_name,
             )
 
-            if args.query:
+            # if args.query:
 
-                rationale_mask = create_rationale_mask_(
-                    importance_scores = feat_score, 
-                    no_of_masked_tokens = torch.ceil(batch["lengths"].float() * rationale_length).detach().cpu().numpy(),
-                    #method = rationale_type,
-                    batch_input_ids = original_sentences,
-                    #special_tokens = batch["special_tokens"],
-                )
+            #     rationale_mask = create_rationale_mask_(
+            #         importance_scores = feat_score, 
+            #         no_of_masked_tokens = torch.ceil(batch["lengths"].float() * rationale_length).detach().cpu().numpy(),
+            #         #method = rationale_type,
+            #         batch_input_ids = original_sentences,
+            #         #special_tokens = batch["special_tokens"],
+            #     )
 
-            else:
+            # else:
 
-                rationale_mask = create_rationale_mask_(
-                    importance_scores = feat_score, 
-                    no_of_masked_tokens = torch.ceil(batch["lengths"].float() * rationale_length).detach().cpu().numpy(),
-                    #method = rationale_type
-                )
+            #     rationale_mask = create_rationale_mask_(
+            #         importance_scores = feat_score, 
+            #         no_of_masked_tokens = torch.ceil(batch["lengths"].float() * rationale_length).detach().cpu().numpy(),
+            #         #method = rationale_type
+            #     )
 
 
             
@@ -677,7 +677,7 @@ def conduct_experiments_zeroout_(model, data, model_random_seed,faithful_method,
             soft_comp, soft_comp_probs  = normalized_comprehensiveness_soft_(
                 model = model, 
                 original_sentences = original_sentences, 
-                rationale_mask = rationale_mask, 
+                #rationale_mask = rationale_mask, 
                 inputs = batch, 
                 full_text_probs = full_text_probs, 
                 full_text_class = full_text_class, 
@@ -690,7 +690,7 @@ def conduct_experiments_zeroout_(model, data, model_random_seed,faithful_method,
             soft_suff, soft_suff_probs = normalized_sufficiency_soft_(
                 model = model, 
                 original_sentences = original_sentences, 
-                rationale_mask = rationale_mask, 
+                #rationale_mask = rationale_mask, 
                 inputs = batch, 
                 full_text_probs = full_text_probs, 
                 full_text_class = full_text_class, 
@@ -723,7 +723,7 @@ def conduct_experiments_zeroout_(model, data, model_random_seed,faithful_method,
     descriptor = {}
 
     # filling getting averages
-    for feat_attr in {"random", "attention", "scaled attention", "ig", "gradients", "gradientshap", "deeplift"}: #"ig", "lime","deepliftshap",
+    for feat_attr in {"random", "attention", "scaled attention", "ig", "gradients", "deeplift"}: #"gradientshap", "lime","deepliftshap",
         
         sufficiencies = np.asarray([faithfulness_results[k][feat_attr][f"sufficiency"] for k in faithfulness_results.keys()])
         comprehensivenesses = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness"] for k in faithfulness_results.keys()])
@@ -960,7 +960,7 @@ def conduct_experiments_noise_(model, data, model_random_seed,faithful_method, s
     descriptor = {}
 
     # filling getting averages
-    for feat_attr in {"random", "attention", "scaled attention", "ig", "gradients", "gradientshap", "deeplift"}: #"ig", "lime","deepliftshap",
+    for feat_attr in {"random", "attention", "scaled attention", "ig", "gradients", "deeplift"}: #"ig", "lime","deepliftshap",
         
         sufficiencies = np.asarray([faithfulness_results[k][feat_attr][f"sufficiency"] for k in faithfulness_results.keys()])
         comprehensivenesses = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness"] for k in faithfulness_results.keys()])
