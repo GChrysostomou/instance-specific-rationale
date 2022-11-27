@@ -150,11 +150,11 @@ class evaluate():
             self.model_random_seed = re.sub("bert", "", model_name.split(".pt")[0].split("/")[-1])
 
             ## train neglected as we are evaluating on dev and test
-            for data_split_name, data_split in {"test":  data.test_loader , \
+            for data_split_name, data_split in {"test":  data.test_loader # , # \
                                                 
-                                                "dev":  data.dev_loader}.items():
+                                                # "dev":  data.dev_loader
                                                 # added "train" only for creating FA --> "train": data.train_loader, \
-
+                                                }.items():
                 ## register importance scores if they do not exist
                 self.register_importance_(
                     data = data_split,
@@ -192,14 +192,14 @@ class evaluate():
                     data = data_split,
                     data_split_name = data_split_name,
                     tokenizer = data.tokenizer,
-                    variable = False
+                    #variable = False
                 )
 
                 rationale_creator_(
                     data = data_split,
                     data_split_name = data_split_name,
                     tokenizer = data.tokenizer,
-                    variable = True
+                    #variable = True
                 )
 
             except:
@@ -250,7 +250,7 @@ class evaluate():
                     model = model, 
                     data = data_split,
                     model_random_seed = model_random_seed,
-                    split = data_split_name
+                    # split = data_split_name
                 )
 
         return

@@ -187,30 +187,30 @@ def test_predictive_performance(test_data_loader, for_rationale = False, output_
                 save_output_probs = save_output_probs,
                 random_seed = seed,
                 for_rationale = for_rationale,
-                variable = variable
+                #variable = variable
             )
 
         ## save stats of evaluated model
 
         df = pd.DataFrame.from_dict(test_results)
 
-        if for_rationale:
+        # if for_rationale:
 
-            if variable:
+        #     if variable:
                 
-                df.to_csv(os.path.join(args["model_dir"], args["thresholder"], "")  +"/model_run_stats/" + args["importance_metric"] + "_" +  args["model_abbreviation"] + "_best_model_test_seed:" + seed + "-variable.csv")
+        #         df.to_csv(os.path.join(args["model_dir"], args["thresholder"], "")  +"/model_run_stats/" + args["importance_metric"] + "_" +  args["model_abbreviation"] + "_best_model_test_seed:" + seed + "-variable.csv")
 
-            else:
+        #     else:
             
-                df.to_csv(os.path.join(args["model_dir"], args["thresholder"], "")  +"/model_run_stats/" + args["importance_metric"] + "_" +  args["model_abbreviation"] + "_best_model_test_seed:" + seed + ".csv")
+        #         df.to_csv(os.path.join(args["model_dir"], args["thresholder"], "")  +"/model_run_stats/" + args["importance_metric"] + "_" +  args["model_abbreviation"] + "_best_model_test_seed:" + seed + ".csv")
 
-        elif variable: 
+        # elif variable: 
             
-            df.to_csv(args["model_dir"]  +"/model_run_stats/" + args["model_abbreviation"] + "_best_model_test-variable_seed:" + seed + ".csv")
+        #     df.to_csv(args["model_dir"]  +"/model_run_stats/" + args["model_abbreviation"] + "_best_model_test-variable_seed:" + seed + ".csv")
 
-        else:
+        # else:
 
-            df.to_csv(args["model_dir"]  +"/model_run_stats/" + args["model_abbreviation"] + "_best_model_test_seed:" + seed + ".csv")
+        df.to_csv(args["model_dir"]  +"/model_run_stats/" + args["model_abbreviation"] + "_best_model_test_seed:" + seed + ".csv")
      
         
 

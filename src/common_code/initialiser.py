@@ -45,9 +45,9 @@ def prepare_config(user_args : dict, stage : str = "train") -> dict:
 
   if stage == "extract":
 
-    if user_args["extract_double"]:
+    # if user_args["extract_double"]:
 
-      user_args["extracted_rationale_dir"] = "double_" + user_args["extracted_rationale_dir"]
+    #   user_args["extracted_rationale_dir"] = "double_" + user_args["extracted_rationale_dir"]
 
     extract_dir = os.path.join(
         os.getcwd(), 
@@ -117,11 +117,11 @@ def prepare_config(user_args : dict, stage : str = "train") -> dict:
             "query": query
   })
 
-  if "extract_double" not in user_args: user_args["extract_double"] = None
+  # if "extract_double" not in user_args: user_args["extract_double"] = None
 
-  if user_args["extract_double"]:
+  # if user_args["extract_double"]:
 
-    comb_args["rationale_length"] = comb_args["rationale_length"]*2.
+  #   comb_args["rationale_length"] = comb_args["rationale_length"]*2.
 
   #### saving config file for this run
   with open(config.cfg.config_directory + 'instance_config.json', 'w') as file:

@@ -66,19 +66,19 @@ parser.add_argument(
     choices = ["fixed", "instance-specific"]
 )
 
-parser.add_argument(
-    "--divergence", 
-    type = str, 
-    help = "divergence metric used to compute variable rationales", 
-    default = "jsd",
-    choices = ["jsd", "kldiv", "perplexity", "classdiff"]
-)
+# parser.add_argument(
+#     "--divergence", 
+#     type = str, 
+#     help = "divergence metric used to compute variable rationales", 
+#     default = "jsd",
+#     choices = ["jsd", "kldiv", "perplexity", "classdiff"]
+# )
 
-parser.add_argument(
-    '--extract_double', 
-    help='for testing at larger rationale lengths', 
-    action='store_true'
-)
+# parser.add_argument(
+#     '--extract_double', 
+#     help='for testing at larger rationale lengths', 
+#     action='store_true'
+# )
 
 user_args = vars(parser.parse_args())
 
@@ -121,6 +121,10 @@ logging.info("\n ----------------------")
 from src.data_functions.dataholder import BERT_HOLDER 
 from src.evaluation import evaluation_pipeline
 
+
+
+
+
 data = BERT_HOLDER(
     args["data_dir"], 
     b_size = args["batch_size"],
@@ -138,9 +142,9 @@ print(' ============================ ')
 print(' prepare_for_rationale_creation_ ')
 evaluator.prepare_for_rationale_creation_(data)
 
-#evaluator.register_importance_(data, data_split_name='test', no_of_labels=data.nu_of_labels, max_seq_len=data.max_len, tokenizer=data.tokenizer) 
+evaluator.register_importance_(data, data_split_name='test', no_of_labels=data.nu_of_labels, max_seq_len=data.max_len, tokenizer=data.tokenizer) 
 # changed by cass as .prepare_for_rationale_creation_ includes .register_importance_
-evaluator.create_rationales_(data)
+#evaluator.create_rationales_(data)
 
 del data
 del evaluator

@@ -19,27 +19,13 @@ with open(config.cfg.config_directory + 'instance_config.json', 'r') as f:
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
 
-# def move_to(obj, device):
-#   if torch.is_tensor(obj):
-#     return obj.to(device)
-#   elif isinstance(obj, dict):
-#     res = {}
-#     for k, v in obj.items():
-#       res[k] = move_to(v, device)
-#     return res
-#   elif isinstance(obj, list):
-#     res = []
-#     for v in obj:
-#       res.append(move_to(v, device))
-#     return res
-#   else:
-#     raise TypeError("Invalid type for move_to")
-
 
 def batch_from_dict_(batch_data, metadata, target_key = "original prediction"):
     new_tensor = []
     for _id_ in batch_data["annotation_id"]:
-        
+        # print(batch_data.keys())
+        # print(batch_data.get('test_564'))
+        # "annotatiion_id" "input_ids" "lengths" "labels" "token_type_ides" "attention_mask" "query_mask" "special_tokens"
         new_tensor.append(
             metadata[_id_][target_key]
         )
