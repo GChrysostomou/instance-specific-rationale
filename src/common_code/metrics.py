@@ -159,7 +159,7 @@ def normalized_sufficiency_(model,
 
     norm_suff = np.clip( norm_suff, a_min = 0, a_max = 1)
 
-    return norm_suff
+    return norm_suff, yhat
 
 def comprehensiveness_(full_text_probs : np.array, reduced_probs : np.array) -> np.array:
 

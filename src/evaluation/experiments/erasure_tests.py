@@ -23,7 +23,7 @@ torch.manual_seed(25)
 torch.cuda.manual_seed(25)
 np.random.seed(25)
 
-from src.common_code.useful_functions import batch_from_dict_, create_only_query_mask_ # batch_from_dict --> batch_from_dict_
+from src.common_code.useful_functions import batch_from_dict_, create_only_query_mask_, create_rationale_mask_ # batch_from_dict --> batch_from_dict_
 from src.common_code.metrics import normalized_comprehensiveness_, normalized_sufficiency_, sufficiency_
 
 from sklearn.metrics import classification_report
@@ -302,10 +302,13 @@ def conduct_tests_(model, data, model_random_seed):
     )
 
     os.makedirs(fname, exist_ok = True)
-    fname = f"{fname}test_importance_scores-{model_random_seed}.npy"
+    fname = f"{fname}test_importance_scores_{model_random_seed}.npy"
+
+    #test_importance_scores_sci25
 
     ## retrieve importance scores
-    importance_scores = np.load(fname, allow_pickle = True).item()
+    
+    importance_scores = np.load(fname, allow_pickle = True).item()  ### change it back later fname
 
 
 ## retrieve original prediction probability
@@ -423,12 +426,12 @@ def conduct_tests_(model, data, model_random_seed):
                     ## the query and we DO NOT mask it
                     if args.query:
 
-                        rationale_mask = create_only_query_mask_(
+                        rationale_mask = create_rationale_mask_(
                             importance_scores = feat_score, 
                             no_of_masked_tokens = torch.ceil(batch["lengths"].float() * rationale_length).detach().cpu().numpy(),
                             method = rationale_type,
                             batch_input_ids = original_sentences,
-                            special_tokens = batch["special_tokens"],
+                            #special_tokens = batch["special_tokens"],
                         )
 
                     else:
@@ -448,8 +451,13 @@ def conduct_tests_(model, data, model_random_seed):
                         full_text_probs = full_text_probs, 
                         full_text_class = full_text_class, 
                         rows = rows,
-                        suff_y_zero = suff_y_zero
+                        suff_y_zero = suff_y_zero,
                     )
+                    # print(comp, comp_probs)
+
+                    # print( ' /////////')
+
+                    # print(only_query_mask)
 
                     suff, suff_probs = normalized_sufficiency_(
                         model = model, 
@@ -459,8 +467,19 @@ def conduct_tests_(model, data, model_random_seed):
                         full_text_probs = full_text_probs, 
                         full_text_class = full_text_class, 
                         rows = rows,
-                        suff_y_zero = suff_y_zero
+                        suff_y_zero = suff_y_zero,
+                        only_query_mask=only_query_mask[0],
                     )
+
+                    # def normalized_sufficiency_(model, 
+                    #         original_sentences : torch.tensor, 
+                    #         rationale_mask : torch.tensor, 
+                    #         inputs : dict, 
+                    #         full_text_probs : np.array, 
+                    #         full_text_class : np.array, 
+                    #         rows : np.array, 
+                    #         suff_y_zero : np.array, 
+                    #         only_query_mask : torch.tensor) -> np.array:
 
                     suff_aopc[:,_i_] = suff
                     comp_aopc[:,_i_] = comp
@@ -496,8 +515,8 @@ def conduct_tests_(model, data, model_random_seed):
             
     descriptor = {}
     # filling getting averages
-    for feat_attr in {"random", "attention", "scaled attention", "ig", "gradients", "gradientshap",
-            "deeplift"}: #"ig", "lime",
+    for feat_attr in {"random", "attention", "scaled attention", "ig", "gradients", 
+            "deeplift"}: #"ig", "gradientshap", , "lime"
         
         sufficiencies = np.asarray([faithfulness_results[k][feat_attr][f"sufficiency @ {desired_rationale_length}"] for k in faithfulness_results.keys()])
         comprehensivenesses = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness @ {desired_rationale_length}"] for k in faithfulness_results.keys()])
@@ -795,8 +814,7 @@ def conduct_experiments_noise_(model, data, model_random_seed,faithful_method, s
 
     original_prediction_output = np.load(fname2, allow_pickle = True).item()
     # 'test_1417': {'predicted': array([ 1.7342604, -1.8030814], dtype=float32), 'actual': 0}},
-    print(' /////////////////// original_prediction_output get test_ ////////')
-    print(original_prediction_output.get('test_14171'))
+
     desc = 'faithfulness evaluation -> id'
     pbar = trange(len(data) * data.batch_size, desc=desc, leave=True)
     faithfulness_results = {}

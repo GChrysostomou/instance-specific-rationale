@@ -18,11 +18,28 @@ with open(config.cfg.config_directory + 'instance_config.json', 'r') as f:
 
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
+def contigious_(importance_scores, tokens_to_mask):
+
+    ngram = torch.stack([importance_scores[i:i + tokens_to_mask] for i in range(len(importance_scores) - tokens_to_mask + 1)])
+    indxs = [torch.arange(i, i+tokens_to_mask) for i in range(len(importance_scores) - tokens_to_mask + 1)]
+    top_k = indxs[ngram.sum(-1).argmax()]
+
+    return top_k
+
+def topk_(importance_scores, tokens_to_mask):
+
+    top_k = torch.topk(importance_scores, tokens_to_mask).indices
+
+    return top_k
 
 
 def batch_from_dict_(batch_data, metadata, target_key = "original prediction"):
     new_tensor = []
     for _id_ in batch_data["annotation_id"]:
+        # print(' ===================  ++++++++++ ')
+        # print(batch_data)
+        # print(' ===================  ++++++++++ ')
+        # print(metadata.keys())
         # print(batch_data.keys())
         # print(batch_data.get('test_564'))
         # "annotatiion_id" "input_ids" "lengths" "labels" "token_type_ides" "attention_mask" "query_mask" "special_tokens"
@@ -33,22 +50,6 @@ def batch_from_dict_(batch_data, metadata, target_key = "original prediction"):
     # print(len(new_tensor))
     # print(new_tensor[0])
     return torch.tensor(new_tensor)#.to(device)
-
-
-# def batch_from_dict_(batch_data, metadata, target_key = "original prediction", extra_layer = None):
-#     new_tensor = []
-#     for _id_ in batch_data["annotation_id"]:
-#         ## for double nested dics
-#         if extra_layer :
-#             new_tensor.append(
-#                 metadata[_id_][extra_layer][target_key]
-#             )
-#         else:
-#             #print('no extra layer')
-#             new_tensor.append(
-#                 metadata[_id_][target_key]
-#             )
-#     return torch.tensor(new_tensor).to(device)
 
 
 def wpiece2word(tokenizer, sentence, weights, print_err = False):  
@@ -126,9 +127,9 @@ def mask_contigious(sentences, scores, length_to_mask):
 
 
 def create_rationale_mask_(
-        importance_scores : torch.tensor, 
-        no_of_masked_tokens : np.ndarray,
-        method : str = "topk"
+        importance_scores = torch.tensor, 
+        no_of_masked_tokens = np.ndarray,
+        method = "topk", batch_input_ids = None
     ):
 
     rationale_mask = []
@@ -141,17 +142,17 @@ def create_rationale_mask_(
         ## if contigious or not a unigram (unigram == topk of 1)
         if method == "contigious" and tokens_to_mask > 1:
 
-            top_k = contigious_indxs_(
+            top_k = contigious_(
                 importance_scores = score,
                 tokens_to_mask = tokens_to_mask
             )
         
         else:
 
-            top_k = topk_indxs_(
+            top_k = topk_(
                 importance_scores = score,
                 tokens_to_mask = tokens_to_mask
-            )
+            ) # get topk indice
 
         ## create the instance specific mask
         ## 1 represents the rationale :)
@@ -159,14 +160,29 @@ def create_rationale_mask_(
         mask = torch.zeros(score.shape).to(device)
         mask = mask.scatter_(-1,  top_k.to(device), 1).long()
 
+        ## now if we have a query we need to preserve the query in the mask
+        if batch_input_ids is not None:
+            
+            sos_eos = torch.where(batch_input_ids[_i_] == 102)[0]
+            print(len(batch_input_ids[_i_]))
+            print(' ============')
+            print(sos_eos)
+            seq_length = sos_eos[0]
+            query_end = sos_eos[1]
+
+            mask[seq_length: query_end+1] = 1 
+
         rationale_mask.append(mask)
 
     rationale_mask = torch.stack(rationale_mask).to(device)
 
     return rationale_mask
 
-## used for preserving queries
-def create_only_query_mask_(batch_input_ids : torch.tensor, special_tokens : dict):
+# ## used for preserving queries
+def create_only_query_mask_(
+    batch_input_ids : torch.tensor, 
+    special_tokens : dict,
+    ):
 
     query_mask = []
 
@@ -185,6 +201,7 @@ def create_only_query_mask_(batch_input_ids : torch.tensor, special_tokens : dic
     query_mask = torch.stack(query_mask).to(device)
 
     return query_mask.long()
+
 
 def contigious_indxs_(importance_scores, tokens_to_mask):
 
