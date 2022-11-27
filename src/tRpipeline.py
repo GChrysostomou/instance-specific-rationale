@@ -43,7 +43,7 @@ from src.common_code.train_test import train_model, test_model
 ## select model depending on if normal bert
     ## or rationalizer 
 
-def train_and_save(train_data_loader, dev_data_loader, for_rationale = False, output_dims = 2, variable = False):
+def train_and_save(train_data_loader, dev_data_loader, for_rationale = False, output_dims = 2): #, variable = False
 
   
     """
@@ -76,23 +76,14 @@ def train_and_save(train_data_loader, dev_data_loader, for_rationale = False, ou
 
     if for_rationale:
 
-        if variable:
-
-            saving_model = os.path.join(args["model_dir"], args["thresholder"], "") + args["importance_metric"] + "_" + args["model_abbreviation"] + str(args["seed"]) + "-variable.pt"
-
-
-        else:
-
-            saving_model = os.path.join(args["model_dir"], args["thresholder"], "") + args["importance_metric"] + "_" + args["model_abbreviation"] + str(args["seed"]) + ".pt"
+        saving_model = os.path.join(args["model_dir"], args["thresholder"], "") + args["importance_metric"] + "_" + args["model_abbreviation"] + str(args["seed"]) + ".pt"
 
     else:
 
         saving_model = args["model_dir"] +  args["model_abbreviation"] + str(args["seed"]) + ".pt"
 
-    dev_results, results_to_save = train_model(classifier, train_data_loader, dev_data_loader, loss_function, optimiser,seed = str(args["seed"],
-        run = str(args["seed"]), epochs = args["epochs"], cutoff = False, save_folder = saving_model, 
-        cutoff_len = 2
-        )
+    dev_results, results_to_save = train_model(classifier, train_data_loader, dev_data_loader, loss_function, optimiser,seed = str(args["seed"]),
+        run = str(args["seed"]), epochs = args["epochs"], cutoff = False, save_folder = saving_model, cutoff_len = 2,
     )
     # def train_model(model, training, development, loss_function, optimiser, seed,
             # run, epochs = 10, cutoff = True, save_folder  = None, 
@@ -101,13 +92,7 @@ def train_and_save(train_data_loader, dev_data_loader, for_rationale = False, ou
 
     if for_rationale:
 
-        if variable:
-
-            text_file = open(os.path.join(args["model_dir"], args["thresholder"], "")  + "model_run_stats/" + args["importance_metric"] + "_" + args["model_abbreviation"] + "_seed_" + str(args["seed"]) + "-variable.txt", "w")
-
-        else:
-
-            text_file = open(os.path.join(args["model_dir"], args["thresholder"], "")  + "model_run_stats/" + args["importance_metric"] + "_" + args["model_abbreviation"] + "_seed_" + str(args["seed"]) + ".txt", "w")
+        text_file = open(os.path.join(args["model_dir"], args["thresholder"], "")  + "model_run_stats/" + args["importance_metric"] + "_" + args["model_abbreviation"] + "_seed_" + str(args["seed"]) + ".txt", "w")
 
     else:
 
@@ -141,7 +126,7 @@ import re
 from src.common_code.metrics import uncertainty_metrics
 
 
-def test_predictive_performance(test_data_loader, for_rationale = False, output_dims = 2, save_output_probs = True, variable = False):    
+def test_predictive_performance(test_data_loader, for_rationale = False, output_dims = 2, save_output_probs = True):   # , variable = False
 
     """
     Runs trained models on test set
@@ -231,8 +216,8 @@ def test_predictive_performance(test_data_loader, for_rationale = False, output_
         unc_metr = uncertainty_metrics(
                                         data = test_predictions, 
                                         save_dir = model.split(".")[0], #remove .pt
-                                        variable = variable
-                                    )
+                                        
+                                    ) # variable = variable
 
         ece_stats = unc_metr.ece()
 
@@ -253,17 +238,7 @@ def test_predictive_performance(test_data_loader, for_rationale = False, output_
 
     if for_rationale:
 
-        if variable: 
-
-            fname = os.path.join(args["model_dir"], args["thresholder"], "") + args["importance_metric"] + "_" + args["model_abbreviation"] + "_predictive_performances-variable.json"
-        
-        else:
-            
-            fname = os.path.join(args["model_dir"], args["thresholder"], "") + args["importance_metric"] + "_" + args["model_abbreviation"] + "_predictive_performances.json"
-
-    elif variable: 
-            
-        fname =  args["model_dir"] + args["model_abbreviation"] + "_predictive_performances-variable.json"
+        fname = os.path.join(args["model_dir"], args["thresholder"], "") + args["importance_metric"] + "_" + args["model_abbreviation"] + "_predictive_performances.json"
 
     else:
     
@@ -280,19 +255,14 @@ def test_predictive_performance(test_data_loader, for_rationale = False, output_
     df = pd.DataFrame(stats_report) # bug for run FA --> by cass
 
     if for_rationale:
-        if variable: 
-            df.to_csv(os.path.join(args["model_dir"], args["thresholder"], "") + args["importance_metric"] + "_" + args["model_abbreviation"] + "_predictive_performances-variable.csv")
-        else:
-            df.to_csv(os.path.join(args["model_dir"], args["thresholder"], "") + args["importance_metric"] + "_" + args["model_abbreviation"] + "_predictive_performances.csv")
+        df.to_csv(os.path.join(args["model_dir"], args["thresholder"], "") + args["importance_metric"] + "_" + args["model_abbreviation"] + "_predictive_performances.csv")
     
-    elif variable:        
-        df.to_csv(args["model_dir"] + args["model_abbreviation"] + "_predictive_performances-variable.csv")
     else:
         df.to_csv(args["model_dir"] + args["model_abbreviation"] + "_predictive_performances.csv")
     return stats_report
 
 
-def test_predictive_performance_rank(test_data_loader, for_rationale = False, output_dims = 2, save_output_probs = True, variable = False):    
+def test_predictive_performance_rank(test_data_loader, for_rationale = False, output_dims = 2, save_output_probs = True):    # , variable = False
 
     """
     Runs trained models on test set
@@ -338,7 +308,7 @@ def test_predictive_performance_rank(test_data_loader, for_rationale = False, ou
                 save_output_probs = save_output_probs,
                 random_seed = seed,
                 for_rationale = for_rationale,
-                variable = variable
+                #variable = variable
             )
 
         ## save stats of evaluated model
@@ -372,7 +342,7 @@ def test_predictive_performance_rank(test_data_loader, for_rationale = False, ou
         unc_metr = uncertainty_metrics(
                                         data = test_predictions, 
                                         save_dir = model.split(".")[0], #remove .pt
-                                        variable = variable
+                                        #variable = variable
                                     )
 
         ece_stats = unc_metr.ece()

@@ -159,5 +159,5 @@ else:
         train_data_loader = data.train_loader, 
         dev_data_loader = data.dev_loader, 
         for_rationale = False, 
-        output_dims = data.nu_of_labels
-    )
+        output_dims = data.nu_of_labels,
+    ) # train_and_save(train_data_loader, dev_data_loader, for_rationale = False, output_dims = 2, variable = False):

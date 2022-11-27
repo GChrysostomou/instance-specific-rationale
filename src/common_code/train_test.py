@@ -167,13 +167,13 @@ def test_model(model, loss_function, data, save_output_probs = True, random_seed
         np.save(fname, to_save_probs)
 
         return results, (total_loss * data.batch_size / len(data)) , to_save_probs
-       
+
     return results, (total_loss * data.batch_size / len(data)) 
 
 
 def train_model(model, training, development, loss_function, optimiser, seed,
-            run, epochs = 10, cutoff = True, save_folder  = None, 
-            cutoff_len = 2):
+            run, epochs = 10, cutoff_len = 2, cutoff = True, save_folder  = None, 
+            ):
     
     """ 
     Trains the model and saves it at required path
@@ -277,11 +277,11 @@ def train_model(model, training, development, loss_function, optimiser, seed,
             pbar.refresh()
                 
             if checks % every == 0:
-
-                dev_results, dev_loss = test_model(
+                # def test_model(model, loss_function, data, save_output_probs = True, random_seed = None, for_rationale = False, variable = False):
+                dev_results, dev_loss, dev_prob = test_model(
                     model = model, 
                     loss_function = loss_function, 
-                    data = development
+                    data = development,
                 )
 
                 checkpoint_results = checkpoint._store(
@@ -294,7 +294,7 @@ def train_model(model, training, development, loss_function, optimiser, seed,
 
             checks += 1
 
-        dev_results, dev_loss = test_model(
+        dev_results, dev_loss, dev_prob = test_model(
                                                 model, 
                                                 loss_function, 
                                                 development
