@@ -71,11 +71,11 @@ parser.add_argument(
     default = "extracted_rationales/"
 )
 
-parser.add_argument(
-    '--extract_double', 
-    help='for testing at larger rationale lengths', 
-    action='store_true'
-)
+# parser.add_argument(
+#     '--extract_double', 
+#     help='for testing at larger rationale lengths', 
+#     action='store_true'
+# )
 
 user_args = vars(parser.parse_args())
 user_args["importance_metric"] = None
@@ -129,7 +129,7 @@ evaluator = evaluation_pipeline.evaluate(
     model_path = args["model_dir"], 
     output_dims = data.nu_of_labels
 )
-evaluator.faithfulness_metrics_(data)
+evaluator.faithfulness_experiments_(data)
 
 '''
 evaluator = evaluation_pipeline.evaluate(

@@ -345,7 +345,7 @@ def extract_shap_values_(model, data, data_split_name, model_random_seed,
     return
 
 import glob
-def rationale_creator_(data, data_split_name, variable, tokenizer):
+def rationale_creator_(data, data_split_name, tokenizer): #variable, 
 
     ## get the thresholder fun
     thresholder = getattr(thresholders, args["thresholder"])
@@ -421,35 +421,35 @@ def rationale_creator_(data, data_split_name, variable, tokenizer):
             sequence_importance[-1] = float("-inf")
             sequence_text = sequence_text[:seq_length + 1]
 
-            if variable:
+            # if variable:
 
-                # untokenize sequence and sequence importance scores
-                sequence_text, sequence_importance = wpiece2word(
-                    tokenizer = tokenizer, 
-                    sentence = sequence_text, 
-                    weights = sequence_importance
-                )
+            #     # untokenize sequence and sequence importance scores
+            #     sequence_text, sequence_importance = wpiece2word(
+            #         tokenizer = tokenizer, 
+            #         sentence = sequence_text, 
+            #         weights = sequence_importance
+            #     )
 
-                rationale_indxs = thresholder(
-                    scores = sequence_importance, 
-                    original_length = len(sequence_text) - 2,
-                    rationale_length =  rationale_metadata[annotation_id][feature_attribution]["variable rationale ratio"]
-                )
+            #     rationale_indxs = thresholder(
+            #         scores = sequence_importance, 
+            #         original_length = len(sequence_text) - 2,
+            #         rationale_length =  rationale_metadata[annotation_id][feature_attribution]["variable rationale ratio"]
+            #     )
 
-            else:
+            # else:
 
                 ## untokenize sequence and sequence importance scores
-                sequence_text, sequence_importance = wpiece2word(
-                    tokenizer = tokenizer, 
-                    sentence = sequence_text, 
-                    weights = sequence_importance
-                )
+            sequence_text, sequence_importance = wpiece2word(
+                tokenizer = tokenizer, 
+                sentence = sequence_text, 
+                weights = sequence_importance
+            )
 
-                rationale_indxs = thresholder(
-                    scores = sequence_importance, 
-                    original_length = len(sequence_text) -2,
-                    rationale_length = args["rationale_length"]
-                )
+            rationale_indxs = thresholder(
+                scores = sequence_importance, 
+                original_length = len(sequence_text) -2,
+                rationale_length = args["rationale_length"]
+            )
 
             rationale = sequence_text[rationale_indxs]
 
@@ -457,13 +457,7 @@ def rationale_creator_(data, data_split_name, variable, tokenizer):
             temp_registry[annotation_id]["full text doc"] = full_doc
             temp_registry[annotation_id]["original prediction"] = rationale_metadata[annotation_id]["original prediction"].argmax()
 
-            if variable:
-
-                temp_registry[annotation_id]["rationale length"] = rationale_metadata[annotation_id][feature_attribution]["variable rationale length"]
-
-            else:
-
-                temp_registry[annotation_id]["rationale length"] = rationale_metadata[annotation_id][feature_attribution]["fixed rationale length"]
+            temp_registry[annotation_id]["rationale length"] = rationale_metadata[annotation_id][feature_attribution]["fixed rationale length"]
 
             if args.query: 
                 
@@ -493,10 +487,7 @@ def rationale_creator_(data, data_split_name, variable, tokenizer):
         os.makedirs(fname, exist_ok=True)
 
         
-        if variable:
-            fname += "var_len-" + feature_attribution + "-" + data_split_name + ".csv"
-        else:
-            fname += feature_attribution + "-" + data_split_name + ".csv"
+        fname += feature_attribution + "-" + data_split_name + ".csv"
 
         print(f"saved in -> {fname}")
 
@@ -525,13 +516,7 @@ def rationale_creator_(data, data_split_name, variable, tokenizer):
             query = tokenizer.convert_ids_to_tokens(sequence_text[seq_length + 1:query_end])
             query = tokenizer.convert_tokens_to_string(query)
 
-        if variable:
-            
-            for_our_approach = rationale_metadata[annotation_id]['var-len_var-feat']["feature attribution name"]
-
-        else:
-            
-            for_our_approach = rationale_metadata[annotation_id]['fixed-len_var-feat']["feature attribution name"]
+        for_our_approach = rationale_metadata[annotation_id]['fixed-len_var-feat']["feature attribution name"]
 
         sequence_importance = importance_scores[annotation_id][for_our_approach][:seq_length + 1]
         ## zero out cls and sep
@@ -559,13 +544,7 @@ def rationale_creator_(data, data_split_name, variable, tokenizer):
         temp_registry[annotation_id]["full text doc"] = full_doc
         temp_registry[annotation_id]["original prediction"] = rationale_metadata[annotation_id]["original prediction"].argmax()
 
-        if variable:
-
-            temp_registry[annotation_id]["rationale length"] = rationale_metadata[annotation_id][feature_attribution]["variable rationale length"]
-
-        else:
-
-            temp_registry[annotation_id]["rationale length"] = rationale_metadata[annotation_id][feature_attribution]["fixed rationale length"]
+        temp_registry[annotation_id]["rationale length"] = rationale_metadata[annotation_id][feature_attribution]["fixed rationale length"]
 
         if args.query: 
             
@@ -596,10 +575,7 @@ def rationale_creator_(data, data_split_name, variable, tokenizer):
     os.makedirs(fname, exist_ok=True)
 
     
-    if variable:
-        fname += "var-len_var-feat-" + data_split_name + ".csv"
-    else:
-        fname += "fixed-len_var-feat-" + "-" + data_split_name + ".csv"
+    fname += "fixed-len_var-feat-" + "-" + data_split_name + ".csv"
 
     print(f"saved in -> {fname}")
 

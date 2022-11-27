@@ -40,7 +40,7 @@ def rationale_length_computer_(
     fidelity = "lower_fidelity"):
 
 
-    divergence_fun = div_funs[args.divergence]
+    #divergence_fun = div_funs[args.divergence]
 
     """
     function to calculate for a batch:
@@ -112,12 +112,12 @@ def rationale_length_computer_(
 
             stepwise_preds.append(yhat.argmax(-1).detach().cpu().numpy())
 
-            full_div = divergence_fun(
-                torch.softmax(y_original, dim = -1), 
-                torch.softmax(yhat, dim = -1)
-            ) 
+            # full_div = divergence_fun(
+            #     torch.softmax(y_original, dim = -1), 
+            #     torch.softmax(yhat, dim = -1)
+            # ) 
 
-            collector[j] = full_div.detach().cpu()
+            # collector[j] = full_div.detach().cpu()
 
             token_collector.append(_tok)
 
@@ -248,7 +248,7 @@ def get_rationale_metadata_(model, data_split_name, data, model_random_seed):
             rationale_results[annotation_id] = {}
             rationale_results[annotation_id]["original prediction"] = original_prediction[_i_].detach().cpu().numpy()
             rationale_results[annotation_id]["thresholder"] = args.thresholder
-            rationale_results[annotation_id]["divergence metric"] = args.divergence
+            #rationale_results[annotation_id]["divergence metric"] = args.divergence
 
         original_sents = batch["input_ids"].clone()
 
@@ -272,7 +272,7 @@ def get_rationale_metadata_(model, data_split_name, data, model_random_seed):
 
         
         ## percentage of flips
-        for feat_name in {"random", "attention",  "gradients",   "ig", "scaled attention", "deeplift", "lime"}:
+        for feat_name in {"random", "attention",  "gradients", "ig", "scaled attention", "deeplift", "lime"}: #  "graidentshap",
             
             feat_score = batch_from_dict_(
                 batch_data = batch,
@@ -294,33 +294,33 @@ def get_rationale_metadata_(model, data_split_name, data, model_random_seed):
             )
 
         ## select best fixed (fixed-len + var-feat) and variable rationales (var-len + var-feat) and save 
-        for _i_ in range(original_sents.size(0)):
+        # for _i_ in range(original_sents.size(0)):
 
-            annotation_id = batch["annotation_id"][_i_]
+        #     annotation_id = batch["annotation_id"][_i_]
 
-            ## initiators
-            init_fixed_div = float("-inf")
-            init_var_div = float("-inf")
+        #     ## initiators
+        #     init_fixed_div = float("-inf")
+        #     init_var_div = float("-inf")
 
-            for feat_name in {"attention", "scaled attention", "gradients", "ig", "lime", "deeplift"}:
+        #     for feat_name in {"attention", "scaled attention", "gradients", "ig", "lime", "deeplift"}:
                 
-                fixed_div = rationale_results[annotation_id][feat_name]["fixed-length divergence"]
-                var_div = rationale_results[annotation_id][feat_name]["variable-length divergence"]
+        #         fixed_div = rationale_results[annotation_id][feat_name]["fixed-length divergence"]
+        #         var_div = rationale_results[annotation_id][feat_name]["variable-length divergence"]
 
-                if fixed_div > init_fixed_div:
+        #         if fixed_div > init_fixed_div:
 
-                    rationale_results[annotation_id]["fixed-len_var-feat"] = rationale_results[annotation_id][feat_name]
-                    rationale_results[annotation_id]["fixed-len_var-feat"]["feature attribution name"] = feat_name
+        #             rationale_results[annotation_id]["fixed-len_var-feat"] = rationale_results[annotation_id][feat_name]
+        #             rationale_results[annotation_id]["fixed-len_var-feat"]["feature attribution name"] = feat_name
 
-                    init_fixed_div = fixed_div
+        #             init_fixed_div = fixed_div
 
 
-                if var_div > init_var_div:
+        #         if var_div > init_var_div:
 
-                    rationale_results[annotation_id]["var-len_var-feat"] = rationale_results[annotation_id][feat_name]
-                    rationale_results[annotation_id]["var-len_var-feat"]["feature attribution name"] = feat_name
+        #             rationale_results[annotation_id]["var-len_var-feat"] = rationale_results[annotation_id][feat_name]
+        #             rationale_results[annotation_id]["var-len_var-feat"]["feature attribution name"] = feat_name
 
-                    init_var_div = var_div
+        #             init_var_div = var_div
 
         pbar.update(data.batch_size)
 
@@ -342,161 +342,161 @@ def get_rationale_metadata_(model, data_split_name, data, model_random_seed):
 # divergence metadata for each attribution and varied attribution
 
 
-def get_rationale_metadata_rank_(model, data_split_name, data, model_random_seed):
+# def get_rationale_metadata_rank_(model, data_split_name, data, model_random_seed):
 
-    fname = os.path.join(
-        os.getcwd(),
-        args["extracted_rationale_dir"],
-        args["thresholder"],
-        data_split_name + "-rationale_metadata.npy"
-    )
+#     fname = os.path.join(
+#         os.getcwd(),
+#         args["extracted_rationale_dir"],
+#         args["thresholder"],
+#         data_split_name + "-rationale_metadata.npy"
+#     )
 
-    if os.path.isfile(fname):
+#     if os.path.isfile(fname):
 
-        print(f"rationale metadata file exists at {fname}") 
-        print("remove if you would like to rerun")
+#         print(f"rationale metadata file exists at {fname}") 
+#         print("remove if you would like to rerun")
 
-        return 
+#         return 
 
-    desc = f'creating rationale data for -> {data_split_name}'
+#     desc = f'creating rationale data for -> {data_split_name}'
 
-    fname = os.path.join(
-        os.getcwd(),
-        args["data_dir"],
-        "importance_scores",
-        ""
-    )
+#     fname = os.path.join(
+#         os.getcwd(),
+#         args["data_dir"],
+#         "importance_scores",
+#         ""
+#     )
 
-    fname += f"{data_split_name}_importance_scores_{model_random_seed}.npy"
+#     fname += f"{data_split_name}_importance_scores_{model_random_seed}.npy"
 
-    ## retrieve importance scores
-    importance_scores = np.load(fname, allow_pickle = True).item()
+#     ## retrieve importance scores
+#     importance_scores = np.load(fname, allow_pickle = True).item()
 
     
-    pbar = trange(len(data) * data.batch_size, desc=desc, leave=True)
+#     pbar = trange(len(data) * data.batch_size, desc=desc, leave=True)
     
-    rationale_results = {}
+#     rationale_results = {}
 
-    for batch in data:
+#     for batch in data:
         
-        model.eval()
-        model.zero_grad()
+#         model.eval()
+#         model.zero_grad()
 
-        batch = {
-                "annotation_id" : batch["annotation_id"],
-                "input_ids" : batch["input_ids"].squeeze(1).to(device),
-                "lengths" : batch["lengths"].to(device),
-                "labels" : batch["label"].to(device),
-                "token_type_ids" : batch["token_type_ids"].squeeze(1).to(device),
-                "attention_mask" : batch["attention_mask"].squeeze(1).to(device),
-                "query_mask" : batch["query_mask"].squeeze(1).to(device),
-                "special_tokens" : batch["special tokens"],
-                "retain_gradient" : True
-            }
+#         batch = {
+#                 "annotation_id" : batch["annotation_id"],
+#                 "input_ids" : batch["input_ids"].squeeze(1).to(device),
+#                 "lengths" : batch["lengths"].to(device),
+#                 "labels" : batch["label"].to(device),
+#                 "token_type_ids" : batch["token_type_ids"].squeeze(1).to(device),
+#                 "attention_mask" : batch["attention_mask"].squeeze(1).to(device),
+#                 "query_mask" : batch["query_mask"].squeeze(1).to(device),
+#                 "special_tokens" : batch["special tokens"],
+#                 "retain_gradient" : True
+#             }
             
-        assert batch["input_ids"].size(0) == len(batch["labels"]), "Error: batch size for item 1 not in correct position"
+#         assert batch["input_ids"].size(0) == len(batch["labels"]), "Error: batch size for item 1 not in correct position"
    
-        original_prediction, _ =  model(**batch)
+#         original_prediction, _ =  model(**batch)
 
-        original_prediction.max(-1)[0].sum().backward(retain_graph = True)
+#         original_prediction.max(-1)[0].sum().backward(retain_graph = True)
 
-        for _i_ in range(original_prediction.size(0)):
+#         for _i_ in range(original_prediction.size(0)):
             
-            annotation_id = batch["annotation_id"][_i_]
+#             annotation_id = batch["annotation_id"][_i_]
             
-            ## setting up the placeholder for storing the  rationales
-            rationale_results[annotation_id] = {}
-            rationale_results[annotation_id]["original prediction"] = original_prediction[_i_].detach().cpu().numpy()
-            rationale_results[annotation_id]["thresholder"] = args.thresholder
-            rationale_results[annotation_id]["divergence metric"] = args.divergence
+#             ## setting up the placeholder for storing the  rationales
+#             rationale_results[annotation_id] = {}
+#             rationale_results[annotation_id]["original prediction"] = original_prediction[_i_].detach().cpu().numpy()
+#             rationale_results[annotation_id]["thresholder"] = args.thresholder
+#             rationale_results[annotation_id]["divergence metric"] = args.divergence
 
-        original_sents = batch["input_ids"].clone()
+#         original_sents = batch["input_ids"].clone()
 
-        ## now measuring baseline sufficiency for all 0 rationale mask
-        if args.query:
+#         ## now measuring baseline sufficiency for all 0 rationale mask
+#         if args.query:
 
-            only_query_mask=create_only_query_mask_(
-                batch_input_ids=batch["input_ids"],
-                special_tokens=batch["special_tokens"]
-            )
+#             only_query_mask=create_only_query_mask_(
+#                 batch_input_ids=batch["input_ids"],
+#                 special_tokens=batch["special_tokens"]
+#             )
 
-            batch["input_ids"] = only_query_mask * original_sents
+#             batch["input_ids"] = only_query_mask * original_sents
 
-        else:
+#         else:
 
-            only_query_mask=torch.zeros_like(batch["input_ids"]).long()
+#             only_query_mask=torch.zeros_like(batch["input_ids"]).long()
 
-            batch["input_ids"] = only_query_mask
+#             batch["input_ids"] = only_query_mask
 
-        zero_logits, _ =  model(**batch)
+#         zero_logits, _ =  model(**batch)
 
         
-        ## percentage of flips
-        for feat_name in {"lime", "random", "attention",  "gradients",   "ig", "scaled attention", "deeplift"}:
+#         ## percentage of flips
+#         for feat_name in {"lime", "random", "attention",  "gradients",   "ig", "scaled attention", "deeplift"}:
             
-            feat_score = batch_from_dict_(
-                batch_data = batch,
-                metadata = importance_scores,
-                target_key =  feat_name,
-                extra_layer = None
-            )
+#             feat_score = batch_from_dict_(
+#                 batch_data = batch,
+#                 metadata = importance_scores,
+#                 target_key =  feat_name,
+#                 extra_layer = None
+#             )
 
-            rationale_length_computer_(
-                model = model, 
-                inputs = batch, 
-                scores = feat_score, 
-                y_original = original_prediction, 
-                zero_logits = zero_logits,
-                original_sents=original_sents,
-                fidelity = "max_fidelity",
-                feature_attribution = feat_name, 
-                results_dict = rationale_results
-            )
+#             rationale_length_computer_(
+#                 model = model, 
+#                 inputs = batch, 
+#                 scores = feat_score, 
+#                 y_original = original_prediction, 
+#                 zero_logits = zero_logits,
+#                 original_sents=original_sents,
+#                 fidelity = "max_fidelity",
+#                 feature_attribution = feat_name, 
+#                 results_dict = rationale_results
+#             )
 
-        ## select best fixed (fixed-len + var-feat) and variable rationales (var-len + var-feat) and save 
-        for _i_ in range(original_sents.size(0)):
+#         ## select best fixed (fixed-len + var-feat) and variable rationales (var-len + var-feat) and save 
+#         for _i_ in range(original_sents.size(0)):
 
-            annotation_id = batch["annotation_id"][_i_]
+#             annotation_id = batch["annotation_id"][_i_]
 
-            ## initiators
-            init_fixed_div = float("-inf")
-            init_var_div = float("-inf")
+#             ## initiators
+#             init_fixed_div = float("-inf")
+#             init_var_div = float("-inf")
 
-            for feat_name in {"attention", "scaled attention", "gradients", "ig", "lime", "deeplift"}:
+#             for feat_name in {"attention", "scaled attention", "gradients", "ig", "lime", "deeplift"}:
                 
-                fixed_div = rationale_results[annotation_id][feat_name]["fixed-length divergence"]
-                var_div = rationale_results[annotation_id][feat_name]["variable-length divergence"]
+#                 fixed_div = rationale_results[annotation_id][feat_name]["fixed-length divergence"]
+#                 var_div = rationale_results[annotation_id][feat_name]["variable-length divergence"]
 
-                if fixed_div > init_fixed_div:
+#                 if fixed_div > init_fixed_div:
 
-                    rationale_results[annotation_id]["fixed-len_var-feat"] = rationale_results[annotation_id][feat_name]
-                    rationale_results[annotation_id]["fixed-len_var-feat"]["feature attribution name"] = feat_name
+#                     rationale_results[annotation_id]["fixed-len_var-feat"] = rationale_results[annotation_id][feat_name]
+#                     rationale_results[annotation_id]["fixed-len_var-feat"]["feature attribution name"] = feat_name
 
-                    init_fixed_div = fixed_div
+#                     init_fixed_div = fixed_div
 
 
-                if var_div > init_var_div:
+#                 if var_div > init_var_div:
 
-                    rationale_results[annotation_id]["var-len_var-feat"] = rationale_results[annotation_id][feat_name]
-                    rationale_results[annotation_id]["var-len_var-feat"]["feature attribution name"] = feat_name
+#                     rationale_results[annotation_id]["var-len_var-feat"] = rationale_results[annotation_id][feat_name]
+#                     rationale_results[annotation_id]["var-len_var-feat"]["feature attribution name"] = feat_name
 
-                    init_var_div = var_div
+#                     init_var_div = var_div
 
-        pbar.update(data.batch_size)
+#         pbar.update(data.batch_size)
 
-    ## save rationale masks
-    fname = os.path.join(
-        os.getcwd(),
-        args["extracted_rationale_dir"],
-        args["thresholder"],
-        ""
-    )
+#     ## save rationale masks
+#     fname = os.path.join(
+#         os.getcwd(),
+#         args["extracted_rationale_dir"],
+#         args["thresholder"],
+#         ""
+#     )
 
-    os.makedirs(fname, exist_ok= True)
+#     os.makedirs(fname, exist_ok= True)
 
-    print(f"saved -> {fname}")
+#     print(f"saved -> {fname}")
 
-    np.save(fname + data_split_name + "-rationale_metadata.npy", rationale_results)
+#     np.save(fname + data_split_name + "-rationale_metadata.npy", rationale_results)
 
-    return
+#     return
 
