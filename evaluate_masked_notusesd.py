@@ -53,7 +53,7 @@ parser.add_argument(
     "--evaluation_dir",   
     type = str, 
     help = "directory to save decision flips", 
-    default = "faithfulness_metrics/"
+    default = "posthoc_results/"
 )
 
 parser.add_argument(

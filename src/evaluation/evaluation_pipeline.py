@@ -195,12 +195,12 @@ class evaluate():
                     #variable = False
                 )
 
-                rationale_creator_(
-                    data = data_split,
-                    data_split_name = data_split_name,
-                    tokenizer = data.tokenizer,
-                    #variable = True
-                )
+                # rationale_creator_(
+                #     data = data_split,
+                #     data_split_name = data_split_name,
+                #     tokenizer = data.tokenizer,
+                #     #variable = True
+                # )
 
             except:
 
