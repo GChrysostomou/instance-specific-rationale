@@ -418,7 +418,7 @@ def conduct_tests_(model, data, model_random_seed):
                             importance_scores = feat_score, 
                             no_of_masked_tokens = torch.ceil(batch["lengths"].float() * rationale_length).detach().cpu().numpy(),
                             method = rationale_type,
-                            batch_input_ids = original_sentences,
+                            #batch_input_ids = original_sentences,
                             #special_tokens = batch["special_tokens"],
                         )
 
@@ -451,7 +451,7 @@ def conduct_tests_(model, data, model_random_seed):
                         full_text_class = full_text_class, 
                         rows = rows,
                         suff_y_zero = suff_y_zero,
-                        only_query_mask=only_query_mask[0],
+                        only_query_mask=only_query_mask,
                     )
 
 
