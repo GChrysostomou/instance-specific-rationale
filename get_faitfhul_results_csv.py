@@ -1,46 +1,72 @@
 from pickle import NONE
 from re import T
 import pandas as pd
-import pandas as pd
 import json
-
-'''
-agnews 
-'''
-
-
-
-dataset = 'agnews'  #  evinf agnews multirc SST
+import glob
+import os 
+import argparse
+import logging
 
 
 
+import datetime
+import gc
 
+date_time = str(datetime.date.today()) + "_" + ":".join(str(datetime.datetime.now()).split()[1].split(":")[:2])
+
+parser = argparse.ArgumentParser()
+
+parser.add_argument(
+    "--dataset", 
+    type = str, 
+    help = "select dataset / task", 
+    default = "multirc", 
+    #choices = ["sst", "evinf", "agnews", "multirc"]
+)
+
+parser.add_argument(
+    "--data_dir", 
+    type = str, 
+    help = "directory of saved processed data", 
+    default = "datasets/"
+)
+
+parser.add_argument(
+    "--model_dir",   
+    type = str, 
+    help = "directory to save models", 
+    default = "trained_models/"
+)
+
+parser.add_argument(
+    "--seed",   
+    type = int, 
+    help = "random seed for experiment",
+    default = 5
+)
+
+parser.add_argument(
+    "--evaluation_dir",   
+    type = str, 
+    help = "directory to save faithfulness results", 
+    default = "posthoc_results/"
+)
+
+user_args = vars(parser.parse_args())
+
+
+faithful_result = user_args['evaluation_dir']
+dataset = user_args['dataset']
 
 def generate_csv(dataset, method, std):
-    if dataset == 'agnews':
-        random_seed = 25
-    elif dataset == 'SST':
-        random_seed = 10
-    elif dataset == 'evinf':
-        random_seed = 25
-    else:
-        print(' no data randomseed')
-
-
-    if method == NONE:
-        if dataset == './evinf': path = './posthoc_results/evinf/topk-faithfulness-scores-average-sci25-description.json'
-        else: path = './posthoc_results/' + str(dataset)+'/topk-faithfulness-scores-average-description.json'
-    elif method == 'NOISE':
-        if dataset == './evinf': path = './posthoc_results/evinf/'+str(method)+'-faithfulness-scores-std_'+str(std)+'-description.json'
-        else: path = './posthoc_results/' + str(dataset)+'/NOISE-faithfulness-scores-description'+'-std_'+str(std)+'.json'
-    else:
-        if dataset == './evinf': path = './posthoc_results/evinf/'+str(method)+'-faithfulness-scores-averages-sci25-description.json'
-        else: path = './posthoc_results/' + str(dataset)+'/'+str(method)+'-faithfulness-scores-description.json'
-
-
+    print('  ========================  ')
+    print(str(method))
+    path_name = f"./{faithful_result}{dataset}/{method}" + "*.json"
+    path = glob.glob(path_name)[0]
     print(path)
+
     df = pd.read_json(path, orient ='index')
-    print(df)
+    #print(df)
     df.rename(columns = 
             {'AOPC - sufficiency':'AOPC_sufficiency', 'AOPC - comprehensiveness':'AOPC_comprehensiveness'}, 
             inplace = True)
@@ -48,7 +74,7 @@ def generate_csv(dataset, method, std):
     comprehensiveness_mean = []
 
 
-    fea_list = ['random', 'attention', "scaled attention", "gradients", "ig", "gradientshap", "deeplift"]
+    fea_list = ['random', 'attention', "scaled attention", "gradients", "ig", "deeplift"] #"gradientshap", 
     for feat in fea_list:
         if method == NONE:
             sufficiency_mean.append(df.AOPC_sufficiency[str(feat)].get('mean'))
@@ -59,8 +85,7 @@ def generate_csv(dataset, method, std):
 
 
 
-    if method != NONE:
-         
+    if method != 'topk':
         random_suff = df.sufficiency['random'].get('mean')
         random_comp = df.comprehensiveness['random'].get('mean')
         
@@ -69,9 +94,13 @@ def generate_csv(dataset, method, std):
 
         final_df = pd.DataFrame(list(zip(fea_list, sufficiency_mean, Suff_ratio, comprehensiveness_mean, Comp_ratio)),
                 columns =['feature', 'Soft_sufficiency', 'Suff_ratio', 'Soft_comprehensiveness', 'Comp_ratio'])
-        if method == 'NOISE': final_df.to_csv(dataset+'/' + str(method) + str(std) +'_faithfulness_result.csv')
-        else: final_df.to_csv('./posthoc_results' + dataset+'/' + str(method) +'_faithfulness_result.csv')
-        print('saved csv: ', './posthoc_results'+ dataset+'/' + str(method) +'_faithfulness_result.csv')
+        
+    
+        if method == 'NOISE': final_path = faithful_result + dataset + '/' + str(method) + str(std) +'_faithfulness_result.csv'
+        else: final_path = faithful_result + dataset + '/' + str(method) +'_faithfulness_result.csv'
+        
+        final_df.to_csv(final_path)
+        print('saved csv: ', final_path)
 
     else: # not soft, so have aopc
         random_suff = df.AOPC_sufficiency['random'].get('mean')
@@ -82,15 +111,16 @@ def generate_csv(dataset, method, std):
 
         final_df = pd.DataFrame(list(zip(fea_list, sufficiency_mean, Suff_ratio, comprehensiveness_mean, Comp_ratio)),
                 columns =['feature', ' AOPC_sufficiency', 'Suff_ratio', 'AOPC_comprehensiveness', 'Comp_ratio'])
-        final_df.to_csv('./posthoc_results' + dataset+'/faithfulness_result.csv')
+        final_path = faithful_result + dataset + '/' +'faithfulness_result.csv'
+        print('saved csv: ', final_path)
+        final_df.to_csv(final_path)
 
 
-# generate_csv(str(dataset), 'NOISE', 1.0)
-generate_csv(str(dataset), 'NOISE', 0.5)
-generate_csv(str(dataset), 'NOISE', 0.05)
-# generate_csv(str(dataset), 'ATTENTION', 1.0)
-# generate_csv(str(dataset), 'ZEROOUT', 1.0)
-# generate_csv(str(dataset), NONE, 1.0)
+generate_csv(str(dataset), 'topk', 1)
+generate_csv(str(dataset), 'NOISE', 1)
+generate_csv(str(dataset), 'ATTENTION', 1)
+generate_csv(str(dataset), 'ZEROOUT', 1)
+
 
 
 

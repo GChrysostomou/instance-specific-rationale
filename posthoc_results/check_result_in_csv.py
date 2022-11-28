@@ -16,7 +16,7 @@ print(sufficiency_mean)
 df[sufficiency_mean] = sufficiency_mean
 df[comprehensiveness_mean] = comprehensiveness_mean
 
-feature = ['Deeplift', 'Lime','Attention','IG','Gradients','Scaled Attention','Random']
+feature = ['Random','Attention','Scaled Attention','Gradients','IG','Deeplift'] # , 'Lime',
 df = pd.DataFrame(list(zip(feature, sufficiency_mean, comprehensiveness_mean)),
                columns =['feature', 'sufficiency', 'comprehensiveness'])
 df.to_csv(dataset+'/faithfulness_result.csv')
