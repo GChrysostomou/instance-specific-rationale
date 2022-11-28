@@ -4,7 +4,7 @@ import json
 
 dataset = './sst'  # sst
 path = str(dataset)+'/topk-test-faithfulness-metrics-description.json'
-
+print(path)
 df = pd.read_json(path, orient ='index')
 print(df)
 sufficiency_mean = []
