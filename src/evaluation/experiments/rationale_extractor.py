@@ -46,7 +46,7 @@ def extract_importance_(model, data, data_split_name, model_random_seed):
     fname = os.path.join(
         os.getcwd(),
         args["data_dir"],
-        "importance_scores",
+        "evaluation_dir",
         ""
     )
 
