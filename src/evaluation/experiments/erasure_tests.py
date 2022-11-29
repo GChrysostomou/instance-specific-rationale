@@ -608,102 +608,7 @@ def conduct_experiments_noise_(model, data, model_random_seed,faithful_method, s
         ) # Suff(x, ˆ y, 0) , no rationales to compare
 
 
-        if use_topk == False: 
-
-            for _j_, annot_id in enumerate(batch["annotation_id"]):
-                faithfulness_results[annot_id]["full text prediction"] = original_prediction[_j_] 
-                faithfulness_results[annot_id]["true label"] = batch["labels"][_j_].detach().cpu().item()
-            
-            for feat_name in {"random", "attention", "gradients", "scaled attention", "ig",# "gradientshap",
-            "deeplift"}: #"ig" ,"lime", "deeplift", "deepliftshap", 
-                feat_score =  batch_from_dict_(
-                    batch_data = batch, 
-                    metadata = importance_scores, 
-                    target_key = feat_name,
-                )
-                #  feat_score is get by new_tensor.append(metadata[_id_][target_key])
-
-                # if args.query:
-
-                #     rationale_mask = create_rationale_mask_(
-                #         importance_scores = feat_score, 
-                #         no_of_masked_tokens = torch.ceil(batch["lengths"].float() * rationale_length).detach().cpu().numpy(),
-                #         #method = rationale_type,
-                #         batch_input_ids = original_sentences,
-                #         #special_tokens = batch["special_tokens"],
-                #     )
-
-                # else:
-
-                #     rationale_mask = create_rationale_mask_(
-                #         importance_scores = feat_score, 
-                #         no_of_masked_tokens = torch.ceil(batch["lengths"].float() * rationale_length).detach().cpu().numpy(),
-                #         #method = rationale_type
-                #     )
-
-                suff_aopc = np.zeros([yhat.shape[0], 1], dtype=np.float64)
-                comp_aopc = np.zeros([yhat.shape[0], 1], dtype=np.float64)
-
-                # 在这里面决定用 comprehensive 还是 sufficiency
-                # 在里面决定要不要加noise, 此处加,前面zeroout的baseline不加
-                soft_comp, soft_comp_probs  = normalized_comprehensiveness_soft_(
-                    model = model, 
-                    original_sentences = original_sentences, 
-                    #rationale_mask = rationale_mask, 
-                    inputs = batch, 
-                    full_text_probs = full_text_probs,   
-                    full_text_class = full_text_class,  
-                    rows = rows,    
-                    importance_scores = feat_score,
-                    suff_y_zero = suff_y_zero,
-                    use_topk=use_topk,
-
-                )
-                soft_suff, soft_suff_probs = normalized_sufficiency_soft_(
-                    model = model, 
-                    original_sentences = original_sentences, 
-                    #rationale_mask = rationale_mask, 
-                    inputs = batch, 
-                    full_text_probs = full_text_probs, 
-                    full_text_class = full_text_class, 
-                    rows = rows,
-                    suff_y_zero = suff_y_zero,
-                    importance_scores = feat_score,
-                    use_topk=use_topk,
-                )
-                                    ## the rest are just for aopc
-
-                suff_aopc[:,_i_] = soft_suff
-                comp_aopc[:,_i_] = soft_comp
-
-                if rationale_length == desired_rationale_length:
-
-                        sufficiency = soft_suff
-                        comprehensiveness = soft_comp
-                        comp_probs_save = soft_comp_probs
-                        suff_probs_save = soft_suff_probs
-
-                    
-            for _j_, annot_id in enumerate(batch["annotation_id"]):
-                    
-                faithfulness_results[annot_id][feat_name] = {
-                        f"sufficiency" : soft_suff[_j_],
-                        f"comprehensiveness" : soft_comp[_j_],
-                        f"masked R probs (comp)" : soft_comp_probs[_j_].astype(np.float64),
-                        f"only R probs (suff)" : soft_suff_probs[_j_].astype(np.float64),
-                        "sufficiency aopc" : {
-                            "mean" : suff_aopc[_j_],
-                            "per ratio" : suff_aopc[_j_]
-                        },
-                        "comprehensiveness aopc" : {
-                            "mean" : comp_aopc[_j_],
-                            "per ratio" : comp_aopc[_j_]
-                        }
-                    }
-            
-            
-
-        else:
+        if use_topk:
             print('-----------')
             print(use_topk)
             rationale_ratios = [0.02, 0.1, 0.2, 0.5]
@@ -800,7 +705,102 @@ def conduct_experiments_noise_(model, data, model_random_seed,faithful_method, s
                 }
                
 
-                
+           
+        else: 
+
+            for _j_, annot_id in enumerate(batch["annotation_id"]):
+                faithfulness_results[annot_id]["full text prediction"] = original_prediction[_j_] 
+                faithfulness_results[annot_id]["true label"] = batch["labels"][_j_].detach().cpu().item()
+            
+            for feat_name in {"random", "attention", "gradients", "scaled attention", "ig",# "gradientshap",
+            "deeplift"}: #"ig" ,"lime", "deeplift", "deepliftshap", 
+                feat_score =  batch_from_dict_(
+                    batch_data = batch, 
+                    metadata = importance_scores, 
+                    target_key = feat_name,
+                )
+                #  feat_score is get by new_tensor.append(metadata[_id_][target_key])
+
+                # if args.query:
+
+                #     rationale_mask = create_rationale_mask_(
+                #         importance_scores = feat_score, 
+                #         no_of_masked_tokens = torch.ceil(batch["lengths"].float() * rationale_length).detach().cpu().numpy(),
+                #         #method = rationale_type,
+                #         batch_input_ids = original_sentences,
+                #         #special_tokens = batch["special_tokens"],
+                #     )
+
+                # else:
+
+                #     rationale_mask = create_rationale_mask_(
+                #         importance_scores = feat_score, 
+                #         no_of_masked_tokens = torch.ceil(batch["lengths"].float() * rationale_length).detach().cpu().numpy(),
+                #         #method = rationale_type
+                #     )
+
+                suff_aopc = np.zeros([yhat.shape[0], 1], dtype=np.float64)
+                comp_aopc = np.zeros([yhat.shape[0], 1], dtype=np.float64)
+
+                # 在这里面决定用 comprehensive 还是 sufficiency
+                # 在里面决定要不要加noise, 此处加,前面zeroout的baseline不加
+                soft_comp, soft_comp_probs  = normalized_comprehensiveness_soft_(
+                    model = model, 
+                    original_sentences = original_sentences, 
+                    #rationale_mask = rationale_mask, 
+                    inputs = batch, 
+                    full_text_probs = full_text_probs,   
+                    full_text_class = full_text_class,  
+                    rows = rows,    
+                    importance_scores = feat_score,
+                    suff_y_zero = suff_y_zero,
+                    use_topk=use_topk,
+
+                )
+                soft_suff, soft_suff_probs = normalized_sufficiency_soft_(
+                    model = model, 
+                    original_sentences = original_sentences, 
+                    #rationale_mask = rationale_mask, 
+                    inputs = batch, 
+                    full_text_probs = full_text_probs, 
+                    full_text_class = full_text_class, 
+                    rows = rows,
+                    suff_y_zero = suff_y_zero,
+                    importance_scores = feat_score,
+                    use_topk=use_topk,
+                )
+                                    ## the rest are just for aopc
+
+                suff_aopc[:,_i_] = soft_suff
+                comp_aopc[:,_i_] = soft_comp
+
+                if rationale_length == desired_rationale_length:
+
+                        sufficiency = soft_suff
+                        comprehensiveness = soft_comp
+                        comp_probs_save = soft_comp_probs
+                        suff_probs_save = soft_suff_probs
+
+                    
+            for _j_, annot_id in enumerate(batch["annotation_id"]):
+                    
+                faithfulness_results[annot_id][feat_name] = {
+                        f"sufficiency" : soft_suff[_j_],
+                        f"comprehensiveness" : soft_comp[_j_],
+                        f"masked R probs (comp)" : soft_comp_probs[_j_].astype(np.float64),
+                        f"only R probs (suff)" : soft_suff_probs[_j_].astype(np.float64),
+                        "sufficiency aopc" : {
+                            "mean" : suff_aopc[_j_],
+                            "per ratio" : suff_aopc[_j_]
+                        },
+                        "comprehensiveness aopc" : {
+                            "mean" : comp_aopc[_j_],
+                            "per ratio" : comp_aopc[_j_]
+                        }
+                    }
+            
+            
+     
         pbar.update(data.batch_size)
             
             
@@ -834,16 +834,16 @@ def conduct_experiments_noise_(model, data, model_random_seed,faithful_method, s
         }
 
     
-    if use_topk == False: 
-        ## save all info
-        fname_detailed = args["evaluation_dir"] + f"NOISE-faithfulness-scores-detailed-std_" + str(std) + ".npy"
-        ## save descriptors
-        fname_descriptors = args["evaluation_dir"] + f"NOISE-faithfulness-scores-description-std_" + str(std) + ".json"
-    elif use_topk == True: 
+
+
+    if use_topk: 
         fname_detailed = args["evaluation_dir"] + f"NOISElimit-faithfulness-scores-detailed-std_" + str(std) + ".npy"
         fname_descriptors = args["evaluation_dir"] + f"NOISElimit-faithfulness-scores-description-std_" + str(std) + ".json"
     else:
-        print('  NEED TO DEFINE if use topk for NOISE Method')
+                ## save all info
+        fname_detailed = args["evaluation_dir"] + f"NOISE-faithfulness-scores-detailed-std_" + str(std) + ".npy"
+        ## save descriptors
+        fname_descriptors = args["evaluation_dir"] + f"NOISE-faithfulness-scores-description-std_" + str(std) + ".json"
     
     np.save(fname_detailed, faithfulness_results)
     with open(fname_descriptors, 'w') as file:

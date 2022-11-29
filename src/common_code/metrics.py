@@ -217,7 +217,7 @@ def normalized_sufficiency_soft_(model, use_topk,
     # for sufficiency we always keep the rationale
     # since ones represent rationale tokens
     # preserve cls
-    if use_topk == True:
+    if use_topk:
         rationale_mask[:,0] = 1
     # preserve sep
         rationale_mask[torch.arange(rationale_mask.size(0)).to(device), inputs["lengths"]] = 1
@@ -254,7 +254,7 @@ def normalized_comprehensiveness_soft_(model, use_topk,
                                   importance_scores: torch.tensor,
                                   rationale_mask : torch.tensor, ) -> np.array:
     
-    if use_topk== True:
+    if use_topk:
         # for comprehensivness we always remove the rationale and keep the rest of the input
     # since ones represent rationale tokens, invert them and multiply the original input
         rationale_mask = (rationale_mask == 0)
