@@ -562,8 +562,7 @@ def conduct_experiments_noise_(model, data, model_random_seed,faithful_method, s
                 "std": std,
                 "add_noise": False,
             }
-        print('[[[[[[[[[[[[[[')
-        print(batch['input_ids'])
+
 
         assert batch["input_ids"].size(0) == len(batch["labels"]), "Error: batch size for item 1 not in correct position"
         

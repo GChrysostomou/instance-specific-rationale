@@ -4,6 +4,7 @@ import json
 
 
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+print('-----> using ', device)
 
 import config.cfg
 from config.cfg import AttrDict
@@ -200,10 +201,26 @@ class GaussianNoise(nn.Module):
 
     def forward(self, x, std):
         scale = self.sigma * x.detach() if self.is_relative_detach else self.sigma * x
-        sampled_noise = self.noise.expand(*x.size()).float().normal_(mean=0, std=std).to(device) * scale
+        sampled_noise = self.noise.expand(*x.size()).float().normal_(mean=0, std=std).to(device) * scale.to(device)
         x = x + sampled_noise
-        return x 
+        return x.to(device)
 
+# class GaussianNoise(nn.Module):
+
+#     def __init__(self, sigma=1):
+#         super().__init__()
+#         self.sigma = sigma
+#         self.register_buffer('noise', torch.tensor(0))
+
+#     def forward(self, x, std):
+#         scale = self.sigma * x
+#         sampled_noise = self.noise.expand(*x.size()).float().normal_(mean=0, std=std) 
+#         print(scale.device())
+#         print(sampled_noise.device())
+#         #sampled_noise = sampled_noise.to(device)
+#         scaled_sampled_noise = sampled_noise * scale
+#         x = x + scaled_sampled_noise.to(device)
+#         return x
 
 
 class BertModelWrapper_noise(nn.Module):
@@ -270,14 +287,14 @@ class BertModelWrapper_noise(nn.Module):
                     for i in range(embeddings.size()[0]):
                         for k in range(embeddings.size()[1]):
                             importance_score = importance_scores_nor[i,k]
-                            add_noise = GaussianNoise(is_relative_detach=True, sigma=(1-importance_score))
+                            add_noise = GaussianNoise(sigma=(1-importance_score)) #is_relative_detach=True, 
                             embeddings[i,k,:] = add_noise(embeddings[i,k,:], std=stand_div)
 
                 elif faithful_method == "soft_comp":
                     for i in range(embeddings.size()[0]):
                         for k in range(embeddings.size()[1]):
                             importance_score = importance_scores_nor[i,k]
-                            add_noise = GaussianNoise(is_relative_detach=True, sigma=importance_score)
+                            add_noise = GaussianNoise(sigma=importance_score) #is_relative_detach=True, 
                             embeddings[i,k,:] = add_noise(embeddings[i,k,:], std=stand_div)
                 else: pass # no changes to embeddings
   
