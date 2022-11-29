@@ -252,7 +252,8 @@ def normalized_comprehensiveness_soft_(model, use_topk,
                                   inputs : dict, full_text_probs : np.array, full_text_class : np.array, rows : np.array, 
                                   suff_y_zero : np.array,
                                   importance_scores: torch.tensor,
-                                  rationale_mask : torch.tensor, ) -> np.array:
+                                  rationale_mask : torch.tensor, 
+                                  ) -> np.array:
     
     if use_topk:
         # for comprehensivness we always remove the rationale and keep the rest of the input

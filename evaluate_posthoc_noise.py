@@ -68,7 +68,7 @@ parser.add_argument(
     '--use_topk', 
     help='control if use full text or topk for soft rationales', 
     action='store_true',
-    default=False,
+    default=True,
 )
 
 

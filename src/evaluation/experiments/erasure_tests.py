@@ -609,8 +609,7 @@ def conduct_experiments_noise_(model, data, model_random_seed,faithful_method, s
 
 
         if use_topk:
-            print('-----------')
-            print(use_topk)
+            #print(' --------- use topk   !! for noise')
             rationale_ratios = [0.02, 0.1, 0.2, 0.5]
             for _i_, rationale_length in enumerate(rationale_ratios):          
                 for _j_, annot_id in enumerate(batch["annotation_id"]):
@@ -706,7 +705,7 @@ def conduct_experiments_noise_(model, data, model_random_seed,faithful_method, s
                
 
            
-        else: 
+        else: # not use topk
 
             for _j_, annot_id in enumerate(batch["annotation_id"]):
                 faithfulness_results[annot_id]["full text prediction"] = original_prediction[_j_] 
@@ -747,7 +746,7 @@ def conduct_experiments_noise_(model, data, model_random_seed,faithful_method, s
                 soft_comp, soft_comp_probs  = normalized_comprehensiveness_soft_(
                     model = model, 
                     original_sentences = original_sentences, 
-                    #rationale_mask = rationale_mask, 
+                    rationale_mask = None, 
                     inputs = batch, 
                     full_text_probs = full_text_probs,   
                     full_text_class = full_text_class,  
@@ -760,7 +759,8 @@ def conduct_experiments_noise_(model, data, model_random_seed,faithful_method, s
                 soft_suff, soft_suff_probs = normalized_sufficiency_soft_(
                     model = model, 
                     original_sentences = original_sentences, 
-                    #rationale_mask = rationale_mask, 
+                    only_query_mask=None,
+                    rationale_mask = None, 
                     inputs = batch, 
                     full_text_probs = full_text_probs, 
                     full_text_class = full_text_class, 
@@ -771,15 +771,20 @@ def conduct_experiments_noise_(model, data, model_random_seed,faithful_method, s
                 )
                                     ## the rest are just for aopc
 
-                suff_aopc[:,_i_] = soft_suff
-                comp_aopc[:,_i_] = soft_comp
+                # print('=====suff_aopc')
+                # print(suff_aopc)
+                # print('=====soft_suff')
+                # print(soft_suff)
 
-                if rationale_length == desired_rationale_length:
+                # suff_aopc[:,:] = soft_suff
+                # comp_aopc[:,:] = soft_comp
 
-                        sufficiency = soft_suff
-                        comprehensiveness = soft_comp
-                        comp_probs_save = soft_comp_probs
-                        suff_probs_save = soft_suff_probs
+                #if rationale_length == desired_rationale_length:
+
+                sufficiency = soft_suff
+                comprehensiveness = soft_comp
+                comp_probs_save = soft_comp_probs
+                suff_probs_save = soft_suff_probs
 
                     
             for _j_, annot_id in enumerate(batch["annotation_id"]):
