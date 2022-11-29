@@ -29,8 +29,8 @@ parser.add_argument(
     "--dataset", 
     type = str, 
     help = "select dataset / task", 
-    default = "multirc",
-    # choices = ["WS","evinf", "SST","multirc", "Yelp", "AmazDigiMu", "AmazPantry", "AmazInstr", "fc1", "fc2", "fc3"]
+    default = "evinf",
+    # choices = ["agnews","evinf", "SST","multirc", "Yelp", "AmazDigiMu", "AmazPantry", "AmazInstr", "fc1", "fc2", "fc3"]
 )
 
 parser.add_argument(
