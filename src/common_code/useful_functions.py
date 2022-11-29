@@ -163,27 +163,6 @@ def create_rationale_mask_(
         mask = torch.zeros(score.shape).to(device)
         mask = mask.scatter_(-1,  top_k.to(device), 1).long()
 
-                ## now if we have a query we need to preserve the query in the mask
-        if batch_input_ids is not None:
-            #special_tokens = {'pad_token_id': 0, 'sep_token_id': 103}
-            
-            sos_eos = torch.where(batch_input_ids[_i_] == 102)#[0]
-            print(sos_eos)
-            # special_tokens 
-            # {'pad_token_id': tensor([0, 0, 0, 0]), 'sep_token_id': tensor([103, 103, 103, 103])}
-
-            # original --> sos_eos = torch.where(batch_input_ids[_i_] == 102) # [0, 101, 102]
-            # seq_length = torch.where(batch_input_ids[_i_] == 0) #pad_token_id
-            # query_end = torch.where(batch_input_ids[_i_] == 103) #sep_token_id
-
-            #sos_eos = torch.where(batch_input_ids[_i_] == 103)[0]
-            seq_length = sos_eos[0]
-            query_end = sos_eos[1]
-            
-            # print(seq_length, query_end) 178, 195
-            # quit()
-            mask[seq_length: query_end+1] = 1 
-
         rationale_mask.append(mask)
 
     rationale_mask = torch.stack(rationale_mask).to(device)

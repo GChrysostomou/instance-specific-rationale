@@ -30,8 +30,7 @@ parser.add_argument(
     "--dataset", 
     type = str, 
     help = "select dataset / task", 
-    default = "agnews",
-    # choices = ["evinf", "agnews", "sst","multirc", "Yelp", "AmazDigiMu", "AmazPantry", "AmazInstr", "fc1", "fc2", "fc3"]
+    default = "evinf",  # choices = ["evinf", "agnews", "sst","multirc"]
 )
 
 parser.add_argument(
@@ -48,7 +47,6 @@ parser.add_argument(
     # default = "full_text_models/",
     default="trained_models/"
 )
-
 
 parser.add_argument(
     "--evaluation_dir",   
