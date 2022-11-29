@@ -67,7 +67,8 @@ parser.add_argument(
 parser.add_argument(
     '--use_tasc', 
     help='for using the component by GChrys and Aletras 2021', 
-    action='store_true'
+    action='store_true',
+    default=False,
 )
 
 parser.add_argument(

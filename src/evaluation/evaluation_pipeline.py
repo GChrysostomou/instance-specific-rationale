@@ -662,7 +662,9 @@ class evaluate_noise():
     def __init__(self, model_path, output_dims = 2,
                 faithful_method = 'comp',
                 feature_name = 'attention',
-                std = 1):
+                std = 1,
+                use_topk = True,
+                ):
         
         """
         loads and holds a pretrained model
@@ -673,6 +675,7 @@ class evaluate_noise():
         self.faithful_method = faithful_method
         self.feature_name = feature_name
         self.std = std
+        self.use_topk = use_topk
 
         logging.info(f" *** there are {len(self.models)} models in :  {model_path}")
 
@@ -734,16 +737,9 @@ class evaluate_noise():
     def faithfulness_experiments_(self, data):
         
         for model_name in self.models:
-
-            if args.use_tasc:
-                tasc_variant = tasc
-                tasc_mech = tasc_variant(data.vocab_size)
-            else:
-                tasc_mech = None
             
             model = BertClassifier_noise(
                 output_dim = self.output_dims,
-                tasc = tasc_mech,
                 # faithful_method='comp',
                 std = self.std,
             )
@@ -764,6 +760,7 @@ class evaluate_noise():
                 model_random_seed = model_random_seed,
                 faithful_method = self.faithful_method,
                 std = self.std,
+                use_topk = self.use_topk,
             )
 
         return

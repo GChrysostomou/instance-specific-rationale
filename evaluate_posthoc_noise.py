@@ -65,9 +65,10 @@ parser.add_argument(
 )
 
 parser.add_argument(
-    '--use_tasc', 
-    help='for using the component by GChrys and Aletras 2021', 
-    action='store_true'
+    '--use_topk', 
+    help='control if use full text or topk for soft rationales', 
+    action='store_true',
+    default=True,
 )
 
 
@@ -92,7 +93,7 @@ parser.add_argument(
     "--std", 
     type = float, 
     help = "decide noise density, the higher the smaller noise, 1 is the normal distribution", 
-    default = 0.05, 
+    default = 0.5, 
 )
 
 
@@ -165,7 +166,7 @@ evaluator = evaluation_pipeline.evaluate_noise(
     model_path = args["model_dir"], 
     output_dims = data.nu_of_labels,
     faithful_method = 'comp',
-    # feature_name = 'attention',
+    use_topk = args["use_topk"],
     std = args["std"],
 )
 
