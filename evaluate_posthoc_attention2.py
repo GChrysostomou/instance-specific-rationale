@@ -31,7 +31,7 @@ parser.add_argument(
     type = str, 
     help = "select dataset / task", 
     default = "sst",
-    # choices = ["evinf", "agnews", "sst","IMDB", "Yelp", "AmazDigiMu", "AmazPantry", "AmazInstr", "fc1", "fc2", "fc3"]
+    # choices = ["evinf", "agnews", "SST","IMDB", "Yelp", "AmazDigiMu", "AmazPantry", "AmazInstr", "fc1", "fc2", "fc3"]
 )
 
 parser.add_argument(
@@ -92,7 +92,7 @@ parser.add_argument(
     "--std", 
     type = float, 
     help = "decide noise density, the higher the smaller noise, 1 is the normal distribution", 
-    default = 0.05, 
+    default = 1, 
 )
 
 
@@ -161,10 +161,10 @@ data = BERT_HOLDER(
     #b_size = args["batch_size"], # TO FIX CUDA OUT OF MEMORY, MAY NOT WORK
 )
 
-evaluator = evaluation_pipeline.evaluate_noise(
+evaluator = evaluation_pipeline.evaluate_attention2(
     model_path = args["model_dir"], 
     output_dims = data.nu_of_labels,
-    faithful_method = 'comp',
+    # faithful_method = 'comp',
     # feature_name = 'attention',
     std = args["std"],
 )

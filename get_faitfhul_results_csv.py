@@ -20,7 +20,7 @@ parser.add_argument(
     "--dataset", 
     type = str, 
     help = "select dataset / task", 
-    default = "multirc", 
+    default = "sst", 
     #choices = ["sst", "evinf", "agnews", "multirc"]
 )
 
@@ -61,7 +61,9 @@ dataset = user_args['dataset']
 def generate_csv(dataset, method, std):
     print('  ========================  ')
     print(str(method))
-    path_name = f"./{faithful_result}{dataset}/{method}" + "*.json"
+    if method != 'NOISE': path_name = f"./{faithful_result}{dataset}/{method}" + "*.json"
+    else: path_name = f"./{faithful_result}{dataset}/{method}" + "*" + f"{std}.json"
+    print(path_name)
     path = glob.glob(path_name)[0]
     print(path)
 
@@ -76,7 +78,7 @@ def generate_csv(dataset, method, std):
 
     fea_list = ['random', 'attention', "scaled attention", "gradients", "ig", "deeplift"] #"gradientshap", 
     for feat in fea_list:
-        if method == NONE:
+        if method == 'topk':
             sufficiency_mean.append(df.AOPC_sufficiency[str(feat)].get('mean'))
             comprehensiveness_mean.append(df.AOPC_comprehensiveness[str(feat)].get('mean'))
         else: # soft true --> no aopc
@@ -116,10 +118,10 @@ def generate_csv(dataset, method, std):
         final_df.to_csv(final_path)
 
 
-generate_csv(str(dataset), 'topk', 1)
-generate_csv(str(dataset), 'NOISE', 1)
-generate_csv(str(dataset), 'ATTENTION', 1)
-generate_csv(str(dataset), 'ZEROOUT', 1)
+generate_csv(str(dataset), 'NOISE', 0.5)
+# generate_csv(str(dataset), 'topk', 1)
+# generate_csv(str(dataset), 'ATTENTION', 1)
+# generate_csv(str(dataset), 'ZEROOUT', 1)
 
 
 
