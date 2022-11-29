@@ -62,7 +62,6 @@ def conduct_tests_(model, data, model_random_seed):
         
         model.eval()
         model.zero_grad()
-
         batch = {
                 "annotation_id" : batch["annotation_id"],
                 "input_ids" : batch["input_ids"].squeeze(1).to(device),
@@ -74,7 +73,11 @@ def conduct_tests_(model, data, model_random_seed):
                 "special_tokens" : batch["special tokens"],
                 "retain_gradient" : False,
             }
-            
+        # print(' ------------------- ')
+        # print(batch["input_ids"])
+        # print(batch["special_tokens"])
+
+        # quit()
         assert batch["input_ids"].size(0) == len(batch["labels"]), "Error: batch size for item 1 not in correct position"
    
         original_prediction =  batch_from_dict_(
@@ -559,6 +562,8 @@ def conduct_experiments_noise_(model, data, model_random_seed,faithful_method, s
                 "std": std,
                 "add_noise": False,
             }
+        print('[[[[[[[[[[[[[[')
+        print(batch['input_ids'])
 
         assert batch["input_ids"].size(0) == len(batch["labels"]), "Error: batch size for item 1 not in correct position"
         
@@ -634,7 +639,7 @@ def conduct_experiments_noise_(model, data, model_random_seed,faithful_method, s
                             no_of_masked_tokens = torch.ceil(batch["lengths"].float() * rationale_length).detach().cpu().numpy(),
                             #method = rationale_type,
                             batch_input_ids = original_sentences,
-                            #special_tokens = batch["special_tokens"],
+                            special_tokens = batch["special_tokens"],
                         )
                     else:
                         rationale_mask = create_rationale_mask_(
@@ -1224,8 +1229,8 @@ def conduct_experiments_attention_2(model, data, model_random_seed, std):
                         importance_scores = feat_score, 
                         no_of_masked_tokens = torch.ceil(batch["lengths"].float() * rationale_length).detach().cpu().numpy(),
                         method = 'topk',
-                        #batch_input_ids = original_sentences,
-                        #special_tokens = batch["special_tokens"],
+                        batch_input_ids = original_sentences,
+                        special_tokens = batch["special_tokens"],
                     )
 
                 else:

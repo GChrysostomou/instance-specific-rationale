@@ -126,10 +126,13 @@ def mask_contigious(sentences, scores, length_to_mask):
     return sentences * mask.long()
 
 
+# need to debug
 def create_rationale_mask_(
         importance_scores : torch.tensor, 
         no_of_masked_tokens : np.ndarray,
-        method : str = "topk"
+        method : str = "topk",
+        batch_input_ids = None,
+        special_tokens = None,
     ):
 
     rationale_mask = []
@@ -160,6 +163,23 @@ def create_rationale_mask_(
         mask = torch.zeros(score.shape).to(device)
         mask = mask.scatter_(-1,  top_k.to(device), 1).long()
 
+                ## now if we have a query we need to preserve the query in the mask
+        if batch_input_ids is not None:
+            
+            # sos_eos = torch.where(batch_input_ids[_i_] == special_tokens)[1][0]
+            # special_tokens 
+            # {'pad_token_id': tensor([0, 0, 0, 0]), 'sep_token_id': tensor([103, 103, 103, 103])}
+
+            # original --> sos_eos = torch.where(batch_input_ids[_i_] == 102) # [0, 101, 102]
+            # print('[[[[[[[[[[[[')
+            # print(batch_input_ids)
+            # print(batch_input_ids[_i_])
+            # print(sos_eos)
+            seq_length = torch.where(batch_input_ids[_i_] == 0)
+            query_end = torch.where(batch_input_ids[_i_] == 103)
+
+            mask[seq_length: query_end+1] = 1 
+
         rationale_mask.append(mask)
 
     rationale_mask = torch.stack(rationale_mask).to(device)
@@ -167,7 +187,9 @@ def create_rationale_mask_(
     return rationale_mask
 
 ## used for preserving queries
-def create_only_query_mask_(batch_input_ids : torch.tensor, special_tokens : dict):
+def create_only_query_mask_(
+    batch_input_ids : torch.tensor, 
+    special_tokens : dict):
 
     query_mask = []
 
