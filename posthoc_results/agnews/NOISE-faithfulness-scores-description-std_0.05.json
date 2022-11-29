@@ -1,0 +1,110 @@
+{
+    "scaled attention": {
+        "sufficiency": {
+            "mean": 0.950922065196561,
+            "std": 0.20514969917037512
+        },
+        "comprehensiveness": {
+            "mean": 0.03486696628464618,
+            "std": 0.16563248412630135
+        },
+        "AOPC - sufficiency": {
+            "mean": 0.0,
+            "std": 0.0
+        },
+        "AOPC - comprehensiveness": {
+            "mean": 0.0,
+            "std": 0.0
+        }
+    },
+    "deeplift": {
+        "sufficiency": {
+            "mean": 0.9631110861309393,
+            "std": 0.17151053831155355
+        },
+        "comprehensiveness": {
+            "mean": 0.033249887929704174,
+            "std": 0.16032272093061617
+        },
+        "AOPC - sufficiency": {
+            "mean": 0.0,
+            "std": 0.0
+        },
+        "AOPC - comprehensiveness": {
+            "mean": 0.0,
+            "std": 0.0
+        }
+    },
+    "ig": {
+        "sufficiency": {
+            "mean": 0.9742070500705299,
+            "std": 0.13791771885576523
+        },
+        "comprehensiveness": {
+            "mean": 0.032391551455606994,
+            "std": 0.15811607333726865
+        },
+        "AOPC - sufficiency": {
+            "mean": 0.0,
+            "std": 0.0
+        },
+        "AOPC - comprehensiveness": {
+            "mean": 0.0,
+            "std": 0.0
+        }
+    },
+    "random": {
+        "sufficiency": {
+            "mean": 0.9739931266180134,
+            "std": 0.13743343694383292
+        },
+        "comprehensiveness": {
+            "mean": 0.029039556140162192,
+            "std": 0.14531385147033404
+        },
+        "AOPC - sufficiency": {
+            "mean": 0.0,
+            "std": 0.0
+        },
+        "AOPC - comprehensiveness": {
+            "mean": 0.0,
+            "std": 0.0
+        }
+    },
+    "gradients": {
+        "sufficiency": {
+            "mean": 0.9722922410213227,
+            "std": 0.1412454320433784
+        },
+        "comprehensiveness": {
+            "mean": 0.020803210537186312,
+            "std": 0.12469530734941206
+        },
+        "AOPC - sufficiency": {
+            "mean": 0.0,
+            "std": 0.0
+        },
+        "AOPC - comprehensiveness": {
+            "mean": 0.0,
+            "std": 0.0
+        }
+    },
+    "attention": {
+        "sufficiency": {
+            "mean": 0.9752292888530215,
+            "std": 0.13112796720148623
+        },
+        "comprehensiveness": {
+            "mean": 0.01718200166764337,
+            "std": 0.11199807386834895
+        },
+        "AOPC - sufficiency": {
+            "mean": 0.0,
+            "std": 0.0
+        },
+        "AOPC - comprehensiveness": {
+            "mean": 0.0,
+            "std": 0.0
+        }
+    }
+}
