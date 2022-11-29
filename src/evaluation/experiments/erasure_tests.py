@@ -25,7 +25,7 @@ np.random.seed(25)
 
 from src.common_code.useful_functions import batch_from_dict_, create_only_query_mask_, create_rationale_mask_ # batch_from_dict --> batch_from_dict_
 from src.common_code.metrics import normalized_comprehensiveness_, normalized_sufficiency_, sufficiency_, normalized_comprehensiveness_soft_, normalized_sufficiency_soft_
-
+from src.common_code.metrics import normalized_comprehensiveness_soft_2, normalized_sufficiency_soft_2
 from sklearn.metrics import classification_report
 
 
@@ -1119,7 +1119,7 @@ def conduct_experiments_attention_2(model, data, model_random_seed, std):
                     )
 
                 ## measuring faithfulness
-                comp, comp_probs  = normalized_comprehensiveness_soft_(
+                comp, comp_probs  = normalized_comprehensiveness_soft_2(
                     model = model, 
                     original_sentences = original_sentences, 
                     rationale_mask = rationale_mask, 
@@ -1127,10 +1127,11 @@ def conduct_experiments_attention_2(model, data, model_random_seed, std):
                     full_text_probs = full_text_probs, 
                     full_text_class = full_text_class, 
                     rows = rows,
+                    importance_scores = feat_score,
                     suff_y_zero = suff_y_zero,
                 )
 
-                suff, suff_probs = normalized_sufficiency_soft_(
+                suff, suff_probs = normalized_sufficiency_soft_2(
                     model = model, 
                     original_sentences = original_sentences, 
                     rationale_mask = rationale_mask, 
@@ -1139,6 +1140,7 @@ def conduct_experiments_attention_2(model, data, model_random_seed, std):
                     full_text_class = full_text_class, 
                     rows = rows,
                     suff_y_zero = suff_y_zero,
+                    importance_scores = feat_score,
                     only_query_mask=only_query_mask,
                 )
 
