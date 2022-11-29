@@ -19,7 +19,7 @@ import glob
 # # torch.cuda.memory_summary(device=None, abbreviated=False)
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
-
+CUDA_LAUNCH_BLOCKING=1.
 
 
 date_time = str(datetime.date.today()) + "_" + ":".join(str(datetime.datetime.now()).split()[1].split(":")[:2])
@@ -30,8 +30,8 @@ parser.add_argument(
     "--dataset", 
     type = str, 
     help = "select dataset / task", 
-    default = "evinf",
-    # choices = ["evinf", "agnews", "sst","IMDB", "Yelp", "AmazDigiMu", "AmazPantry", "AmazInstr", "fc1", "fc2", "fc3"]
+    default = "multirc",
+    # choices = ["evinf", "agnews", "sst","multirc", "Yelp", "AmazDigiMu", "AmazPantry", "AmazInstr", "fc1", "fc2", "fc3"]
 )
 
 parser.add_argument(

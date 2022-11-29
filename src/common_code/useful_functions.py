@@ -165,9 +165,10 @@ def create_rationale_mask_(
 
                 ## now if we have a query we need to preserve the query in the mask
         if batch_input_ids is not None:
-            special_tokens = {'pad_token_id': 0, 'sep_token_id': 103}
+            #special_tokens = {'pad_token_id': 0, 'sep_token_id': 103}
             
-            sos_eos = torch.where(batch_input_ids[_i_] == 103)[0]
+            sos_eos = torch.where(batch_input_ids[_i_] == 102)#[0]
+            print(sos_eos)
             # special_tokens 
             # {'pad_token_id': tensor([0, 0, 0, 0]), 'sep_token_id': tensor([103, 103, 103, 103])}
 

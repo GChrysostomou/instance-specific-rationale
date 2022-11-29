@@ -5,6 +5,7 @@ import json
 
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 print('-----> using ', device)
+CUDA_LAUNCH_BLOCKING=1.
 
 import config.cfg
 from config.cfg import AttrDict
@@ -191,6 +192,20 @@ class BertModelWrapper_zeroout(nn.Module):
 
 
 
+# class GaussianNoise(nn.Module):
+
+#     def __init__(self, sigma=1, is_relative_detach=True):
+#         super().__init__()
+#         self.sigma = sigma
+#         self.is_relative_detach = is_relative_detach
+#         self.register_buffer('noise', torch.tensor(0))
+
+#     def forward(self, x, std):
+#         scale = self.sigma * x.detach() if self.is_relative_detach else self.sigma * x
+#         sampled_noise = self.noise.expand(*x.size()).float().normal_(mean=0, std=std).detach() * scale
+#         x = x + sampled_noise
+#         return x.to(device)
+
 class GaussianNoise(nn.Module):
 
     def __init__(self, sigma=1, is_relative_detach=True):
@@ -201,27 +216,12 @@ class GaussianNoise(nn.Module):
 
     def forward(self, x, std):
         scale = self.sigma * x.detach() if self.is_relative_detach else self.sigma * x
-        sampled_noise = self.noise.expand(*x.size()).float().normal_(mean=0, std=std).to(device) * scale.to(device)
-        x = x + sampled_noise
+        sampled_noise = self.noise.expand(*x.size()).float().normal_(mean=0, std=std).to('cuda:0')
+        #print(sampled_noise.get_device())
+        #print(scale.get_device())
+        scaled_sampled_noise =  sampled_noise * scale
+        x = x + scaled_sampled_noise
         return x.to(device)
-
-# class GaussianNoise(nn.Module):
-
-#     def __init__(self, sigma=1):
-#         super().__init__()
-#         self.sigma = sigma
-#         self.register_buffer('noise', torch.tensor(0))
-
-#     def forward(self, x, std):
-#         scale = self.sigma * x
-#         sampled_noise = self.noise.expand(*x.size()).float().normal_(mean=0, std=std) 
-#         print(scale.device())
-#         print(sampled_noise.device())
-#         #sampled_noise = sampled_noise.to(device)
-#         scaled_sampled_noise = sampled_noise * scale
-#         x = x + scaled_sampled_noise.to(device)
-#         return x
-
 
 class BertModelWrapper_noise(nn.Module):
     

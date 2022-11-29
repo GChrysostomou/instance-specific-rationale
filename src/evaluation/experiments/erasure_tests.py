@@ -73,9 +73,9 @@ def conduct_tests_(model, data, model_random_seed):
                 "special_tokens" : batch["special tokens"],
                 "retain_gradient" : False,
             }
-        # print(' ------------------- ')
-        # print(batch["input_ids"])
-        # print(batch["special_tokens"])
+        print(' ------------------- ')
+        #print(batch["input_ids"])
+        print(batch["special_tokens"])
 
         # quit()
         assert batch["input_ids"].size(0) == len(batch["labels"]), "Error: batch size for item 1 not in correct position"
