@@ -58,16 +58,11 @@ user_args = vars(parser.parse_args())
 faithful_result = user_args['evaluation_dir']
 dataset = user_args['dataset']
 
-def generate_csv(dataset, method, std):
-    print('  ========================  ')
-    print(str(method))
-    if method != 'NOISE': path_name = f"./{faithful_result}{dataset}/{method}" + "*.json"
-    else: path_name = f"./{faithful_result}{dataset}/{method}" + "*" + f"{std}.json"
-    print(path_name)
-    path = glob.glob(path_name)[0]
-    print(path)
+def generate_csv(dataset, method, std, path):
+    file_path = faithful_result + dataset + '/' + path
+    print(file_path)
 
-    df = pd.read_json(path, orient ='index')
+    df = pd.read_json(file_path, orient ='index')
     #print(df)
     df.rename(columns = 
             {'AOPC - sufficiency':'AOPC_sufficiency', 'AOPC - comprehensiveness':'AOPC_comprehensiveness'}, 
@@ -98,7 +93,7 @@ def generate_csv(dataset, method, std):
                 columns =['feature', 'Soft_sufficiency', 'Suff_ratio', 'Soft_comprehensiveness', 'Comp_ratio'])
         
     
-        if method == 'NOISE': final_path = faithful_result + dataset + '/' + str(method) + str(std) +'_faithfulness_result.csv'
+        if 'NOISE' in method: final_path = faithful_result + dataset + '/' + str(method) + str(std) +'_faithfulness_result.csv'
         else: final_path = faithful_result + dataset + '/' + str(method) +'_faithfulness_result.csv'
         
         final_df.to_csv(final_path)
@@ -118,10 +113,18 @@ def generate_csv(dataset, method, std):
         final_df.to_csv(final_path)
 
 
-generate_csv(str(dataset), 'NOISE', 0.5)
-# generate_csv(str(dataset), 'topk', 1)
-# generate_csv(str(dataset), 'ATTENTION', 1)
-# generate_csv(str(dataset), 'ZEROOUT', 1)
+# try: generate_csv(str(dataset), 'NOISE', 1, 'NOISE-faithfulness-scores-description-std_1.json')
+# except: generate_csv(str(dataset), 'NOISE', 1, 'NOISE-faithfulness-scores-description-std_1.0.json')
+# generate_csv(str(dataset), 'NOISE', 0.5, 'NOISE-faithfulness-scores-description-std_0.5.json')
+# generate_csv(str(dataset), 'NOISE', 0.50, 'NOISE-faithfulness-scores-description-std_0.05.json')
+
+generate_csv(str(dataset), 'topk', 1, 'topk-faithfulness-scores-average-description.json')
+
+generate_csv(str(dataset), 'ATTENTION', 1, 'ATTENTION-faithfulness-scores-description.json')
+generate_csv(str(dataset), 'ATTENTION2', 1, 'ATTENTION2-faithfulness-scores-description.json')
+
+generate_csv(str(dataset), 'ZEROOUT', 1, 'ZEROOUT-faithfulness-scores-description.json')
+generate_csv(str(dataset), 'ZEROOUT2', 1, 'ZEROOUT-faithfulness-scores-description.json')
 
 
 
