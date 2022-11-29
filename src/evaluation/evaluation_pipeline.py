@@ -19,7 +19,7 @@ from src.models.bert import BertClassifier_noise, BertClassifier_zeroout, bert, 
 from src.variable_rationales.var_length_feat import get_rationale_metadata_
 #from src.variable_rationales.var_type import select_between_types_
 from src.evaluation.experiments.rationale_extractor import rationale_creator_, rationale_creator_rank_, extract_importance_, extract_lime_scores_, extract_shap_values_
-from src.evaluation.experiments.erasure_tests import conduct_tests_, conduct_experiments_noise_, conduct_experiments_zeroout_, conduct_experiments_attention_
+from src.evaluation.experiments.erasure_tests import conduct_tests_, conduct_experiments_noise_, conduct_experiments_zeroout_, conduct_experiments_attention_, conduct_experiments_attention_2
 from src.evaluation.experiments.increasing_feature_scoring import compute_faithfulness_
 import re
 
@@ -805,16 +805,10 @@ class evaluate_attention():
     def faithfulness_experiments_(self, data):
         
         for model_name in self.models:
-
-            if args.use_tasc:
-                tasc_variant = tasc
-                tasc_mech = tasc_variant(data.vocab_size)
-            else:
-                tasc_mech = None
             
             model = BertClassifier_attention(
                 output_dim = self.output_dims,
-                tasc = tasc_mech,
+                #tasc = tasc_mech,
                 # faithful_method='comp',
                 #std = self.std,
             )
@@ -830,6 +824,70 @@ class evaluate_attention():
             model_random_seed = re.sub("bert", "", model_name.split(".pt")[0].split("/")[-1])
 
             conduct_experiments_attention_(
+                model = model, 
+                data = data.test_loader,
+                model_random_seed = model_random_seed,
+                #faithful_method = self.faithful_method,
+                std = self.std,
+            )
+
+        return
+
+
+class evaluate_attention2():
+
+    """
+    Class that contains method of rationale extraction as in:
+        saliency scorer and thresholder approach
+    Saves rationales in a csv file with their dedicated annotation_id 
+    """
+
+    def __init__(self, model_path, output_dims = 2,
+                # faithful_method = 'comp',
+                # feature_name = 'attention',
+                std = 1):
+        
+        """
+        loads and holds a pretrained model
+        """
+        print(model_path, args["model_abbreviation"])
+        self.models = glob.glob(model_path + args["model_abbreviation"] + "*.pt")
+        self.output_dims = output_dims
+        # self.faithful_method = faithful_method
+        #self.feature_name = feature_name
+        self.std = std
+
+        logging.info(f" *** there are {len(self.models)} models in :  {model_path}")
+
+        if len(self.models) == 0:
+
+            raise FileNotFoundError(
+                f"*** no models in directory -> {model_path}"
+            )
+
+    # for soft in evaluate_soft
+    def faithfulness_experiments_(self, data):
+        
+        for model_name in self.models:
+            
+            model = BertClassifier_attention(
+                output_dim = self.output_dims,
+                #tasc = tasc_mech,
+                # faithful_method='comp',
+                #std = self.std,
+            )
+
+            logging.info(f" *** loading model - {model_name}")
+
+            model.load_state_dict(torch.load(model_name, map_location=device))
+            model.to(device)
+
+            logging.info(f" *** succesfully loaded model - {model_name}")
+            print('successfully loaded model for evaluating faithfulness')
+
+            model_random_seed = re.sub("bert", "", model_name.split(".pt")[0].split("/")[-1])
+
+            conduct_experiments_attention_2(
                 model = model, 
                 data = data.test_loader,
                 model_random_seed = model_random_seed,
