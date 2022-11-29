@@ -405,7 +405,9 @@ class evaluate_zeroout():
 
     def __init__(self, model_path, output_dims = 2,
                 faithful_method = 'comp',
-                feature_name = 'attention'):
+                feature_name = 'attention',
+                use_topk = True,
+                ):
         
         """
         loads and holds a pretrained model
@@ -415,6 +417,7 @@ class evaluate_zeroout():
         self.output_dims = output_dims
         self.faithful_method = faithful_method
         self.feature_name = feature_name
+        self.use_topk = use_topk
 
         logging.info(f" *** there are {len(self.models)} models in :  {model_path}")
 
@@ -476,16 +479,10 @@ class evaluate_zeroout():
     def faithfulness_experiments_(self, data):
         
         for model_name in self.models:
-
-            if args.use_tasc:
-                tasc_variant = tasc
-                tasc_mech = tasc_variant(data.vocab_size)
-            else:
-                tasc_mech = None
             
             model = BertClassifier_zeroout(
                 output_dim = self.output_dims,
-                tasc = tasc_mech,
+                # tasc = tasc_mech,
                 # faithful_method='comp',
             )
 
@@ -505,6 +502,7 @@ class evaluate_zeroout():
                 model_random_seed = model_random_seed,
                 faithful_method = self.faithful_method,
                 set = None,
+                use_topk = self.use_topk,
             )
 
         return
@@ -661,7 +659,7 @@ class evaluate_noise():
 
     def __init__(self, model_path, output_dims = 2,
                 faithful_method = 'comp',
-                feature_name = 'attention',
+                #feature_name = 'attention',
                 std = 1,
                 use_topk = True,
                 ):
@@ -673,7 +671,7 @@ class evaluate_noise():
         self.models = glob.glob(model_path + args["model_abbreviation"] + "*.pt")
         self.output_dims = output_dims
         self.faithful_method = faithful_method
-        self.feature_name = feature_name
+        #self.feature_name = feature_name
         self.std = std
         self.use_topk = use_topk
 

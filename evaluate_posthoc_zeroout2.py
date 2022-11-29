@@ -65,8 +65,8 @@ parser.add_argument(
 )
 
 parser.add_argument(
-    '--use_topk', 
-    help='control if use full text or topk for soft rationales', 
+    '--use_tasc', 
+    help='for using the component by GChrys and Aletras 2021', 
     action='store_true',
     default=False,
 )
@@ -159,7 +159,6 @@ evaluator = evaluation_pipeline.evaluate_zeroout(
     output_dims = data.nu_of_labels,
     faithful_method = 'comp',
     feature_name = 'attention',
-    use_topk = args["use_topk"],
 )
 
 # will generate
