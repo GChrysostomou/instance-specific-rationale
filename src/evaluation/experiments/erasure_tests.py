@@ -882,6 +882,8 @@ def conduct_experiments_noise_(model, data, model_random_seed,faithful_method, s
 
     # filling getting averages
     for feat_attr in {"random", "attention", "scaled attention", "ig", "gradients", "deeplift"}: #"ig", "lime","deepliftshap",
+        print(faithfulness_results.keys())
+        print(faithfulness_results)
         
         sufficiencies = np.asarray([faithfulness_results[k][feat_attr][f"sufficiency"] for k in faithfulness_results.keys()])
         comprehensivenesses = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness"] for k in faithfulness_results.keys()])

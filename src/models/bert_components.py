@@ -216,7 +216,7 @@ class GaussianNoise(nn.Module):
 
     def forward(self, x, std):
         scale = self.sigma * x.detach() if self.is_relative_detach else self.sigma * x
-        sampled_noise = self.noise.expand(*x.size()).float().normal_(mean=0, std=std).to('cuda:0')
+        sampled_noise = self.noise.expand(*x.size()).float().normal_(mean=0, std=std).to(device)
         #print(sampled_noise.get_device())
         #print(scale.get_device())
         scaled_sampled_noise =  sampled_noise * scale
