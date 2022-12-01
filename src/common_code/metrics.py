@@ -208,21 +208,23 @@ def normalized_sufficiency_soft_(model, use_topk,
                             full_text_probs : np.array, 
                             full_text_class : np.array, 
                             rows : np.array, 
-                            suff_y_zero : np.array, 
-                            only_query_mask : torch.tensor,
+                            suff_y_zero : np.array,
                             importance_scores: torch.tensor,
-                            
+                            only_query_mask: torch.tensor,
                             ) -> np.array:
 
     # for sufficiency we always keep the rationale
     # since ones represent rationale tokens
     # preserve cls
+
     if use_topk:
+        ## preserve cls
         rationale_mask[:,0] = 1
-    # preserve sep
+        ## preserve sep
         rationale_mask[torch.arange(rationale_mask.size(0)).to(device), inputs["lengths"]] = 1
-        inputs["input_ids"]  =  (rationale_mask + only_query_mask) * original_sentences
-    else:
+        inputs["input_ids"]  =  rationale_mask[:,:original_sentences.size(1)] * original_sentences
+
+    else: 
         inputs["input_ids"]  =  original_sentences
 
     

@@ -403,10 +403,9 @@ class evaluate_zeroout():
     Saves rationales in a csv file with their dedicated annotation_id 
     """
 
-    def __init__(self, model_path, output_dims = 2,
-                faithful_method = 'comp',
-                feature_name = 'attention',
-                use_topk = True,
+    def __init__(self, model_path, output_dims, use_topk,
+                # faithful_method = 'comp',
+                # feature_name = 'attention',
                 ):
         
         """
@@ -415,65 +414,65 @@ class evaluate_zeroout():
         print(model_path, args["model_abbreviation"])
         self.models = glob.glob(model_path + args["model_abbreviation"] + "*.pt")
         self.output_dims = output_dims
-        self.faithful_method = faithful_method
-        self.feature_name = feature_name
+        # self.faithful_method = faithful_method
+        # self.feature_name = feature_name
         self.use_topk = use_topk
 
         logging.info(f" *** there are {len(self.models)} models in :  {model_path}")
 
         if len(self.models) == 0:
-
             raise FileNotFoundError(
-                f"*** no models in directory -> {model_path}"
-            )
- 
-    def create_rationales_(self, data):
+                f"*** no models in directory -> {model_path}")
+    
+
+    # FOR SOT, WE DO NOT WANT TO CREATE RATIONALES
+    # def create_rationales_(self, data):
         
-        ## lets check how many models extracted importance_scores
-        fname = os.path.join(
-            os.getcwd(),
-            args["extracted_rationale_dir"],
-            "importance_scores",
-            ""
-        )
+    #     ## lets check how many models extracted importance_scores
+    #     fname = os.path.join(
+    #         os.getcwd(),
+    #         args["extracted_rationale_dir"],
+    #         "importance_scores",
+    #         ""
+    #     )
 
-        for data_split_name, data_split in data.as_dataframes_().items():
+    #     for data_split_name, data_split in data.as_dataframes_().items():
 
-            # if data_split_name in ["train", "dev"]: ## REMOVE AFTER to testing
-            #
-            #     continue
+    #         # if data_split_name in ["train", "dev"]: ## REMOVE AFTER to testing
+    #         #
+    #         #     continue
 
-            score_list = glob.glob(fname + f"{data_split_name}*scores-*.npy")
+    #         score_list = glob.glob(fname + f"{data_split_name}*scores-*.npy")
 
-            if args.use_tasc: score_list = [x for x in score_list if "tasc" in x]
-            else: score_list = [x for x in score_list if "tasc" not in x]
+    #         if args.use_tasc: score_list = [x for x in score_list if "tasc" in x]
+    #         else: score_list = [x for x in score_list if "tasc" not in x]
 
-            score_list = [x for x in score_list if f"-OOD-" not in x]
+    #         score_list = [x for x in score_list if f"-OOD-" not in x]
             
-            model_seeds = [x.split(".npy")[0].split("-")[-1] for x in score_list]
+    #         model_seeds = [x.split(".npy")[0].split("-")[-1] for x in score_list]
             
-            if len(model_seeds) > 1:
-                print(' model seeds includes: -------')
-                print(model_seeds)
+    #         if len(model_seeds) > 1:
+    #             print(' model seeds includes: -------')
+    #             print(model_seeds)
 
-                raise NotImplementedError("""
+    #             raise NotImplementedError("""
 
-                Not yet implemented for more than one seeds for rationale extraction.
-                Too expensive to run models on all rationales (e.g. 5 seeds x 6 feature scorings x 3 runs on each for training). 
-                So just use one.
-                """)
+    #             Not yet implemented for more than one seeds for rationale extraction.
+    #             Too expensive to run models on all rationales (e.g. 5 seeds x 6 feature scorings x 3 runs on each for training). 
+    #             So just use one.
+    #             """)
 
-            for seed in model_seeds:
+    #         for seed in model_seeds:
 
-                rationale_creator_(
-                    data = data_split,
-                    data_split_name = data_split_name,
-                    tokenizer = data.tokenizer,
-                    model_random_seed=seed
-                )
+    #             rationale_creator_(
+    #                 data = data_split,
+    #                 data_split_name = data_split_name,
+    #                 tokenizer = data.tokenizer,
+    #                 model_random_seed=seed
+    #             )
 
 
-        return
+    #     return
 
     # for soft in evaluate_soft
     def faithfulness_experiments_(self, data):
@@ -500,8 +499,8 @@ class evaluate_zeroout():
                 model = model, 
                 data = data.test_loader,
                 model_random_seed = model_random_seed,
-                faithful_method = self.faithful_method,
-                set = None,
+                #faithful_method = self.faithful_method,
+                #set = None,
                 use_topk = self.use_topk,
             )
 
@@ -756,7 +755,7 @@ class evaluate_noise():
                 model = model, 
                 data = data.test_loader,
                 model_random_seed = model_random_seed,
-                faithful_method = self.faithful_method,
+                #faithful_method = self.faithful_method,
                 std = self.std,
                 use_topk = self.use_topk,
             )
@@ -773,10 +772,11 @@ class evaluate_attention():
     Saves rationales in a csv file with their dedicated annotation_id 
     """
 
-    def __init__(self, model_path, output_dims = 2,
+    def __init__(self, model_path, output_dims, use_topk,
                 # faithful_method = 'comp',
                 # feature_name = 'attention',
-                std = 1):
+                #std = 1
+                ):
         
         """
         loads and holds a pretrained model
@@ -786,15 +786,14 @@ class evaluate_attention():
         self.output_dims = output_dims
         # self.faithful_method = faithful_method
         #self.feature_name = feature_name
-        self.std = std
+        #self.std = std
+        self.use_topk =use_topk
 
         logging.info(f" *** there are {len(self.models)} models in :  {model_path}")
 
         if len(self.models) == 0:
-
             raise FileNotFoundError(
-                f"*** no models in directory -> {model_path}"
-            )
+                f"*** no models in directory -> {model_path}")
 
     # for soft in evaluate_soft
     def faithfulness_experiments_(self, data):
@@ -823,7 +822,8 @@ class evaluate_attention():
                 data = data.test_loader,
                 model_random_seed = model_random_seed,
                 #faithful_method = self.faithful_method,
-                std = self.std,
+                #std = self.std,
+                use_topk=self.use_topk,
             )
 
         return

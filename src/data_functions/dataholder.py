@@ -22,7 +22,8 @@ class BERT_HOLDER():
     """
     def __init__(self, path = str, b_size = 8 , #mask_list = list, 
                 for_rationale = False, variable = False, 
-                return_as_frames = False, stage = "train", interpolation=False):
+                return_as_frames = False, stage = "train",
+                ):
         
         assert type(b_size) == int
     

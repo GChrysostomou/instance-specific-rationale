@@ -30,7 +30,7 @@ parser.add_argument(
     "--dataset", 
     type = str, 
     help = "select dataset / task", 
-    default = "sst",
+    default = "evinf",
     # choices = ["multirc", "agnews", "SST","IMDB", "Yelp", "evinf", "AmazPantry", "AmazInstr", "fc1", "fc2", "fc3"]
 )
 
@@ -64,11 +64,12 @@ parser.add_argument(
     default = "extracted_rationales/"
 )
 
+
 parser.add_argument(
-    '--use_topk', 
-    help='control if use full text or topk for soft rationales', 
-    action='store_true',
-    default=False,
+    "--std", 
+    type = float, 
+    help = "decide noise density, the higher the smaller noise, 1 is the normal distribution", 
+    default = 1, 
 )
 
 parser.add_argument(
@@ -85,6 +86,14 @@ parser.add_argument(
     help = "select dataset / task", 
     default = None, 
     choices = [None, "kuma", "rl"]
+)
+
+
+parser.add_argument(
+    '--use_topk', 
+    help='for using the component by GChrys and Aletras 2021', 
+    action='store_true',
+    default=True,
 )
 
 parser.add_argument(
@@ -150,24 +159,20 @@ data = BERT_HOLDER(
     args["data_dir"], 
     stage = "eval",
     b_size = 4,
-    interpolation=args["interpolation_analysis"],
     #b_size = args["batch_size"], # TO FIX CUDA OUT OF MEMORY, MAY NOT WORK
 )
 
 evaluator = evaluation_pipeline.evaluate_zeroout(
     model_path = args["model_dir"], 
     output_dims = data.nu_of_labels,
-    faithful_method = 'comp',
-    feature_name = 'attention',
+    # faithful_method = 'top',
+    # feature_name = 'attention',
     use_topk = args["use_topk"],
 )
 
 # will generate
 logging.info("*********conducting in-domain flip experiments")
 print('"*********conducting flip experiments on in-domain"')
-
-
-
 evaluator.faithfulness_experiments_(data)
 print('"********* DONE flip experiments on in-domain"')
 

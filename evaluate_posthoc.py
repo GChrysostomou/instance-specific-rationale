@@ -44,7 +44,6 @@ parser.add_argument(
     "--model_dir",   
     type = str, 
     help = "directory to save models", 
-    # default = "full_text_models/",
     default="trained_models/"
 )
 

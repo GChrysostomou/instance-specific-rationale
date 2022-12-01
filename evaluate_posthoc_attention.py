@@ -30,7 +30,7 @@ parser.add_argument(
     "--dataset", 
     type = str, 
     help = "select dataset / task", 
-    default = "sst",
+    default = "evinf",
     # choices = ["evinf", "agnews", "SST","IMDB", "Yelp", "AmazDigiMu", "AmazPantry", "AmazInstr", "fc1", "fc2", "fc3"]
 )
 
@@ -68,6 +68,13 @@ parser.add_argument(
     '--use_tasc', 
     help='for using the component by GChrys and Aletras 2021', 
     action='store_true'
+)
+
+parser.add_argument(
+    '--use_topk', 
+    help='for using the component by GChrys and Aletras 2021', 
+    action='store_true',
+    default=False,
 )
 
 
@@ -154,6 +161,37 @@ model_path = os.path.join(
 
 print(model_path)
 
+# data = BERT_HOLDER(
+#     args["data_dir"], 
+#     stage = "eval",
+#     b_size = 4,
+#     #b_size = args["batch_size"], # TO FIX CUDA OUT OF MEMORY, MAY NOT WORK
+# )
+
+# evaluator = evaluation_pipeline.evaluate_attention(
+#     model_path = args["model_dir"], 
+#     output_dims = data.nu_of_labels,
+#     # faithful_method = 'comp',
+#     # feature_name = 'attention',
+#     std = args["std"],
+#     use_topk = False,
+# )
+
+# # will generate
+# logging.info("*********conducting in-domain flip experiments")
+# print('"*********conducting flip experiments on in-domain"')
+# evaluator.faithfulness_experiments_(data)
+# print('"********* DONE flip experiments on in-domain"')
+
+
+# del data
+# del evaluator
+# gc.collect()
+
+
+
+
+
 data = BERT_HOLDER(
     args["data_dir"], 
     stage = "eval",
@@ -166,24 +204,19 @@ evaluator = evaluation_pipeline.evaluate_attention(
     output_dims = data.nu_of_labels,
     # faithful_method = 'comp',
     # feature_name = 'attention',
-    std = args["std"],
+    #std = args["std"],
+    use_topk = args["use_topk"],
 )
-
-
 
 # will generate
 logging.info("*********conducting in-domain flip experiments")
 print('"*********conducting flip experiments on in-domain"')
-
-
-
 evaluator.faithfulness_experiments_(data)
 print('"********* DONE flip experiments on in-domain"')
+
 
 del data
 del evaluator
 gc.collect()
-
-
 
 torch.cuda.empty_cache()
