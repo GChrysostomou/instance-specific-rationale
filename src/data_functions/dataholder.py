@@ -160,9 +160,9 @@ class BERT_HOLDER_interpolation():
             if args.use_tasc: args["importance_metric"] = "tasc_" + args["importance_metric"]
             path += args["thresholder"] + "/" + args["importance_metric"] + "-"
 
-        with open(f"{path}train.json", "r") as file: train = json.load(file)#[111:132]
-        with open(f"{path}dev.json", "r") as file: dev = json.load(file)#[111:132]
-        with open(f"{path}test.json", "r") as file: test = json.load(file)#[222:332]
+        with open(f"{path}train.json", "r") as file: train = json.load(file)[111:132]
+        with open(f"{path}dev.json", "r") as file: dev = json.load(file)[111:132]
+        with open(f"{path}test.json", "r") as file: test = json.load(file)[222:332]
 
         ## load data
         if interpolation == True: 

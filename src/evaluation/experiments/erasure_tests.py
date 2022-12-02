@@ -915,12 +915,12 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk): #
                 "std" : comprehensivenesses.std()
             },
             "AOPC - sufficiency" : {
-                "mean" : aopc_suff.mean(),
-                "std" : aopc_suff.std()
+                "mean" : suff_aopc.mean(),
+                "std" : suff_aopc.std()
             },
             "AOPC - comprehensiveness" : {
-                "mean" : aopc_comp.mean(),
-                "std" : aopc_comp.std()
+                "mean" : comp_aopc.mean(),
+                "std" : comp_aopc.std()
             }
         }
 

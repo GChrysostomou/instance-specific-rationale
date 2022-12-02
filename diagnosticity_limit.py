@@ -48,11 +48,11 @@ user_args = vars(parser.parse_args())
 dataset = str(user_args["dataset"])
 pwd = os.getcwd()
 
-topk_scores_file = os.path.join(pwd, 'posthoc_results', str(dataset), 'topk-faithfulness-scores-detailed.npy')
+topk_scores_file = os.path.join(pwd, 'posthoc_results', str(dataset), 'topk-faithfulness-scores-detailed.npy') 
 
-NOISE_scores_file = os.path.join(pwd, 'posthoc_results', str(dataset), 'NOISE-faithfulness-scores-detailed-std_' + str(user_args["std"]) + '.npy') 
-ATTENTION_scores_file = os.path.join(pwd, 'posthoc_results', str(dataset), 'ATTENTION-faithfulness-scores-detailed.npy')
-ZEROOUT_scores_file = os.path.join(pwd, 'posthoc_results', str(dataset), 'ZEROOUT-faithfulness-scores-detailed.npy')
+NOISE_scores_file = os.path.join(pwd, 'posthoc_results', str(dataset), 'NOISElimit-faithfulness-scores-detailed-std_' + str(user_args["std"]) + '.npy') 
+ATTENTION_scores_file = os.path.join(pwd, 'posthoc_results', str(dataset), 'ATTENTIONlimit-faithfulness-scores-detailed.npy')
+ZEROOUT_scores_file = os.path.join(pwd, 'posthoc_results', str(dataset), 'ZEROOUTlimit-faithfulness-scores-detailed.npy')
 
 
 
@@ -83,23 +83,23 @@ for FA in fea_list:
     for i, data_id in enumerate(data_id_list):
 
         top_random_suff_score = TOPk_scores.get(data_id).get('random').get('sufficiency aopc').get('mean')
-        NOISE_random_suff_score = NOISE_scores.get(data_id).get('random').get('sufficiency')#.get('mean')
-        ZEROOUT_random_suff_score = ZEROOUT_scores.get(data_id).get('random').get('sufficiency')#.get('mean')
-        ATTENTION_random_suff_score = ATTENTION_scores.get(data_id).get('random').get('sufficiency')#.get('mean')
+        NOISE_random_suff_score = NOISE_scores.get(data_id).get('random').get('sufficiency aopc').get('mean')#.get('mean')
+        ZEROOUT_random_suff_score = ZEROOUT_scores.get(data_id).get('random').get('sufficiency aopc').get('mean')#.get('mean')
+        ATTENTION_random_suff_score = ATTENTION_scores.get(data_id).get('random').get('sufficiency aopc').get('mean')#.get('mean')
 
         top_suff_score = TOPk_scores.get(data_id).get(FA).get('sufficiency aopc').get('mean') # evinf @ 0.1
         if top_suff_score >= top_random_suff_score: Diag_TOP_attention += 1
         else: pass
 
-        NOISE_suff_score = NOISE_scores.get(data_id).get(FA).get('sufficiency')
+        NOISE_suff_score = NOISE_scores.get(data_id).get(FA).get('sufficiency aopc').get('mean')
         if NOISE_suff_score >= NOISE_random_suff_score: Diag_NOISE_attention += 1
         else: pass
 
-        ZEROOUT_suff_score = ZEROOUT_scores.get(data_id).get(FA).get('sufficiency')
+        ZEROOUT_suff_score = ZEROOUT_scores.get(data_id).get(FA).get('sufficiency aopc').get('mean')
         if ZEROOUT_suff_score >= ZEROOUT_random_suff_score: Diag_ZEROOUT_attention += 1
         else: pass
 
-        ATTENTION_suff_score = ATTENTION_scores.get(data_id).get(FA).get('sufficiency')
+        ATTENTION_suff_score = ATTENTION_scores.get(data_id).get(FA).get('sufficiency aopc').get('mean')
         if ATTENTION_suff_score >= ATTENTION_random_suff_score: Diag_ATTENTION_attention += 1
         else: pass
 
@@ -118,9 +118,9 @@ for FA in fea_list:
 
 
 df = pd.DataFrame(list(zip(fea_list, D_TOP_Suff, D_ATTENTION_Suff, D_ZEROOUT_Suff, D_NOISE_Suff)),
-               columns =['Feature', 'TopK', 'Soft(ATTENTION)', 'Soft(ZEROOUT)', 'Soft(NOISE1)'])
+               columns =['Feature', 'TopK', 'Soft(ATTENTION limit)', 'Soft(ZEROOUT limit)', 'Soft(NOISE limit)'])
 
-fname = os.path.join(pwd, 'Diagnosticity', str(dataset), 'Diagnosticity_Suff.csv')
+fname = os.path.join(pwd, 'Diagnosticity', str(dataset), 'Diagnosticity_Suff_limit.csv')
 os.makedirs(os.path.join(pwd, 'Diagnosticity', str(dataset)), exist_ok=True)
 print(df)
 df.to_csv(fname)
@@ -145,23 +145,23 @@ for FA in fea_list:
     for i, data_id in enumerate(data_id_list):
 
         top_random_suff_score = TOPk_scores.get(data_id).get('random').get('comprehensiveness aopc').get('mean')
-        NOISE_random_suff_score = NOISE_scores.get(data_id).get('random').get('comprehensiveness')#.get('mean')
-        ZEROOUT_random_suff_score = ZEROOUT_scores.get(data_id).get('random').get('comprehensiveness')#.get('mean')
-        ATTENTION_random_suff_score = ATTENTION_scores.get(data_id).get('random').get('comprehensiveness')#.get('mean')
+        NOISE_random_suff_score = NOISE_scores.get(data_id).get('random').get('comprehensiveness aopc').get('mean')#.get('mean')
+        ZEROOUT_random_suff_score = ZEROOUT_scores.get(data_id).get('random').get('comprehensiveness aopc').get('mean')#.get('mean')
+        ATTENTION_random_suff_score = ATTENTION_scores.get(data_id).get('random').get('comprehensiveness aopc').get('mean')#.get('mean')
 
         top_suff_score = TOPk_scores.get(data_id).get(FA).get('comprehensiveness aopc').get('mean') # evinf @ 0.1
         if top_suff_score >= top_random_suff_score: Diag_TOP_attention += 1
         else: pass
 
-        NOISE_suff_score = NOISE_scores.get(data_id).get(FA).get('comprehensiveness')
+        NOISE_suff_score = NOISE_scores.get(data_id).get(FA).get('comprehensiveness aopc').get('mean')
         if NOISE_suff_score >= NOISE_random_suff_score: Diag_NOISE_attention += 1
         else: pass
 
-        ZEROOUT_suff_score = ZEROOUT_scores.get(data_id).get(FA).get('comprehensiveness')
+        ZEROOUT_suff_score = ZEROOUT_scores.get(data_id).get(FA).get('comprehensiveness aopc').get('mean')
         if ZEROOUT_suff_score >= ZEROOUT_random_suff_score: Diag_ZEROOUT_attention += 1
         else: pass
 
-        ATTENTION_suff_score = ATTENTION_scores.get(data_id).get(FA).get('comprehensiveness')
+        ATTENTION_suff_score = ATTENTION_scores.get(data_id).get(FA).get('comprehensiveness aopc').get('mean')
         if ATTENTION_suff_score >= ATTENTION_random_suff_score: Diag_ATTENTION_attention += 1
         else: pass
 
@@ -180,9 +180,9 @@ for FA in fea_list:
 
 
 df = pd.DataFrame(list(zip(fea_list, D_TOP_Suff, D_ATTENTION_Suff, D_ZEROOUT_Suff, D_NOISE_Suff)),
-               columns =['Feature', 'TopK', 'Soft(ATTENTION)', 'Soft(ZEROOUT)', 'Soft(NOISE)'])
+               columns =['Feature', 'TopK', 'Soft(ATTENTION limit)', 'Soft(ZEROOUT limit)', 'Soft(NOISE limit)'])
 
-fname = os.path.join(pwd, 'Diagnosticity', str(dataset), 'Diagnosticity_Comp.csv')
+fname = os.path.join(pwd, 'Diagnosticity', str(dataset), 'Diagnosticity_Comp-limit.csv')
 os.makedirs(os.path.join(pwd, 'Diagnosticity', str(dataset)), exist_ok=True)
 df.to_csv(fname)
 
