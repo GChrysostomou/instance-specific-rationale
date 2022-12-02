@@ -111,10 +111,10 @@ def generate_csv(dataset, method, std, path):
 
 
 
-generate_csv(str(dataset), 'topk', 1, 'topk-faithfulness-scores-average-description.json')
+#generate_csv(str(dataset), 'topk', 1, 'topk-faithfulness-scores-average-description.json')
 
-# generate_csv(str(dataset), 'ATTENTION', 1, 'ATTENTION-faithfulness-scores-description.json')
-# generate_csv(str(dataset), 'ATTENTIONlimit', 1, 'ATTENTIONlimit-faithfulness-scores-description.json')
+generate_csv(str(dataset), 'ATTENTION', 1, 'ATTENTION-faithfulness-scores-description.json')
+generate_csv(str(dataset), 'ATTENTIONlimit', 1, 'ATTENTIONlimit-faithfulness-scores-description.json')
 
 # generate_csv(str(dataset), 'ZEROOUT', 1, 'ZEROOUT-faithfulness-scores-description.json')
 # generate_csv(str(dataset), 'ZEROOUTlimit', 1, 'ZEROOUTlimit-faithfulness-scores-description.json')

@@ -13,13 +13,13 @@ import logging
 import gc
 import datetime
 import sys
-import glob
 
 # torch.cuda.empty_cache()
 # # torch.cuda.memory_summary(device=None, abbreviated=False)
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
-CUDA_LAUNCH_BLOCKING=1.
+
+
 
 
 date_time = str(datetime.date.today()) + "_" + ":".join(str(datetime.datetime.now()).split()[1].split(":")[:2])
@@ -30,7 +30,8 @@ parser.add_argument(
     "--dataset", 
     type = str, 
     help = "select dataset / task", 
-    default = "sst",  # choices = ["evinf", "agnews", "sst","multirc"]
+    default = "evinf",
+    # choices = ["multirc", "agnews", "sst","evinf"]
 )
 
 parser.add_argument(
@@ -48,6 +49,7 @@ parser.add_argument(
     default="trained_models/"
 )
 
+
 parser.add_argument(
     "--evaluation_dir",   
     type = str, 
@@ -62,13 +64,13 @@ parser.add_argument(
     default = "extracted_rationales/"
 )
 
-parser.add_argument(
-    '--use_topk', 
-    help='control if use full text or topk for soft rationales', 
-    action='store_true',
-    default=False,
-)
 
+parser.add_argument(
+    "--std", 
+    type = float, 
+    help = "decide noise density, the higher the smaller noise, 1 is the normal distribution", 
+    default = 1, 
+)
 
 parser.add_argument(
     "--thresholder", 
@@ -78,7 +80,6 @@ parser.add_argument(
     choices = ["contigious", "topk"]
 )
 
-
 parser.add_argument(
     "--inherently_faithful", 
     type = str, 
@@ -87,11 +88,12 @@ parser.add_argument(
     choices = [None, "kuma", "rl"]
 )
 
+
 parser.add_argument(
-    "--std", 
-    type = float, 
-    help = "decide noise density, the higher the smaller noise, 1 is the normal distribution", 
-    default = 0.5, 
+    '--use_topk', 
+    help='for using the component by GChrys and Aletras 2021', 
+    action='store_true',
+    default=True,
 )
 
 
@@ -135,14 +137,8 @@ logging.info("config  : \n ----------------------")
 logging.info("\n ----------------------")
 
 
-
-torch.autograd.set_detect_anomaly(True)
-
-
-
-
 import glob
-from src.data_functions.dataholder import BERT_HOLDER, BERT_HOLDER_interpolation
+from src.data_functions.dataholder import BERT_HOLDER
 from src.evaluation import evaluation_pipeline
 
 model_path = os.path.join(
@@ -160,22 +156,17 @@ data = BERT_HOLDER(
     #b_size = args["batch_size"], # TO FIX CUDA OUT OF MEMORY, MAY NOT WORK
 )
 
-evaluator = evaluation_pipeline.evaluate_noise(
+evaluator = evaluation_pipeline.evaluate_zeroout2attention(
     model_path = args["model_dir"], 
     output_dims = data.nu_of_labels,
-    #faithful_method = 'topk',
+    # faithful_method = 'top',
+    # feature_name = 'attention',
     use_topk = args["use_topk"],
-    std = args["std"],
 )
-
-
 
 # will generate
 logging.info("*********conducting in-domain flip experiments")
 print('"*********conducting flip experiments on in-domain"')
-
-
-
 evaluator.faithfulness_experiments_(data)
 print('"********* DONE flip experiments on in-domain"')
 
