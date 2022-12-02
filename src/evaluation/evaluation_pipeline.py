@@ -18,8 +18,8 @@ with open(config.cfg.config_directory + 'instance_config.json', 'r') as f:
 from src.models.bert import BertClassifier_noise, BertClassifier_zeroout, bert, BertClassifier_attention
 from src.variable_rationales.var_length_feat import get_rationale_metadata_
 #from src.variable_rationales.var_type import select_between_types_
-from src.evaluation.experiments.rationale_extractor import rationale_creator_, rationale_creator_rank_, extract_importance_, extract_lime_scores_, extract_shap_values_
-from src.evaluation.experiments.erasure_tests import conduct_tests_, conduct_experiments_noise_, conduct_experiments_zeroout_, conduct_experiments_attention_, conduct_experiments_attention_2
+from src.evaluation.experiments.rationale_extractor import rationale_creator_, extract_importance_, extract_lime_scores_, extract_shap_values_
+from src.evaluation.experiments.erasure_tests import conduct_tests_, conduct_experiments_noise_, conduct_experiments_zeroout_, conduct_experiments_attention_
 from src.evaluation.experiments.increasing_feature_scoring import compute_faithfulness_
 import re
 
@@ -195,13 +195,6 @@ class evaluate():
                     #variable = False
                 )
 
-                # rationale_creator_(
-                #     data = data_split,
-                #     data_split_name = data_split_name,
-                #     tokenizer = data.tokenizer,
-                #     #variable = True
-                # )
-
             except:
 
                 raise NotImplementedError
@@ -259,47 +252,47 @@ class evaluate():
     
     
     
-    def soft_faithfulness_metrics_(self, data):
+    # def soft_faithfulness_metrics_(self, data):
         
-        for model_name in self.models:
+    #     for model_name in self.models:
             
-            ## check first if necessary data exists
-            fname = os.path.join(
-                os.getcwd(),
-                args["extracted_rationale_dir"],
-                args["thresholder"],
-                "test-rationale_metadata.npy"
-            )
+    #         ## check first if necessary data exists
+    #         fname = os.path.join(
+    #             os.getcwd(),
+    #             args["extracted_rationale_dir"],
+    #             args["thresholder"],
+    #             "test-rationale_metadata.npy"
+    #         )
 
-            if os.path.isfile(fname) == False:
-                raise OSError(f"rationale metadata file does not exist at {fname} // rerun extract_rationales.py") from None
+    #         if os.path.isfile(fname) == False:
+    #             raise OSError(f"rationale metadata file does not exist at {fname} // rerun extract_rationales.py") from None
           
-            model = bert(
-                output_dim = self.output_dims
-            )
+    #         model = bert(
+    #             output_dim = self.output_dims
+    #         )
 
-            logging.info(f" *** loading model - {model_name}")
+    #         logging.info(f" *** loading model - {model_name}")
 
-            model.load_state_dict(torch.load(model_name, map_location=device))
+    #         model.load_state_dict(torch.load(model_name, map_location=device))
 
-            model.to(device)
+    #         model.to(device)
 
-            logging.info(f" *** succesfully loaded model - {model_name}")
+    #         logging.info(f" *** succesfully loaded model - {model_name}")
 
-            model_random_seed = re.sub("bert", "", model_name.split(".pt")[0].split("/")[-1])
+    #         model_random_seed = re.sub("bert", "", model_name.split(".pt")[0].split("/")[-1])
 
-            ## train neglected as we are evaluating on dev and test
-            for data_split_name, data_split in {"test":  data.test_loader , \
-                                                "dev":  data.dev_loader}.items():
+    #         ## train neglected as we are evaluating on dev and test
+    #         for data_split_name, data_split in {"test":  data.test_loader , \
+    #                                             "dev":  data.dev_loader}.items():
             
-                soft_conduct_tests_(
-                    model = model, 
-                    data = data_split,
-                    model_random_seed = model_random_seed,
-                    split = data_split_name
-                )
+    #             soft_conduct_tests_(
+    #                 model = model, 
+    #                 data = data_split,
+    #                 model_random_seed = model_random_seed,
+    #                 split = data_split_name
+    #             )
 
-        return
+    #     return
 
 
     def feature_scoring_performance_(self):
