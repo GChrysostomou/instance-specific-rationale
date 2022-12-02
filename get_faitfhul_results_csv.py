@@ -39,13 +39,6 @@ parser.add_argument(
 )
 
 parser.add_argument(
-    "--seed",   
-    type = int, 
-    help = "random seed for experiment",
-    default = 5
-)
-
-parser.add_argument(
     "--evaluation_dir",   
     type = str, 
     help = "directory to save faithfulness results", 
@@ -120,14 +113,14 @@ def generate_csv(dataset, method, std, path):
 
 generate_csv(str(dataset), 'topk', 1, 'topk-faithfulness-scores-average-description.json')
 
-generate_csv(str(dataset), 'ATTENTION', 1, 'ATTENTION-faithfulness-scores-description.json')
-generate_csv(str(dataset), 'ATTENTIONlimit', 1, 'ATTENTIONlimit-faithfulness-scores-description.json')
+# generate_csv(str(dataset), 'ATTENTION', 1, 'ATTENTION-faithfulness-scores-description.json')
+# generate_csv(str(dataset), 'ATTENTIONlimit', 1, 'ATTENTIONlimit-faithfulness-scores-description.json')
 
-generate_csv(str(dataset), 'ZEROOUT', 1, 'ZEROOUT-faithfulness-scores-description.json')
-generate_csv(str(dataset), 'ZEROOUTlimit', 1, 'ZEROOUTlimit-faithfulness-scores-description.json')
+# generate_csv(str(dataset), 'ZEROOUT', 1, 'ZEROOUT-faithfulness-scores-description.json')
+# generate_csv(str(dataset), 'ZEROOUTlimit', 1, 'ZEROOUTlimit-faithfulness-scores-description.json')
 
-generate_csv(str(dataset), 'NOISE', 0.5, 'NOISE-faithfulness-scores-description-std_0.5.json')
-generate_csv(str(dataset), 'NOISElimit', 0.5, 'NOISElimit-faithfulness-scores-description-std_0.5.json')
+# generate_csv(str(dataset), 'NOISE', 0.5, 'NOISE-faithfulness-scores-description-std_0.5.json')
+# generate_csv(str(dataset), 'NOISElimit', 0.5, 'NOISElimit-faithfulness-scores-description-std_0.5.json')
 
 
 

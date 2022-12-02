@@ -259,101 +259,17 @@ def normalized_comprehensiveness_soft_(model, use_topk,
     
     if use_topk:
         # for comprehensivness we always remove the rationale and keep the rest of the input
-    # since ones represent rationale tokens, invert them and multiply the original input
+        # since ones represent rationale tokens, invert them and multiply the original input
         rationale_mask = (rationale_mask == 0)
         ## preserve cls
         rationale_mask[:,0] = 1
         ## preserve sep
         rationale_mask[torch.arange(rationale_mask.size(0)).to(device), inputs["lengths"]] = 1
-
         inputs["input_ids"] =  original_sentences * rationale_mask.long()
+    else:
+        inputs["input_ids"] =  original_sentences
 
-    inputs["input_ids"] =  original_sentences
-    inputs["faithful_method"]="soft_comp"
-    inputs["importance_scores"]=importance_scores
-    inputs["add_noise"] = True
-    
-    yhat, _  = model(**inputs)
-
-    yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
-
-    reduced_probs = yhat[rows, full_text_class]
-
-     ## reduced input sufficiency
-    comp_y_a = comprehensiveness_(full_text_probs, reduced_probs)
-
-    # return comp_y_a
-    suff_y_zero -= 1e-4 # to avoid nan
-
-    ## 1 - suff_y_0 == comp_y_1
-    norm_comp = np.maximum(0, comp_y_a / (1 - suff_y_zero))
-
-    norm_comp = np.clip(norm_comp, a_min = 0, a_max = 1)
-
-    return norm_comp, yhat
-
-
-def normalized_sufficiency_soft_2(model, 
-                            original_sentences : torch.tensor, 
-                            rationale_mask : torch.tensor, # by Cass, 这里用上rationale nikos想要的
-                            inputs : dict, 
-                            full_text_probs : np.array, 
-                            full_text_class : np.array, 
-                            rows : np.array, 
-                            suff_y_zero : np.array, 
-                            only_query_mask : torch.tensor,
-                            importance_scores: torch.tensor,
-                            ) -> np.array:
-
-    # for sufficiency we always keep the rationale
-    # since ones represent rationale tokens
-    # preserve cls
-    rationale_mask[:,0] = 1
-    # preserve sep
-    rationale_mask[torch.arange(rationale_mask.size(0)).to(device), inputs["lengths"]] = 1
-    
-    inputs["input_ids"]  =  (rationale_mask + only_query_mask) * original_sentences
-    #inputs["input_ids"]  =  original_sentences
-
-    
-    inputs["faithful_method"]="soft_suff"           # for soft, by cass
-    inputs["importance_scores"]=importance_scores   # for soft, by cass
-    inputs["add_noise"] = True                      # for soft, by cass
-    yhat, _  = model(**inputs)
-
-    yhat = torch.softmax(yhat.detach().cpu(), dim = -1).numpy()
-
-    reduced_probs = yhat[rows, full_text_class]
-
-    ## reduced input sufficiency
-    suff_y_a = sufficiency_(full_text_probs, reduced_probs)
-
-    # return suff_y_a
-    suff_y_zero -= 1e-4 ## to avoid nan
-
-    norm_suff = np.maximum(0, (suff_y_a - suff_y_zero) / (1 - suff_y_zero))
-    norm_suff = np.clip( norm_suff, a_min = 0, a_max = 1)
-
-    return norm_suff, reduced_probs
-
-
-def normalized_comprehensiveness_soft_2(model, original_sentences : torch.tensor, 
-                                    rationale_mask : torch.tensor, 
-                                  inputs : dict, full_text_probs : np.array, full_text_class : np.array, rows : np.array, 
-                                  suff_y_zero : np.array,
-                                  importance_scores: torch.tensor,) -> np.array:
-    
-    # for comprehensivness we always remove the rationale and keep the rest of the input
-    # since ones represent rationale tokens, invert them and multiply the original input
-    rationale_mask = (rationale_mask == 0)
-    ## preserve cls
-    rationale_mask[:,0] = 1
-    ## preserve sep
-    rationale_mask[torch.arange(rationale_mask.size(0)).to(device), inputs["lengths"]] = 1
-
-    inputs["input_ids"] =  original_sentences * rationale_mask.long()
-    #inputs["input_ids"] =  original_sentences
-    
+        
     inputs["faithful_method"]="soft_comp"
     inputs["importance_scores"]=importance_scores
     inputs["add_noise"] = True
