@@ -822,67 +822,67 @@ class evaluate_attention():
         return
 
 
-class evaluate_attention2():
+# class evaluate_attention2():
 
-    """
-    Class that contains method of rationale extraction as in:
-        saliency scorer and thresholder approach
-    Saves rationales in a csv file with their dedicated annotation_id 
-    """
+#     """
+#     Class that contains method of rationale extraction as in:
+#         saliency scorer and thresholder approach
+#     Saves rationales in a csv file with their dedicated annotation_id 
+#     """
 
-    def __init__(self, model_path, output_dims = 2,
-                # faithful_method = 'comp',
-                # feature_name = 'attention',
-                std = 1):
+#     def __init__(self, model_path, output_dims = 2,
+#                 # faithful_method = 'comp',
+#                 # feature_name = 'attention',
+#                 std = 1):
         
-        """
-        loads and holds a pretrained model
-        """
-        print(model_path, args["model_abbreviation"])
-        self.models = glob.glob(model_path + args["model_abbreviation"] + "*.pt")
-        self.output_dims = output_dims
-        # self.faithful_method = faithful_method
-        #self.feature_name = feature_name
-        self.std = std
+#         """
+#         loads and holds a pretrained model
+#         """
+#         print(model_path, args["model_abbreviation"])
+#         self.models = glob.glob(model_path + args["model_abbreviation"] + "*.pt")
+#         self.output_dims = output_dims
+#         # self.faithful_method = faithful_method
+#         #self.feature_name = feature_name
+#         self.std = std
 
-        logging.info(f" *** there are {len(self.models)} models in :  {model_path}")
+#         logging.info(f" *** there are {len(self.models)} models in :  {model_path}")
 
-        if len(self.models) == 0:
+#         if len(self.models) == 0:
 
-            raise FileNotFoundError(
-                f"*** no models in directory -> {model_path}"
-            )
+#             raise FileNotFoundError(
+#                 f"*** no models in directory -> {model_path}"
+#             )
 
-    # for soft in evaluate_soft
-    def faithfulness_experiments_(self, data):
+#     # for soft in evaluate_soft
+#     def faithfulness_experiments_(self, data):
         
-        for model_name in self.models:
+#         for model_name in self.models:
             
-            model = BertClassifier_attention(
-                output_dim = self.output_dims,
-                #tasc = tasc_mech,
-                # faithful_method='comp',
-                #std = self.std,
-            )
+#             model = BertClassifier_attention(
+#                 output_dim = self.output_dims,
+#                 #tasc = tasc_mech,
+#                 # faithful_method='comp',
+#                 #std = self.std,
+#             )
 
-            logging.info(f" *** loading model - {model_name}")
+#             logging.info(f" *** loading model - {model_name}")
 
-            model.load_state_dict(torch.load(model_name, map_location=device))
-            model.to(device)
+#             model.load_state_dict(torch.load(model_name, map_location=device))
+#             model.to(device)
 
-            logging.info(f" *** succesfully loaded model - {model_name}")
-            print('successfully loaded model for evaluating faithfulness')
+#             logging.info(f" *** succesfully loaded model - {model_name}")
+#             print('successfully loaded model for evaluating faithfulness')
 
-            model_random_seed = re.sub("bert", "", model_name.split(".pt")[0].split("/")[-1])
+#             model_random_seed = re.sub("bert", "", model_name.split(".pt")[0].split("/")[-1])
 
-            conduct_experiments_attention_2(
-                model = model, 
-                data = data.test_loader,
-                model_random_seed = model_random_seed,
-                #faithful_method = self.faithful_method,
-                std = self.std,
-            )
+#             conduct_experiments_attention_2(
+#                 model = model, 
+#                 data = data.test_loader,
+#                 model_random_seed = model_random_seed,
+#                 #faithful_method = self.faithful_method,
+#                 std = self.std,
+#             )
 
-        return
+#         return
 
 

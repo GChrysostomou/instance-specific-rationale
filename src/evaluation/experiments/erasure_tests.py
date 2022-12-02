@@ -944,22 +944,14 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk): #
 def conduct_experiments_attention_(model, data, model_random_seed, use_topk): #faithful_method
 
     ## now to create folder where results will be saved
-    fname = os.path.join(
-        os.getcwd(),
-        args["data_dir"],
-        "importance_scores",
-        ""
-    )
+    fname = os.path.join(os.getcwd(),args["data_dir"],"importance_scores","")
 
     os.makedirs(fname, exist_ok = True)
     fname = f"{fname}test_importance_scores_{model_random_seed}.npy"
     importance_scores = np.load(fname, allow_pickle = True).item()
 
     ## retrieve original prediction probability
-    fname2 = os.path.join(
-        os.getcwd(),
-        args["model_dir"],
-    )
+    fname2 = os.path.join(os.getcwd(),args["model_dir"],)
     fname2 = glob.glob(fname2 + f"*output*{model_random_seed}.npy")[0]
     original_prediction_output = np.load(fname2, allow_pickle = True).item()
     # 'test_1417': {'predicted': array([ 1.7342604, -1.8030814], dtype=float32), 'actual': 0}},
@@ -968,9 +960,6 @@ def conduct_experiments_attention_(model, data, model_random_seed, use_topk): #f
     pbar = trange(len(data) * data.batch_size, desc=desc, leave=True)
     faithfulness_results = {}
     desired_rationale_length = args.rationale_length
-
-    print(f"*** desired_rationale_length --> {desired_rationale_length}")
-    # print(importance_scores.keys())
 
     for batch in data:
         
@@ -1213,25 +1202,18 @@ def conduct_experiments_attention_(model, data, model_random_seed, use_topk): #f
 
     if use_topk:
         detailed_fname = args["evaluation_dir"] + f"ATTENTIONlimit-faithfulness-scores-detailed.npy"
-        #description_fname = args["evaluation_dir"] + f"ATTENTIONlimit-faithfulness-scores-description.json"
     else:
         detailed_fname = args["evaluation_dir"] + f"ATTENTION-faithfulness-scores-detailed.npy"
-        #description_fname = args["evaluation_dir"] + f"ATTENTION-faithfulness-scores-description.json"
 
     np.save(detailed_fname, faithfulness_results)
-    # with open(description_fname, 'w') as file:
-    #         json.dump(descriptor,file,indent = 4) 
 
             
     descriptor = {}
-
-    # filling getting averages
     for feat_attr in {"random", "attention", "scaled attention", "ig", "gradients", "deeplift"}: #"gradientshap", "lime","deepliftshap",
-        
         if use_topk:
             sufficiencies = np.asarray([faithfulness_results[k][feat_attr][f"sufficiency @ {desired_rationale_length}"] for k in faithfulness_results.keys()])
             comprehensivenesses = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness @ {desired_rationale_length}"] for k in faithfulness_results.keys()])
-        else:
+        else: # no desired length
             sufficiencies = np.asarray([faithfulness_results[k][feat_attr][f"sufficiency"] for k in faithfulness_results.keys()])
             comprehensivenesses = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness"] for k in faithfulness_results.keys()])
 
@@ -1258,10 +1240,8 @@ def conduct_experiments_attention_(model, data, model_random_seed, use_topk): #f
 
     ## save all info
     if use_topk:
-        #detailed_fname = args["evaluation_dir"] + f"ATTENTIONlimit-faithfulness-scores-detailed.npy"
         description_fname = args["evaluation_dir"] + f"ATTENTIONlimit-faithfulness-scores-description.json"
     else:
-        #detailed_fname = args["evaluation_dir"] + f"ATTENTION-faithfulness-scores-detailed.npy"
         description_fname = args["evaluation_dir"] + f"ATTENTION-faithfulness-scores-description.json"
 
     #np.save(detailed_fname, faithfulness_results)
