@@ -1,4 +1,4 @@
-,feature,Soft_sufficiency,Suff_ratio,Soft_comprehensiveness,Comp_ratio
+g,feature,Soft_sufficiency,Suff_ratio,Soft_comprehensiveness,Comp_ratio
 0,random,0.995338248170016,1.0,0.005436832173783,1.0
 1,attention,0.997032414192309,1.0017021007937832,0.003275303592938,0.6024286732137646
 2,scaled attention,0.9884665434348351,0.9930961110478624,0.018378793271742,3.380423136908024
