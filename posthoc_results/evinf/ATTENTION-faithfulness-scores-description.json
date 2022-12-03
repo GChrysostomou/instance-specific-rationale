@@ -1,5 +1,5 @@
 {
-    "attention": {
+    "ig": {
         "sufficiency": {
             "mean": 0.9833929260236649,
             "std": 0.12413952475081012
@@ -35,7 +35,7 @@
             "std": null
         }
     },
-    "ig": {
+    "gradients": {
         "sufficiency": {
             "mean": 0.9892125167912408,
             "std": 0.08910706655808384
@@ -53,7 +53,7 @@
             "std": null
         }
     },
-    "gradients": {
+    "deeplift": {
         "sufficiency": {
             "mean": 0.9904814205279509,
             "std": 0.08289824421250522
@@ -71,7 +71,7 @@
             "std": null
         }
     },
-    "deeplift": {
+    "random": {
         "sufficiency": {
             "mean": 0.9912429254408933,
             "std": 0.0798736463627212
@@ -89,7 +89,7 @@
             "std": null
         }
     },
-    "random": {
+    "attention": {
         "sufficiency": {
             "mean": 0.9918886542651019,
             "std": 0.07646366952983329

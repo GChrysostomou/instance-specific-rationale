@@ -33,6 +33,22 @@ parser.add_argument(
     default = "sst",  # choices = ["evinf", "agnews", "sst","multirc"]
 )
 
+
+parser.add_argument(
+    "--std", 
+    type = float, 
+    help = "decide noise density, the higher the smaller noise, 1 is the normal distribution", 
+    default = 0.5, 
+)
+
+
+parser.add_argument(
+    '--use_topk', 
+    help='control if use full text or topk for soft rationales', 
+    action='store_true',
+    default=True,
+)
+
 parser.add_argument(
     "--data_dir", 
     type = str, 
@@ -62,12 +78,7 @@ parser.add_argument(
     default = "extracted_rationales/"
 )
 
-parser.add_argument(
-    '--use_topk', 
-    help='control if use full text or topk for soft rationales', 
-    action='store_true',
-    default=False,
-)
+
 
 
 parser.add_argument(
@@ -79,20 +90,15 @@ parser.add_argument(
 )
 
 
-parser.add_argument(
-    "--inherently_faithful", 
-    type = str, 
-    help = "select dataset / task", 
-    default = None, 
-    choices = [None, "kuma", "rl"]
-)
+# parser.add_argument(
+#     "--inherently_faithful", 
+#     type = str, 
+#     help = "select dataset / task", 
+#     default = None, 
+#     choices = [None, "kuma", "rl"]
+# )
 
-parser.add_argument(
-    "--std", 
-    type = float, 
-    help = "decide noise density, the higher the smaller noise, 1 is the normal distribution", 
-    default = 0.5, 
-)
+
 
 
 user_args = vars(parser.parse_args())
@@ -142,7 +148,7 @@ torch.autograd.set_detect_anomaly(True)
 
 
 import glob
-from src.data_functions.dataholder import BERT_HOLDER, BERT_HOLDER_interpolation
+from src.data_functions.dataholder import BERT_HOLDER
 from src.evaluation import evaluation_pipeline
 
 model_path = os.path.join(

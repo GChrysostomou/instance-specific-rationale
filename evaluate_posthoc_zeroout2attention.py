@@ -30,8 +30,15 @@ parser.add_argument(
     "--dataset", 
     type = str, 
     help = "select dataset / task", 
-    default = "evinf",
+    default = "sst",
     # choices = ["multirc", "agnews", "sst","evinf"]
+)
+
+parser.add_argument(
+    '--use_topk', 
+    help='for using the component by GChrys and Aletras 2021', 
+    action='store_true',
+    default=False,
 )
 
 parser.add_argument(
@@ -80,21 +87,16 @@ parser.add_argument(
     choices = ["contigious", "topk"]
 )
 
-parser.add_argument(
-    "--inherently_faithful", 
-    type = str, 
-    help = "select dataset / task", 
-    default = None, 
-    choices = [None, "kuma", "rl"]
-)
+# parser.add_argument(
+#     "--inherently_faithful", 
+#     type = str, 
+#     help = "select dataset / task", 
+#     default = None, 
+#     choices = [None, "kuma", "rl"]
+# )
 
 
-parser.add_argument(
-    '--use_topk', 
-    help='for using the component by GChrys and Aletras 2021', 
-    action='store_true',
-    default=True,
-)
+
 
 
 user_args = vars(parser.parse_args())
