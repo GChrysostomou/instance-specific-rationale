@@ -20,7 +20,7 @@ parser.add_argument(
     "--dataset", 
     type = str, 
     help = "select dataset / task", 
-    default = "evinf", 
+    default = "sst", 
     #choices = ["sst", "evinf", "agnews", "multirc"]
 )
 
@@ -115,6 +115,9 @@ def generate_csv(dataset, method, std, path):
 
 generate_csv(str(dataset), 'ATTENTION', 1, 'ATTENTION-faithfulness-scores-description.json')
 generate_csv(str(dataset), 'ATTENTIONlimit', 1, 'ATTENTIONlimit-faithfulness-scores-description.json')
+
+generate_csv('evinf', 'ATTENTION', 1, 'ATTENTION-faithfulness-scores-description.json')
+generate_csv('evinf', 'ATTENTIONlimit', 1, 'ATTENTIONlimit-faithfulness-scores-description.json')
 
 # generate_csv(str(dataset), 'ZEROOUT', 1, 'ZEROOUT-faithfulness-scores-description.json')
 # generate_csv(str(dataset), 'ZEROOUTlimit', 1, 'ZEROOUTlimit-faithfulness-scores-description.json')
