@@ -150,7 +150,7 @@ torch.autograd.set_detect_anomaly(True)
 
 
 import glob
-from src.data_functions.dataholder import BERT_HOLDER, BERT_HOLDER_interpolation
+from src.data_functions.dataholder import BERT_HOLDER #, BERT_HOLDER_interpolation
 from src.evaluation import evaluation_pipeline
 
 model_path = os.path.join(
