@@ -41,9 +41,9 @@ class BERT_HOLDER():
             
             path += args["importance_metric"] + "-"
 
-        train = pd.read_csv(path + "train.csv").to_dict("records") #list of dic
-        dev = pd.read_csv(path + "dev.csv").to_dict("records")#[:10] # for testing by cass
-        test = pd.read_csv(path + "test.csv").to_dict("records")#[:10] # for testing by cass
+        train = pd.read_csv(path + "train.csv").to_dict("records")#[666:1260] #list of dic
+        dev = pd.read_csv(path + "dev.csv").to_dict("records")#[666:1160] # for testing by cass
+        test = pd.read_csv(path + "test.csv").to_dict("records")#[466:1260] # for testing by cass
         # print(' ======= test set ---- one data')
         # print(len(test))
         # print(test[0])

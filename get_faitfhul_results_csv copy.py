@@ -1,46 +1,81 @@
 from pickle import NONE
 from re import T
 import pandas as pd
-import pandas as pd
 import json
-
-'''
-agnews 
-'''
-
-
-
-dataset = 'agnews'  #  evinf agnews multirc SST
+import glob
+import os 
+import argparse
+import logging
+import numpy as np
 
 
+import datetime
+import gc
+
+date_time = str(datetime.date.today()) + "_" + ":".join(str(datetime.datetime.now()).split()[1].split(":")[:2])
+
+parser = argparse.ArgumentParser()
+
+parser.add_argument(
+    "--dataset", 
+    type = str, 
+    help = "select dataset / task", 
+    default = "sst", 
+    #choices = ["sst", "evinf", "agnews", "multirc"]
+)
+
+parser.add_argument(
+    "--data_dir", 
+    type = str, 
+    help = "directory of saved processed data", 
+    default = "datasets/"
+)
+
+parser.add_argument(
+    "--model_dir",   
+    type = str, 
+    help = "directory to save models", 
+    default = "trained_models/"
+)
+
+parser.add_argument(
+    "--evaluation_dir",   
+    type = str, 
+    help = "directory to save faithfulness results", 
+    default = "posthoc_results/"
+)
+
+user_args = vars(parser.parse_args())
+
+
+faithful_result = user_args['evaluation_dir']
+dataset = user_args['dataset']
 
 
 
-def generate_csv(dataset, method, std):
-    if dataset == 'agnews':
-        random_seed = 25
-    elif dataset == 'SST':
-        random_seed = 10
-    elif dataset == 'evinf':
-        random_seed = 25
-    else:
-        print(' no data randomseed')
+detailed = np.load('./posthoc_results/sst/ZEROOUTlimit-faithfulness-scores-detailed.npy', allow_pickle=True).item()
+
+# print(detailed)
+sample_data_id = list(detailed.keys())[3]
+
+print(detailed[sample_data_id].keys())
+print(detailed[sample_data_id]['ig'].keys())
 
 
-    if method == NONE:
-        if dataset == './evinf': path = './posthoc_results/evinf/topk-faithfulness-scores-average-sci25-description.json'
-        else: path = './posthoc_results/' + str(dataset)+'/topk-faithfulness-scores-average-description.json'
-    elif method == 'NOISE':
-        if dataset == './evinf': path = './posthoc_results/evinf/'+str(method)+'-faithfulness-scores-std_'+str(std)+'-description.json'
-        else: path = './posthoc_results/' + str(dataset)+'/NOISE-faithfulness-scores-description'+'-std_'+str(std)+'.json'
-    else:
-        if dataset == './evinf': path = './posthoc_results/evinf/'+str(method)+'-faithfulness-scores-averages-sci25-description.json'
-        else: path = './posthoc_results/' + str(dataset)+'/'+str(method)+'-faithfulness-scores-description.json'
+print()
+print(detailed[sample_data_id]['ig'])
 
 
-    print(path)
-    df = pd.read_json(path, orient ='index')
-    print(df)
+
+
+
+quit()
+def generate_csv(dataset, method, std, path):
+    file_path = faithful_result + dataset + '/' + path
+    print(file_path)
+
+    df = pd.read_json(file_path, orient ='index')
+    #print(df)
     df.rename(columns = 
             {'AOPC - sufficiency':'AOPC_sufficiency', 'AOPC - comprehensiveness':'AOPC_comprehensiveness'}, 
             inplace = True)
@@ -48,9 +83,9 @@ def generate_csv(dataset, method, std):
     comprehensiveness_mean = []
 
 
-    fea_list = ['random', 'attention', "scaled attention", "gradients", "ig", "gradientshap", "deeplift"]
+    fea_list = ['random', 'attention', "scaled attention", "gradients", "ig", "deeplift"] #"gradientshap", 
     for feat in fea_list:
-        if method == NONE:
+        if method == 'topk':
             sufficiency_mean.append(df.AOPC_sufficiency[str(feat)].get('mean'))
             comprehensiveness_mean.append(df.AOPC_comprehensiveness[str(feat)].get('mean'))
         else: # soft true --> no aopc
@@ -59,8 +94,7 @@ def generate_csv(dataset, method, std):
 
 
 
-    if method != NONE:
-         
+    if method != 'topk':
         random_suff = df.sufficiency['random'].get('mean')
         random_comp = df.comprehensiveness['random'].get('mean')
         
@@ -69,9 +103,13 @@ def generate_csv(dataset, method, std):
 
         final_df = pd.DataFrame(list(zip(fea_list, sufficiency_mean, Suff_ratio, comprehensiveness_mean, Comp_ratio)),
                 columns =['feature', 'Soft_sufficiency', 'Suff_ratio', 'Soft_comprehensiveness', 'Comp_ratio'])
-        if method == 'NOISE': final_df.to_csv(dataset+'/' + str(method) + str(std) +'_faithfulness_result.csv')
-        else: final_df.to_csv('./posthoc_results' + dataset+'/' + str(method) +'_faithfulness_result.csv')
-        print('saved csv: ', './posthoc_results'+ dataset+'/' + str(method) +'_faithfulness_result.csv')
+        
+    
+        if 'NOISE' in method: final_path = faithful_result + dataset + '/' + str(method) + str(std) +'_faithfulness_result.csv'
+        else: final_path = faithful_result + dataset + '/' + str(method) +'_faithfulness_result.csv'
+        
+        final_df.to_csv(final_path)
+        print('saved csv: ', final_path)
 
     else: # not soft, so have aopc
         random_suff = df.AOPC_sufficiency['random'].get('mean')
@@ -82,15 +120,31 @@ def generate_csv(dataset, method, std):
 
         final_df = pd.DataFrame(list(zip(fea_list, sufficiency_mean, Suff_ratio, comprehensiveness_mean, Comp_ratio)),
                 columns =['feature', ' AOPC_sufficiency', 'Suff_ratio', 'AOPC_comprehensiveness', 'Comp_ratio'])
-        final_df.to_csv('./posthoc_results' + dataset+'/faithfulness_result.csv')
+        final_path = faithful_result + dataset + '/' +'faithfulness_result.csv'
+        print('saved csv: ', final_path)
+        final_df.to_csv(final_path)
 
 
-# generate_csv(str(dataset), 'NOISE', 1.0)
-generate_csv(str(dataset), 'NOISE', 0.5)
-generate_csv(str(dataset), 'NOISE', 0.05)
-# generate_csv(str(dataset), 'ATTENTION', 1.0)
-# generate_csv(str(dataset), 'ZEROOUT', 1.0)
-# generate_csv(str(dataset), NONE, 1.0)
+# try: generate_csv(str(dataset), 'NOISE', 1, 'NOISE-faithfulness-scores-description-std_1.json')
+# except: generate_csv(str(dataset), 'NOISE', 1, 'NOISE-faithfulness-scores-description-std_1.0.json')
+
+
+
+#generate_csv(str(dataset), 'topk', 1, 'topk-faithfulness-scores-average-description.json')
+
+# generate_csv(str(dataset), 'ATTENTION', 1, 'ATTENTION-faithfulness-scores-description.json')
+# generate_csv(str(dataset), 'ATTENTIONlimit', 1, 'ATTENTIONlimit-faithfulness-scores-description.json')
+
+# generate_csv('agnews', 'ATTENTION', 1, 'ATTENTION-faithfulness-scores-description.json')
+generate_csv('sst', 'ATTENTIONlimit', 1, 'ATTENTIONlimit-faithfulness-scores-description.json')
+
+#generate_csv('agnews', 'ZEROOUT', 1, 'ZEROOUT-faithfulness-scores-description.json')
+#generate_csv('agnews', 'ZEROOUTlimit', 1, 'ZEROOUTlimit-faithfulness-scores-description.json')
+
+# generate_csv(str(dataset), 'NOISE', 0.5, 'NOISE-faithfulness-scores-description-std_0.5.json')
+# generate_csv(str(dataset), 'NOISElimit', 0.5, 'NOISElimit-faithfulness-scores-description-std_0.5.json')
+
+
 
 
 
