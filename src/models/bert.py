@@ -65,9 +65,8 @@ class bert(nn.Module):  # equal to "BertClassifier"
 
 
         # to retain gradients
-        # self.weights_or = torch.tensor(
-        #     attention_weights[-1], requires_grad=True)  # debug by cass
-        self.weights_or = attention_weights[-1].clone.detach().requires_grad_(True)#, requires_grad=True)
+        self.weights_or = torch.tensor(attention_weights[-1], requires_grad=True)  # debug by cass
+        #self.weights_or = attention_weights[-1].clone.detach().requires_grad_(True)#, requires_grad=True)
 
         # self.weights_or = torch.tensor(
         #     attention_weights.clone().detach()[-1], requires_grad=True)  # debug by cass
