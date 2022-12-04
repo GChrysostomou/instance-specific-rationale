@@ -418,56 +418,6 @@ class evaluate_zeroout():
                 f"*** no models in directory -> {model_path}")
     
 
-    # FOR SOT, WE DO NOT WANT TO CREATE RATIONALES
-    # def create_rationales_(self, data):
-        
-    #     ## lets check how many models extracted importance_scores
-    #     fname = os.path.join(
-    #         os.getcwd(),
-    #         args["extracted_rationale_dir"],
-    #         "importance_scores",
-    #         ""
-    #     )
-
-    #     for data_split_name, data_split in data.as_dataframes_().items():
-
-    #         # if data_split_name in ["train", "dev"]: ## REMOVE AFTER to testing
-    #         #
-    #         #     continue
-
-    #         score_list = glob.glob(fname + f"{data_split_name}*scores-*.npy")
-
-    #         if args.use_tasc: score_list = [x for x in score_list if "tasc" in x]
-    #         else: score_list = [x for x in score_list if "tasc" not in x]
-
-    #         score_list = [x for x in score_list if f"-OOD-" not in x]
-            
-    #         model_seeds = [x.split(".npy")[0].split("-")[-1] for x in score_list]
-            
-    #         if len(model_seeds) > 1:
-    #             print(' model seeds includes: -------')
-    #             print(model_seeds)
-
-    #             raise NotImplementedError("""
-
-    #             Not yet implemented for more than one seeds for rationale extraction.
-    #             Too expensive to run models on all rationales (e.g. 5 seeds x 6 feature scorings x 3 runs on each for training). 
-    #             So just use one.
-    #             """)
-
-    #         for seed in model_seeds:
-
-    #             rationale_creator_(
-    #                 data = data_split,
-    #                 data_split_name = data_split_name,
-    #                 tokenizer = data.tokenizer,
-    #                 model_random_seed=seed
-    #             )
-
-
-    #     return
-
-    # for soft in evaluate_soft
     def faithfulness_experiments_(self, data):
         
         for model_name in self.models:

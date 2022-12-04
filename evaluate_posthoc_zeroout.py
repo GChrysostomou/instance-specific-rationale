@@ -35,6 +35,13 @@ parser.add_argument(
 )
 
 parser.add_argument(
+    '--use_topk', 
+    help='for using the component by GChrys and Aletras 2021', 
+    action='store_true',
+    default=True,
+)
+
+parser.add_argument(
     "--data_dir", 
     type = str, 
     help = "directory of saved processed data", 
@@ -89,12 +96,7 @@ parser.add_argument(
 )
 
 
-parser.add_argument(
-    '--use_topk', 
-    help='for using the component by GChrys and Aletras 2021', 
-    action='store_true',
-    default=True,
-)
+
 
 parser.add_argument(
     '--interpolation_analysis', 
