@@ -93,8 +93,6 @@ def conduct_tests_(model, data, model_random_seed):
             faithfulness_results[annot_id] = {}
 
         ## prepping for our experiments
-        
-
         original_sentences = batch["input_ids"].clone().detach()
         original_prediction = torch.softmax(original_prediction, dim = -1).detach().cpu().numpy().astype(np.float64)
 
@@ -128,7 +126,7 @@ def conduct_tests_(model, data, model_random_seed):
         )
 
         ## AOPC scores and other metrics
-        rationale_ratios = [0.02, 0.1, 0.2, 0.5]
+        rationale_ratios = [0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1.0] 
 
         for _j_, annot_id in enumerate(batch["annotation_id"]):
                 
