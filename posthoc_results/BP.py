@@ -44,14 +44,21 @@ for feat_attr in {"random", "attention", "scaled attention", "ig", "gradients", 
         descriptor[feat_attr][f"comprehensivenesses @ {ratio}"] = {"mean" : comprehensivenesses_k.mean(),
                                                                         "std" : comprehensivenesses_k.std()
                                                                         }
+        
+        # RI
+        descriptor[feat_attr][f"sufficiency @ {ratio} to Random RI"] = descriptor[feat_attr][f"sufficiency @ {ratio}"]["mean"]/descriptor["random"][f"sufficiency @ {ratio}"]["mean"]
+        descriptor[feat_attr][f"comprehensivenesses @ {ratio} to Random RI"] = descriptor[feat_attr][f"comprehensivenesses @ {ratio}"]["mean"]/descriptor["random"][f"comprehensivenesses @ {ratio}"]["mean"]
+                                                                   
 
         aopc_suff.append(sufficiencies_k)
         aopc_comp.append(comprehensivenesses_k)
     
-    descriptor[feat_attr][f"{rationale_ratios} - sufficiency"] = {"mean" : np.array(aopc_suff).mean(),
-                                                        "std" : np.array(aopc_suff).std()},
-    descriptor[feat_attr][f"{rationale_ratios} - comprehensiveness"] = { "mean" : np.array(aopc_comp).mean(),
-                                                             "std" : np.array(aopc_comp).std()}
+    descriptor[feat_attr][f"{rationale_ratios} - sufficiency"] = {"mean" : np.array(aopc_suff).mean(), "std" : np.array(aopc_suff).std()}
+    descriptor[feat_attr][f"{rationale_ratios} - comprehensiveness"] = { "mean" : np.array(aopc_comp).mean(), "std" : np.array(aopc_comp).std()}
+    
+    #RI
+    descriptor[feat_attr][f"{rationale_ratios} - sufficiency to Random RI"] = descriptor[feat_attr][f"{rationale_ratios} - sufficiency"]["mean"]/descriptor["random"][f"{rationale_ratios} - sufficiency"]["mean"]
+    descriptor[feat_attr][f"{rationale_ratios} - comprehensiveness to Random RI"] = descriptor[feat_attr][f"{rationale_ratios} - comprehensiveness"]["mean"]/descriptor["random"][f"{rationale_ratios} - comprehensiveness"]["mean"]
                              
 
 
