@@ -74,6 +74,7 @@ def compare_save_json(dataset, method, rationale_ratios):
 
 
 rationale_ratios_different_list = [
+                                [1.0],
                                 [0.01, 0.02, 0.05, 0.1, 0.2, 0.5],
                                 [0.02, 0.05, 0.1, 0.2, 0.5],
                                 [0.05, 0.1, 0.2, 0.5],
@@ -81,13 +82,12 @@ rationale_ratios_different_list = [
                                 [0.01, 0.02],
                                 [0.2, 0.5],
                                 [0.5],
-                                [1.0]
+                                
                                 ]
 
 
+
 for method in ['ZEROOUTlimit', 'NOISElimit', 'ATTENTIONlimit']:
-
-
     for rationale_ratios in rationale_ratios_different_list:
         # print(' ')
         # print('  multirc --->', rationale_ratios, )
@@ -101,10 +101,10 @@ for method in ['ZEROOUTlimit', 'NOISElimit', 'ATTENTIONlimit']:
         # print('  evinf --->', rationale_ratios, )
         # compare_save_json('evinf', method, rationale_ratios)
         
-        print(' ')
-        print('  sst --->', rationale_ratios, )
-        compare_save_json('sst', method, rationale_ratios)
-        
+        # print(' ')
+        # print('  sst --->', rationale_ratios, )
+        # compare_save_json('sst', method, rationale_ratios)
+        compare_save_json('agnews', method, rationale_ratios)
         
         print(' DONE  --->')
 
