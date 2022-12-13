@@ -44,19 +44,21 @@ def compare_save_json(dataset, method, rationale_ratios):
     scores = 0
 
     for feat in feat_attr_list:
-        method = method_descriptor[feat][f"{rationale_ratios} - sufficiency to Random RI"] + 0.001
+        method_score = method_descriptor[feat][f"{rationale_ratios} - sufficiency to Random RI"] + 0.001
         baseline = baseline_descriptor[feat][f"{rationale_ratios} - sufficiency to Random RI"] 
-        if method >= baseline:
+        if method_score >= baseline:
             scores += 1
 
-        method = method_descriptor[feat][f"{rationale_ratios} - comprehensiveness to Random RI"] + 0.001
+        method_score = method_descriptor[feat][f"{rationale_ratios} - comprehensiveness to Random RI"] + 0.001
         baseline = baseline_descriptor[feat][f"{rationale_ratios} - comprehensiveness to Random RI"]
-        if method >= baseline:
+        if method_score >= baseline:
             scores += 1
 
     
     if scores > 6:
         print('  ')
+        print('  ') 
+
         print('FIND ONE !')
         print(' ')
         description_fname = f"./{dataset}/{method}-{rationale_ratios}-faithfulness-scores-description.json"
@@ -69,8 +71,7 @@ def compare_save_json(dataset, method, rationale_ratios):
 # get_descriptor(dataset, method, [0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1.0])
 # compare_save_json(dataset, method, rationale_ratios)
 
-method = 'ZEROOUTlimit'
-dataset = 'multirc'
+
 
 rationale_ratios_different_list = [
                                 [0.01, 0.02, 0.05, 0.1, 0.2, 0.5],
@@ -79,21 +80,33 @@ rationale_ratios_different_list = [
                                 [0.1, 0.2, 0.5],
                                 [0.01, 0.02],
                                 [0.2, 0.5],
-                                [0.5]
+                                [0.5],
+                                [1.0]
                                 ]
 
 
-for rationale_ratios in rationale_ratios_different_list:
-    print(' ')
-    print('  multirc --->', rationale_ratios, )
-    compare_save_json(dataset, method, rationale_ratios)
+for method in ['ZEROOUTlimit', 'NOISElimit', 'ATTENTIONlimit']:
 
-    print(' ')
-    print('  agnews --->', rationale_ratios, )
-    compare_save_json('agnews', method, rationale_ratios)
-    
-    
-    print(' DONE  --->', method, '  ----  ', rationale_ratios)
+
+    for rationale_ratios in rationale_ratios_different_list:
+        # print(' ')
+        # print('  multirc --->', rationale_ratios, )
+        # compare_save_json('multirc', method, rationale_ratios)
+
+        # print(' ')
+        # print('  agnews --->', rationale_ratios, )
+        # compare_save_json('agnews', method, rationale_ratios)
+
+        # print(' ')
+        # print('  evinf --->', rationale_ratios, )
+        # compare_save_json('evinf', method, rationale_ratios)
+        
+        print(' ')
+        print('  sst --->', rationale_ratios, )
+        compare_save_json('sst', method, rationale_ratios)
+        
+        
+        print(' DONE  --->')
 
 
 

@@ -12,7 +12,7 @@ parser.add_argument(
     "--dataset",
     type = str,
     help = "select dataset / task",
-    default = "evinf", # sst
+    default = "agnews", # sst
 )
 
 parser.add_argument(
@@ -21,26 +21,7 @@ parser.add_argument(
     help = "std for noise distribution",
     default = 1,
 )
-parser.add_argument(
-    "--std1",
-    type = float,
-    help = "std for noise distribution",
-    default= None,
-)
 
-parser.add_argument(
-    "--std2",
-    type = float,
-    help = "std for noise distribution",
-    default= None,
-)
-
-parser.add_argument(
-    "--std3",
-    type = float,
-    help = "std for noise distribution",
-    default= None,
-)
 
 user_args = vars(parser.parse_args())
 # user_args["importance_metric"] = None
@@ -50,7 +31,7 @@ pwd = os.getcwd()
 
 topk_scores_file = os.path.join(pwd, 'posthoc_results', str(dataset), 'topk-faithfulness-scores-detailed.npy') 
 
-NOISE_scores_file = os.path.join(pwd, 'posthoc_results', str(dataset), 'NOISElimit-faithfulness-scores-detailed-std_' + str(user_args["std"]) + '.npy') 
+NOISE_scores_file = os.path.join(pwd, 'posthoc_results', str(dataset), 'NOISElimit-faithfulness-scores-detailed.npy') 
 ATTENTION_scores_file = os.path.join(pwd, 'posthoc_results', str(dataset), 'ATTENTIONlimit-faithfulness-scores-detailed.npy')
 ZEROOUT_scores_file = os.path.join(pwd, 'posthoc_results', str(dataset), 'ZEROOUTlimit-faithfulness-scores-detailed.npy')
 
@@ -64,7 +45,6 @@ NOISE_scores = np.load(NOISE_scores_file, allow_pickle=True).item()
 
 data_id_list = TOPk_scores.keys()
 fea_list = ['attention', "scaled attention", "gradients", "ig", "deeplift"] # "gradientshap",
-FA = 'attention'
 
 
 D_TOP_Suff = []

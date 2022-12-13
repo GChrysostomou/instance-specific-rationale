@@ -1,0 +1,194 @@
+{
+    "random": {
+        "sufficiency @ 0.2": {
+            "mean": 0.08756241433716817,
+            "std": 0.2350890947725782
+        },
+        "comprehensivenesses @ 0.2": {
+            "mean": 0.5278071995465565,
+            "std": 0.3538748369875542
+        },
+        "sufficiency @ 0.2 to Random RI": 1.0,
+        "comprehensivenesses @ 0.2 to Random RI": 1.0,
+        "sufficiency @ 0.5": {
+            "mean": 0.37802810953186194,
+            "std": 0.39179416456976274
+        },
+        "comprehensivenesses @ 0.5": {
+            "mean": 0.6442579061333171,
+            "std": 0.3657525741177756
+        },
+        "sufficiency @ 0.5 to Random RI": 1.0,
+        "comprehensivenesses @ 0.5 to Random RI": 1.0,
+        "[0.2, 0.5] - sufficiency": {
+            "mean": 0.23279526193451505,
+            "std": 0.35422782916816187
+        },
+        "[0.2, 0.5] - comprehensiveness": {
+            "mean": 0.5860325528399368,
+            "std": 0.36454267874902163
+        },
+        "[0.2, 0.5] - sufficiency to Random RI": 1.0,
+        "[0.2, 0.5] - comprehensiveness to Random RI": 1.0
+    },
+    "attention": {
+        "sufficiency @ 0.2": {
+            "mean": 0.10218351824489226,
+            "std": 0.2408206850486496
+        },
+        "comprehensivenesses @ 0.2": {
+            "mean": 0.5955349048863703,
+            "std": 0.3781164391947534
+        },
+        "sufficiency @ 0.2 to Random RI": 1.1669792229737295,
+        "comprehensivenesses @ 0.2 to Random RI": 1.1283190252008672,
+        "sufficiency @ 0.5": {
+            "mean": 0.38695672761518574,
+            "std": 0.401064109393332
+        },
+        "comprehensivenesses @ 0.5": {
+            "mean": 0.5925537396399927,
+            "std": 0.4055929803195292
+        },
+        "sufficiency @ 0.5 to Random RI": 1.0236189263660331,
+        "comprehensivenesses @ 0.5 to Random RI": 0.9197461668671781,
+        "[0.2, 0.5] - sufficiency": {
+            "mean": 0.244570122930039,
+            "std": 0.360135330520553
+        },
+        "[0.2, 0.5] - comprehensiveness": {
+            "mean": 0.5940443222631816,
+            "std": 0.3920982982282063
+        },
+        "[0.2, 0.5] - sufficiency to Random RI": 1.0505803292458598,
+        "[0.2, 0.5] - comprehensiveness to Random RI": 1.013671202025245
+    },
+    "scaled attention": {
+        "sufficiency @ 0.2": {
+            "mean": 0.09844142359487841,
+            "std": 0.24190344765857688
+        },
+        "comprehensivenesses @ 0.2": {
+            "mean": 0.595807586895567,
+            "std": 0.3777246426345782
+        },
+        "sufficiency @ 0.2 to Random RI": 1.1242429110716325,
+        "comprehensivenesses @ 0.2 to Random RI": 1.1288356570494495,
+        "sufficiency @ 0.5": {
+            "mean": 0.386521834204139,
+            "std": 0.4008586784098297
+        },
+        "comprehensivenesses @ 0.5": {
+            "mean": 0.5926822748868691,
+            "std": 0.4055968765513062
+        },
+        "sufficiency @ 0.5 to Random RI": 1.0224685002467022,
+        "comprehensivenesses @ 0.5 to Random RI": 0.9199456758614066,
+        "[0.2, 0.5] - sufficiency": {
+            "mean": 0.2424816288995087,
+            "std": 0.36104024674126095
+        },
+        "[0.2, 0.5] - comprehensiveness": {
+            "mean": 0.594244930891218,
+            "std": 0.39191173477530067
+        },
+        "[0.2, 0.5] - sufficiency to Random RI": 1.0416089523665581,
+        "[0.2, 0.5] - comprehensiveness to Random RI": 1.0140135185519705
+    },
+    "ig": {
+        "sufficiency @ 0.2": {
+            "mean": 0.10839117803994833,
+            "std": 0.2392490557381999
+        },
+        "comprehensivenesses @ 0.2": {
+            "mean": 0.6237665141840918,
+            "std": 0.35142780593123096
+        },
+        "sufficiency @ 0.2 to Random RI": 1.2378733370984591,
+        "comprehensivenesses @ 0.2 to Random RI": 1.1818075136526647,
+        "sufficiency @ 0.5": {
+            "mean": 0.37478095819511004,
+            "std": 0.3924871095880758
+        },
+        "comprehensivenesses @ 0.5": {
+            "mean": 0.6456818557761741,
+            "std": 0.3643259573948314
+        },
+        "sufficiency @ 0.5 to Random RI": 0.9914102913120056,
+        "comprehensivenesses @ 0.5 to Random RI": 1.0022102167925313,
+        "[0.2, 0.5] - sufficiency": {
+            "mean": 0.24158606811752917,
+            "std": 0.35126058656642667
+        },
+        "[0.2, 0.5] - comprehensiveness": {
+            "mean": 0.6347241849801329,
+            "std": 0.35810267180785477
+        },
+        "[0.2, 0.5] - sufficiency to Random RI": 1.037761963495146,
+        "[0.2, 0.5] - comprehensiveness to Random RI": 1.0830869068693105
+    },
+    "gradients": {
+        "sufficiency @ 0.2": {
+            "mean": 0.10834181757699458,
+            "std": 0.2384938375895918
+        },
+        "comprehensivenesses @ 0.2": {
+            "mean": 0.6065705057978286,
+            "std": 0.3570788736345571
+        },
+        "sufficiency @ 0.2 to Random RI": 1.2373096196253013,
+        "comprehensivenesses @ 0.2 to Random RI": 1.1492274192525949,
+        "sufficiency @ 0.5": {
+            "mean": 0.3622760041395342,
+            "std": 0.38419575072929224
+        },
+        "comprehensivenesses @ 0.5": {
+            "mean": 0.6271706480865642,
+            "std": 0.37753201971941414
+        },
+        "sufficiency @ 0.5 to Random RI": 0.9583308621894953,
+        "comprehensivenesses @ 0.5 to Random RI": 0.9734776121735058,
+        "[0.2, 0.5] - sufficiency": {
+            "mean": 0.23530891085826441,
+            "std": 0.34403994753461725
+        },
+        "[0.2, 0.5] - comprehensiveness": {
+            "mean": 0.6168705769421964,
+            "std": 0.3675921182783318
+        },
+        "[0.2, 0.5] - sufficiency to Random RI": 1.0107976807726287,
+        "[0.2, 0.5] - comprehensiveness to Random RI": 1.0526216913255368
+    },
+    "deeplift": {
+        "sufficiency @ 0.2": {
+            "mean": 0.12616116311827089,
+            "std": 0.2497081040476622
+        },
+        "comprehensivenesses @ 0.2": {
+            "mean": 0.5777067318354838,
+            "std": 0.3537657873093192
+        },
+        "sufficiency @ 0.2 to Random RI": 1.440814121827137,
+        "comprehensivenesses @ 0.2 to Random RI": 1.0945412118891071,
+        "sufficiency @ 0.5": {
+            "mean": 0.3567849790366825,
+            "std": 0.3845884115928207
+        },
+        "comprehensivenesses @ 0.5": {
+            "mean": 0.6539311875074909,
+            "std": 0.3561327429188241
+        },
+        "sufficiency @ 0.5 to Random RI": 0.9438054209209832,
+        "comprehensivenesses @ 0.5 to Random RI": 1.015014610270335,
+        "[0.2, 0.5] - sufficiency": {
+            "mean": 0.24147307107747668,
+            "std": 0.3441337354815361
+        },
+        "[0.2, 0.5] - comprehensiveness": {
+            "mean": 0.6158189596714873,
+            "std": 0.35699148916375767
+        },
+        "[0.2, 0.5] - sufficiency to Random RI": 1.0372765711417387,
+        "[0.2, 0.5] - comprehensiveness to Random RI": 1.0508272222885986
+    }
+}
