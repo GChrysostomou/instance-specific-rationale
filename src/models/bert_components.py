@@ -1,3 +1,4 @@
+from cmath import inf
 import torch
 import torch.nn as nn
 import json
@@ -99,8 +100,112 @@ class BertModelWrapper(nn.Module):
 
         return sequence_output, pooled_output, attentions
 
-
+# this version normalise
 class BertModelWrapper_zeroout(nn.Module):
+    
+    def __init__(self, model):
+    
+        super(BertModelWrapper_zeroout, self).__init__()
+
+        """
+        BERT model wrapper
+        """
+
+        self.model = model
+        # self.importance_score = importance_score
+        # self.faithful_method = faithful_method
+        
+    def forward(self, input_ids, attention_mask, token_type_ids, 
+                faithful_method,
+                importance_scores, 
+                ig = int(1), tasc_mech = None):     
+        
+        # print('+++++++  inside Wrapper, BEFORE, = bert_embedding input_ids', input_ids)   # 已经变成0 第一次没变零
+        embeddings, self.word_embeds = bert_embeddings(
+            self.model, 
+            input_ids = input_ids, 
+            position_ids = None, 
+            token_type_ids = token_type_ids,
+            )
+
+        # print('[ig]: ', ig)## if its for evaluation we need it to be a fraction
+        if type(ig) == int or type(ig) == float:
+            assert ig >= 0. and ig <= int(1), "IG(Integrated Gradients: a postdoc explanations) ratio cannot be out of the range 0-1"
+        else:
+            ## else we need it to match the embeddings size for the KUMA mask
+            ## therefore in this case ig is actually z from the KUMA model
+            assert ig.size(0) == embeddings.size(0), "Mis-match in dimensions of mask and embeddings"
+            assert ig.size(1) == embeddings.size(1), "Mis-match in dimensions of mask and embeddings"
+            assert ig.size(2) == 1, "Rationale mask should be of size 1 in final dimension"
+            ig = ig.float()
+        
+
+        
+        importance_scores_max = importance_scores.max(1, keepdim=True)[0]
+
+        for_min_temp = importance_scores.clone().detach()
+        for_min_temp[torch.isinf(for_min_temp)] = 1 # change temp tensor s -inf to 1
+        importance_scores_min = for_min_temp.min(1, keepdim=True)[0] # min except -inf, 
+
+        if torch.mean(importance_scores_max) == torch.mean(importance_scores_min): # all equal to 1 situation
+            importance_scores_nor = importance_scores
+        else:
+            importance_scores_nor = (importance_scores - importance_scores_min) / (importance_scores_max-importance_scores_min)
+
+        importance_scores_nor[:,0] = 1 # [CLS]is importance changed 14122022
+        #importance_scores_nor[importance_scores_nor == -9.9999] = -inf
+
+        #print(' -----> importance_scores_nor', importance_scores_nor)
+
+
+        
+        
+        # repeat
+        importance_scores_nor_repeated = torch.repeat_interleave(torch.unsqueeze(importance_scores_nor, dim=-1), 
+                                                        embeddings.shape[-1], dim=-1)
+        #print('--------------->   importance_scores_nor_repeated',importance_scores_nor_repeated)
+        importance_scores_nor_repeated[torch.isinf(importance_scores_nor_repeated)] = 0
+        #print('--------------->   importance_scores_nor_repeated',importance_scores_nor_repeated)
+        
+        if faithful_method == "soft_suff":
+            # the higher importance score, the more info for model
+            # the less perturbation, the less zero
+            zeroout_mask = torch.bernoulli(importance_scores_nor_repeated).to(device)
+            embeddings = embeddings * zeroout_mask
+        elif faithful_method == "soft_comp":
+            
+            zeroout_mask = torch.bernoulli(1-importance_scores_nor_repeated).to(device)
+            embeddings = embeddings * zeroout_mask
+        else:
+            pass
+
+            
+        extended_attention_mask = attention_mask.unsqueeze(1).unsqueeze(2)
+
+        extended_attention_mask = extended_attention_mask.to(dtype=next(self.model.parameters()).dtype) # fp16 compatibility
+        extended_attention_mask = (1 - extended_attention_mask) * -10000.0
+
+        head_mask = [None] * self.model.config.num_hidden_layers
+
+        encoder_outputs = self.model.encoder(
+            embeddings * ig,
+            attention_mask=extended_attention_mask,
+            head_mask=head_mask,
+            output_attentions=self.model.config.output_attentions,
+            output_hidden_states=self.model.config.output_attentions,
+            return_dict=self.model.config.return_dict
+        )
+
+        sequence_output = encoder_outputs[0]
+
+
+        attentions = encoder_outputs[2]
+        pooled_output = self.model.pooler(sequence_output) if self.model.pooler is not None else None
+
+        return sequence_output, pooled_output, attentions
+
+
+class BertModelWrapper_zeroout_original_backup(nn.Module):
     
     def __init__(self, model):
     
@@ -274,13 +379,26 @@ class BertModelWrapper_noise(nn.Module):
                 pass
             else:
             #### adding noise here
-                importance_scores[:,0] = 1e-4 
-                importance_scores[torch.isinf(importance_scores)] = 1e-4
-                importance_scores -= 1e-4 # modify by cass 1711
-                importance_scores_min = importance_scores.min(1, keepdim=True)[0]
-                importance_scores_max = importance_scores.max(1, keepdim=True)[0]
-                importance_scores_nor = (importance_scores - importance_scores_min) / (importance_scores_max-importance_scores_min)
+                # importance_scores[:,0] = 1e-4 
+                # importance_scores[torch.isinf(importance_scores)] = 1e-4
+                # importance_scores -= 1e-4 # modify by cass 1711
+                # importance_scores_min = importance_scores.min(1, keepdim=True)[0]
+                # importance_scores_max = importance_scores.max(1, keepdim=True)[0]
+                # importance_scores_nor = (importance_scores - importance_scores_min) / (importance_scores_max-importance_scores_min)
                 
+
+                importance_scores_max = importance_scores.max(1, keepdim=True)[0]
+
+                for_min_temp = importance_scores.clone().detach()
+                for_min_temp[torch.isinf(for_min_temp)] = 1 # change temp tensor s -inf to 1
+                importance_scores_min = for_min_temp.min(1, keepdim=True)[0] # min except -inf, 
+
+                if torch.mean(importance_scores_max) == torch.mean(importance_scores_min): # all equal to 1 situation
+                    importance_scores_nor = importance_scores
+                else:
+                    importance_scores_nor = (importance_scores - importance_scores_min) / (importance_scores_max-importance_scores_min)
+
+                importance_scores_nor[:,0] = 1
 
 
                 if faithful_method == "soft_suff":

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -14,8 +15,8 @@ import gc
 import datetime
 import sys
 
-# torch.cuda.empty_cache()
-# # torch.cuda.memory_summary(device=None, abbreviated=False)
+torch.cuda.empty_cache()
+torch.cuda.memory_summary(device=None, abbreviated=False)
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 print(' ---------> ', device)
 CUDA_LAUNCH_BLOCKING=1
@@ -30,7 +31,7 @@ parser.add_argument(
     "--dataset", 
     type = str, 
     help = "select dataset / task", 
-    default = "evinf",
+    default = "sst",
     # choices = ["agnews","evinf", "sst","multirc",]
 )
 

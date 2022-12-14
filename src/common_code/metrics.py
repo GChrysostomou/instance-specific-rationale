@@ -143,7 +143,7 @@ def normalized_sufficiency_(model,
     
     inputs["input_ids"]  =  (rationale_mask + only_query_mask) * original_sentences
 
-    yhat, _  = model(**inputs)
+    yhat, _  = model(**inputs) # wrong
 
     yhat = torch.softmax(yhat.detach().cpu(), dim = -1).numpy()
 
@@ -170,7 +170,7 @@ def comprehensiveness_(full_text_probs : np.array, reduced_probs : np.array) -> 
 def normalized_comprehensiveness_(model, original_sentences : torch.tensor, 
                                     rationale_mask : torch.tensor, 
                                   inputs : dict, full_text_probs : np.array, full_text_class : np.array, rows : np.array, 
-                                  suff_y_zero : np.array) -> np.array:
+                                  suff_y_zero : np.array) -> np.array: #suff_y_zero : np.array, 
     
     ## for comprehensivness we always remove the rationale and keep the rest of the input
     ## since ones represent rationale tokens, invert them and multiply the original input
@@ -192,14 +192,17 @@ def normalized_comprehensiveness_(model, original_sentences : torch.tensor,
     comp_y_a = comprehensiveness_(full_text_probs, reduced_probs)
 
     # return comp_y_a
-    suff_y_zero -= 1e-4 # to avoid nan
+    suff_y_zero -= 1e-6 # to avoid nan
 
     ## 1 - suff_y_0 == comp_y_1
     norm_comp = np.maximum(0, comp_y_a / (1 - suff_y_zero))
 
+    #norm_comp = np.maximum(0, comp_y_a / comp_y_zero)
+
     norm_comp = np.clip(norm_comp, a_min = 0, a_max = 1)
 
     return norm_comp, yhat
+
 
 def normalized_sufficiency_soft_(model, use_topk,
                             original_sentences : torch.tensor, 

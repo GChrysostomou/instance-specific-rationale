@@ -1,10 +1,18 @@
 
 
-
+import torch
 from regex import B
 import pandas as pd
 import numpy as np
 
+ttt = torch.tensor([[1,2,3,float('-inf'),1],[1,2,3,float('-inf'),1],[1,3,3,5,9]])
+print(ttt)
+min_value, min_index = ttt.min(1, keepdim=True)
+print(min_index)
+ttt[min_index] = 0
+
+print(ttt)
+quit()
 
 data = np.load('extracted_rationales/sst/topk/test-rationale_metadata.npy', allow_pickle=True).item()
 print(data)

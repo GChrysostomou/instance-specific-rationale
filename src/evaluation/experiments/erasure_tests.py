@@ -25,7 +25,7 @@ torch.cuda.manual_seed(25)
 np.random.seed(25)
 
 from src.common_code.useful_functions import batch_from_dict_, create_only_query_mask_, create_rationale_mask_ # batch_from_dict --> batch_from_dict_
-from src.common_code.metrics import normalized_comprehensiveness_, normalized_sufficiency_, sufficiency_, normalized_comprehensiveness_soft_, normalized_sufficiency_soft_
+from src.common_code.metrics import comprehensiveness_, normalized_comprehensiveness_, normalized_sufficiency_, sufficiency_, normalized_comprehensiveness_soft_, normalized_sufficiency_soft_
 from sklearn.metrics import classification_report
 
 
@@ -126,6 +126,12 @@ def conduct_tests_(model, data, model_random_seed):
             reduced_probs
         )
 
+
+        comp_y_zero = comprehensiveness_(
+            full_text_probs, 
+            reduced_probs
+        )
+
         ## AOPC scores and other metrics
         
 
@@ -179,6 +185,7 @@ def conduct_tests_(model, data, model_random_seed):
                     full_text_class = full_text_class, 
                     rows = rows,
                     suff_y_zero = suff_y_zero,
+                    #comp_y_zero=comp_y_zero,
                 )
 
                 suff, suff_probs = normalized_sufficiency_(
@@ -446,7 +453,6 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk):
 
 
         if use_topk:
-            #rationale_ratios = [0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1.0]  # 0.02, 
              
             for feat_name in feat_name_dict: #"ig" ,"lime", "deeplift", "deepliftshap", 
                 feat_score =  batch_from_dict_(
@@ -474,8 +480,13 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk):
                             no_of_masked_tokens = torch.ceil(batch["lengths"].float() * rationale_length).detach().cpu().numpy(),
                             #method = rationale_type
                         )
-
-
+                    # print('                ')
+                    # print('                ')
+                    # print('                ')
+                    # print('             FOR   ')
+                    # print('             DEBUGGING   ')
+                    # print('             COMP   ')
+                    # print('                ')
                     soft_comp, soft_comp_probs  = normalized_comprehensiveness_soft_(
                         model = model, 
                         original_sentences = original_sentences, 
@@ -488,7 +499,13 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk):
                         importance_scores = feat_score,
                         use_topk=use_topk,
                     )
-
+                    # print('                ')
+                    # print('                ')
+                    # print('                ')
+                    # print('             FOR   ')
+                    # print('             DEBUGGING   ')
+                    # print('             SUFF   ')
+                    # print('                ')
                     soft_suff, soft_suff_probs = normalized_sufficiency_soft_(
                         model = model, 
                         original_sentences = original_sentences, 
@@ -503,7 +520,7 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk):
                         only_query_mask=only_query_mask,
                     )
 
-
+                    # quit()
                     suff_aopc[:,_i_] = soft_suff  # id, lenght
                     comp_aopc[:,_i_] = soft_comp
                     
@@ -751,10 +768,6 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk):
             json.dump(descriptor,file,indent = 4) 
 
     return
-
-
-
-
 
 
 

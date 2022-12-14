@@ -12,7 +12,7 @@ parser.add_argument(
     "--dataset",
     type = str,
     help = "select dataset / task",
-    default = "agnews", # sst
+    default = "sst", # sst
 )
 
 parser.add_argument(
@@ -40,7 +40,7 @@ ZEROOUT_scores_file = os.path.join(pwd, 'posthoc_results', str(dataset), 'ZEROOU
 TOPk_scores = np.load(topk_scores_file, allow_pickle=True).item()
 ZEROOUT_scores = np.load(ZEROOUT_scores_file, allow_pickle=True).item()
 ATTENTION_scores = np.load(ATTENTION_scores_file, allow_pickle=True).item()
-NOISE_scores = np.load(NOISE_scores_file, allow_pickle=True).item()
+NOISE_scores = np.load(NOISE_scores_file, allow_pickle=True).item() # key  feature_  suff/comp @
 
 
 data_id_list = TOPk_scores.keys()
@@ -62,24 +62,23 @@ for FA in fea_list:
     
     for i, data_id in enumerate(data_id_list):
 
-        top_random_suff_score = TOPk_scores.get(data_id).get('random').get('sufficiency aopc').get('mean')
-        NOISE_random_suff_score = NOISE_scores.get(data_id).get('random').get('sufficiency aopc').get('mean')#.get('mean')
-        ZEROOUT_random_suff_score = ZEROOUT_scores.get(data_id).get('random').get('sufficiency aopc').get('mean')#.get('mean')
-        ATTENTION_random_suff_score = ATTENTION_scores.get(data_id).get('random').get('sufficiency aopc').get('mean')#.get('mean')
-
-        top_suff_score = TOPk_scores.get(data_id).get(FA).get('sufficiency aopc').get('mean') # evinf @ 0.1
+        top_random_suff_score = TOPk_scores.get(data_id).get('random').get('sufficiency @ 0.2')#.get('mean')
+        NOISE_random_suff_score = NOISE_scores.get(data_id).get('random').get('sufficiency @ 0.2')
+        ZEROOUT_random_suff_score = ZEROOUT_scores.get(data_id).get('random').get('sufficiency @ 0.2')
+        ATTENTION_random_suff_score = ATTENTION_scores.get(data_id).get('random').get('sufficiency @ 0.2')
+        top_suff_score = TOPk_scores.get(data_id).get(FA).get('sufficiency @ 0.2')
         if top_suff_score >= top_random_suff_score: Diag_TOP_attention += 1
         else: pass
 
-        NOISE_suff_score = NOISE_scores.get(data_id).get(FA).get('sufficiency aopc').get('mean')
+        NOISE_suff_score = NOISE_scores.get(data_id).get(FA).get('sufficiency @ 0.2')
         if NOISE_suff_score >= NOISE_random_suff_score: Diag_NOISE_attention += 1
         else: pass
 
-        ZEROOUT_suff_score = ZEROOUT_scores.get(data_id).get(FA).get('sufficiency aopc').get('mean')
+        ZEROOUT_suff_score = ZEROOUT_scores.get(data_id).get(FA).get('sufficiency @ 0.2')
         if ZEROOUT_suff_score >= ZEROOUT_random_suff_score: Diag_ZEROOUT_attention += 1
         else: pass
 
-        ATTENTION_suff_score = ATTENTION_scores.get(data_id).get(FA).get('sufficiency aopc').get('mean')
+        ATTENTION_suff_score = ATTENTION_scores.get(data_id).get(FA).get('sufficiency @ 0.2')
         if ATTENTION_suff_score >= ATTENTION_random_suff_score: Diag_ATTENTION_attention += 1
         else: pass
 
@@ -129,7 +128,7 @@ for FA in fea_list:
         ZEROOUT_random_suff_score = ZEROOUT_scores.get(data_id).get('random').get('comprehensiveness aopc').get('mean')#.get('mean')
         ATTENTION_random_suff_score = ATTENTION_scores.get(data_id).get('random').get('comprehensiveness aopc').get('mean')#.get('mean')
 
-        top_suff_score = TOPk_scores.get(data_id).get(FA).get('comprehensiveness aopc').get('mean') # evinf @ 0.1
+        top_suff_score = TOPk_scores.get(data_id).get(FA).get('comprehensiveness aopc').get('mean')
         if top_suff_score >= top_random_suff_score: Diag_TOP_attention += 1
         else: pass
 
@@ -161,7 +160,7 @@ for FA in fea_list:
 
 df = pd.DataFrame(list(zip(fea_list, D_TOP_Suff, D_ATTENTION_Suff, D_ZEROOUT_Suff, D_NOISE_Suff)),
                columns =['Feature', 'TopK', 'Soft(ATTENTION limit)', 'Soft(ZEROOUT limit)', 'Soft(NOISE limit)'])
-
+print(df)
 fname = os.path.join(pwd, 'Diagnosticity', str(dataset), 'Diagnosticity_Comp-limit.csv')
 os.makedirs(os.path.join(pwd, 'Diagnosticity', str(dataset)), exist_ok=True)
 df.to_csv(fname)
