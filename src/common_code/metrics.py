@@ -192,7 +192,7 @@ def normalized_comprehensiveness_(model, original_sentences : torch.tensor,
     comp_y_a = comprehensiveness_(full_text_probs, reduced_probs)
 
     # return comp_y_a
-    suff_y_zero -= 1e-6 # to avoid nan
+    suff_y_zero -= 1e-8 # to avoid nan
 
     ## 1 - suff_y_0 == comp_y_1
     norm_comp = np.maximum(0, comp_y_a / (1 - suff_y_zero))
