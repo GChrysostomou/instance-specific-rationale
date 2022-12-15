@@ -25,7 +25,7 @@ torch.cuda.manual_seed(25)
 np.random.seed(25)
 
 from src.common_code.useful_functions import batch_from_dict_, create_only_query_mask_, create_rationale_mask_ # batch_from_dict --> batch_from_dict_
-from src.common_code.metrics import normalized_comprehensiveness_, normalized_sufficiency_, sufficiency_, normalized_comprehensiveness_soft_, normalized_sufficiency_soft_
+from src.common_code.metrics import comprehensiveness_, normalized_comprehensiveness_, normalized_sufficiency_, sufficiency_, normalized_comprehensiveness_soft_, normalized_sufficiency_soft_
 from sklearn.metrics import classification_report
 
 
@@ -59,7 +59,7 @@ def conduct_tests_(model, data, model_random_seed):
     faithfulness_results = {}
     desired_rationale_length = args.rationale_length
 
-    # print(f"*** desired_rationale_length --> {desired_rationale_length}")
+    print(f"*** desired_rationale_length --> {desired_rationale_length}")
 
     for i, batch in enumerate(data):
         
@@ -102,10 +102,27 @@ def conduct_tests_(model, data, model_random_seed):
 
         ## prepping for our experiments
         rows = np.arange(batch["input_ids"].size(0))
-        
-        ## now measuring baseline sufficiency for all 0 rationale mask
-        if args.query:
 
+
+        
+        
+        ## now measuring baseline comprehensiven for all 1 rationale mask
+        ## the comprehensiveness of an all-one mask. so no rationale mask
+        yhat, _  = model(**batch)
+        yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
+        reduced_probs = yhat[rows, full_text_class]
+
+        comp_y_one = comprehensiveness_(
+            full_text_probs, 
+            reduced_probs
+        )
+        
+
+
+        ## now measuring baseline sufficiency for all 0 rationale mask
+        ## mask all input (zero rationale)
+        ## (the complement of) the sufficiency of an all-zero (empty) rationale mask
+        if args.query:
             only_query_mask=create_only_query_mask_(
                 batch_input_ids=batch["input_ids"],
                 special_tokens=batch["special_tokens"]
@@ -125,6 +142,9 @@ def conduct_tests_(model, data, model_random_seed):
             full_text_probs, 
             reduced_probs
         )
+
+
+
 
         ## AOPC scores and other metrics
         
@@ -178,9 +198,10 @@ def conduct_tests_(model, data, model_random_seed):
                     full_text_probs = full_text_probs, 
                     full_text_class = full_text_class, 
                     rows = rows,
-                    suff_y_zero = suff_y_zero,
+                    #suff_y_zero = suff_y_zero,
+                    comp_y_one=comp_y_one,
                 )
-
+            
                 suff, suff_probs = normalized_sufficiency_(
                     model = model, 
                     original_sentences = original_sentences, 
@@ -357,7 +378,6 @@ def conduct_tests_(model, data, model_random_seed):
 def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk):
     
     fname = os.path.join(os.getcwd(),args["data_dir"], "importance_scores","" )
-
     os.makedirs(fname, exist_ok = True)
     fname = f"{fname}test_importance_scores_{model_random_seed}.npy"
     importance_scores = np.load(fname, allow_pickle = True).item()
@@ -388,8 +408,8 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk):
                 "query_mask" : batch["query_mask"].squeeze(1).to(device),
                 "special_tokens" : batch["special tokens"],
                 "retain_gradient" : False,
-                "importance_scores":torch.ones(batch["input_ids"].squeeze(1).size()),
-                "add_noise": False,
+                #"importance_scores":torch.ones(batch["input_ids"].squeeze(1).size()),
+                #"add_noise": False,
             }
 
         assert batch["input_ids"].size(0) == len(batch["labels"]), "Error: batch size for item 1 not in correct position"
@@ -413,9 +433,24 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk):
 
         rows = np.arange(batch["input_ids"].size(0))
         
-        ## now measuring baseline sufficiency for all 0 rationale mask
-        if args.query:
 
+        ## now measuring baseline comprehensiven for all 1 rationale mask
+        ## no rationale should be more comprehensive than an all-one rationale
+        ## "importance_scores":torch.ones(batch["input_ids"].squeeze(1).size()),
+        batch["faithful_method"] = "soft_comp"
+        batch["importance_scores"]=torch.ones(batch["input_ids"].squeeze(1).size())
+        batch["add_noise"]=True
+        yhat, _  = model(**batch)
+        yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
+        reduced_probs = yhat[rows, full_text_class]
+        comp_y_one = comprehensiveness_(
+            full_text_probs, 
+            reduced_probs
+        )
+        
+        ## now measuring baseline sufficiency for all 0 rationale mask
+        ## no rationale should be much less sufficient than all-zero rationale
+        if args.query:
             only_query_mask=create_only_query_mask_(
                 batch_input_ids=batch["input_ids"],
                 special_tokens=batch["special_tokens"],
@@ -425,9 +460,10 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk):
             only_query_mask=torch.zeros_like(batch["input_ids"]).long()
             batch["input_ids"] = only_query_mask
 
-        
-        batch["add_noise"] = False
-        batch["faithful_method"] = 'soft_suff'
+
+        batch["faithful_method"] = "soft_suff"
+        batch["importance_scores"]=torch.zeros(batch["input_ids"].squeeze(1).size())
+        batch["add_noise"]=True
         yhat, _  = model(**batch) # 此时 input id 全为o, 做的baseline ---> suff(x, y', 0)
         yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
         reduced_probs = yhat[rows, full_text_class]
@@ -446,7 +482,6 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk):
 
 
         if use_topk:
-            #rationale_ratios = [0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1.0]  # 0.02, 
              
             for feat_name in feat_name_dict: #"ig" ,"lime", "deeplift", "deepliftshap", 
                 feat_score =  batch_from_dict_(
@@ -474,8 +509,13 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk):
                             no_of_masked_tokens = torch.ceil(batch["lengths"].float() * rationale_length).detach().cpu().numpy(),
                             #method = rationale_type
                         )
-
-
+                    # print('                ')
+                    # print('                ')
+                    # print('                ')
+                    # print('             FOR   ')
+                    # print('             DEBUGGING   ')
+                    # print('             COMP   ')
+                    # print('                ')
                     soft_comp, soft_comp_probs  = normalized_comprehensiveness_soft_(
                         model = model, 
                         original_sentences = original_sentences, 
@@ -484,11 +524,17 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk):
                         full_text_probs = full_text_probs, 
                         full_text_class = full_text_class, 
                         rows = rows,
-                        suff_y_zero = suff_y_zero,
+                        comp_y_one = comp_y_one,
                         importance_scores = feat_score,
                         use_topk=use_topk,
                     )
-
+                    # print('                ')
+                    # print('                ')
+                    # print('                ')
+                    # print('             FOR   ')
+                    # print('             DEBUGGING   ')
+                    # print('             SUFF   ')
+                    # print('                ')
                     soft_suff, soft_suff_probs = normalized_sufficiency_soft_(
                         model = model, 
                         original_sentences = original_sentences, 
@@ -503,7 +549,7 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk):
                         only_query_mask=only_query_mask,
                     )
 
-
+                    # quit()
                     suff_aopc[:,_i_] = soft_suff  # id, lenght
                     comp_aopc[:,_i_] = soft_comp
                     
@@ -755,10 +801,6 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk):
 
 
 
-
-
-
-
 def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk): #faithful_method
     ## now to create folder where results will be saved
     fname = os.path.join(
@@ -828,6 +870,20 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk): #
 
         ## prepping for our experiments
         rows = np.arange(batch["input_ids"].size(0))
+
+
+
+        ## now measuring baseline comprehensiven for all 1 rationale mask
+        batch["add_noise"] = True
+        batch["faithful_method"] = "soft_comp"
+        yhat, _  = model(**batch)
+        yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
+        reduced_probs = yhat[rows, full_text_class]
+
+        comp_y_one = comprehensiveness_(
+            full_text_probs, 
+            reduced_probs
+        )
 
         ## now measuring baseline sufficiency for all 0 rationale mask
         if args.query:
@@ -899,7 +955,7 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk): #
                         full_text_probs = full_text_probs,   
                         full_text_class = full_text_class,  
                         rows = rows,
-                        suff_y_zero = suff_y_zero,    
+                        comp_y_one = comp_y_one,    
                         importance_scores = feat_score,
                         use_topk=use_topk,
                     )

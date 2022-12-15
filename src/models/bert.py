@@ -170,7 +170,7 @@ class BertClassifier_zeroout(nn.Module):
             ig = inputs["ig"],
             tasc_mech = self.tasc_mech,
             importance_scores = inputs["importance_scores"],
-            faithful_method = inputs['faithful_method'],
+            faithful_method = inputs["faithful_method"],
         )
 
         self.weights_or = attention_weights[-1]
