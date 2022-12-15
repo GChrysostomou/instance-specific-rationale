@@ -59,7 +59,7 @@ def conduct_tests_(model, data, model_random_seed):
     faithfulness_results = {}
     desired_rationale_length = args.rationale_length
 
-    # print(f"*** desired_rationale_length --> {desired_rationale_length}")
+    print(f"*** desired_rationale_length --> {desired_rationale_length}")
 
     for i, batch in enumerate(data):
         
@@ -107,6 +107,7 @@ def conduct_tests_(model, data, model_random_seed):
         
         
         ## now measuring baseline comprehensiven for all 1 rationale mask
+        ## the comprehensiveness of an all-one mask. so no rationale mask
         yhat, _  = model(**batch)
         yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
         reduced_probs = yhat[rows, full_text_class]
@@ -119,6 +120,8 @@ def conduct_tests_(model, data, model_random_seed):
 
 
         ## now measuring baseline sufficiency for all 0 rationale mask
+        ## mask all input (zero rationale)
+        ## (the complement of) the sufficiency of an all-zero (empty) rationale mask
         if args.query:
             only_query_mask=create_only_query_mask_(
                 batch_input_ids=batch["input_ids"],
@@ -375,7 +378,6 @@ def conduct_tests_(model, data, model_random_seed):
 def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk):
     
     fname = os.path.join(os.getcwd(),args["data_dir"], "importance_scores","" )
-
     os.makedirs(fname, exist_ok = True)
     fname = f"{fname}test_importance_scores_{model_random_seed}.npy"
     importance_scores = np.load(fname, allow_pickle = True).item()
@@ -406,8 +408,8 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk):
                 "query_mask" : batch["query_mask"].squeeze(1).to(device),
                 "special_tokens" : batch["special tokens"],
                 "retain_gradient" : False,
-                "importance_scores":torch.ones(batch["input_ids"].squeeze(1).size()),
-                "add_noise": False,
+                #"importance_scores":torch.ones(batch["input_ids"].squeeze(1).size()),
+                #"add_noise": False,
             }
 
         assert batch["input_ids"].size(0) == len(batch["labels"]), "Error: batch size for item 1 not in correct position"
@@ -431,20 +433,24 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk):
 
         rows = np.arange(batch["input_ids"].size(0))
         
+
         ## now measuring baseline comprehensiven for all 1 rationale mask
+        ## no rationale should be more comprehensive than an all-one rationale
+        ## "importance_scores":torch.ones(batch["input_ids"].squeeze(1).size()),
         batch["faithful_method"] = "soft_comp"
+        batch["importance_scores"]=torch.ones(batch["input_ids"].squeeze(1).size())
+        batch["add_noise"]=True
         yhat, _  = model(**batch)
         yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
         reduced_probs = yhat[rows, full_text_class]
-
         comp_y_one = comprehensiveness_(
             full_text_probs, 
             reduced_probs
         )
         
         ## now measuring baseline sufficiency for all 0 rationale mask
+        ## no rationale should be much less sufficient than all-zero rationale
         if args.query:
-
             only_query_mask=create_only_query_mask_(
                 batch_input_ids=batch["input_ids"],
                 special_tokens=batch["special_tokens"],
@@ -454,10 +460,10 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk):
             only_query_mask=torch.zeros_like(batch["input_ids"]).long()
             batch["input_ids"] = only_query_mask
 
-        
 
-        batch["add_noise"] = False
-        batch["faithful_method"] = 'soft_suff'
+        batch["faithful_method"] = "soft_suff"
+        batch["importance_scores"]=torch.zeros(batch["input_ids"].squeeze(1).size())
+        batch["add_noise"]=True
         yhat, _  = model(**batch) # 此时 input id 全为o, 做的baseline ---> suff(x, y', 0)
         yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
         reduced_probs = yhat[rows, full_text_class]
