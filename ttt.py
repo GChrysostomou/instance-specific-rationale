@@ -6,9 +6,12 @@ import pandas as pd
 import numpy as np
 
 
-data = np.load('extracted_rationales/sst/topk/test-rationale_metadata.npy', allow_pickle=True).item()
-print(data)
+data = np.load('./posthoc_results/sst/ZEROOUTlimit-faithfulness-scores-detailed.npy', allow_pickle=True).item() 
+a = data['test_445']['random']
+print(a)
 quit()
+
+
 x = np.array([3, 1, 2])
 print(np.argsort(x))
 print(np.argsort(-x))
