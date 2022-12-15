@@ -153,7 +153,7 @@ def normalized_sufficiency_(model,
     suff_y_a = sufficiency_(full_text_probs, reduced_probs)
 
     # return suff_y_a
-    suff_y_zero -= 1e-4 ## to avoid nan
+    suff_y_zero -= 1e-8 ## to avoid nan
 
     norm_suff = np.maximum(0, (suff_y_a - suff_y_zero) / (1 - suff_y_zero))
 
@@ -170,7 +170,7 @@ def comprehensiveness_(full_text_probs : np.array, reduced_probs : np.array) -> 
 def normalized_comprehensiveness_(model, original_sentences : torch.tensor, 
                                     rationale_mask : torch.tensor, 
                                   inputs : dict, full_text_probs : np.array, full_text_class : np.array, rows : np.array, 
-                                  suff_y_zero : np.array) -> np.array: #suff_y_zero : np.array, 
+                                  comp_y_one : np.array) -> np.array: #suff_y_zero : np.array, 
     
     ## for comprehensivness we always remove the rationale and keep the rest of the input
     ## since ones represent rationale tokens, invert them and multiply the original input
@@ -191,11 +191,14 @@ def normalized_comprehensiveness_(model, original_sentences : torch.tensor,
      ## reduced input sufficiency
     comp_y_a = comprehensiveness_(full_text_probs, reduced_probs)
 
-    # return comp_y_a
-    suff_y_zero -= 1e-8 # to avoid nan
+    # # return comp_y_a
+    # suff_y_zero -= 1e-8 # to avoid nan
 
-    ## 1 - suff_y_0 == comp_y_1
-    norm_comp = np.maximum(0, comp_y_a / (1 - suff_y_zero))
+    # ## 1 - suff_y_0 == comp_y_1
+    # norm_comp = np.maximum(0, comp_y_a / comp_y_one)
+    comp_y_one[comp_y_one==0] = 1e-8 # avoid denominator = 0
+    norm_comp = np.maximum(0, comp_y_a / comp_y_one)
+
 
     #norm_comp = np.maximum(0, comp_y_a / comp_y_zero)
 
@@ -225,8 +228,8 @@ def normalized_sufficiency_soft_(model, use_topk,
         rationale_mask[:,0] = 1
         ## preserve sep
         rationale_mask[torch.arange(rationale_mask.size(0)).to(device), inputs["lengths"]] = 1
-        inputs["input_ids"]  =  rationale_mask[:,:original_sentences.size(1)] * original_sentences
-
+        #inputs["input_ids"]  =  rationale_mask[:,:original_sentences.size(1)] * original_sentences
+        inputs["input_ids"]  =  (rationale_mask + only_query_mask) * original_sentences
     else: 
         inputs["input_ids"]  =  original_sentences
 
@@ -255,7 +258,7 @@ def normalized_sufficiency_soft_(model, use_topk,
 def normalized_comprehensiveness_soft_(model, use_topk,
                                     original_sentences : torch.tensor, 
                                   inputs : dict, full_text_probs : np.array, full_text_class : np.array, rows : np.array, 
-                                  suff_y_zero : np.array,
+                                  comp_y_one : np.array,
                                   importance_scores: torch.tensor,
                                   rationale_mask : torch.tensor, 
                                   ) -> np.array:
@@ -286,11 +289,13 @@ def normalized_comprehensiveness_soft_(model, use_topk,
      ## reduced input sufficiency
     comp_y_a = comprehensiveness_(full_text_probs, reduced_probs)
 
-    # return comp_y_a
-    suff_y_zero -= 1e-4 # to avoid nan
+    # # return comp_y_a
+    # suff_y_zero -= 1e-4 # to avoid nan
 
-    ## 1 - suff_y_0 == comp_y_1
-    norm_comp = np.maximum(0, comp_y_a / (1 - suff_y_zero))
+    # ## 1 - suff_y_0 == comp_y_1
+    # norm_comp = np.maximum(0, comp_y_a / (1 - suff_y_zero))
+    comp_y_one[comp_y_one==0] = 1e-8 # avoid denominator = 0
+    norm_comp = np.maximum(0, comp_y_a / comp_y_one)
 
     norm_comp = np.clip(norm_comp, a_min = 0, a_max = 1)
 

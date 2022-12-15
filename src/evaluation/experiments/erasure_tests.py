@@ -102,10 +102,24 @@ def conduct_tests_(model, data, model_random_seed):
 
         ## prepping for our experiments
         rows = np.arange(batch["input_ids"].size(0))
+
+
         
+        
+        ## now measuring baseline comprehensiven for all 1 rationale mask
+        yhat, _  = model(**batch)
+        yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
+        reduced_probs = yhat[rows, full_text_class]
+
+        comp_y_one = comprehensiveness_(
+            full_text_probs, 
+            reduced_probs
+        )
+        
+
+
         ## now measuring baseline sufficiency for all 0 rationale mask
         if args.query:
-
             only_query_mask=create_only_query_mask_(
                 batch_input_ids=batch["input_ids"],
                 special_tokens=batch["special_tokens"]
@@ -127,10 +141,7 @@ def conduct_tests_(model, data, model_random_seed):
         )
 
 
-        comp_y_zero = comprehensiveness_(
-            full_text_probs, 
-            reduced_probs
-        )
+
 
         ## AOPC scores and other metrics
         
@@ -184,10 +195,10 @@ def conduct_tests_(model, data, model_random_seed):
                     full_text_probs = full_text_probs, 
                     full_text_class = full_text_class, 
                     rows = rows,
-                    suff_y_zero = suff_y_zero,
-                    #comp_y_zero=comp_y_zero,
+                    #suff_y_zero = suff_y_zero,
+                    comp_y_one=comp_y_one,
                 )
-
+            
                 suff, suff_probs = normalized_sufficiency_(
                     model = model, 
                     original_sentences = original_sentences, 
@@ -420,6 +431,17 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk):
 
         rows = np.arange(batch["input_ids"].size(0))
         
+        ## now measuring baseline comprehensiven for all 1 rationale mask
+        batch["faithful_method"] = "soft_comp"
+        yhat, _  = model(**batch)
+        yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
+        reduced_probs = yhat[rows, full_text_class]
+
+        comp_y_one = comprehensiveness_(
+            full_text_probs, 
+            reduced_probs
+        )
+        
         ## now measuring baseline sufficiency for all 0 rationale mask
         if args.query:
 
@@ -433,6 +455,7 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk):
             batch["input_ids"] = only_query_mask
 
         
+
         batch["add_noise"] = False
         batch["faithful_method"] = 'soft_suff'
         yhat, _  = model(**batch) # 此时 input id 全为o, 做的baseline ---> suff(x, y', 0)
@@ -495,7 +518,7 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk):
                         full_text_probs = full_text_probs, 
                         full_text_class = full_text_class, 
                         rows = rows,
-                        suff_y_zero = suff_y_zero,
+                        comp_y_one = comp_y_one,
                         importance_scores = feat_score,
                         use_topk=use_topk,
                     )
@@ -842,6 +865,20 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk): #
         ## prepping for our experiments
         rows = np.arange(batch["input_ids"].size(0))
 
+
+
+        ## now measuring baseline comprehensiven for all 1 rationale mask
+        batch["add_noise"] = True
+        batch["faithful_method"] = "soft_comp"
+        yhat, _  = model(**batch)
+        yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
+        reduced_probs = yhat[rows, full_text_class]
+
+        comp_y_one = comprehensiveness_(
+            full_text_probs, 
+            reduced_probs
+        )
+
         ## now measuring baseline sufficiency for all 0 rationale mask
         if args.query:
 
@@ -912,7 +949,7 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk): #
                         full_text_probs = full_text_probs,   
                         full_text_class = full_text_class,  
                         rows = rows,
-                        suff_y_zero = suff_y_zero,    
+                        comp_y_one = comp_y_one,    
                         importance_scores = feat_score,
                         use_topk=use_topk,
                     )
