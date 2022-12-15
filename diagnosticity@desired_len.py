@@ -128,6 +128,7 @@ for ratio in rationale_ratios:
 fname = os.path.join(pwd, 'Diagnosticity', str(dataset), f'Soft_{suff_or_comp}.csv')
 os.makedirs(os.path.join(pwd, 'Diagnosticity', str(dataset)), exist_ok=True)
 df_10.to_csv(fname)
+print('done sufficiency')
 
 
 
