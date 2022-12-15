@@ -108,14 +108,21 @@ def conduct_tests_(model, data, model_random_seed):
         
         ## now measuring baseline comprehensiven for all 1 rationale mask
         ## the comprehensiveness of an all-one mask. so no rationale mask
-        yhat, _  = model(**batch)
-        yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
-        reduced_probs = yhat[rows, full_text_class]
+        # yhat, _  = model(**batch)
+        # yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
+        # reduced_probs = yhat[rows, full_text_class]
 
-        comp_y_one = comprehensiveness_(
-            full_text_probs, 
-            reduced_probs
-        )
+        # comp_y_one = comprehensiveness_(
+        #     full_text_probs, 
+        #     reduced_probs
+        # )
+
+        # the longer rationale, the more input for suff, the less input for comp,
+        #                       the less change for suff, the more change for comp
+        # Comp(x, ˆ y, α) = max(0, p(ˆ y|x) − p(ˆ y|x, 1 − α)). ---> higher
+        # Suff(x, ˆ y, α) = 1 − max(0, p(ˆ y|x) − p(ˆ y|x, α)), ---> higer
+        # along with the increase of ratio, the higher suff and comp
+
         
 
 
@@ -139,6 +146,11 @@ def conduct_tests_(model, data, model_random_seed):
 
         ## baseline sufficiency
         suff_y_zero = sufficiency_(
+            full_text_probs, 
+            reduced_probs
+        )
+
+        comp_y_one = comprehensiveness_(
             full_text_probs, 
             reduced_probs
         )
