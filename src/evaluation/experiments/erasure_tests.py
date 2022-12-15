@@ -436,7 +436,7 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk):
 
         ## now measuring baseline comprehensiven for all 1 rationale mask
         ## no rationale should be more comprehensive than an all-one rationale
-        ## "importance_scores":torch.ones(batch["input_ids"].squeeze(1).size()),
+        ## "importance_scores":torch.ones(batch["input_ids"].squeeze(1).size()),  # take all --> no info
         batch["faithful_method"] = "soft_comp"
         batch["importance_scores"]=torch.ones(batch["input_ids"].squeeze(1).size())
         batch["add_noise"]=True
@@ -449,7 +449,7 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk):
         )
         
         ## now measuring baseline sufficiency for all 0 rationale mask
-        ## no rationale should be much less sufficient than all-zero rationale
+        ## no rationale should be much less sufficient than all-zero rationale  # keep none --> no info
         if args.query:
             only_query_mask=create_only_query_mask_(
                 batch_input_ids=batch["input_ids"],
