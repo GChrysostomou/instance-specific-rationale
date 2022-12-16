@@ -6,7 +6,7 @@ import glob
 import os 
 import argparse
 import logging
-
+import numpy as np
 
 
 import datetime
@@ -105,28 +105,10 @@ def generate_csv(dataset, method, std, path):
         print('saved csv: ', final_path)
         final_df.to_csv(final_path)
 
-
-# try: generate_csv(str(dataset), 'NOISE', 1, 'NOISE-faithfulness-scores-description-std_1.json')
-# except: generate_csv(str(dataset), 'NOISE', 1, 'NOISE-faithfulness-scores-description-std_1.0.json')
+    return final_df
 
 
-
-#generate_csv(str(dataset), 'topk', 1, 'topk-faithfulness-scores-average-description.json')
-
-# generate_csv(str(dataset), 'ATTENTION', 1, 'ATTENTION-faithfulness-scores-description.json')
-# generate_csv(str(dataset), 'ATTENTIONlimit', 1, 'ATTENTIONlimit-faithfulness-scores-description.json')
-
-# generate_csv('agnews', 'ATTENTION', 1, 'ATTENTION-faithfulness-scores-description.json')
 generate_csv('sst', 'ATTENTIONlimit', 1, 'ATTENTIONlimit-faithfulness-scores-description.json')
-
-#generate_csv('agnews', 'ZEROOUT', 1, 'ZEROOUT-faithfulness-scores-description.json')
-#generate_csv('agnews', 'ZEROOUTlimit', 1, 'ZEROOUTlimit-faithfulness-scores-description.json')
-
-# generate_csv(str(dataset), 'NOISE', 0.5, 'NOISE-faithfulness-scores-description-std_0.5.json')
-# generate_csv(str(dataset), 'NOISElimit', 0.5, 'NOISElimit-faithfulness-scores-description-std_0.5.json')
-
-
-
 
 
 
