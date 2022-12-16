@@ -53,70 +53,11 @@ dataset = user_args['dataset']
 
 
 
-def generate_csv(dataset, method, ratio, std, path):
-    file_path = faithful_result + dataset + '/' + path
-    print(file_path)
-
-    df = pd.read_json(file_path, orient ='index')
-    #print(df)
-    df.rename(columns = 
-            {'AOPC - sufficiency':'AOPC_sufficiency', 'AOPC - comprehensiveness':'AOPC_comprehensiveness'}, 
-            inplace = True)
-    sufficiency_mean = []
-    comprehensiveness_mean = []
-
-
-    fea_list = ['random', 'attention', "scaled attention", "gradients", "ig", "deeplift"] #"gradientshap", 
-    for feat in fea_list:
-        sufficiency_mean.append(df.sufficiency[str(feat)].get('mean'))
-        comprehensiveness_mean.append(df.comprehensiveness[str(feat)].get('mean'))
-
-
-
-    if method != 'topk':
-        random_suff = df.sufficiency['random'].get('mean')
-        random_comp = df.comprehensiveness['random'].get('mean')
-        
-        Suff_ratio = [x / random_suff for x in sufficiency_mean]
-        Comp_ratio = [x / random_comp for x in comprehensiveness_mean]
-
-        final_df = pd.DataFrame(list(zip(fea_list, sufficiency_mean, Suff_ratio, comprehensiveness_mean, Comp_ratio)),
-                columns =['feature', 'Soft_sufficiency', 'Suff_ratio', 'Soft_comprehensiveness', 'Comp_ratio'])
-        
-    
-        if 'NOISE' in method: final_path = faithful_result + dataset + '/' + str(method) + str(std) +'_faithfulness_result.csv'
-        else: final_path = faithful_result + dataset + '/' + str(method) +'_faithfulness_result.csv'
-        
-        final_df.to_csv(final_path)
-        print('saved csv: ', final_path)
-
-    else: # not soft, so have aopc
-        random_suff = df.AOPC_sufficiency['random'].get('mean')
-        random_comp = df.AOPC_comprehensiveness['random'].get('mean')
-
-        Suff_ratio = [x / random_suff for x in sufficiency_mean]
-        Comp_ratio = [x / random_comp for x in comprehensiveness_mean]
-
-        final_df = pd.DataFrame(list(zip(fea_list, sufficiency_mean, Suff_ratio, comprehensiveness_mean, Comp_ratio)),
-                columns =['feature', ' AOPC_sufficiency', 'Suff_ratio', 'AOPC_comprehensiveness', 'Comp_ratio'])
-        final_path = faithful_result + dataset + '/' +'faithfulness_result.csv'
-        print('saved csv: ', final_path)
-        final_df.to_csv(final_path)
-
-    return final_df
-
-
-generate_csv('sst', 'ATTENTIONlimit', 1, 'ATTENTIONlimit-faithfulness-scores-description.json')
-
-
-
-
 pwd = os.getcwd()
 topk_scores_file = os.path.join(pwd, 'posthoc_results', str(dataset), 'topk-faithfulness-scores-detailed.npy') 
 NOISE_scores_file = os.path.join(pwd, 'posthoc_results', str(dataset), 'NOISElimit-faithfulness-scores-detailed.npy') 
 ATTENTION_scores_file = os.path.join(pwd, 'posthoc_results', str(dataset), 'ATTENTIONlimit-faithfulness-scores-detailed.npy')
 ZEROOUT_scores_file = os.path.join(pwd, 'posthoc_results', str(dataset), 'ZEROOUTlimit-faithfulness-scores-detailed.npy')
-
 
 
 TOPk_scores = np.load(topk_scores_file, allow_pickle=True).item()
@@ -134,9 +75,7 @@ suff_or_comp = 'sufficiency' # sufficiency or comprehensiveness
 
 def open_file(file_path):
     topk_faith = pd.read_json(file_path, orient ='index')
-    topk_faith.rename(columns = 
-            {'AOPC - sufficiency':'AOPC_sufficiency', 'AOPC - comprehensiveness':'AOPC_comprehensiveness'}, 
-            inplace = True)
+    topk_faith.rename(columns = {'AOPC - sufficiency':'AOPC_sufficiency', 'AOPC - comprehensiveness':'AOPC_comprehensiveness'}, inplace = True)
     return topk_faith
 
 def generate_table(suff_or_comp, ratio, include_feature_name=True):
@@ -219,7 +158,7 @@ def generate_table(suff_or_comp, ratio, include_feature_name=True):
 
 
 
-    ## get faith to random
+    ## get faith scores from description json
 
     topk_scores_file = os.path.join(pwd, 'posthoc_results', str(dataset), 'topk-faithfulness-scores-average-description.json') 
     NOISE_scores_file = os.path.join(pwd, 'posthoc_results', str(dataset), 'NOISElimit-faithfulness-scores-average-description.json') 
@@ -261,3 +200,4 @@ def generate_table(suff_or_comp, ratio, include_feature_name=True):
 
 
 
+generate_table('sufficiency', 0.2, include_feature_name=True)
