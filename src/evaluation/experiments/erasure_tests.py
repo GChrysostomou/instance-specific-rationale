@@ -451,7 +451,7 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk):
         ## "importance_scores":torch.ones(batch["input_ids"].squeeze(1).size()),  # take all --> no info
         batch["faithful_method"] = "soft_comp"
         batch["importance_scores"]=torch.ones(batch["input_ids"].squeeze(1).size())
-        batch["add_noise"]=True
+        batch["add_noise"]=False
         yhat, _  = model(**batch)
         yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
         reduced_probs = yhat[rows, full_text_class]
@@ -459,7 +459,6 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk):
             full_text_probs, 
             reduced_probs
         )
-        
         ## now measuring baseline sufficiency for all 0 rationale mask
         ## no rationale should be much less sufficient than all-zero rationale  # keep none --> no info
         if args.query:
@@ -475,7 +474,7 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk):
 
         batch["faithful_method"] = "soft_suff"
         batch["importance_scores"]=torch.zeros(batch["input_ids"].squeeze(1).size())
-        batch["add_noise"]=True
+        batch["add_noise"]=False
         yhat, _  = model(**batch) # 此时 input id 全为o, 做的baseline ---> suff(x, y', 0)
         yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
         reduced_probs = yhat[rows, full_text_class]
@@ -485,6 +484,7 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk):
             full_text_probs, 
             reduced_probs
         )
+        batch["add_noise"]=True
 
         for _j_, annot_id in enumerate(batch["annotation_id"]):
                 faithfulness_results[annot_id]["full text prediction"] = original_prediction[_j_] 
@@ -492,7 +492,7 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk):
                 for feat in feat_name_dict:
                     faithfulness_results[annot_id][feat] = {}
 
-
+       
         if use_topk:
              
             for feat_name in feat_name_dict: #"ig" ,"lime", "deeplift", "deepliftshap", 
@@ -815,32 +815,21 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk):
 
 def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk): #faithful_method
     ## now to create folder where results will be saved
-    fname = os.path.join(
-        os.getcwd(),
-        args["data_dir"],
-        "importance_scores",
-        ""
-    )
-
+    fname = os.path.join(os.getcwd(),args["data_dir"],"importance_scores", "")
     os.makedirs(fname, exist_ok = True)
     fname = f"{fname}test_importance_scores_{model_random_seed}.npy"
     importance_scores = np.load(fname, allow_pickle = True).item()
 
     ## retrieve original prediction probability
-    fname2 = os.path.join(
-        os.getcwd(),
-        args["model_dir"],
-    )
+    fname2 = os.path.join(os.getcwd(),args["model_dir"])
     fname2 = glob.glob(fname2 + f"*output*{model_random_seed}.npy")[0]
     original_prediction_output = np.load(fname2, allow_pickle = True).item()
-    # 'test_1417': {'predicted': array([ 1.7342604, -1.8030814], dtype=float32), 'actual': 0}},
-
+    
     desc = 'faithfulness evaluation -> id'
     pbar = trange(len(data) * data.batch_size, desc=desc, leave=True)
     desired_rationale_length = args.rationale_length
 
     print(f"*** desired_rationale_length --> {desired_rationale_length}")
-
 
     faithfulness_results = {}
     for batch in data:
@@ -859,7 +848,7 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk): #
                 "retain_gradient" : False,
                 "importance_scores":torch.zeros(batch["input_ids"].squeeze(1).size()),  # baseline, so all important 
                 "std": std,
-                "add_noise": False,
+                #"add_noise": False,
             }
 
         assert batch["input_ids"].size(0) == len(batch["labels"]), "Error: batch size for item 1 not in correct position"
@@ -886,12 +875,12 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk): #
 
 
         ## now measuring baseline comprehensiven for all 1 rationale mask
-        batch["add_noise"] = True
         batch["faithful_method"] = "soft_comp"
+        batch["importance_scores"]=torch.ones(batch["input_ids"].squeeze(1).size())
+        batch["add_noise"]=False
         yhat, _  = model(**batch)
         yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
         reduced_probs = yhat[rows, full_text_class]
-
         comp_y_one = comprehensiveness_(
             full_text_probs, 
             reduced_probs
@@ -899,7 +888,6 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk): #
 
         ## now measuring baseline sufficiency for all 0 rationale mask
         if args.query:
-
             only_query_mask=create_only_query_mask_(
                 batch_input_ids=batch["input_ids"],
                 special_tokens=batch["special_tokens"],
@@ -910,9 +898,11 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk): #
             batch["input_ids"] = only_query_mask 
 
         
-        batch["add_noise"] = True # all zero sequence and no noise!!! 
-        batch["faithful_method"] = 'soft_suff'
-        yhat, _  = model(**batch)  # 此时 input id 完全为0
+
+        batch["faithful_method"] = "soft_suff"
+        batch["importance_scores"]=torch.zeros(batch["input_ids"].squeeze(1).size())
+        batch["add_noise"]=False
+        yhat, _  = model(**batch) # 此时 input id 全为o, 做的baseline ---> suff(x, y', 0)
         yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
         reduced_probs = yhat[rows, full_text_class]
 
@@ -1302,9 +1292,22 @@ def conduct_experiments_attention_(model, data, model_random_seed, use_topk): #f
 
         rows = np.arange(batch["input_ids"].size(0))
         
+        ## now measuring baseline comprehensiven for all 1 rationale mask
+        ## no rationale should be more comprehensive than an all-one rationale
+        ## "importance_scores":torch.ones(batch["input_ids"].squeeze(1).size()),  # take all --> no info
+        batch["faithful_method"] = "soft_comp"
+        batch["importance_scores"]=torch.ones(batch["input_ids"].squeeze(1).size())
+        batch["add_noise"]=False
+        yhat, _  = model(**batch)
+        yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
+        reduced_probs = yhat[rows, full_text_class]
+        comp_y_one = comprehensiveness_(
+            full_text_probs, 
+            reduced_probs
+        )
         ## now measuring baseline sufficiency for all 0 rationale mask
+        ## no rationale should be much less sufficient than all-zero rationale  # keep none --> no info
         if args.query:
-
             only_query_mask=create_only_query_mask_(
                 batch_input_ids=batch["input_ids"],
                 special_tokens=batch["special_tokens"],
@@ -1312,12 +1315,13 @@ def conduct_experiments_attention_(model, data, model_random_seed, use_topk): #f
             batch["input_ids"] = only_query_mask * original_sentences
         else:
             only_query_mask=torch.zeros_like(batch["input_ids"]).long()
-            batch["input_ids"] = only_query_mask 
+            batch["input_ids"] = only_query_mask
 
 
-        batch["add_noise"] = False
-        batch["faithful_method"] = 'soft_suff'
-        yhat, _  = model(**batch)  # 此时 input id 完全为0, importance score all zero # but still got process to the perturbation model
+        batch["faithful_method"] = "soft_suff"
+        batch["importance_scores"]=torch.zeros(batch["input_ids"].squeeze(1).size())
+        batch["add_noise"]=False
+        yhat, _  = model(**batch) # 此时 input id 全为o, 做的baseline ---> suff(x, y', 0)
         yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
         reduced_probs = yhat[rows, full_text_class]
 
@@ -1325,8 +1329,8 @@ def conduct_experiments_attention_(model, data, model_random_seed, use_topk): #f
         suff_y_zero = sufficiency_(
             full_text_probs, 
             reduced_probs
-        ) # Suff(x, ˆ y, 0) , no rationales to compare
-
+        )
+        batch["add_noise"]=True
 
         for _j_, annot_id in enumerate(batch["annotation_id"]):
             faithfulness_results[annot_id]["full text prediction"] = original_prediction[_j_] 
@@ -1375,7 +1379,8 @@ def conduct_experiments_attention_(model, data, model_random_seed, use_topk): #f
                                                     full_text_class = full_text_class,  
                                                     rows = rows,    
                                                     importance_scores = feat_score,
-                                                    suff_y_zero = suff_y_zero,
+                                                    comp_y_one = comp_y_one,
+                                                    #suff_y_zero = suff_y_zero,
                                                     use_topk=use_topk,
                                                     )
                     soft_suff, soft_suff_probs = normalized_sufficiency_soft_(

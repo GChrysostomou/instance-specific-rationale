@@ -111,24 +111,58 @@ def generate_table(suff_or_comp, ratio, include_feature_name=True):
     return df
 
 
-rationale_ratios = [0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1.0] 
+# rationale_ratios = [0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1.0] 
 
 
-suff_or_comp = 'sufficiency'
-df_10 = generate_table(suff_or_comp, 1.0, True)
-print(' ')
-print(df_10)
-for ratio in rationale_ratios:
+# suff_or_comp = 'sufficiency'
+# df_10 = generate_table(suff_or_comp, 1.0, True)
+# print(' ')
+# print(df_10)
+# for ratio in rationale_ratios:
 
-    to_be_concatenated_df = generate_table(suff_or_comp, ratio, False)
-    print(' ')
-    print(to_be_concatenated_df)
-    df_10 = pd.concat([df_10, to_be_concatenated_df], axis=1).reindex(df_10.index)
+#     to_be_concatenated_df = generate_table(suff_or_comp, ratio, False)
+#     print(' ')
+#     print(to_be_concatenated_df)
+#     df_10 = pd.concat([df_10, to_be_concatenated_df], axis=1).reindex(df_10.index)
 
-fname = os.path.join(pwd, 'Diagnosticity', str(dataset), f'Soft_{suff_or_comp}.csv')
-os.makedirs(os.path.join(pwd, 'Diagnosticity', str(dataset)), exist_ok=True)
-df_10.to_csv(fname)
-print('done sufficiency')
+# fname = os.path.join(pwd, 'Diagnosticity', str(dataset), f'Soft_{suff_or_comp}.csv')
+# os.makedirs(os.path.join(pwd, 'Diagnosticity', str(dataset)), exist_ok=True)
+# df_10.to_csv(fname)
+# print('done sufficiency')
+
+
+
+
+def generate_aopc(detailed_dict, suff_or_comp, ratio_list):
+    D_TOP_Suff = []
+    D_ATTENTION_Suff = []
+    D_ZEROOUT_Suff = []
+    D_NOISE_Suff = []
+
+    FA_AOPC_list = []
+    for FA in fea_list:
+
+
+        aopc_list_for_all_data = 0
+
+        for i, data_id in enumerate(data_id_list):
+            score_at_diff_ratio = 0
+
+            for ratio in ratio_list:
+                score_at_one_ratio = TOPk_scores.get(data_id).get(FA).get(f'{suff_or_comp} @ {str(ratio)}')#.get('mean')
+                score_at_diff_ratio += score_at_one_ratio
+            aopc_one_data = score_at_diff_ratio/len(ratio_list)
+        
+        aopc_list_for_all_data += aopc_one_data
+
+    FA_AOPC_list.append(aopc_list_for_all_data/len(fea_list))
+
+
+    df = pd.DataFrame(list(zip(fea_list, FA_AOPC_list)),
+                columns =['Feature', 'AOPC'])
+
+    return df
+
 
 
 
