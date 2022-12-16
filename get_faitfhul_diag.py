@@ -70,7 +70,7 @@ data_id_list = TOPk_scores.keys()
 fea_list = ['attention', "scaled attention", "gradients", "ig", "deeplift"] # "gradientshap",
 rationale_ratios = [0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1.0] 
 
-suff_or_comp = 'sufficiency' # sufficiency or comprehensiveness
+suff_or_comp = 'sufficiencies' # sufficiencies or comprehensiveness
 
 
 def open_file(file_path):
@@ -84,17 +84,12 @@ def generate_table(suff_or_comp, ratio, include_feature_name=True):
     D_ZEROOUT_Suff = []
     D_NOISE_Suff = []
 
-
     ABS_D_TOP_Suff = []
     ABS_D_ATTENTION_Suff = []
     ABS_D_ZEROOUT_Suff = []
     ABS_D_NOISE_Suff = []
 
-
-
     for FA in fea_list:
-
-
         Diag_TOP_attention = 0
         Diag_ATTENTION_attention = 0
         Diag_ZEROOUT_attention = 0
@@ -105,8 +100,7 @@ def generate_table(suff_or_comp, ratio, include_feature_name=True):
         ABS_Diag_ZEROOUT_attention = 0
         ABS_Diag_NOISE_attention = 0
         for i, data_id in enumerate(data_id_list):
-
-            top_random_suff_score = TOPk_scores.get(data_id).get('random').get(f'{suff_or_comp} @ {str(ratio)}')#.get('mean')
+            top_random_suff_score = TOPk_scores.get(data_id).get('random').get(f'{suff_or_comp} @ {str(ratio)}')
             NOISE_random_suff_score = NOISE_scores.get(data_id).get('random').get(f'{suff_or_comp} @ {str(ratio)}')
             ZEROOUT_random_suff_score = ZEROOUT_scores.get(data_id).get('random').get(f'{suff_or_comp} @ {str(ratio)}')
             ATTENTION_random_suff_score = ATTENTION_scores.get(data_id).get('random').get(f'{suff_or_comp} @ {str(ratio)}')
@@ -114,7 +108,7 @@ def generate_table(suff_or_comp, ratio, include_feature_name=True):
             top_suff_score = TOPk_scores.get(data_id).get(FA).get(f'{suff_or_comp} @ {str(ratio)}')
             if top_suff_score >= top_random_suff_score: 
                 Diag_TOP_attention += 1
-                ABS_Diag_TOP_attention += TOPk_scores
+                ABS_Diag_TOP_attention += top_suff_score
             else: pass
 
             NOISE_suff_score = NOISE_scores.get(data_id).get(FA).get(f'{suff_or_comp} @ {str(ratio)}')
@@ -129,7 +123,7 @@ def generate_table(suff_or_comp, ratio, include_feature_name=True):
                 ABS_Diag_ZEROOUT_attention += ZEROOUT_suff_score
             else: pass
 
-            ATTENTION_suff_score = ATTENTION_scores.get(data_id).get(FA).get(f'sufficiency @ {str(ratio)}')
+            ATTENTION_suff_score = ATTENTION_scores.get(data_id).get(FA).get(f'{suff_or_comp} @ {str(ratio)}')
             if ATTENTION_suff_score >= ATTENTION_random_suff_score: 
                 Diag_ATTENTION_attention += 1
                 ABS_Diag_NOISE_attention += ATTENTION_suff_score
@@ -161,11 +155,12 @@ def generate_table(suff_or_comp, ratio, include_feature_name=True):
     ## get faith scores from description json
 
     topk_scores_file = os.path.join(pwd, 'posthoc_results', str(dataset), 'topk-faithfulness-scores-average-description.json') 
-    NOISE_scores_file = os.path.join(pwd, 'posthoc_results', str(dataset), 'NOISElimit-faithfulness-scores-average-description.json') 
-    ATTENTION_scores_file = os.path.join(pwd, 'posthoc_results', str(dataset), 'ATTENTIONlimit-faithfulness-scores-average-description.json')
-    ZEROOUT_scores_file = os.path.join(pwd, 'posthoc_results', str(dataset), 'ZEROOUTlimit-faithfulness-scores-average-description.json')
+    NOISE_scores_file = os.path.join(pwd, 'posthoc_results', str(dataset), 'NOISElimit-faithfulness-scores-description.json') 
+    ATTENTION_scores_file = os.path.join(pwd, 'posthoc_results', str(dataset), 'ATTENTIONlimit-faithfulness-scores-description.json')
+    ZEROOUT_scores_file = os.path.join(pwd, 'posthoc_results', str(dataset), 'ZEROOUTlimit-faithfulness-scores-description.json')
 
     topk_df = open_file(topk_scores_file)
+    print(topk_df)
     noise_df = open_file(NOISE_scores_file)
     attention_df = open_file(ATTENTION_scores_file)
     zeroout_df = open_file(ZEROOUT_scores_file)
@@ -175,11 +170,26 @@ def generate_table(suff_or_comp, ratio, include_feature_name=True):
     attention_suff_or_comp_mean = []
     zeroout_suff_or_comp_mean = []
 
-    for feat in fea_list:
-        topk_suff_or_comp_mean.append(topk_df.sufficiency[str(feat)].get(f'{suff_or_comp} @ {ratio}'))
-        noise_suff_or_comp_mean.append(noise_df.sufficiency[str(feat)].get(f'{suff_or_comp} @ {ratio}'))
-        attention_suff_or_comp_mean.append(attention_df.sufficiency[str(feat)].get(f'{suff_or_comp} @ {ratio}'))
-        zeroout_suff_or_comp_mean.append(zeroout_df.sufficiency[str(feat)].get(f'{suff_or_comp} @ {ratio}'))
+    if suff_or_comp == 'sufficiency': suff_or_comp = 'sufficiencies'
+    else: pass
+
+
+    topk_random_faitfhul_score = topk_df.loc['random'][f'{suff_or_comp} @ {ratio}'].get('mean')
+    noise_random_faitfhul_score = noise_df.loc['random'][f'{suff_or_comp} @ {ratio}'].get('mean')
+    attention_random_faitfhul_score = attention_df.loc['random'][f'{suff_or_comp} @ {ratio}'].get('mean')
+    zeroout_random_faitfhul_score = zeroout_df.loc['random'][f'{suff_or_comp} @ {ratio}'].get('mean')
+    #print(noise_random_faitfhul_score, attention_random_faitfhul_score, zeroout_random_faitfhul_score)
+    
+    for FA in fea_list:
+        
+        # print(topk_df.loc[FA][f'{suff_or_comp} @ {ratio}'].get('mean'))
+        # print(topk_random_faitfhul_score)
+
+        topk_suff_or_comp_mean.append((topk_df.loc[FA][f'{suff_or_comp} @ {ratio}'].get('mean'))/(topk_random_faitfhul_score))
+        #print(noise_df.loc[FA][f'{suff_or_comp} @ {ratio}'].get('mean'))
+        noise_suff_or_comp_mean.append((noise_df.loc[FA][f'{suff_or_comp} @ {ratio}'].get('mean'))/(noise_random_faitfhul_score))
+        attention_suff_or_comp_mean.append((attention_df.loc[FA][f'{suff_or_comp} @ {ratio}'].get('mean'))/(attention_random_faitfhul_score))
+        zeroout_suff_or_comp_mean.append((zeroout_df.loc[FA][f'{suff_or_comp} @ {ratio}'].get('mean'))/(zeroout_random_faitfhul_score))
     
 
 
