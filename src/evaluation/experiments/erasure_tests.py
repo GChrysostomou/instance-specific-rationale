@@ -59,7 +59,6 @@ def conduct_tests_(model, data, model_random_seed):
     faithfulness_results = {}
     desired_rationale_length = args.rationale_length
 
-    print(f"*** desired_rationale_length --> {desired_rationale_length}")
 
     for i, batch in enumerate(data):
         
@@ -77,9 +76,6 @@ def conduct_tests_(model, data, model_random_seed):
                 "retain_gradient" : False,
             }
 
-        if i == 0:
-            print(' -----------     batch["special_tokens"]    -------- ')
-            print(batch["special_tokens"])
 
         assert batch["input_ids"].size(0) == len(batch["labels"]), "Error: batch size for item 1 not in correct position"
    
@@ -240,9 +236,6 @@ def conduct_tests_(model, data, model_random_seed):
                     faithfulness_results[annot_id][feat_name][f"only R probs (suff) @ {rationale_length}"] = suff_probs[_j_].astype(np.float64)
                 
 
-                    # print("=========>>  ", )
-                    # print(' ')
-                    # print(_i_)
                     
                     if _i_ == len(rationale_ratios)-1:
                         faithfulness_results[annot_id][feat_name]["sufficiency aopc"] = {
@@ -403,7 +396,6 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk):
     pbar = trange(len(data) * data.batch_size, desc=desc, leave=True)
     desired_rationale_length = args.rationale_length
 
-    print(f"*** desired_rationale_length --> {desired_rationale_length}")
 
     faithfulness_results = {}
     for batch in data:
@@ -521,13 +513,6 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk):
                             no_of_masked_tokens = torch.ceil(batch["lengths"].float() * rationale_length).detach().cpu().numpy(),
                             #method = rationale_type
                         )
-                    # print('                ')
-                    # print('                ')
-                    # print('                ')
-                    # print('             FOR   ')
-                    # print('             DEBUGGING   ')
-                    # print('             COMP   ')
-                    # print('                ')
                     soft_comp, soft_comp_probs  = normalized_comprehensiveness_soft_(
                         model = model, 
                         original_sentences = original_sentences, 
@@ -540,13 +525,6 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk):
                         importance_scores = feat_score,
                         use_topk=use_topk,
                     )
-                    # print('                ')
-                    # print('                ')
-                    # print('                ')
-                    # print('             FOR   ')
-                    # print('             DEBUGGING   ')
-                    # print('             SUFF   ')
-                    # print('                ')
                     soft_suff, soft_suff_probs = normalized_sufficiency_soft_(
                         model = model, 
                         original_sentences = original_sentences, 
@@ -576,9 +554,6 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk):
                         faithfulness_results[annot_id][feat_name][f"only R probs (suff) @ {rationale_length}"] = soft_suff_probs[_j_].astype(np.float64)
                     
 
-                        # print("=========>>  ", )
-                        # print(' ')
-                        # print(_i_)
                         
                         if _i_ == len(rationale_ratios)-1:
                             faithfulness_results[annot_id][feat_name]["sufficiency aopc"] = {
@@ -829,7 +804,6 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk): #
     pbar = trange(len(data) * data.batch_size, desc=desc, leave=True)
     desired_rationale_length = args.rationale_length
 
-    print(f"*** desired_rationale_length --> {desired_rationale_length}")
 
     faithfulness_results = {}
     for batch in data:
@@ -874,17 +848,18 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk): #
 
 
 
-        ## now measuring baseline comprehensiven for all 1 rationale mask
-        batch["faithful_method"] = "soft_comp"
-        batch["importance_scores"]=torch.ones(batch["input_ids"].squeeze(1).size())
-        batch["add_noise"]=False
-        yhat, _  = model(**batch)
-        yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
-        reduced_probs = yhat[rows, full_text_class]
-        comp_y_one = comprehensiveness_(
-            full_text_probs, 
-            reduced_probs
-        )
+        # ## now measuring baseline comprehensiven for all 1 rationale mask
+        # batch["faithful_method"] = "soft_comp"
+        # batch["importance_scores"]=torch.ones(batch["input_ids"].squeeze(1).size())
+        # batch["add_noise"]=False
+        # yhat, _  = model(**batch)
+        # yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
+        # reduced_probs = yhat[rows, full_text_class]
+        # comp_y_one = comprehensiveness_(
+        #     full_text_probs, 
+        #     reduced_probs
+        # )
+
 
         ## now measuring baseline sufficiency for all 0 rationale mask
         if args.query:
@@ -911,6 +886,11 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk): #
             full_text_probs, 
             reduced_probs
         ) # Suff(x, ˆ y, 0) , no rationales to compare
+
+        # print('  ')
+        # print('  ')
+        # print(' -------------> suff_y_zero')
+        # print(suff_y_zero)
 
         for _j_, annot_id in enumerate(batch["annotation_id"]):
                     faithfulness_results[annot_id]["full text prediction"] = original_prediction[_j_] 
@@ -957,10 +937,17 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk): #
                         full_text_probs = full_text_probs,   
                         full_text_class = full_text_class,  
                         rows = rows,
-                        comp_y_one = comp_y_one,    
+                        comp_y_one = 1-suff_y_zero,    
                         importance_scores = feat_score,
                         use_topk=use_topk,
                     )
+                    # print('  ')
+                    # print('  ')
+                    # print(' -------------> soft_comp, soft_comp_probs')
+                    # print(soft_comp, soft_comp_probs)
+
+                    
+
 
                     soft_suff, soft_suff_probs = normalized_sufficiency_soft_(
                         model = model, 
@@ -1051,10 +1038,6 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk): #
                 )
                                     ## the rest are just for aopc
 
-                # print('=====suff_aopc')
-                # print(suff_aopc)
-                # print('=====soft_suff')
-                # print(soft_suff)
 
                 # suff_aopc[:,:] = soft_suff
                 # comp_aopc[:,:] = soft_comp
@@ -1250,7 +1233,6 @@ def conduct_experiments_attention_(model, data, model_random_seed, use_topk): #f
     pbar = trange(len(data) * data.batch_size, desc=desc, leave=True)
     desired_rationale_length = args.rationale_length
 
-    print(f"*** desired_rationale_length --> {desired_rationale_length}")
 
     faithfulness_results = {}
     for batch in data:
@@ -1411,7 +1393,6 @@ def conduct_experiments_attention_(model, data, model_random_seed, use_topk): #f
                         faithfulness_results[annot_id][feat_name][f"only R probs (suff) @ {rationale_length}"] = soft_suff_probs[_j_].astype(np.float64)
                     
 
-                        # print("=========>>  ", )
                         # print(' ')
                         # print(_i_)
                         

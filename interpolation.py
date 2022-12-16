@@ -52,7 +52,7 @@ parser.add_argument(
     "--dataset",
     type = str,
     help = "select dataset / task",
-    default = "agnews",
+    default = "sst",
 )
 
 
@@ -67,7 +67,7 @@ dataset = str(user_args["dataset"])
 # SET 1 = TOP1, TOP2, TOP3, Rand  
 # SET 2 = TOP1, TOP2, Rand, Rand 
 # SET 3 = TOP1, Rand, Rand, Rand 
-# SET 3 = Rand, Rand, Rand, Rand
+# SET 4 = Rand, Rand, Rand, Rand
 
 
 # importance_scores = np.load('./extracted_rationales/SST/importance_scores/test_importance_scores-10.npy', allow_pickle=True).item()
@@ -75,6 +75,27 @@ dataset = str(user_args["dataset"])
 
 # x = np.argsort(importance_scores.get('test_358').get('attention'))[::-1][:4]
 # print("Indices:",x)
+
+df = pd.read_csv(f'datasets/{dataset}/data/test.csv')[100:].sample(5)
+data_id_list = df['annotation_id']
+print(df)
+importance_scores = np.load(f'datasets/{dataset}/data/importance_scores/test_importance_scores_25.npy', allow_pickle=True).item()
+
+text_S1 = []
+text_S2 = []
+text_S3 = []
+text_S4 = []
+
+for i, data_id in enumerate(data_id_list):
+    print(df[i].text)
+    attention_scores = importance_scores.get(data_id).get('attention')
+    top4 = torch.topk(attention_scores, 4)[1] # 0 for value 1 for index
+    print(top4)
+
+    print(attention_scores)
+    quit()
+  
+
 
 S0_suff = np.load('./posthoc_results/SST/ZEROOUT-faithfulness-scores-detailed.npy', 
                         allow_pickle=True).item()
