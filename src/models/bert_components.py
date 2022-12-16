@@ -119,7 +119,8 @@ class BertModelWrapper_zeroout(nn.Module):
     def forward(self, input_ids, attention_mask, token_type_ids, 
                 faithful_method,
                 importance_scores, 
-                ig = int(1), tasc_mech = None):     
+                ig = int(1), tasc_mech = None, add_noise=False,
+                ):     
         
         # print('+++++++  inside Wrapper, BEFORE, = bert_embedding input_ids', input_ids)   # 已经变成0 第一次没变零
         embeddings, self.word_embeds = bert_embeddings(
@@ -128,6 +129,8 @@ class BertModelWrapper_zeroout(nn.Module):
             position_ids = None, 
             token_type_ids = token_type_ids,
             )
+
+        add_noise = add_noise
 
         # print('[ig]: ', ig)## if its for evaluation we need it to be a fraction
         if type(ig) == int or type(ig) == float:
@@ -142,22 +145,25 @@ class BertModelWrapper_zeroout(nn.Module):
         
 
         
-        importance_scores_max = importance_scores.max(1, keepdim=True)[0]
-
-        for_min_temp = importance_scores.clone().detach()
-        for_min_temp[torch.isinf(for_min_temp)] = 1 # change temp tensor s -inf to 1
-        importance_scores_min = for_min_temp.min(1, keepdim=True)[0] # min except -inf, 
-
-        if torch.mean(importance_scores_max) == torch.mean(importance_scores_min): # all equal to 1 situation
-            importance_scores_nor = importance_scores
+        if add_noise == False:
+            # print(' 不加 noise')
+            pass
         else:
-            importance_scores_nor = (importance_scores - importance_scores_min) / (importance_scores_max-importance_scores_min)
-
-        importance_scores_nor[:,0] = 1 # [CLS]is importance changed 14122022
-        #importance_scores_nor[importance_scores_nor == -9.9999] = -inf
-
-        #print(' -----> importance_scores_nor', importance_scores_nor)
-
+            # print(' add_noise == True, 所以 根据 importance 加 noise')
+            if importance_scores.sum() ==  0: 
+                # print(' ++++++++++++++++ importance 全为0, 那就是baseline, 没有rationales, zeroout全部sequence !!!!!!!!!!!!11, 此处importance score也全是 0 ')
+                pass
+            else:
+            #### adding noise here
+                # the fist token [CLS] not importance: 1e-4, very importance: 1
+                importance_scores[:,0] = 1  # by cass, debug concept
+                importance_scores[torch.isinf(importance_scores)] = 1e-4
+                importance_scores -= 1e-4 # modify by cass 1711
+                # print('before normalise  ', importance_scores)
+                importance_scores_min = importance_scores.min(1, keepdim=True)[0]
+                importance_scores_max = importance_scores.max(1, keepdim=True)[0]
+                importance_scores_nor = (importance_scores - importance_scores_min) / (importance_scores_max-importance_scores_min)
+                
 
         
         
@@ -172,17 +178,14 @@ class BertModelWrapper_zeroout(nn.Module):
             # the higher importance score, the more info for model
             # the less perturbation, the less zero
             zeroout_mask = torch.bernoulli(importance_scores_nor_repeated).to(device)
-            embeddings = embeddings * zeroout_mask
         elif faithful_method == "soft_comp":
-            
             zeroout_mask = torch.bernoulli(1-importance_scores_nor_repeated).to(device)
-            embeddings = embeddings * zeroout_mask
         else:
             pass
+        embeddings = embeddings * zeroout_mask
 
-            
+
         extended_attention_mask = attention_mask.unsqueeze(1).unsqueeze(2)
-
         extended_attention_mask = extended_attention_mask.to(dtype=next(self.model.parameters()).dtype) # fp16 compatibility
         extended_attention_mask = (1 - extended_attention_mask) * -10000.0
 
@@ -198,8 +201,8 @@ class BertModelWrapper_zeroout(nn.Module):
         )
 
         sequence_output = encoder_outputs[0]
-        print(' --> encoder_outputs', encoder_outputs)
-        quit()
+        # print(' --> encoder_outputs', encoder_outputs)
+        # quit()
 
 
 
