@@ -162,13 +162,13 @@ class BertModelWrapper_zeroout(nn.Module):
                 # print('before normalise  ', importance_scores)
                 importance_scores_min = importance_scores.min(1, keepdim=True)[0]
                 importance_scores_max = importance_scores.max(1, keepdim=True)[0]
-                importance_scores_nor = (importance_scores - importance_scores_min) / (importance_scores_max-importance_scores_min)
+                importance_scores = (importance_scores - importance_scores_min) / (importance_scores_max-importance_scores_min)
                 
 
         
         
         # repeat
-        importance_scores_nor_repeated = torch.repeat_interleave(torch.unsqueeze(importance_scores_nor, dim=-1), 
+        importance_scores_nor_repeated = torch.repeat_interleave(torch.unsqueeze(importance_scores, dim=-1), 
                                                         embeddings.shape[-1], dim=-1)
         #print('--------------->   importance_scores_nor_repeated',importance_scores_nor_repeated)
         importance_scores_nor_repeated[torch.isinf(importance_scores_nor_repeated)] = 0
