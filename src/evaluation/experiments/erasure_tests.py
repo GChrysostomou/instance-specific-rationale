@@ -146,10 +146,10 @@ def conduct_tests_(model, data, model_random_seed):
             reduced_probs
         )
 
-        comp_y_one = comprehensiveness_(
-            full_text_probs, 
-            reduced_probs
-        )
+        # comp_y_one = comprehensiveness_(
+        #     full_text_probs, 
+        #     reduced_probs
+        # )
 
 
 
@@ -207,7 +207,7 @@ def conduct_tests_(model, data, model_random_seed):
                     full_text_class = full_text_class, 
                     rows = rows,
                     #suff_y_zero = suff_y_zero,
-                    comp_y_one=comp_y_one,
+                    comp_y_one=1-suff_y_zero,
                 )
             
                 suff, suff_probs = normalized_sufficiency_(
@@ -441,16 +441,16 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk):
         ## now measuring baseline comprehensiven for all 1 rationale mask
         ## no rationale should be more comprehensive than an all-one rationale
         ## "importance_scores":torch.ones(batch["input_ids"].squeeze(1).size()),  # take all --> no info
-        batch["faithful_method"] = "soft_comp"
-        batch["importance_scores"]=torch.ones(batch["input_ids"].squeeze(1).size())
-        batch["add_noise"]=False
-        yhat, _  = model(**batch)
-        yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
-        reduced_probs = yhat[rows, full_text_class]
-        comp_y_one = comprehensiveness_(
-            full_text_probs, 
-            reduced_probs
-        )
+        # batch["faithful_method"] = "soft_comp"
+        # batch["importance_scores"]=torch.ones(batch["input_ids"].squeeze(1).size())
+        # batch["add_noise"]=False
+        # yhat, _  = model(**batch)
+        # yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
+        # reduced_probs = yhat[rows, full_text_class]
+        # comp_y_one = comprehensiveness_(
+        #     full_text_probs, 
+        #     reduced_probs
+        # )
         ## now measuring baseline sufficiency for all 0 rationale mask
         ## no rationale should be much less sufficient than all-zero rationale  # keep none --> no info
         if args.query:
@@ -521,7 +521,7 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk):
                         full_text_probs = full_text_probs, 
                         full_text_class = full_text_class, 
                         rows = rows,
-                        comp_y_one = comp_y_one,
+                        comp_y_one= 1-suff_y_zero,
                         importance_scores = feat_score,
                         use_topk=use_topk,
                     )
@@ -576,25 +576,6 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk):
                                                 target_key = feat_name,
                                             )
 
-                # suff_aopc = np.zeros([yhat.shape[0], 1], dtype=np.float64)
-                # comp_aopc = np.zeros([yhat.shape[0], 1], dtype=np.float64)
-
-                # if args.query:
-
-                #     rationale_mask = create_rationale_mask_(
-                #         importance_scores = feat_score, 
-                #         no_of_masked_tokens = torch.ceil(batch["lengths"].float() * rationale_length).detach().cpu().numpy(),
-                #         #method = rationale_type,
-                #         batch_input_ids = original_sentences,
-                #         special_tokens = batch["special_tokens"],
-                #     )
-                # else:
-                #     rationale_mask = create_rationale_mask_(
-                #         importance_scores = feat_score, 
-                #         no_of_masked_tokens = torch.ceil(batch["lengths"].float() * rationale_length).detach().cpu().numpy(),
-                #         #method = rationale_type
-                #     )
-
                 soft_comp, soft_comp_probs  = normalized_comprehensiveness_soft_(
                     model = model, 
                     original_sentences = original_sentences, 
@@ -603,7 +584,7 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk):
                     full_text_probs = full_text_probs, 
                     full_text_class = full_text_class, 
                     rows = rows,
-                    suff_y_zero = suff_y_zero,
+                    comp_y_one= 1-suff_y_zero,
                     importance_scores = feat_score,
                     use_topk=use_topk,
                 )
@@ -847,20 +828,6 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk): #
         rows = np.arange(batch["input_ids"].size(0))
 
 
-
-        # ## now measuring baseline comprehensiven for all 1 rationale mask
-        # batch["faithful_method"] = "soft_comp"
-        # batch["importance_scores"]=torch.ones(batch["input_ids"].squeeze(1).size())
-        # batch["add_noise"]=False
-        # yhat, _  = model(**batch)
-        # yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
-        # reduced_probs = yhat[rows, full_text_class]
-        # comp_y_one = comprehensiveness_(
-        #     full_text_probs, 
-        #     reduced_probs
-        # )
-
-
         ## now measuring baseline sufficiency for all 0 rationale mask
         if args.query:
             only_query_mask=create_only_query_mask_(
@@ -941,10 +908,6 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk): #
                         importance_scores = feat_score,
                         use_topk=use_topk,
                     )
-                    # print('  ')
-                    # print('  ')
-                    # print(' -------------> soft_comp, soft_comp_probs')
-                    # print(soft_comp, soft_comp_probs)
 
                     
 
@@ -1018,7 +981,7 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk): #
                     full_text_class = full_text_class,  
                     rows = rows,    
                     importance_scores = feat_score,
-                    suff_y_zero = suff_y_zero,
+                    comp_y_one= 1-suff_y_zero,
                     use_topk=use_topk,
 
                 )
@@ -1277,16 +1240,16 @@ def conduct_experiments_attention_(model, data, model_random_seed, use_topk): #f
         ## now measuring baseline comprehensiven for all 1 rationale mask
         ## no rationale should be more comprehensive than an all-one rationale
         ## "importance_scores":torch.ones(batch["input_ids"].squeeze(1).size()),  # take all --> no info
-        batch["faithful_method"] = "soft_comp"
-        batch["importance_scores"]=torch.ones(batch["input_ids"].squeeze(1).size())
-        batch["add_noise"]=False
-        yhat, _  = model(**batch)
-        yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
-        reduced_probs = yhat[rows, full_text_class]
-        comp_y_one = comprehensiveness_(
-            full_text_probs, 
-            reduced_probs
-        )
+        # batch["faithful_method"] = "soft_comp"
+        # batch["importance_scores"]=torch.ones(batch["input_ids"].squeeze(1).size())
+        # batch["add_noise"]=False
+        # yhat, _  = model(**batch)
+        # yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
+        # reduced_probs = yhat[rows, full_text_class]
+        # comp_y_one = comprehensiveness_(
+        #     full_text_probs, 
+        #     reduced_probs
+        # )
         ## now measuring baseline sufficiency for all 0 rationale mask
         ## no rationale should be much less sufficient than all-zero rationale  # keep none --> no info
         if args.query:
@@ -1361,7 +1324,7 @@ def conduct_experiments_attention_(model, data, model_random_seed, use_topk): #f
                                                     full_text_class = full_text_class,  
                                                     rows = rows,    
                                                     importance_scores = feat_score,
-                                                    comp_y_one = comp_y_one,
+                                                    comp_y_one= 1-suff_y_zero,
                                                     #suff_y_zero = suff_y_zero,
                                                     use_topk=use_topk,
                                                     )
@@ -1447,7 +1410,7 @@ def conduct_experiments_attention_(model, data, model_random_seed, use_topk): #f
                     full_text_class = full_text_class,  
                     rows = rows,    
                     importance_scores = feat_score,
-                    suff_y_zero = suff_y_zero,
+                    comp_y_one= 1-suff_y_zero,
                     use_topk=use_topk,
                 )
                 soft_suff, soft_suff_probs = normalized_sufficiency_soft_(
