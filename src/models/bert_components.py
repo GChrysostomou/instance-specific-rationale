@@ -184,18 +184,17 @@ class BertModelWrapper_zeroout(nn.Module):
             if importance_scores.sum() ==  0:
                 pass
             else:
-                importance_score = (importance_scores - importance_scores_min) / (importance_scores_max-importance_scores_min)
+                importance_scores = (importance_scores - importance_scores_min) / (importance_scores_max-importance_scores_min)
                 
-            importance_score[inf_mask] = float('-inf')
-            importance_score[:,0] = 1 
+            importance_scores[inf_mask] = float('-inf')
+            importance_scores[:,0] = 1 
 
 
-        print(' ----> importance_scores', importance_scores)
-        zeroout_mask = torch.zeros(importance_score.size())
+        zeroout_mask = torch.zeros(importance_scores.size())
 
         for i in range(embeddings.size()[0]):
             for k in range(embeddings.size()[1]):
-                importance_score_one_token = importance_score[i,k]
+                importance_score_one_token = importance_scores[i,k]
 
                 
                 if importance_score_one_token != float(-inf):
@@ -203,15 +202,13 @@ class BertModelWrapper_zeroout(nn.Module):
                     if faithful_method == "soft_suff":
                         # the higher importance score, the more info for model
                         # the less perturbation, the less zero
-                        zeroout_mask[i,k] = torch.bernoulli(importance_scores).to(device)
+                        zeroout_mask[i,k] = torch.bernoulli(importance_score_one_token).to(device)
                     elif faithful_method == "soft_comp":
-                        zeroout_mask[i,k] = torch.bernoulli(1-importance_scores).to(device)
+                        zeroout_mask[i,k] = torch.bernoulli(1-importance_score_one_token).to(device)
                     else:
                         zeroout_mask[i,k] = float(-inf)
-                    print(' embeddings----> ', embeddings.size())
-                    print(' zeroout_mask----> ',zeroout_mask.size())
 
-                embeddings = embeddings * zeroout_mask.unsqueeze(2)
+                embeddings = embeddings * zeroout_mask.unsqueeze(2).to(device)
 
 
         extended_attention_mask = attention_mask.unsqueeze(1).unsqueeze(2)
