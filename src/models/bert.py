@@ -232,7 +232,7 @@ class BertClassifier_zeroout(nn.Module):
 
 
 class BertClassifier_noise(nn.Module):
-    def __init__(self, output_dim = 2, dropout=0.1, tasc = None, std=1):
+    def __init__(self, output_dim = 2, dropout=0.1, tasc = None, std=0.5):
         
         super(BertClassifier_noise, self).__init__()
 
@@ -253,7 +253,7 @@ class BertClassifier_noise(nn.Module):
                 std=std,
             
         )
-   
+        
         self.tasc_mech = tasc
   
         self.dropout = nn.Dropout(p = self.dropout)
