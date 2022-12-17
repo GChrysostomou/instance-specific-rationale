@@ -145,22 +145,22 @@ class BertModelWrapper_zeroout(nn.Module):
         
 
         
-        if importance_scores.sum() ==  0: 
-                # print(' ++++++++++++++++ importance 全为0, 那就是baseline, 没有rationales, zeroout全部sequence !!!!!!!!!!!!11, 此处importance score也全是 0 ')
-            pass
-        else:
-        #### adding noise here
-            # the fist token [CLS] not importance: 1e-4, very importance: 1
-            importance_scores[:,0] = 1  # by cass, debug concept
-            importance_scores[torch.isinf(importance_scores)] = 1e-4
-            importance_scores -= 1e-4 # modify by cass 1711
-            # print('before normalise  ', importance_scores)
-            importance_scores_min = importance_scores.min(1, keepdim=True)[0]
-            importance_scores_max = importance_scores.max(1, keepdim=True)[0]
-            print('--------------->   importance_scores_max',importance_scores_max, importance_scores_min)
-            importance_scores = (importance_scores - importance_scores_min) / (importance_scores_max-importance_scores_min)
+        # if importance_scores.sum() ==  0: 
+        #         # print(' ++++++++++++++++ importance 全为0, 那就是baseline, 没有rationales, zeroout全部sequence !!!!!!!!!!!!11, 此处importance score也全是 0 ')
+        #     pass
+        # else:
+        # #### adding noise here
+        #     # the fist token [CLS] not importance: 1e-4, very importance: 1
+        #     importance_scores[:,0] = 1  # by cass, debug concept
+        #     importance_scores[torch.isinf(importance_scores)] = 1e-4
+        #     importance_scores -= 1e-4 # modify by cass 1711
+        #     # print('before normalise  ', importance_scores)
+        #     importance_scores_min = importance_scores.min(1, keepdim=True)[0]
+        #     importance_scores_max = importance_scores.max(1, keepdim=True)[0]
+        #     print('--------------->   importance_scores_max',importance_scores_max, importance_scores_min)
+        #     importance_scores = (importance_scores - importance_scores_min) / (importance_scores_max-importance_scores_min)
         
-        print('--------------->   importance_scores_nor_repeated',importance_scores)
+        # print('--------------->   importance_scores_nor_repeated',importance_scores)
 
         
 
@@ -173,23 +173,45 @@ class BertModelWrapper_zeroout(nn.Module):
             # print(' add_noise == True, 所以 根据 importance 加 noise')
             
             # repeat
-            importance_scores = torch.repeat_interleave(torch.unsqueeze(importance_scores, dim=-1), 
-                                                            embeddings.shape[-1], dim=-1)
-            #print('--------------->   importance_scores_nor_repeated',importance_scores_nor_repeated)
-            importance_scores[torch.isinf(importance_scores)] = 0
-            print('--------------->   importance_scores_nor_repeated',importance_scores)
-            
+            importance_scores_max = importance_scores.max(1, keepdim=True)[0]
+
+            temp_copy = importance_scores.clone().detach()
+            temp_copy[torch.isinf(temp_copy)] = 99
+            importance_scores_min = temp_copy.min(1, keepdim=True)[0]
+
+            inf_mask = torch.isinf(importance_scores)
+
+            if importance_scores.sum() ==  0:
+                pass
+            else:
+                importance_score = (importance_scores - importance_scores_min) / (importance_scores_max-importance_scores_min)
+                
+            importance_score[inf_mask] = float('-inf')
+            importance_score[:,0] = 1 
 
 
-        if faithful_method == "soft_suff":
-            # the higher importance score, the more info for model
-            # the less perturbation, the less zero
-            zeroout_mask = torch.bernoulli(importance_scores).to(device)
-        elif faithful_method == "soft_comp":
-            zeroout_mask = torch.bernoulli(1-importance_scores).to(device)
-        else:
-            pass
-        embeddings = embeddings * zeroout_mask
+        print(' ----> importance_scores', importance_scores)
+        zeroout_mask = torch.zeros(importance_score.size())
+
+        for i in range(embeddings.size()[0]):
+            for k in range(embeddings.size()[1]):
+                importance_score_one_token = importance_score[i,k]
+
+                
+                if importance_score_one_token != float(-inf):
+                    
+                    if faithful_method == "soft_suff":
+                        # the higher importance score, the more info for model
+                        # the less perturbation, the less zero
+                        zeroout_mask[i,k] = torch.bernoulli(importance_scores).to(device)
+                    elif faithful_method == "soft_comp":
+                        zeroout_mask[i,k] = torch.bernoulli(1-importance_scores).to(device)
+                    else:
+                        zeroout_mask[i,k] = float(-inf)
+                    print(' embeddings----> ', embeddings.size())
+                    print(' zeroout_mask----> ',zeroout_mask.size())
+
+                embeddings = embeddings * zeroout_mask.unsqueeze(2)
 
 
         extended_attention_mask = attention_mask.unsqueeze(1).unsqueeze(2)
@@ -395,7 +417,7 @@ class BertModelWrapper_noise(nn.Module):
             else:
                 importance_score = (importance_scores - importance_scores_min) / (importance_scores_max-importance_scores_min)
                 
-            importance_score[inf_mask] = float(-inf)
+            importance_score[inf_mask] = float('-inf')
             importance_score[:,0] = 1 
 
 
@@ -404,7 +426,7 @@ class BertModelWrapper_noise(nn.Module):
                 for i in range(embeddings.size()[0]):
                     for k in range(embeddings.size()[1]):
                         importance_score_one_token = importance_score[i,k]
-                        if importance_score_one_token != float(-inf):
+                        if importance_score_one_token != float('-inf'):
                             add_noise = GaussianNoise(sigma=(1-importance_score_one_token)) #is_relative_detach=True, 
                             embeddings[i,k,:] = add_noise(embeddings[i,k,:], std=self.std)
 
@@ -412,7 +434,7 @@ class BertModelWrapper_noise(nn.Module):
                 for i in range(embeddings.size()[0]):
                     for k in range(embeddings.size()[1]):
                         importance_score_one_token = importance_score[i,k]
-                        if importance_score_one_token != float(-inf):
+                        if importance_score_one_token != float('-inf'):
                             add_noise = GaussianNoise(sigma=importance_score_one_token) #is_relative_detach=True, 
                             embeddings[i,k,:] = add_noise(embeddings[i,k,:], std=self.std)
             else: pass # no changes to embeddings

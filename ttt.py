@@ -5,8 +5,22 @@ from regex import B
 import pandas as pd
 import numpy as np
 
+
+a = float('-inf') * 2
+print(a)
 ttt = torch.tensor([[1,2,3,float('-inf'),1],[1,2,3,float('-inf'),1],[1,3,3,5,9]])
-print(ttt)
+print(ttt.size())
+
+
+ex = ttt.unsqueeze(2)
+print(ex.size())
+bbb = torch.ones(3,5,768)
+
+a = ex * bbb
+print(a.size())
+print(' --------- ')
+print(ex)
+quit()
 min_value, min_index = ttt.min(1, keepdim=True)
 print(min_index)
 ttt[min_index] = 0
