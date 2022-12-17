@@ -1,4 +1,70 @@
 {
+    "deeplift": {
+        "sufficiencies @ 0.01": {
+            "mean": NaN,
+            "std": NaN
+        },
+        "comprehensiveness @ 0.01": {
+            "mean": NaN,
+            "std": NaN
+        },
+        "sufficiencies @ 0.02": {
+            "mean": NaN,
+            "std": NaN
+        },
+        "comprehensiveness @ 0.02": {
+            "mean": NaN,
+            "std": NaN
+        },
+        "sufficiencies @ 0.05": {
+            "mean": NaN,
+            "std": NaN
+        },
+        "comprehensiveness @ 0.05": {
+            "mean": NaN,
+            "std": NaN
+        },
+        "sufficiencies @ 0.1": {
+            "mean": NaN,
+            "std": NaN
+        },
+        "comprehensiveness @ 0.1": {
+            "mean": NaN,
+            "std": NaN
+        },
+        "sufficiencies @ 0.2": {
+            "mean": NaN,
+            "std": NaN
+        },
+        "comprehensiveness @ 0.2": {
+            "mean": NaN,
+            "std": NaN
+        },
+        "sufficiencies @ 0.5": {
+            "mean": NaN,
+            "std": NaN
+        },
+        "comprehensiveness @ 0.5": {
+            "mean": NaN,
+            "std": NaN
+        },
+        "sufficiencies @ 1.0": {
+            "mean": NaN,
+            "std": NaN
+        },
+        "comprehensiveness @ 1.0": {
+            "mean": NaN,
+            "std": NaN
+        },
+        "AOPC - sufficiency": {
+            "mean": NaN,
+            "std": NaN
+        },
+        "AOPC - comprehensiveness": {
+            "mean": NaN,
+            "std": NaN
+        }
+    },
     "gradients": {
         "sufficiencies @ 0.01": {
             "mean": NaN,
@@ -65,7 +131,7 @@
             "std": NaN
         }
     },
-    "scaled attention": {
+    "attention": {
         "sufficiencies @ 0.01": {
             "mean": NaN,
             "std": NaN
@@ -131,7 +197,7 @@
             "std": NaN
         }
     },
-    "attention": {
+    "scaled attention": {
         "sufficiencies @ 0.01": {
             "mean": NaN,
             "std": NaN
@@ -264,72 +330,6 @@
         }
     },
     "random": {
-        "sufficiencies @ 0.01": {
-            "mean": NaN,
-            "std": NaN
-        },
-        "comprehensiveness @ 0.01": {
-            "mean": NaN,
-            "std": NaN
-        },
-        "sufficiencies @ 0.02": {
-            "mean": NaN,
-            "std": NaN
-        },
-        "comprehensiveness @ 0.02": {
-            "mean": NaN,
-            "std": NaN
-        },
-        "sufficiencies @ 0.05": {
-            "mean": NaN,
-            "std": NaN
-        },
-        "comprehensiveness @ 0.05": {
-            "mean": NaN,
-            "std": NaN
-        },
-        "sufficiencies @ 0.1": {
-            "mean": NaN,
-            "std": NaN
-        },
-        "comprehensiveness @ 0.1": {
-            "mean": NaN,
-            "std": NaN
-        },
-        "sufficiencies @ 0.2": {
-            "mean": NaN,
-            "std": NaN
-        },
-        "comprehensiveness @ 0.2": {
-            "mean": NaN,
-            "std": NaN
-        },
-        "sufficiencies @ 0.5": {
-            "mean": NaN,
-            "std": NaN
-        },
-        "comprehensiveness @ 0.5": {
-            "mean": NaN,
-            "std": NaN
-        },
-        "sufficiencies @ 1.0": {
-            "mean": NaN,
-            "std": NaN
-        },
-        "comprehensiveness @ 1.0": {
-            "mean": NaN,
-            "std": NaN
-        },
-        "AOPC - sufficiency": {
-            "mean": NaN,
-            "std": NaN
-        },
-        "AOPC - comprehensiveness": {
-            "mean": NaN,
-            "std": NaN
-        }
-    },
-    "deeplift": {
         "sufficiencies @ 0.01": {
             "mean": NaN,
             "std": NaN
