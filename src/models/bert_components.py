@@ -320,7 +320,7 @@ class GaussianNoise(nn.Module):
         self.register_buffer('noise', torch.tensor(0))
 
     def forward(self, x, std):
-        print('----> std', std)
+
         scale = self.sigma * x.detach() if self.is_relative_detach else self.sigma * x
         sampled_noise = self.noise.expand(*x.size()).float().normal_(mean=0, std=std).to(device)
         #print(sampled_noise.get_device())
@@ -403,17 +403,17 @@ class BertModelWrapper_noise(nn.Module):
             if faithful_method == "soft_suff":
                 for i in range(embeddings.size()[0]):
                     for k in range(embeddings.size()[1]):
-                        importance_score = importance_score[i,k]
-                        if importance_score != float(-inf):
-                            add_noise = GaussianNoise(sigma=(1-importance_score)) #is_relative_detach=True, 
+                        importance_score_one_token = importance_score[i,k]
+                        if importance_score_one_token != float(-inf):
+                            add_noise = GaussianNoise(sigma=(1-importance_score_one_token)) #is_relative_detach=True, 
                             embeddings[i,k,:] = add_noise(embeddings[i,k,:], std=self.std)
 
             elif faithful_method == "soft_comp":
                 for i in range(embeddings.size()[0]):
                     for k in range(embeddings.size()[1]):
-                        importance_score = importance_score[i,k]
-                        if importance_score != float(-inf):
-                            add_noise = GaussianNoise(sigma=importance_score) #is_relative_detach=True, 
+                        importance_score_one_token = importance_score[i,k]
+                        if importance_score_one_token != float(-inf):
+                            add_noise = GaussianNoise(sigma=importance_score_one_token) #is_relative_detach=True, 
                             embeddings[i,k,:] = add_noise(embeddings[i,k,:], std=self.std)
             else: pass # no changes to embeddings
 

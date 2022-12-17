@@ -304,8 +304,6 @@ def normalized_comprehensiveness_soft_(model, use_topk,
     # ## 1 - suff_y_0 == comp_y_1
     # norm_comp = np.maximum(0, comp_y_a / (1 - suff_y_zero))
     comp_y_one[comp_y_one==0] = 1e-8 # avoid denominator = 0
-    print('-> comp_y_a',comp_y_a)
-    print('-> comp_y_one',comp_y_one)
     norm_comp = np.maximum(0, comp_y_a / comp_y_one)
 
     norm_comp = np.clip(norm_comp, a_min = 0, a_max = 1)
