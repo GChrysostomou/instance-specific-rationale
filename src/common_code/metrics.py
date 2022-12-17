@@ -280,22 +280,21 @@ def normalized_comprehensiveness_soft_(model, use_topk,
     inputs["importance_scores"]=importance_scores
     inputs["add_noise"] = True
 
-    print(' ---------------> inputs', inputs)
     
     yhat, _  = model(**inputs)
 
     yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
 
-    print(' --> yhat', yhat)
+    #print(' --> yhat', yhat)
 
 
     reduced_probs = yhat[rows, full_text_class]
-    print(' --> rows', rows)
-    print(' --> full_text_class', full_text_class)
+    #print(' --> rows', rows)
+    #print(' --> full_text_class', full_text_class)
 
      ## reduced input sufficiency
-    print('-> full_text_probs', full_text_probs)
-    print('-> reduced_probs', reduced_probs)
+    #print('-> full_text_probs', full_text_probs)
+    #print('-> reduced_probs', reduced_probs)
     
     comp_y_a = comprehensiveness_(full_text_probs, reduced_probs)
 
