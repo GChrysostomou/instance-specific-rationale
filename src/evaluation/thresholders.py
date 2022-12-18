@@ -75,8 +75,7 @@ def topk(scores, original_length, rationale_length = 0.1):
     return indxs
 
 
-
-def topk_rank(scores, original_length, rationale_length = 0.5):
+def fixed(scores, original_length, rationale_length = 4):
 
     """ 
     topk rationale extractor
@@ -97,13 +96,15 @@ def topk_rank(scores, original_length, rationale_length = 0.5):
             "info" : returns indexes that form the rationale from the sequence
             }
     """
-    #print('============', rationale_length)
-    assert rationale_length > 0. and rationale_length <= 1.
 
-    max_lengths = math.ceil(float(original_length) * rationale_length)
+    assert rationale_length > 0.99 #and rationale_length <= 1.
 
-    if max_lengths == 0: max_lengths = 1
+    # max_lengths = math.ceil(float(original_length) * rationale_length)
 
-    indxs = np.argsort(-scores)[:max_lengths]
+    # if max_lengths == 0: max_lengths = 1
+
+    indxs = np.argsort(-scores)[:rationale_length]
 
     return indxs
+
+

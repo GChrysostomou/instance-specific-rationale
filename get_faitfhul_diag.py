@@ -70,7 +70,7 @@ data_id_list = TOPk_scores.keys()
 fea_list = ['attention', "scaled attention", "gradients", "ig", "deeplift"] # "gradientshap",
 rationale_ratios = [0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1.0] 
 
-suff_or_comp = 'sufficiencies' # sufficiencies or comprehensiveness
+suff_or_comp = 'comprehensiveness' # sufficiencies or comprehensiveness
 
 
 def open_file(file_path):
@@ -210,4 +210,4 @@ def generate_table(suff_or_comp, ratio, include_feature_name=True):
 
 
 
-generate_table('sufficiency', 0.2, include_feature_name=True)
+generate_table(suff_or_comp, 0.2, include_feature_name=True)
