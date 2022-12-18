@@ -1,100 +1,182 @@
-'''
-top_attention_suff_score = TOPk_scores.get('test_990').get('attention').get('sufficiency aopc').get('mean') # evinf @ 0.1
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
 
-{'full text prediction': array([0.00194535, 0.99805462]), 
-'true label': 1, 
-'random': 
-    {'sufficiency': 0.30214041956014076, 
-    'comprehensiveness': 0.8373840546561564, 
-    'masked R probs (comp)': array([0.73946786, 0.26053208]), 
-    'only R probs (suff)': 0.38334789872169495, 
-    'sufficiency aopc': 
-        {'mean': array([0.]), 'per ratio': array([0.])}, 
-    'comprehensiveness aopc': {
-        'mean': array([0.]), 'per ratio': array([0.])}},
-
-'deeplift': 
-    {'sufficiency': 0.0, 
-    'comprehensiveness': 1.0, 
-    'masked R probs (comp)': array([0.93155044, 0.0684496 ]), 
-    'only R probs (suff)': 0.09491266310214996, 
-    'sufficiency aopc': {'mean': array([0.]), 'per ratio': array([0.])}, 
-    'comprehensiveness aopc': {'mean': array([0.]), 'per ratio': array([0.])}}, 
-
-'gradients': {'sufficiency': 0.0, 'comprehensiveness': 0.7674069269118021, 'masked R probs (comp)': array([0.67814285, 0.32185718]), 'only R probs (suff)': 0.017005568370223045, 'sufficiency aopc': {'mean': array([0.]), 'per ratio': array([0.])}, 'comprehensiveness aopc': {'mean': array([0.]), 'per ratio': array([0.])}}, 
-'ig': {'sufficiency': 0.1652852871702561, 'comprehensiveness': 0.8873247520198834, 'masked R probs (comp)': array([0.78398544, 0.21601462]), 'only R probs (suff)': 0.2622987926006317, 'sufficiency aopc': {'mean': array([0.]), 'per ratio': array([0.])}, 'comprehensiveness aopc': {'mean': array([0.]), 'per ratio': array([0.])}}, 
-'scaled attention': {'sufficiency': 0.0, 'comprehensiveness': 1.0, 'masked R probs (comp)': array([0.95105702, 0.04894301]), 'only R probs (suff)': 0.07845953106880188, 'sufficiency aopc': {'mean': array([0.]), 'per ratio': array([0.])}, 'comprehensiveness aopc': {'mean': array([0.]), 'per ratio': array([0.])}}, 
-'attention': {'sufficiency': 0.07215457332409868, 'comprehensiveness': 1.0, 'masked R probs (comp)': array([0.93936759, 0.06063243]), 'only R probs (suff)': 0.17983797192573547, 'sufficiency aopc': {'mean': array([0.]), 'per ratio': array([0.])}, 'comprehensiveness aopc': {'mean': array([0.]), 'per ratio': array([0.])}}, 
-'gradientshap': {'sufficiency': 0.0, 'comprehensiveness': 0.7062577987085175, 'masked R probs (comp)': array([0.62482655, 0.37517348]), 'only R probs (suff)': 0.035634610801935196, 'sufficiency aopc': {'mean': array([0.]), 'per ratio': array([0.])}, 'comprehensiveness aopc': {'mean': array([0.]), 'per ratio': array([0.])}}}
-'''
-    
-from crypt import METHOD_SHA512
-from telnetlib import PRAGMA_HEARTBEAT
+import torch
+import torch.nn as nn
+import torch.optim as optim
+import os, sys
 import numpy as np
 import pandas as pd
-import logging
-import os
 import argparse
-# libraries
-import matplotlib.pyplot as plt
-import numpy as np
-import torch
+import json
+import logging
+import gc
+import datetime
+import sys
 
-# # create data
-# values=np.cumsum(np.random.randn(1000,1))
+torch.cuda.empty_cache()
+#torch.cuda.memory_summary(device=None, abbreviated=False)
+device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+print(' ---------> ', device)
+CUDA_LAUNCH_BLOCKING=1
 
-# # use the plot function
-# plt.plot(values)
+
+
+date_time = str(datetime.date.today()) + "_" + ":".join(str(datetime.datetime.now()).split()[1].split(":")[:2])
 
 parser = argparse.ArgumentParser()
+
 parser.add_argument(
-    "--dataset",
-    type = str,
-    help = "select dataset / task",
+    "--dataset", 
+    type = str, 
+    help = "select dataset / task", 
     default = "sst",
+    # choices = ["agnews","evinf", "sst","multirc",]
+)
+
+parser.add_argument(
+    "--data_dir", 
+    type = str, 
+    help = "directory of saved processed data", 
+    default = "datasets/"
+)
+
+parser.add_argument(
+    "--model_dir",   
+    type = str, 
+    help = "directory to save models", 
+    default="trained_models/"
 )
 
 
+parser.add_argument(
+    "--evaluation_dir",   
+    type = str, 
+    help = "directory to save faithfulness results", 
+    default = "posthoc_results/"
+)
+
+parser.add_argument(
+    "--extracted_rationale_dir",   
+    type = str, 
+    help = "directory to save extracted_rationales", 
+    default = "extracted_rationales/"
+)
+
+parser.add_argument(
+    '--use_tasc', 
+    help='for using the component by GChrys and Aletras 2021', 
+    action='store_true'
+)
+
+parser.add_argument(
+    "--thresholder", 
+    type = str, 
+    help = "thresholder for extracting rationales", 
+    default = "topk",
+    choices = ["contigious", "topk"]
+)
+
+parser.add_argument(
+    "--inherently_faithful", 
+    type = str, 
+    help = "select dataset / task", 
+    default = None, 
+    choices = [None, "kuma", "rl"]
+)
+
 user_args = vars(parser.parse_args())
-# user_args["importance_metric"] = None
+user_args["importance_metric"] = None
+
+log_dir = "experiment_logs/evaluate_" + user_args["dataset"] + "_" +  date_time + "/"
+config_dir = "experiment_config/evaluate_" + user_args["dataset"] + "_" +  date_time + "/"
+
+
+os.makedirs(log_dir, exist_ok = True)
+os.makedirs(config_dir, exist_ok = True)
+
+
+import config.cfg
+config.cfg.config_directory = config_dir
+logging.basicConfig(
+                    filename= log_dir + "/out.log", 
+                    format='%(asctime)s %(levelname)-8s %(message)s',
+                    level=logging.INFO,
+                    datefmt='%Y-%m-%d %H:%M:%S'
+                  )
+
+device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+CUDA_LAUNCH_BLOCKING=1
+
+logging.info("Running on cuda ? {}".format(torch.cuda.is_available()))
+
+torch.backends.cudnn.deterministic = True
+torch.backends.cudnn.benchmark = False
+torch.cuda.empty_cache()
+CUDA_LAUNCH_BLOCKING=1
+
+from src.common_code.initialiser import initial_preparations
+
+# creating unique config from stage_config.json file and model_config.json file
+args = initial_preparations(user_args, stage = "evaluate")
+
+logging.info("config  : \n ----------------------")
+[logging.info(k + " : " + str(v)) for k,v in args.items()]
+logging.info("\n ----------------------")
+
+
+
+from src.data_functions.dataholder import BERT_HOLDER_interpolation
+from src.evaluation import evaluation_pipeline
+
+data = BERT_HOLDER_interpolation(
+    args["data_dir"], 
+    stage = "interpolation",
+    b_size = 4,
+    #b_size = args["batch_size"], # TO FIX CUDA OUT OF MEMORY, MAY NOT WORK
+)
+
+evaluator = evaluation_pipeline.evaluate(
+    model_path = args["model_dir"], 
+    output_dims = data.nu_of_labels
+)
+
+evaluator.faithfulness_experiments_(data)
+print('"********* DONE flip experiments on in-domain"')
+
+del data
+del evaluator
+gc.collect()
+torch.cuda.empty_cache()
 
 dataset = str(user_args["dataset"])
 
 
 
-# SET 0 = TOP1, TOP2, TOP3, TOP4 ---> original
-# SET 1 = TOP1, TOP2, TOP3, Rand  
-# SET 2 = TOP1, TOP2, Rand, Rand 
-# SET 3 = TOP1, Rand, Rand, Rand 
-# SET 4 = Rand, Rand, Rand, Rand
+# SET 0 = TOP1, TOP2, TOP3, TOP4 ---> original the top4 ration fixed4
+# SET 1 = TOP1, TOP2, TOP3, Rand  --> fixed 3
+# SET 2 = TOP1, TOP2, Rand, Rand  --> fixed 2
+# SET 3 = TOP1, Rand, Rand, Rand  --> fixed 1
+# SET 4 = Rand, Rand, Rand, Rand  --> random 4
 
+fixed_rationale_len = 4
 
-# importance_scores = np.load('./extracted_rationales/SST/importance_scores/test_importance_scores-10.npy', allow_pickle=True).item()
-# print(importance_scores.get('test_358').get('attention')) # dict_keys(['random', 'attention', 'gradients', 'ig', 'scaled attention', 'deeplift', 'gradientshap'])
+folder = os.path.join(os.getcwd(),
+                      "extracted_rationales",
+                      dataset,
+                      "data",
+                      "fixed" + str(fixed_rationale_len),
+                       )
 
-# x = np.argsort(importance_scores.get('test_358').get('attention'))[::-1][:4]
-# print("Indices:",x)
-
-df = pd.read_csv(f'datasets/{dataset}/data/test.csv')[100:].sample(5)
-data_id_list = df['annotation_id']
-print(df)
-importance_scores = np.load(f'datasets/{dataset}/data/importance_scores/test_importance_scores_25.npy', allow_pickle=True).item()
+S0 = pd.read_csv(folder + '/attention-test.csv')[100:].sample(5)
+print(S0)
 
 text_S1 = []
 text_S2 = []
 text_S3 = []
 text_S4 = []
 
-for i, data_id in enumerate(data_id_list):
-    print(df[i].text)
-    attention_scores = importance_scores.get(data_id).get('attention')
-    top4 = torch.topk(attention_scores, 4)[1] # 0 for value 1 for index
-    print(top4)
-
-    print(attention_scores)
-    quit()
-  
 
 
 S0_suff = np.load('./posthoc_results/SST/ZEROOUT-faithfulness-scores-detailed.npy', 

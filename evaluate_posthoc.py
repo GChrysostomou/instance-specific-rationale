@@ -127,11 +127,6 @@ logging.info("\n ----------------------")
 
 
 
-
-
-
-
-
 from src.data_functions.dataholder import BERT_HOLDER
 from src.evaluation import evaluation_pipeline
 
