@@ -381,7 +381,9 @@ class BertModelWrapper_noise(nn.Module):
         if add_noise == False:
             pass
         else:
-            importance_scores_max = importance_scores.max(1, keepdim=True)[0]
+            
+            try:importance_scores_max = importance_scores.max(1, keepdim=True)[0]
+            except:print(importance_scores)
 
             temp_copy = importance_scores.clone().detach()
             temp_copy[torch.isinf(temp_copy)] = 99

@@ -77,34 +77,8 @@ def topk(scores, original_length, rationale_length = 0.1):
 
 def fixed(scores, original_length, rationale_length = 4):
 
-    """ 
-    topk rationale extractor
-    Indicates tokens from input that form the rationale length
-    Input: 
-        scores : {
-            "info" : salient_scores ,
-            "size" : sequence length ,
-            "options" : normalised attention weights / gradients / or other 
-                        token importance metric
-            }
-        rationale_length : {
-            "info" : percentage of original length of sequence to extract
-            "size" : between 0 - 1 
-            }
-    Output:
-        rationales : {
-            "info" : returns indexes that form the rationale from the sequence
-            }
-    """
-
-    assert rationale_length > 0.99 #and rationale_length <= 1.
-
-    # max_lengths = math.ceil(float(original_length) * rationale_length)
-
-    # if max_lengths == 0: max_lengths = 1
-
     indxs = np.argsort(-scores)[:rationale_length]
-
-    return indxs
+    top_scores = scores[indxs]
+    return indxs, top_scores
 
 

@@ -280,7 +280,7 @@ def normalized_comprehensiveness_soft_(model, use_topk,
     inputs["importance_scores"]=importance_scores
     inputs["add_noise"] = True
 
-    
+
     yhat, _  = model(**inputs)
 
     yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()

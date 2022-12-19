@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-
+import re
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -14,6 +14,10 @@ import logging
 import gc
 import datetime
 import sys
+import glob
+
+from src.common_code.metrics import comprehensiveness_, normalized_comprehensiveness_, normalized_sufficiency_, sufficiency_, normalized_comprehensiveness_soft_, normalized_sufficiency_soft_
+from sklearn.metrics import classification_report
 
 torch.cuda.empty_cache()
 #torch.cuda.memory_summary(device=None, abbreviated=False)
@@ -129,28 +133,158 @@ logging.info("\n ----------------------")
 
 from src.data_functions.dataholder import BERT_HOLDER_interpolation
 from src.evaluation import evaluation_pipeline
+from src.models.bert import BertClassifier_noise, BertClassifier_zeroout, bert, BertClassifier_attention
+from src.common_code.useful_functions import batch_from_dict_, create_only_query_mask_, create_rationale_mask_ # batch_from_dict --> batch_from_dict_
 
+FA_name = "attention"
 data = BERT_HOLDER_interpolation(
     args["data_dir"], 
     stage = "interpolation",
     b_size = 4,
-    #b_size = args["batch_size"], # TO FIX CUDA OUT OF MEMORY, MAY NOT WORK
+    FA_name = FA_name,
 )
 
-evaluator = evaluation_pipeline.evaluate(
-    model_path = args["model_dir"], 
-    output_dims = data.nu_of_labels
-)
+model = bert(output_dim = 2)
+model.load_state_dict(torch.load("./trained_models/sst/bert25.pt", map_location=device))
+model.to(device)
 
-evaluator.faithfulness_experiments_(data)
-print('"********* DONE flip experiments on in-domain"')
+model2 = BertClassifier_noise(output_dim = 2)
+model2.load_state_dict(torch.load("./trained_models/sst/bert25.pt", map_location=device))
+model2.to(device)
 
-del data
-del evaluator
-gc.collect()
-torch.cuda.empty_cache()
 
-dataset = str(user_args["dataset"])
+comp_list = []
+comp_list2 = []
+for data in [data.fixed4_loader,data.fixed3_loader,data.fixed2_loader,data.fixed1_loader,data.fixed0_loader]:
+    
+    fname2 = os.path.join(
+            os.getcwd(),
+            args["model_dir"],
+        )
+    fname2 = glob.glob(fname2 + "*output*25.npy")[0]
+    original_prediction_output = np.load(fname2, allow_pickle = True).item()
+
+    comp_total = torch.tensor([])
+    for i, batch in enumerate(data):
+        # print( '         ==========')
+
+        # print(batch["importance_scores"])
+        # print(batch["importance_scores"].dtype())
+
+        IS = torch.tensor(batch["input_ids"].squeeze(1).size())
+        for i, one_list in enumerate(batch["importance_scores"]):
+            print(one_list)
+            one_list = one_list[1:]
+            one_list = one_list[:-1]
+            print(one_list)
+
+            floats = [float(x) for x in one_list.split()]
+            one_list = torch.tensor(floats)
+            IS[i,:] = one_list
+
+            
+        model.eval()
+        model.zero_grad()
+        batch = {"annotation_id" : batch["annotation_id"],
+                "input_ids" : batch["input_ids"].squeeze(1).to(device),
+                "lengths" : batch["lengths"].to(device),
+                "labels" : batch["label"].to(device),
+                "token_type_ids" : batch["token_type_ids"].squeeze(1).to(device),
+                "attention_mask" : batch["attention_mask"].squeeze(1).to(device),
+                "query_mask" : batch["query_mask"].squeeze(1).to(device),
+                "special_tokens" : batch["special tokens"],
+                "retain_gradient" : False,
+                "importance_scores": IS.to(device),
+                }
+        
+        assert batch["input_ids"].size(0) == len(batch["labels"]), "Error: batch size for item 1 not in correct position"
+    
+        original_prediction =  batch_from_dict_(
+                        batch_data = batch, 
+                        metadata = original_prediction_output, 
+                        target_key = "predicted",
+                    )  # return torch.tensor(new_tensor).to(device)
+
+
+        ## prepping for our experiments
+        original_sentences = batch["input_ids"].clone().detach()
+        original_prediction = torch.softmax(original_prediction, dim = -1).detach().cpu().numpy().astype(np.float64)
+
+        full_text_probs = original_prediction.max(-1)
+        full_text_class = original_prediction.argmax(-1)
+
+        ## prepping for our experiments
+        rows = np.arange(batch["input_ids"].size(0))
+
+        only_query_mask=torch.zeros_like(batch["input_ids"]).long()
+        batch["input_ids"] = only_query_mask
+
+        
+        yhat, _  = model(**batch)
+        yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
+        reduced_probs = yhat[rows, full_text_class]
+
+        ## baseline sufficiency
+        suff_y_zero = sufficiency_(
+            full_text_probs, 
+            reduced_probs
+        )
+
+        rationale_mask = torch.zeros(original_sentences.size())
+        comp, comp_probs  = normalized_comprehensiveness_(
+                        model = model, 
+                        original_sentences = original_sentences.to(device), 
+                        rationale_mask = rationale_mask.to(device), 
+                        inputs = batch, 
+                        full_text_probs = full_text_probs, 
+                        full_text_class = full_text_class, 
+                        rows = rows,
+                        #suff_y_zero = suff_y_zero,
+                        comp_y_one=1-suff_y_zero,
+                    )
+        comp_total = np.concatenate((comp_total, comp),axis=0)
+        
+        # print(' -----------  ')
+        # print(list(batch["importance_scores"]))
+
+        # importance_scores_for_soft = []
+        # for i in list(batch["importance_scores"]):
+            
+        #     # print(' ')
+        #     # print(' ')
+        #     # print(' --------------  ')
+        #     # print(i)
+        #     i = re.sub("[^0-9.]", "", i)
+        #     importance_scores_for_soft.append(float(i)) 
+        
+        comp2, comp_probs2  = normalized_comprehensiveness_soft_(
+                        model = model2, 
+                        original_sentences = original_sentences.to(device), 
+                        rationale_mask = rationale_mask.to(device), 
+                        inputs = batch, 
+                        full_text_probs = full_text_probs, 
+                        full_text_class = full_text_class, 
+                        importance_scores = torch.FloatTensor(batch["importance_scores"]).to(device),
+                        rows = rows,
+                        #suff_y_zero = suff_y_zero,
+                        comp_y_one=1-suff_y_zero,
+                        use_topk=True,
+                    )
+        comp_total2 = np.concatenate((comp_total2, comp2),axis=0)
+
+                
+    comp_final = np.mean(comp_total)
+    comp_list.append(comp_final)
+    comp_final2 = np.mean(comp_total2)
+    comp_list2.append(comp_final2)
+
+print(comp_list)
+print(comp_list2)
+set = ['S0','S1','S2','S3','S4']  # removed 4 ----> remove 0
+df = pd.DataFrame(list(zip(set, comp_list, comp_list2)), coumns = ['Set', 'Comprehensiveness', 'Soft-Comprehensiveness'])
+df.to_csv('interpolation_on_sst_attention.csv')
+quit()
+
 
 
 
@@ -160,251 +294,12 @@ dataset = str(user_args["dataset"])
 # SET 3 = TOP1, Rand, Rand, Rand  --> fixed 1
 # SET 4 = Rand, Rand, Rand, Rand  --> random 4
 
-fixed_rationale_len = 4
-
-folder = os.path.join(os.getcwd(),
-                      "extracted_rationales",
-                      dataset,
-                      "data",
-                      "fixed" + str(fixed_rationale_len),
-                       )
-
-S0 = pd.read_csv(folder + '/attention-test.csv')[100:].sample(5)
-print(S0)
-
-text_S1 = []
-text_S2 = []
-text_S3 = []
-text_S4 = []
-
-
-
-S0_suff = np.load('./posthoc_results/SST/ZEROOUT-faithfulness-scores-detailed.npy', 
-                        allow_pickle=True).item()
-
-S1_suff = np.load('./posthoc_results/SST/ZEROOUT-faithfulness-scores-detailed-S1.npy', 
-                        allow_pickle=True).item()
-
-ids = list(S1_suff.keys())
-
-S2_importance_scores = np.load('./posthoc_results/SST/ZEROOUT-faithfulness-scores-detailed-S2.npy', 
-                        allow_pickle=True).item()
-
-S3_importance_scores = np.load('./posthoc_results/SST/ZEROOUT-faithfulness-scores-detailed-S3.npy', 
-                        allow_pickle=True).item()
-
-S4_importance_scores = np.load('./posthoc_results/SST/ZEROOUT-faithfulness-scores-detailed-S4.npy', 
-                        allow_pickle=True).item()
 
 
 
 def F_i(M_SO, M_S4, M_Si): # M is the metrics score 
     F_i = abs(M_SO-M_Si)/abs(M_SO-M_S4+0.00001)
     return F_i
-
-S0_sufficiencies = []
-S1_sufficiencies = []
-S2_sufficiencies = []
-S3_sufficiencies = []
-S4_sufficiencies = []
-
-for id in ids:
-    M_S0 = S0_suff.get(id).get('attention').get('sufficiency')
-    M_S1 = S1_suff.get(id).get('attention').get('sufficiency')
-    M_S2 = S2_importance_scores.get(id).get('attention').get('sufficiency')
-    M_S3 = S3_importance_scores.get(id).get('attention').get('sufficiency')
-    M_S4 = S4_importance_scores.get(id).get('attention').get('sufficiency')
-    
-    S0 = F_i(M_S0, M_S4, M_S0)
-    S1 = F_i(M_S0, M_S4, M_S1)
-    S2 = F_i(M_S0, M_S4, M_S2)
-    S3 = F_i(M_S0, M_S4, M_S3)
-    S4 = F_i(M_S0, M_S4, M_S4)
-
-    S0_sufficiencies.append(S0)
-    S1_sufficiencies.append(S1)
-    S2_sufficiencies.append(S2)
-    S3_sufficiencies.append(S3)
-    S4_sufficiencies.append(S4)
-
-
-df = pd.DataFrame(list(zip(ids, S0_sufficiencies, S1_sufficiencies, S2_sufficiencies, S3_sufficiencies, S4_sufficiencies)),
-               columns =['id', '0', '1', '2', '3', '4'])
-
-df.to_csv('SST_attention_soft_sufficiency_interpolation.csv')
-
-
-
-
-quit()
-'''[      -inf 0.07614467 0.03361953 0.01381731 0.01694824 0.01160708
- 0.01682331 0.00476329 0.00979104 0.00561564 0.00487841 0.00499885
- 0.00257135 0.00282017 0.00283638 0.00786511 0.06252006 0.03839585
- 0.01980747 0.01921392 0.03641286 0.02184515 0.02980015 0.02374282
- 0.0199705  0.02761515 0.0133762  0.02211065 0.01256411 0.01168522
- 0.01450356 0.36185393       -inf       -inf       -inf       -inf
-       -inf       -inf       -inf       -inf       -inf       -inf
-       -inf       -inf       -inf       -inf       -inf       -inf]'''
-
-
-
-
-quit()
-
-
-##########  GET M_SO, M_S1, M_S2, , M_S3, M_S4, for the 50 
-
-############# save to a new diction 
-
-
-# def presentation_of_SET_0(input_id, important_score): # i from 0 to 4 
-#     presentation_at_i = input_id_changed
-
-    
-
-# def get_M_score_of_SETi(presentation):
-
-
-
-
-
-pwd = os.getcwd()
-
-
-NOISE_scores_file = os.path.join(pwd, 'posthoc_results', str(dataset), 'NOISE-faithfulness-scores-detailed-std_' + str(user_args["std"]) + '.npy') 
-topk_scores_file = os.path.join(pwd, 'posthoc_results', str(dataset), 'topk-faithfulness-scores-detailed.npy')
-ATTENTION_scores_file = os.path.join(pwd, 'posthoc_results', str(dataset), 'ATTENTION-faithfulness-scores-detailed.npy')
-ZEROOUT_scores_file = os.path.join(pwd, 'posthoc_results', str(dataset), 'ZEROOUT-faithfulness-scores-detailed.npy')
-
-
-TOPk_scores = np.load(topk_scores_file, allow_pickle=True).item()
-ZEROOUT_scores = np.load(ZEROOUT_scores_file, allow_pickle=True).item()
-ATTENTION_scores = np.load(ATTENTION_scores_file, allow_pickle=True).item()
-NOISE_scores = np.load(NOISE_scores_file, allow_pickle=True).item()
-#NOISE05_scores = np.load(NOISE05_scores_file, allow_pickle=True).item()
-
-data_id_list = TOPk_scores.keys()
-fea_list = ['attention', "scaled attention", "gradients", "ig", "gradientshap", "deeplift"]
-FA = 'attention'
-
-
-D_TOP_Suff = []
-D_ATTENTION_Suff = []
-D_ZEROOUT_Suff = []
-D_NOISE_Suff = []
-
-
-for FA in fea_list:
-    Diag_TOP_attention = 0
-    Diag_ATTENTION_attention = 0
-    Diag_ZEROOUT_attention = 0
-    Diag_NOISE_attention = 0
-    
-    for i, data_id in enumerate(data_id_list):
-
-        top_random_suff_score = TOPk_scores.get(data_id).get('random').get('sufficiency aopc').get('mean')
-        NOISE_random_suff_score = NOISE_scores_file.get(data_id).get('random').get('sufficiency')#.get('mean')
-        ZEROOUT_random_suff_score = ZEROOUT_scores.get(data_id).get('random').get('sufficiency')#.get('mean')
-        ATTENTION_random_suff_score = ATTENTION_scores.get(data_id).get('random').get('sufficiency')#.get('mean')
-
-        top_suff_score = TOPk_scores.get(data_id).get(FA).get('sufficiency aopc').get('mean') # evinf @ 0.1
-        if top_suff_score >= top_random_suff_score: Diag_TOP_attention += 1
-        else: pass
-
-        NOISE_suff_score = NOISE_scores.get(data_id).get(FA).get('sufficiency')
-        if NOISE_suff_score >= NOISE_random_suff_score: Diag_NOISE_attention += 1
-        else: pass
-
-        ZEROOUT_suff_score = ZEROOUT_scores.get(data_id).get(FA).get('sufficiency')
-        if ZEROOUT_suff_score >= ZEROOUT_random_suff_score: Diag_ZEROOUT_attention += 1
-        else: pass
-
-        ATTENTION_suff_score = ATTENTION_scores.get(data_id).get(FA).get('sufficiency')
-        if ATTENTION_suff_score >= ATTENTION_random_suff_score: Diag_ATTENTION_attention += 1
-        else: pass
-
-        
-    D_TOP = Diag_TOP_attention/len(data_id_list)
-    D_TOP_Suff.append(D_TOP)
-
-    D_ATTENTION = Diag_ATTENTION_attention/len(data_id_list)
-    D_ATTENTION_Suff.append(D_ATTENTION)
-
-    D_ZEROOUT = Diag_ZEROOUT_attention/len(data_id_list)
-    D_ZEROOUT_Suff.append(D_ZEROOUT)
-
-    D_NOISE1= Diag_NOISE_attention/len(data_id_list)
-    D_NOISE_Suff.append(D_NOISE1)
-
-
-df = pd.DataFrame(list(zip(fea_list, D_TOP_Suff, D_ATTENTION_Suff, D_ZEROOUT_Suff, D_NOISE_Suff)),
-               columns =['Feature', 'TopK', 'Soft(ATTENTION)', 'Soft(ZEROOUT)', 'Soft(NOISE1)'])
-
-fname = os.path.join(pwd, 'Diagnosticity', str(dataset), 'Diagnosticity_Suff.csv')
-os.makedirs(os.path.join(pwd, 'Diagnosticity', str(dataset)), exist_ok=True)
-print(df)
-df.to_csv(fname)
-
-
-
-
-
-################ comp
-
-D_TOP_Suff = []
-D_ATTENTION_Suff = []
-D_ZEROOUT_Suff = []
-D_NOISE_Suff = []
-
-for FA in fea_list:
-    Diag_TOP_attention = 0
-    Diag_ATTENTION_attention = 0
-    Diag_ZEROOUT_attention = 0
-    Diag_NOISE_attention = 0
-    
-    for i, data_id in enumerate(data_id_list):
-
-        top_random_suff_score = TOPk_scores.get(data_id).get('random').get('comprehensiveness aopc').get('mean')
-        NOISE_random_suff_score = NOISE_scores.get(data_id).get('random').get('comprehensiveness')#.get('mean')
-        ZEROOUT_random_suff_score = ZEROOUT_scores.get(data_id).get('random').get('comprehensiveness')#.get('mean')
-        ATTENTION_random_suff_score = ATTENTION_scores.get(data_id).get('random').get('comprehensiveness')#.get('mean')
-
-        top_suff_score = TOPk_scores.get(data_id).get(FA).get('comprehensiveness aopc').get('mean') # evinf @ 0.1
-        if top_suff_score >= top_random_suff_score: Diag_TOP_attention += 1
-        else: pass
-
-        NOISE_suff_score = NOISE_scores.get(data_id).get(FA).get('comprehensiveness')
-        if NOISE_suff_score >= NOISE_random_suff_score: Diag_NOISE_attention += 1
-        else: pass
-
-        ZEROOUT_suff_score = ZEROOUT_scores.get(data_id).get(FA).get('comprehensiveness')
-        if ZEROOUT_suff_score >= ZEROOUT_random_suff_score: Diag_ZEROOUT_attention += 1
-        else: pass
-
-        ATTENTION_suff_score = ATTENTION_scores.get(data_id).get(FA).get('comprehensiveness')
-        if ATTENTION_suff_score >= ATTENTION_random_suff_score: Diag_ATTENTION_attention += 1
-        else: pass
-
-    D_TOP = Diag_TOP_attention/len(data_id_list)
-    D_TOP_Suff.append(D_TOP)
-
-    D_ATTENTION = Diag_ATTENTION_attention/len(data_id_list)
-    D_ATTENTION_Suff.append(D_ATTENTION)
-
-    D_ZEROOUT = Diag_ZEROOUT_attention/len(data_id_list)
-    D_ZEROOUT_Suff.append(D_ZEROOUT)
-
-    D_NOISE= Diag_NOISE_attention/len(data_id_list)
-    D_NOISE_Suff.append(D_NOISE1)
-
-
-
-df = pd.DataFrame(list(zip(fea_list, D_TOP_Suff, D_ATTENTION_Suff, D_ZEROOUT_Suff, D_NOISE_Suff, )),
-               columns =['Feature', 'TopK', 'Soft(ATTENTION)', 'Soft(ZEROOUT)', 'Soft(NOISE1)'])
-
-fname = os.path.join(pwd, 'Diagnosticity', str(dataset), 'Diagnosticity_Comp.csv')
-os.makedirs(os.path.join(pwd, 'Diagnosticity', str(dataset)), exist_ok=True)
-df.to_csv(fname)
 
 
 

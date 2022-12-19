@@ -6,6 +6,21 @@ import pandas as pd
 import numpy as np
 
 
+
+
+from random_word import RandomWords
+r = RandomWords()
+
+# Return a single random word
+a = torch.tensor([0])
+b = 1
+c = torch.cat([a, a], dim = 0)
+c = torch.cat((c, b), dim = 0)
+print(c)
+
+
+quit()
+
 a = float('-inf') * 2
 print(a)
 ttt = torch.tensor([[1,2,3,float('-inf'),1],[1,2,3,float('-inf'),1],[1,3,3,5,9]])
