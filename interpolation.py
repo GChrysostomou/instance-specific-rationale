@@ -165,21 +165,30 @@ for data in [data.fixed4_loader,data.fixed3_loader,data.fixed2_loader,data.fixed
     original_prediction_output = np.load(fname2, allow_pickle = True).item()
 
     comp_total = torch.tensor([])
+    comp_total2 = torch.tensor([])
     for i, batch in enumerate(data):
         # print( '         ==========')
 
         # print(batch["importance_scores"])
         # print(batch["importance_scores"].dtype())
 
-        IS = torch.tensor(batch["input_ids"].squeeze(1).size())
+        IS = torch.zeros(batch["input_ids"].squeeze(1).size())
+        #print('   ')
+        # print('batch["input_ids"] ------->', batch["input_ids"].size())
+        # print('batch["input_ids"].squeeze(1) ------->', batch["input_ids"].squeeze(1).size())
+        # print('IS SIZE ------->', IS.size())
         for i, one_list in enumerate(batch["importance_scores"]):
-            print(one_list)
             one_list = one_list[1:]
             one_list = one_list[:-1]
-            print(one_list)
 
             floats = [float(x) for x in one_list.split()]
             one_list = torch.tensor(floats)
+            print('     ')
+            print('     ')
+            print('   --------------    ')
+            print(one_list)
+            print(one_list.size())
+            print('IS SIZE ------->', IS.size())
             IS[i,:] = one_list
 
             
@@ -244,19 +253,6 @@ for data in [data.fixed4_loader,data.fixed3_loader,data.fixed2_loader,data.fixed
                     )
         comp_total = np.concatenate((comp_total, comp),axis=0)
         
-        # print(' -----------  ')
-        # print(list(batch["importance_scores"]))
-
-        # importance_scores_for_soft = []
-        # for i in list(batch["importance_scores"]):
-            
-        #     # print(' ')
-        #     # print(' ')
-        #     # print(' --------------  ')
-        #     # print(i)
-        #     i = re.sub("[^0-9.]", "", i)
-        #     importance_scores_for_soft.append(float(i)) 
-        
         comp2, comp_probs2  = normalized_comprehensiveness_soft_(
                         model = model2, 
                         original_sentences = original_sentences.to(device), 
@@ -264,7 +260,7 @@ for data in [data.fixed4_loader,data.fixed3_loader,data.fixed2_loader,data.fixed
                         inputs = batch, 
                         full_text_probs = full_text_probs, 
                         full_text_class = full_text_class, 
-                        importance_scores = torch.FloatTensor(batch["importance_scores"]).to(device),
+                        importance_scores = batch["importance_scores"],
                         rows = rows,
                         #suff_y_zero = suff_y_zero,
                         comp_y_one=1-suff_y_zero,

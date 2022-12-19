@@ -12,7 +12,9 @@ from random_word import RandomWords
 r = RandomWords()
 
 # Return a single random word
-a = torch.tensor([0])
+a = torch.ones([4,1,4])
+a = a.squeeze(1)
+print(a.size())
 b = 1
 c = torch.cat([a, a], dim = 0)
 c = torch.cat((c, b), dim = 0)

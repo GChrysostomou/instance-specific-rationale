@@ -12,7 +12,7 @@ parser.add_argument(
     "--dataset",
     type = str,
     help = "select dataset / task",
-    default = "sst", # sst
+    default = "agnews", # sst
 )
 
 

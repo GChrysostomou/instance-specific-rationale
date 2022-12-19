@@ -195,10 +195,12 @@ class BERT_HOLDER_interpolation():
         # fixed4_npy = np.load(f"./extracted_rationales/sst/data/fixed4/{FA_name}-test.npy", allow_pickle=True).item()
         # fixed4['importance_scores'] = fixed4_npy
     
-        fixed1 = fixed1['[CLS]' not in fixed1.text]
-        fixed1 = fixed1['[SEP]' not in fixed1.text]
+        fixed1 = fixed1[fixed1["text"].str.contains("[CLS]")==False]
+        fixed1 = fixed1[fixed1["text"].str.contains("[SEP]")==False]
         
         fixed1 = fixed1.sample(6)
+        for tet in fixed1['text']:
+            print( '-------', tet )
         ids = fixed1['annotation_id']
         fixed0 = fixed1.copy(deep=True)
         fixed2 = fixed2.loc[fixed2['annotation_id'].isin(ids)]
