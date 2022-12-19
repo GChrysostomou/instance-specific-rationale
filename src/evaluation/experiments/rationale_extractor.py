@@ -534,6 +534,8 @@ def rationale_creator_interpolation_(data, data_split_name, tokenizer, model_ran
         
         temp_registry = {}
 
+        importance_scores_to_append = []
+
         for annotation_id, sequence_text in annotation_text.items():
             
 
@@ -567,15 +569,17 @@ def rationale_creator_interpolation_(data, data_split_name, tokenizer, model_ran
                 weights = sequence_importance
             )
 
-            rationale_indxs = thresholder(
+            rationale_indxs, rationale_important_scores = thresholder(
                 scores = sequence_importance, 
                 original_length = len(sequence_text) -2,
                 rationale_length = desired_rationale_length
             )
-
+            importance_scores_to_append.append(rationale_important_scores)
             rationale = sequence_text[rationale_indxs]
 
             temp_registry[annotation_id]["rationale"] = " ".join(rationale)
+            # temp_registry[annotation_id]["importance_scores"] = rationale_important_scores
+            # importance_scores_to_append.append(rationale_important_scores)
             temp_registry[annotation_id]["full text doc"] = full_doc
 
 
@@ -593,24 +597,21 @@ def rationale_creator_interpolation_(data, data_split_name, tokenizer, model_ran
             data["text"] = data.annotation_id.apply(lambda x : temp_registry[x]["rationale"])
 
         data["full text doc"] = data.annotation_id.apply(lambda x : temp_registry[x]["full text doc"])
-
+        #data["importance_scores"] = data.annotation_id.apply(lambda x : temp_registry[x]["importance_scores"])
+        
+        data["importance_scores"] = importance_scores_to_append 
         folder = os.path.join(os.getcwd(),
                                 args["extracted_rationale_dir"],
                                 "data",
                                 args["thresholder"] + str(fixed_rationale_len))
 
         os.makedirs(folder, exist_ok=True)
-
-        fname = os.path.join(folder, feature_attribution + "-" + data_split_name + ".json")
+        
         fname_csv = os.path.join(folder, feature_attribution + "-" + data_split_name + ".csv")
+        #data = data['CLS' not in data.text]
         data.to_csv(fname_csv)
-        with open(fname, "w") as file: 
-            json.dump(
-                data.to_dict("records"), 
-                file,
-                indent = 4
-            )
-        print(f"saved in -> {fname}")
+        
+
 
     return
 

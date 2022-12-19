@@ -258,6 +258,51 @@ class evaluate():
         return
 
     
+    def faithfulness_experiments_interpolation_(self, data):
+        
+        for model_name in self.models:
+            
+            ## check first if necessary data exists
+            fname = os.path.join(
+                os.getcwd(),
+                args["extracted_rationale_dir"],
+                args["thresholder"],
+                "test-rationale_metadata.npy"
+            )
+
+            if os.path.isfile(fname) == False:
+
+                raise OSError(f"rationale metadata file does not exist at {fname} // rerun extract_rationales.py") from None
+          
+            model = bert(
+                output_dim = self.output_dims
+            )
+
+            logging.info(f" *** loading model - {model_name}")
+
+            model.load_state_dict(torch.load(model_name, map_location=device))
+
+            model.to(device)
+
+            logging.info(f" *** succesfully loaded model - {model_name}")
+
+            model_random_seed = re.sub("bert", "", model_name.split(".pt")[0].split("/")[-1])
+
+            ## train neglected as we are evaluating on dev and test
+            for data_split_name, data_split in {"test":  data.test_loader
+                                                #"dev":  data.dev_loader
+                                                }.items():
+            
+                conduct_tests_(
+                    model = model, 
+                    data = data_split,
+                    model_random_seed = model_random_seed,
+                    # split = data_split_name
+                )
+
+        return
+
+    
     
 
     def feature_scoring_performance_(self):

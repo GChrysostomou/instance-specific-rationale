@@ -100,31 +100,6 @@ def conduct_tests_(model, data, model_random_seed):
         rows = np.arange(batch["input_ids"].size(0))
 
 
-        
-        
-        ## now measuring baseline comprehensiven for all 1 rationale mask
-        ## the comprehensiveness of an all-one mask. so no rationale mask
-        # yhat, _  = model(**batch)
-        # yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
-        # reduced_probs = yhat[rows, full_text_class]
-
-        # comp_y_one = comprehensiveness_(
-        #     full_text_probs, 
-        #     reduced_probs
-        # )
-
-        # the longer rationale, the more input for suff, the less input for comp,
-        #                       the less change for suff, the more change for comp
-        # Comp(x, ˆ y, α) = max(0, p(ˆ y|x) − p(ˆ y|x, 1 − α)). ---> higher
-        # Suff(x, ˆ y, α) = 1 − max(0, p(ˆ y|x) − p(ˆ y|x, α)), ---> higer
-        # along with the increase of ratio, the higher suff and comp
-
-        
-
-
-        ## now measuring baseline sufficiency for all 0 rationale mask
-        ## mask all input (zero rationale)
-        ## (the complement of) the sufficiency of an all-zero (empty) rationale mask
         if args.query:
             only_query_mask=create_only_query_mask_(
                 batch_input_ids=batch["input_ids"],
