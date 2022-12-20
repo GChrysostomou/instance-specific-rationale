@@ -11,14 +11,16 @@ import numpy as np
 from random_word import RandomWords
 r = RandomWords()
 
-# Return a single random word
-a = torch.ones([4,1,4])
-a = a.squeeze(1)
-print(a.size())
-b = 1
-c = torch.cat([a, a], dim = 0)
-c = torch.cat((c, b), dim = 0)
-print(c)
+importance = torch.ones(4,3)
+embeddings = torch.rand(4,4,768)
+
+if importance.size() != embeddings.size()[:2]:
+    print(importance.size(), embeddings.size()[:2])
+    pad_x = torch.zeros((embeddings.size()[0], embeddings.size()[1]), device=importance.device, dtype=importance.dtype)
+    pad_x[:importance.size(0), :importance.size(1)] = importance
+
+    print(pad_x)
+
 
 
 quit()

@@ -44,8 +44,8 @@ def bert_embeddings(bert_model,
     if token_type_ids is None:
     
         token_type_ids = torch.zeros(input_shape, dtype=torch.long, device=position_ids.device)  # +0.0000000001 by cass dabug
-
-    embed = bert_model.embeddings.word_embeddings(input_ids)
+    
+    embed = bert_model.embeddings.word_embeddings(input_ids.to(device))
     position_embeddings = bert_model.embeddings.position_embeddings(position_ids)
     token_type_embeddings = bert_model.embeddings.token_type_embeddings(token_type_ids)
 
@@ -354,10 +354,10 @@ class BertModelWrapper_noise(nn.Module):
                 ):     
         
         embeddings, self.word_embeds = bert_embeddings(
-            self.model, 
-            input_ids = input_ids, 
+            self.model.to(device), 
+            input_ids = input_ids.to(device), 
             position_ids = None, 
-            token_type_ids = token_type_ids,
+            token_type_ids = token_type_ids.to(device),
             )
 
         add_noise = add_noise
@@ -399,9 +399,17 @@ class BertModelWrapper_noise(nn.Module):
                 
             importance_score[inf_mask] = float('-inf')
             importance_score[:,0] = 1 
+            # print('  ')
+            # print('  ')
+            # print(importance_score.size())
 
+            if importance_score.size() != embeddings.size()[:2]: # embeddings.size()[1] is bigger than importance_score.size()[1]
+                pad_x = torch.zeros((embeddings.size()[0], embeddings.size()[1]), 
+                                    device=importance_score.device, dtype=importance_score.dtype)
+                pad_x[:importance_score.size(0), :importance_score.size(1)] = importance_score
+                importance_score = pad_x.clone().detach().to(device)
 
-  
+            
             if faithful_method == "soft_suff":
                 for i in range(embeddings.size()[0]):
                     for k in range(embeddings.size()[1]):
@@ -429,8 +437,10 @@ class BertModelWrapper_noise(nn.Module):
 
         head_mask = [None] * self.model.config.num_hidden_layers
 
+        embeddings = embeddings * ig
+
         encoder_outputs = self.model.encoder(
-            embeddings * ig,
+            embeddings.to(device),
             attention_mask=extended_attention_mask,
             head_mask=head_mask,
             output_attentions=self.model.config.output_attentions,
@@ -441,13 +451,13 @@ class BertModelWrapper_noise(nn.Module):
         # print(encoder_outputs)
         # quit()
 
-        sequence_output = encoder_outputs[0]
+        sequence_output = encoder_outputs[0].to(device)
 
 
         attentions = encoder_outputs[2]
         pooled_output = self.model.pooler(sequence_output) if self.model.pooler is not None else None
 
-        return sequence_output, pooled_output, attentions
+        return sequence_output, pooled_output, attentions#.to(device)
 
 
 

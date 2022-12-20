@@ -57,10 +57,10 @@ class bert(nn.Module):  # equal to "BertClassifier"
         if "ig" not in inputs: inputs["ig"] = int(1)
 
         _, pooled_output, attention_weights = self.wrapper(
-            inputs["input_ids"], 
-            attention_mask = inputs["attention_mask"],
-            token_type_ids = inputs["token_type_ids"],
-            ig = inputs["ig"]
+            inputs["input_ids"].to(device), 
+            attention_mask = inputs["attention_mask"].to(device),
+            token_type_ids = inputs["token_type_ids"].to(device),
+            ig = inputs["ig"],
         )
 
 
@@ -239,10 +239,7 @@ class BertClassifier_noise(nn.Module):
         self.output_dim = output_dim        
         self.dropout = dropout
 
-        self.bert_config = AutoConfig.from_pretrained(
-            args["model"], 
-            output_attentions = True
-        )
+        self.bert_config = AutoConfig.from_pretrained(args["model"], output_attentions = True)
 
         self.std = std,   
         
@@ -251,8 +248,7 @@ class BertClassifier_noise(nn.Module):
                 args["model"], 
                 config=self.bert_config),
                 std=std,
-            
-        )
+        ).to(device)
         
         self.tasc_mech = tasc
   
@@ -268,21 +264,17 @@ class BertClassifier_noise(nn.Module):
         # 这里OKAY
 
         _, pooled_output, attention_weights = self.wrapper(
-            inputs["input_ids"], 
-            attention_mask = inputs["attention_mask"],
-            token_type_ids = inputs["token_type_ids"],
+            inputs["input_ids"].to(device), 
+            attention_mask = inputs["attention_mask"].to(device),
+            token_type_ids = inputs["token_type_ids"].to(device),
             ig = inputs["ig"],
             tasc_mech = self.tasc_mech,
-            importance_scores = inputs["importance_scores"],
+            importance_scores = inputs["importance_scores"].to(device),
             faithful_method = inputs["faithful_method"],
             # std = inputs['std'],
             add_noise=inputs["add_noise"],
         )
-        # print(' HERE, finish one forward/one wrapper func')
-        # print('inputs["input_ids"] inside classifier and AFTER wrapper   --->', 
-                # inputs["input_ids"])  
-                # 这里OKAY， 但是第二次就不okay了
-        # to retain gradients
+
         self.weights_or = attention_weights[-1]
 
         if inputs["retain_gradient"]:
@@ -295,7 +287,7 @@ class BertClassifier_noise(nn.Module):
 
         # print('after wrapper, the pooled_output: ', pooled_output)
         
-        logits = self.output_layer(pooled_output)
+        logits = self.output_layer(pooled_output.to(device))
         
         return logits, self.weights
 

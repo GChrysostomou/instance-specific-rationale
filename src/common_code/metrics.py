@@ -277,7 +277,7 @@ def normalized_comprehensiveness_soft_(model, use_topk,
 
         
     inputs["faithful_method"]="soft_comp"
-    inputs["importance_scores"]=importance_scores
+    inputs["importance_scores"]=importance_scores.to(device)
     inputs["add_noise"] = True
 
 

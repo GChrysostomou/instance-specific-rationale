@@ -15,6 +15,7 @@ import gc
 import datetime
 import sys
 import glob
+import matplotlib.pyplot as plt
 
 from src.common_code.metrics import comprehensiveness_, normalized_comprehensiveness_, normalized_sufficiency_, sufficiency_, normalized_comprehensiveness_soft_, normalized_sufficiency_soft_
 from sklearn.metrics import classification_report
@@ -22,7 +23,6 @@ from sklearn.metrics import classification_report
 torch.cuda.empty_cache()
 #torch.cuda.memory_summary(device=None, abbreviated=False)
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
-print(' ---------> ', device)
 CUDA_LAUNCH_BLOCKING=1
 
 
@@ -90,6 +90,11 @@ parser.add_argument(
     choices = [None, "kuma", "rl"]
 )
 
+
+
+
+
+
 user_args = vars(parser.parse_args())
 user_args["importance_metric"] = None
 
@@ -136,14 +141,6 @@ from src.evaluation import evaluation_pipeline
 from src.models.bert import BertClassifier_noise, BertClassifier_zeroout, bert, BertClassifier_attention
 from src.common_code.useful_functions import batch_from_dict_, create_only_query_mask_, create_rationale_mask_ # batch_from_dict --> batch_from_dict_
 
-FA_name = "attention"
-data = BERT_HOLDER_interpolation(
-    args["data_dir"], 
-    stage = "interpolation",
-    b_size = 4,
-    FA_name = FA_name,
-)
-
 model = bert(output_dim = 2)
 model.load_state_dict(torch.load("./trained_models/sst/bert25.pt", map_location=device))
 model.to(device)
@@ -153,9 +150,29 @@ model2.load_state_dict(torch.load("./trained_models/sst/bert25.pt", map_location
 model2.to(device)
 
 
+def F_i(M_SO, M_S4, M_Si): # M is the metrics score 
+    F_i = abs(M_SO-M_Si)/abs(M_SO-M_S4+0.00001)
+    return F_i
+
+
+
+FA_name = "scaled attention" #['attention', "scaled attention", "gradients", "ig", "deeplift"]
+
+
+data = BERT_HOLDER_interpolation(args["data_dir"], stage = "interpolation",b_size = 4, FA_name = FA_name)
+
+loader_list = [data.fixed6_loader,
+            data.fixed5_loader,
+            data.fixed4_loader,
+            data.fixed3_loader,
+            data.fixed2_loader,
+            data.fixed1_loader,
+            data.fixed0_loader]
+    
+
 comp_list = []
 comp_list2 = []
-for data in [data.fixed4_loader,data.fixed3_loader,data.fixed2_loader,data.fixed1_loader,data.fixed0_loader]:
+for data_loader in loader_list:
     
     fname2 = os.path.join(
             os.getcwd(),
@@ -166,31 +183,23 @@ for data in [data.fixed4_loader,data.fixed3_loader,data.fixed2_loader,data.fixed
 
     comp_total = torch.tensor([])
     comp_total2 = torch.tensor([])
-    for i, batch in enumerate(data):
-        # print( '         ==========')
 
-        # print(batch["importance_scores"])
-        # print(batch["importance_scores"].dtype())
+
+
+    for i, batch in enumerate(data_loader):
 
         IS = torch.zeros(batch["input_ids"].squeeze(1).size())
-        #print('   ')
-        # print('batch["input_ids"] ------->', batch["input_ids"].size())
-        # print('batch["input_ids"].squeeze(1) ------->', batch["input_ids"].squeeze(1).size())
-        # print('IS SIZE ------->', IS.size())
         for i, one_list in enumerate(batch["importance_scores"]):
+                
             one_list = one_list[1:]
             one_list = one_list[:-1]
-
             floats = [float(x) for x in one_list.split()]
-            one_list = torch.tensor(floats)
-            print('     ')
-            print('     ')
-            print('   --------------    ')
-            print(one_list)
-            print(one_list.size())
-            print('IS SIZE ------->', IS.size())
-            IS[i,:] = one_list
 
+            if i == 0:
+                IS = torch.tensor(floats).unsqueeze(0)
+            else:
+                one_list = torch.tensor(floats).unsqueeze(0)
+                IS = torch.cat((IS, one_list), 0) 
             
         model.eval()
         model.zero_grad()
@@ -205,6 +214,8 @@ for data in [data.fixed4_loader,data.fixed3_loader,data.fixed2_loader,data.fixed
                 "retain_gradient" : False,
                 "importance_scores": IS.to(device),
                 }
+        # print('  ---> batch')
+        # print(batch)
         
         assert batch["input_ids"].size(0) == len(batch["labels"]), "Error: batch size for item 1 not in correct position"
     
@@ -252,9 +263,23 @@ for data in [data.fixed4_loader,data.fixed3_loader,data.fixed2_loader,data.fixed
                         comp_y_one=1-suff_y_zero,
                     )
         comp_total = np.concatenate((comp_total, comp),axis=0)
+        #print('  comp_total', comp_total)
+
+
+        batch["faithful_method"] = "soft_comp"
+        batch["add_noise"] = True
+        yhat, _  = model2(**batch)
+        yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
+        reduced_probs = yhat[rows, full_text_class]
+
+        ## baseline sufficiency
+        suff_y_zero = sufficiency_(
+            full_text_probs, 
+            reduced_probs
+        )
         
         comp2, comp_probs2  = normalized_comprehensiveness_soft_(
-                        model = model2, 
+                        model = model2.to(device), 
                         original_sentences = original_sentences.to(device), 
                         rationale_mask = rationale_mask.to(device), 
                         inputs = batch, 
@@ -267,6 +292,7 @@ for data in [data.fixed4_loader,data.fixed3_loader,data.fixed2_loader,data.fixed
                         use_topk=True,
                     )
         comp_total2 = np.concatenate((comp_total2, comp2),axis=0)
+        #print(' comp_total2 ', comp_total2)
 
                 
     comp_final = np.mean(comp_total)
@@ -274,28 +300,63 @@ for data in [data.fixed4_loader,data.fixed3_loader,data.fixed2_loader,data.fixed
     comp_final2 = np.mean(comp_total2)
     comp_list2.append(comp_final2)
 
-print(comp_list)
-print(comp_list2)
-set = ['S0','S1','S2','S3','S4']  # removed 4 ----> remove 0
-df = pd.DataFrame(list(zip(set, comp_list, comp_list2)), coumns = ['Set', 'Comprehensiveness', 'Soft-Comprehensiveness'])
-df.to_csv('interpolation_on_sst_attention.csv')
-quit()
+    print(' comp list  ', comp_list, comp_list2)
 
 
 
 
-# SET 0 = TOP1, TOP2, TOP3, TOP4 ---> original the top4 ration fixed4
-# SET 1 = TOP1, TOP2, TOP3, Rand  --> fixed 3
-# SET 2 = TOP1, TOP2, Rand, Rand  --> fixed 2
-# SET 3 = TOP1, Rand, Rand, Rand  --> fixed 1
-# SET 4 = Rand, Rand, Rand, Rand  --> random 4
+M_SO = comp_list[0]
+M_S6 = comp_list[-1]
+F_comp = []
+for comp in comp_list:
+    Fi = F_i(M_SO, M_S6, comp)
+    F_comp.append(Fi)
+
+M_SO = comp_list2[0]
+M_S6 = comp_list2[-1]
+F_comp2 = []
+for comp in comp_list2:
+    Fi = F_i(M_SO, M_S6, comp)
+    F_comp2.append(Fi)
+
+set = ['0', '1', '2', '3', '4', '5', '6']
+df = pd.DataFrame(list(zip(set, F_comp, F_comp2, comp_list, comp_list2)), 
+                        columns = ['Set', 'F-Comp', 'F-SoftComp', 'Comprehensiveness', 'Soft-Comprehensiveness'])
+
+df.to_csv(f'./interpolation/{args["dataset"]}/fixed6/{args["dataset"]}_{FA_name}.csv')
 
 
 
 
-def F_i(M_SO, M_S4, M_Si): # M is the metrics score 
-    F_i = abs(M_SO-M_Si)/abs(M_SO-M_S4+0.00001)
-    return F_i
 
+comp = df["F-Comp"]
+soft = df["F-SoftComp"]
+SET=df.index
+# Initialize figure and axis
+fig, ax = plt.subplots(figsize=(5, 5))
 
+# Plot lines
+ax.plot(SET, comp, color="red")
+ax.plot(SET, soft, color="green")
 
+# Fill area when income > expenses with green
+ax.fill_between(
+    SET, comp, soft, where=(soft >= comp), 
+    interpolate=True, color="green", alpha=0.25, 
+    label="Soft Comprehensiveness"
+)
+
+# Fill area when income <= expenses with red
+ax.fill_between(
+    SET, comp, soft, where=(soft < comp), 
+    interpolate=True, color="red", alpha=0.25,
+    label="Comprehensiveness"
+)
+
+ax.set_xlabel('Replaced tokens')
+ax.set_ylabel('f(i) = |M(So)-M(Si)| / |M(So)-M(S6)|')
+ax.set_title(f'Interpolation Analysis ({FA_name})')
+
+ax.legend()
+plt.show()
+fig.savefig(f'./interpolation/sst/fixed6/{FA_name}_plot.png')
