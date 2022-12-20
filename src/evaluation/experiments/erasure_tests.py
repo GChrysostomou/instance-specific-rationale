@@ -59,8 +59,10 @@ def conduct_tests_(model, data, model_random_seed):
     faithfulness_results = {}
     desired_rationale_length = args.rationale_length
 
-
+    print(' ----------> going to batch  -------->')
     for i, batch in enumerate(data):
+
+        print(' ----------> going to batch')
         
         model.eval()
         model.zero_grad()
@@ -126,9 +128,6 @@ def conduct_tests_(model, data, model_random_seed):
         #     reduced_probs
         # )
 
-
-
-
         ## AOPC scores and other metrics
         
 
@@ -141,6 +140,11 @@ def conduct_tests_(model, data, model_random_seed):
 
         
         for feat_name in feat_name_dict: #"ig" ,"lime", "deeplift", "gradientshap",
+
+            print( '  ')
+            print( '  ')
+            print( '  ')
+            print( '  --> ', feat_name)
 
             feat_score =  batch_from_dict_(
                 batch_data = batch, 
@@ -182,7 +186,7 @@ def conduct_tests_(model, data, model_random_seed):
                     full_text_class = full_text_class, 
                     rows = rows,
                     #suff_y_zero = suff_y_zero,
-                    comp_y_one=1-suff_y_zero,
+                    comp_y_one= 1-suff_y_zero,
                 )
             
                 suff, suff_probs = normalized_sufficiency_(
@@ -197,7 +201,11 @@ def conduct_tests_(model, data, model_random_seed):
                     only_query_mask=only_query_mask,
                 )
 
+                print(' ')
+                print(' ')
+                print(' ---------> ')
 
+                print(comp, comp_probs, suff, suff_probs)
                 suff_aopc[:,_i_] = suff
                 comp_aopc[:,_i_] = comp
                 
