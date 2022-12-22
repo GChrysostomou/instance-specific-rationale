@@ -59,10 +59,7 @@ def conduct_tests_(model, data, model_random_seed):
     faithfulness_results = {}
     desired_rationale_length = args.rationale_length
 
-    print(' ----------> going to batch  -------->')
     for i, batch in enumerate(data):
-
-        print(' ----------> going to batch')
         
         model.eval()
         model.zero_grad()
@@ -141,11 +138,6 @@ def conduct_tests_(model, data, model_random_seed):
         
         for feat_name in feat_name_dict: #"ig" ,"lime", "deeplift", "gradientshap",
 
-            print( '  ')
-            print( '  ')
-            print( '  ')
-            print( '  --> ', feat_name)
-
             feat_score =  batch_from_dict_(
                 batch_data = batch, 
                 metadata = importance_scores, 
@@ -200,12 +192,14 @@ def conduct_tests_(model, data, model_random_seed):
                     suff_y_zero = suff_y_zero,
                     only_query_mask=only_query_mask,
                 )
+                # suff = comp
+                # suff_probs = comp_probs
+                # print(' ')
+                # print(' ')
+                # print(' ---------> ')
 
-                print(' ')
-                print(' ')
-                print(' ---------> ')
-
-                print(comp, comp_probs, suff, suff_probs)
+                # print(comp, comp_probs, suff, suff_probs)
+                
                 suff_aopc[:,_i_] = suff
                 comp_aopc[:,_i_] = comp
                 
@@ -236,6 +230,7 @@ def conduct_tests_(model, data, model_random_seed):
     # filling getting averages
     for feat_attr in {"random", "attention", "scaled attention", "ig", "gradients", 
             "deeplift"}: #"ig", "gradientshap", , "lime"
+
         
         sufficiencies_001 = np.asarray([faithfulness_results[k][feat_attr][f"sufficiency @ 0.01"] for k in faithfulness_results.keys()])
         comprehensivenesses_001 = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness @ 0.01"] for k in faithfulness_results.keys()])
@@ -263,6 +258,11 @@ def conduct_tests_(model, data, model_random_seed):
 
         aopc_suff= np.asarray([faithfulness_results[k][feat_attr][f"sufficiency aopc"]["mean"] for k in faithfulness_results.keys()])
         aopc_comp = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness aopc"]["mean"] for k in faithfulness_results.keys()])
+
+        print('  -------- faithfulness_results --- ')
+        print(faithfulness_results)
+        print('  -------- sufficiencies_001 --- ')
+        print(sufficiencies_001)
         
         descriptor[feat_attr] = {
             "sufficiencies @ 0.01" : {

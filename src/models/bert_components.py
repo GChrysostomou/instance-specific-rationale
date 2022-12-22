@@ -6,7 +6,6 @@ import json
 
 
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
-print('-----> using ', device)
 CUDA_LAUNCH_BLOCKING=1.
 
 import config.cfg
@@ -70,12 +69,15 @@ class BertModelWrapper(nn.Module):
         
     def forward(self, input_ids, attention_mask, token_type_ids, ig = int(1)):        
         
-        embeddings, self.word_embeds = bert_embeddings(
+        #print('  input_ids  --------------->', input_ids)
+        try: embeddings, self.word_embeds = bert_embeddings(
             self.model, 
-            input_ids, 
+            input_ids.long(), 
             position_ids = None, 
             token_type_ids = token_type_ids,
         )
+
+        except: print('  embeddings  --------------->', embeddings)
 
         assert ig >= 0. and ig <= int(1), "IG ratio cannot be out of the range 0-1"
   
@@ -86,7 +88,9 @@ class BertModelWrapper(nn.Module):
 
         head_mask = [None] * self.model.config.num_hidden_layers
 
-        encoder_outputs = self.model.encoder(
+
+
+        try: encoder_outputs = self.model.encoder(
             embeddings * ig,
             attention_mask=extended_attention_mask,
             head_mask=head_mask,
@@ -94,6 +98,10 @@ class BertModelWrapper(nn.Module):
             output_hidden_states=self.model.config.output_attentions,
             return_dict=self.model.config.return_dict
         )
+        except: 
+            print('  ig  --------------->',  ig)
+            print('  embeddings  --------------->', embeddings)
+
 
         sequence_output = encoder_outputs[0]
         attentions = encoder_outputs[2]
@@ -122,7 +130,6 @@ class BertModelWrapper_zeroout(nn.Module):
                 ig = int(1), tasc_mech = None, add_noise=False,
                 ):     
         
-        # print('+++++++  inside Wrapper, BEFORE, = bert_embedding input_ids', input_ids)   # 已经变成0 第一次没变零
         embeddings, self.word_embeds = bert_embeddings(
             self.model, 
             input_ids = input_ids, 
@@ -132,7 +139,6 @@ class BertModelWrapper_zeroout(nn.Module):
 
         add_noise = add_noise
 
-        # print('[ig]: ', ig)## if its for evaluation we need it to be a fraction
         if type(ig) == int or type(ig) == float:
             assert ig >= 0. and ig <= int(1), "IG(Integrated Gradients: a postdoc explanations) ratio cannot be out of the range 0-1"
         else:
@@ -148,7 +154,6 @@ class BertModelWrapper_zeroout(nn.Module):
 
         ############### normalised to 0 to 1  #######
         if add_noise == False:
-            # print(' 不加 noise')
             pass
         else:
             importance_scores_max = importance_scores.max(1, keepdim=True)[0]
@@ -182,10 +187,10 @@ class BertModelWrapper_zeroout(nn.Module):
                             # the less perturbation, the less zero
                             zeroout_mask[i,k] = torch.bernoulli(importance_score_one_token).to(device)
                         elif faithful_method == "soft_comp":
-                            print('-->', importance_score_one_token)
                             zeroout_mask[i,k] = torch.bernoulli(1-importance_score_one_token).to(device)
                         else:
-                            print('need to define using comp or suff ')
+                            pass
+                    
                     else:
                         zeroout_mask[i,k] = 0
 
@@ -208,7 +213,6 @@ class BertModelWrapper_zeroout(nn.Module):
         )
 
         sequence_output = encoder_outputs[0]
-        # print(' --> encoder_outputs', encoder_outputs)
         # quit()
 
 
@@ -238,7 +242,6 @@ class BertModelWrapper_zeroout_original_backup(nn.Module):
                 importance_scores, 
                 ig = int(1), tasc_mech = None):     
         # 这里开始变成0, 一共三次， 第二次开始变0
-        # print('+++++++  inside Wrapper, BEFORE, = bert_embedding input_ids', input_ids)   # 已经变成0 第一次没变零
         embeddings, self.word_embeds = bert_embeddings(
             self.model, 
             input_ids = input_ids, 
@@ -246,7 +249,6 @@ class BertModelWrapper_zeroout_original_backup(nn.Module):
             token_type_ids = token_type_ids,
             )
 
-        # print('[ig]: ', ig)## if its for evaluation we need it to be a fraction
         if type(ig) == int or type(ig) == float:
             assert ig >= 0. and ig <= int(1), "IG(Integrated Gradients: a postdoc explanations) ratio cannot be out of the range 0-1"
         else:
@@ -262,7 +264,6 @@ class BertModelWrapper_zeroout_original_backup(nn.Module):
         importance_scores[:,0] = 1e-4 
         importance_scores[torch.isinf(importance_scores)] = 1e-4
         importance_scores -= 1e-4 # modify by cass 1711
-        # print('before normalise  ', importance_scores)
         importance_scores_min = importance_scores.min(1, keepdim=True)[0]
         importance_scores_max = importance_scores.max(1, keepdim=True)[0]
         importance_scores_nor = (importance_scores - importance_scores_min) / (importance_scores_max-importance_scores_min)
@@ -362,7 +363,6 @@ class BertModelWrapper_noise(nn.Module):
 
         add_noise = add_noise
 
-        # print('[ig]: ', ig)## if its for evaluation we need it to be a fraction
         if type(ig) == int or type(ig) == float:
 
             assert ig >= 0. and ig <= int(1), "IG(Integrated Gradients: a postdoc explanations) ratio cannot be out of the range 0-1"
@@ -399,9 +399,6 @@ class BertModelWrapper_noise(nn.Module):
                 
             importance_score[inf_mask] = float('-inf')
             importance_score[:,0] = 1 
-            # print('  ')
-            # print('  ')
-            # print(importance_score.size())
 
             if importance_score.size() != embeddings.size()[:2]: # embeddings.size()[1] is bigger than importance_score.size()[1]
                 pad_x = torch.zeros((embeddings.size()[0], embeddings.size()[1]), 
@@ -448,7 +445,6 @@ class BertModelWrapper_noise(nn.Module):
             return_dict=self.model.config.return_dict,
         )
 
-        # print(encoder_outputs)
         # quit()
 
         sequence_output = encoder_outputs[0].to(device)
@@ -490,7 +486,6 @@ class BertModelWrapper_attention(nn.Module):
 
         add_noise = add_noise
 
-        # print('[ig]: ', ig)## if its for evaluation we need it to be a fraction
         if type(ig) == int or type(ig) == float:
 
             assert ig >= 0. and ig <= int(1), "IG(Integrated Gradients: a postdoc explanations) ratio cannot be out of the range 0-1"
@@ -505,10 +500,8 @@ class BertModelWrapper_attention(nn.Module):
 
         ############### normalised to 0 to 1  #######
         if add_noise == False:
-            # print(' 不加 noise')
             pass
         else:
-            # print(' add_noise == True, 所以 根据 importance 加 noise')
             if importance_scores.sum() ==  0: 
                 # print(' ++++++++++++++++ importance 全为0, 那就是baseline, 没有rationales, zeroout全部sequence !!!!!!!!!!!!11, 此处importance score也全是 0 ')
                 pass

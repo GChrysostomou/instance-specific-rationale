@@ -50,7 +50,7 @@ class evaluate():
         logging.info(f" *** there are {len(self.models)} models in :  {model_path}")
 
     #def register_importance_(self, data, data_split_name, model = None):
-    def register_importance_(self, data, data_split_name, model = None): # debug by cass
+    def register_importance_(self, data, data_split_name, tokenizer, max_seq_len, model = None): # debug by cass
         
         if model:
 
@@ -160,7 +160,7 @@ class evaluate():
                     data = data_split,
                     data_split_name=data_split_name,
                     model = model,
-                    no_of_labels = data.nu_of_labels,
+                    #no_of_labels = data.nu_of_labels,
                     max_seq_len = data.max_len,
                     tokenizer = data.tokenizer  # comment out by cass
                 )

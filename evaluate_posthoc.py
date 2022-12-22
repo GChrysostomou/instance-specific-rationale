@@ -16,11 +16,13 @@ import datetime
 import sys
 
 torch.cuda.empty_cache()
-#torch.cuda.memory_summary(device=None, abbreviated=False)
+torch.cuda.memory_summary(device=None, abbreviated=False)
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
-print(' ---------> ', device)
+# device = 'cpu'
+# print(' ---------> ', device)
 CUDA_LAUNCH_BLOCKING=1
-
+import en_core_web_sm
+nlp = en_core_web_sm.load()
 
 
 date_time = str(datetime.date.today()) + "_" + ":".join(str(datetime.datetime.now()).split()[1].split(":")[:2])
@@ -97,6 +99,8 @@ os.makedirs(log_dir, exist_ok = True)
 os.makedirs(config_dir, exist_ok = True)
 
 
+
+
 import config.cfg
 config.cfg.config_directory = config_dir
 logging.basicConfig(
@@ -133,7 +137,7 @@ from src.evaluation import evaluation_pipeline
 data = BERT_HOLDER(
     args["data_dir"], 
     stage = "eval",
-    b_size = 4,
+    b_size = 2,
     #b_size = args["batch_size"], # TO FIX CUDA OUT OF MEMORY, MAY NOT WORK
 )
 

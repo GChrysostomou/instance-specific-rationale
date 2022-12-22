@@ -142,7 +142,7 @@ print(' ============================ ')
 print(' prepare_for_rationale_creation_ ')
 evaluator.prepare_for_rationale_creation_(data)
 
-evaluator.register_importance_(data, data_split_name='test', no_of_labels=data.nu_of_labels, max_seq_len=data.max_len, tokenizer=data.tokenizer) 
+evaluator.register_importance_(data, data_split_name='test', max_seq_len=data.max_len, tokenizer=data.tokenizer) #no_of_labels=data.nu_of_labels, 
 # changed by cass as .prepare_for_rationale_creation_ includes .register_importance_
 evaluator.create_rationales_(data)
 

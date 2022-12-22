@@ -43,9 +43,8 @@ class BERT_HOLDER():
 
         train = pd.read_csv(path + "train.csv").to_dict("records")#[1066:1260] #list of dic
         dev = pd.read_csv(path + "dev.csv").to_dict("records")#[1066:1160] # for testing by cass
-        test = pd.read_csv(path + "test.csv").to_dict("records")[1006:1020] # for testing by cass
-        
-
+        test = pd.read_csv(path + "test.csv")[464:490].to_dict("records")
+ 
 
         ## if we are dealing with a query we need to account for the query length as well
         if args.query:
