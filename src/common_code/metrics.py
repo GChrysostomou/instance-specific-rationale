@@ -216,13 +216,13 @@ def normalized_sufficiency_(model,
     ## since ones represent rationale tokens
     ## preserve cls
     rationale_mask[:,0] = 1
-    print(' -----  rationale_mask ----- ')
-    print(rationale_mask)
+    # print(' -----  rationale_mask ----- ')
+    # print(rationale_mask)
     ## preserve sep
     rationale_mask[torch.arange(rationale_mask.size(0)).to(device), inputs["lengths"]] = 1
-    print('  ')
-    print(' -----  rationale_mask ----- ')
-    print(rationale_mask)
+    # print('  ')
+    # print(' -----  rationale_mask ----- ')
+    # print(rationale_mask)
 
     mask = rationale_mask + only_query_mask
 
