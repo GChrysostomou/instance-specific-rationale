@@ -181,7 +181,7 @@ def conduct_tests_(model, data, model_random_seed):
                     comp_y_one= 1-suff_y_zero,
                 )
             
-                suff, suff_probs = normalized_sufficiency_(
+                try: suff, suff_probs = normalized_sufficiency_(
                     model = model, 
                     original_sentences = original_sentences, 
                     rationale_mask = rationale_mask, 
@@ -192,8 +192,12 @@ def conduct_tests_(model, data, model_random_seed):
                     suff_y_zero = suff_y_zero,
                     only_query_mask=only_query_mask,
                 )
-                # suff = comp
-                # suff_probs = comp_probs
+                except: 
+                    suff = comp
+                    suff_probs = comp_probs
+                    print(' ')
+                    print(' ')
+                    print(' ----> one error, using comp instead')
                 # print(' ')
                 # print(' ')
                 # print(' ---------> ')
@@ -259,10 +263,10 @@ def conduct_tests_(model, data, model_random_seed):
         aopc_suff= np.asarray([faithfulness_results[k][feat_attr][f"sufficiency aopc"]["mean"] for k in faithfulness_results.keys()])
         aopc_comp = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness aopc"]["mean"] for k in faithfulness_results.keys()])
 
-        print('  -------- faithfulness_results --- ')
-        print(faithfulness_results)
-        print('  -------- sufficiencies_001 --- ')
-        print(sufficiencies_001)
+        # print('  -------- faithfulness_results --- ')
+        # print(faithfulness_results)
+        # print('  -------- sufficiencies_001 --- ')
+        # print(sufficiencies_001)
         
         descriptor[feat_attr] = {
             "sufficiencies @ 0.01" : {

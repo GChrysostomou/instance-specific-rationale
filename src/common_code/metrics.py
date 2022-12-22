@@ -237,6 +237,7 @@ def normalized_sufficiency_(model,
         print(' ---------- ')
         print(rationale_mask)
         print(only_query_mask)
+        
 
     yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
 
