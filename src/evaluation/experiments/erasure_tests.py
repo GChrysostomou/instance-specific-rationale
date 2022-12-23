@@ -128,7 +128,7 @@ def conduct_tests_(model, data, model_random_seed):
             for feat in feat_name_dict:
                 faithfulness_results[annot_id][feat] = {}
                 
-
+        rationale_ratios = [0.01, 0.02] #, 0.05, 0.1, 0.2, 0.5] 
         for feat_name in feat_name_dict: #"ig" ,"lime", "deeplift", "gradientshap",
 
             feat_score =  batch_from_dict_(
@@ -140,14 +140,15 @@ def conduct_tests_(model, data, model_random_seed):
             suff_aopc = np.zeros([yhat.shape[0], len(rationale_ratios)], dtype=np.float64)
             comp_aopc = np.zeros([yhat.shape[0], len(rationale_ratios)], dtype=np.float64)
 
+            
             for _i_, rationale_length in enumerate(rationale_ratios):
                 
-                ## if we are masking for a query that means we are preserving
-                ## the query and we DO NOT mask it
-                # print(' ')
-                # print(' -------------------------------->', rationale_length)
-                # print(' -------------------------------->', batch["lengths"].float())
-                # print(torch.ceil(batch["lengths"].float() * rationale_length))
+                # if we are masking for a query that means we are preserving
+                # the query and we DO NOT mask it
+                print(' ')
+                print(' -------------------------------->', rationale_length)
+                print(' -------------------------------->', batch["lengths"].float())
+                print(torch.ceil(batch["lengths"].float() * rationale_length))
 
                 if args.query:
                     rationale_mask = create_rationale_mask_(

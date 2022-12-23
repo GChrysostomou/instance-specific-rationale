@@ -46,21 +46,51 @@ class BERT_HOLDER():
         test = pd.read_csv(path + "test.csv")
 
         if args.dataset == "evinf":
-            test['document'] = test["document"].apply(lambda n: ' '.join(n.split()[:412]))
+            print('  ')
+            print('  len -> ')
+            print(' mean: ', test["document"].apply(lambda n: len(n.split())).mean())
+            print(' max: ', test["document"].apply(lambda n: len(n.split())).max())
+            print(' min: ', test["document"].apply(lambda n: len(n.split())).min())
+            # test['document'] = test["document"].apply(lambda n: ' '.join(n.split()[:400]))
+            # print('  ')
+            # print('  len -> ')
+            # print(' mean: ', test["document"].apply(lambda n: len(n.split())).mean())
+            # print(' max: ', test["document"].apply(lambda n: len(n.split())).max())
+            # print(' min: ', test["document"].apply(lambda n: len(n.split())).min())
+
+
+
+            # t = []
+            # print('  document data num:  ',  len(test))
+            # for text in test['document']:
+            #     if len(text.split()) < 412:
+            #         t.append(text)
+            #     elif len(text.split()) >= 412:
+            #         ttt = ' '.join(text.split()[:412])
+            #         t.append(ttt)
+            #     else: print('sth wrong with: ', text)
+
+            # test["document"] = t
+
+            # print('  document data num:  ',  len(test))
+
+            # print('  ')
+            # print('  len -> ')
+            # print(' mean: ', test["document"].apply(lambda n: len(n.split())).mean())
+            # print(' max: ', test["document"].apply(lambda n: len(n.split())).max())
+            # print(' min: ', test["document"].apply(lambda n: len(n.split())).min())
+
+
+
+        # quit()
  
         test = test.to_dict("records")
         ## if we are dealing with a query we need to account for the query length as well
 
         if args.query:
-            if stage != "train": 
-                max_len = round(max([len(x["document"].split()) for x in test])) + \
+            max_len = round(max([len(x["document"].split()) for x in test])) + \
                             max([len(x["query"].split()) for x in test])
-                max_len = round(max_len)
-
-            else:
-                max_len = round(max([len(x["document"].split()) for x in train])) + \
-                            max([len(x["query"].split()) for x in train])
-                max_len = round(max_len)
+            max_len = round(max_len)
 
         else:
             
@@ -69,7 +99,7 @@ class BERT_HOLDER():
         print('         max_len:', max_len)
 
         max_len = min(max_len, 512)
-        self.max_len = max_len
+        self.max_len = max_len # 还在inti 里面
 
         # load the pretrained tokenizer
         pretrained_weights = args.model
@@ -81,10 +111,16 @@ class BERT_HOLDER():
 
 
         if args.query:
+            if stage != "train":
+                test = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["document"], dic["query"]) for dic in test]
+                train = test
+                dev = test
             
-            train = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["document"], dic["query"]) for dic in train]
-            dev = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["document"], dic["query"]) for dic in dev]
-            test = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["document"], dic["query"]) for dic in test]
+            else:
+            
+                train = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["document"], dic["query"]) for dic in train]
+                dev = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["document"], dic["query"]) for dic in dev]
+                test = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["document"], dic["query"]) for dic in test]
 
         else:
 
