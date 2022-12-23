@@ -230,7 +230,7 @@ def normalized_sufficiency_(model,
     # assert mask.size() == original_sentences.size()
     
     
-    inputs["input_ids"]  =  original_sentences * mask.long()
+    inputs["input_ids"]  =  mask * original_sentences
 
     try: yhat, _  = model(**inputs)
     except: 
@@ -276,9 +276,10 @@ def normalized_comprehensiveness_(model,
     ## preserve cls
     rationale_mask[:,0] = 1
     ## preserve sep
+    
     rationale_mask[torch.arange(rationale_mask.size(0)).to(device), inputs["lengths"]] = 1
 
-    inputs["input_ids"] =  original_sentences * rationale_mask.long()
+    inputs["input_ids"] =  original_sentences * rationale_mask.long().to(device)
     
     yhat, _  = model(**inputs)
 

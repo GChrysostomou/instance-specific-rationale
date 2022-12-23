@@ -43,20 +43,30 @@ class BERT_HOLDER():
 
         train = pd.read_csv(path + "train.csv").to_dict("records")#[1066:1260] #list of dic
         dev = pd.read_csv(path + "dev.csv").to_dict("records")#[1066:1160] # for testing by cass
-        test = pd.read_csv(path + "test.csv").to_dict("records")
- 
+        test = pd.read_csv(path + "test.csv")
 
+        if args.dataset == "evinf":
+            test['document'] = test["document"].apply(lambda n: ' '.join(n.split()[:412]))
+ 
+        test = test.to_dict("records")
         ## if we are dealing with a query we need to account for the query length as well
+
         if args.query:
-            
-            max_len = round(max([len(x["document"].split()) for x in train])) + \
-                        max([len(x["query"].split()) for x in train])
-            max_len = round(max_len)
+            if stage != "train": 
+                max_len = round(max([len(x["document"].split()) for x in test])) + \
+                            max([len(x["query"].split()) for x in test])
+                max_len = round(max_len)
+
+            else:
+                max_len = round(max([len(x["document"].split()) for x in train])) + \
+                            max([len(x["query"].split()) for x in train])
+                max_len = round(max_len)
 
         else:
             
             max_len = round(max([len(x["text"].split()) for x in train]))
 
+        print('         max_len:', max_len)
 
         max_len = min(max_len, 512)
         self.max_len = max_len
@@ -89,7 +99,7 @@ class BERT_HOLDER():
             # sort by length for evaluation and rationale extraction
             train = sorted(train, key = lambda x : x["lengths"], reverse = False)
             dev = sorted(dev, key = lambda x : x["lengths"], reverse = False)
-            test = sorted(test, key = lambda x : x["lengths"], reverse = False)
+            test = sorted(test, key = lambda x : x["lengths"], reverse = True)
 
             shuffle_during_iter = False
         

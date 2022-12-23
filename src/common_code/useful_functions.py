@@ -163,6 +163,16 @@ def create_rationale_mask_(
         mask = torch.zeros(score.shape).to(device)
         mask = mask.scatter_(-1,  top_k.to(device), 1).long()
 
+
+        if batch_input_ids is not None:
+            
+            #sos_eos = torch.where(batch_input_ids[_i_] == 102)[0]
+            sos_eos = torch.where(batch_input_ids[_i_] == special_tokens["sep_token_id"][0].item())[0]
+            seq_length = sos_eos[0]
+            query_end = sos_eos[1]
+
+            mask[seq_length: query_end+1] = 1 
+
         rationale_mask.append(mask)
 
     rationale_mask = torch.stack(rationale_mask).to(device)

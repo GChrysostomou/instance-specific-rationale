@@ -6,7 +6,7 @@ import pandas as pd
 import numpy as np
 
 
-
+# check text len: df["document"].apply(lambda n: len(n.split())).mean()
 
 from random_word import RandomWords
 r = RandomWords()
