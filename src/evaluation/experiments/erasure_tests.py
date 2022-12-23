@@ -128,7 +128,7 @@ def conduct_tests_(model, data, model_random_seed):
             for feat in feat_name_dict:
                 faithfulness_results[annot_id][feat] = {}
                 
-        rationale_ratios = [0.01, 0.02] #, 0.05, 0.1, 0.2, 0.5] 
+        #rationale_ratios = [0.01, 0.02] #, 0.05, 0.1, 0.2, 0.5] 
         for feat_name in feat_name_dict: #"ig" ,"lime", "deeplift", "gradientshap",
 
             feat_score =  batch_from_dict_(
