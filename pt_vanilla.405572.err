@@ -1,0 +1,18 @@
+	Python3 anaconda is now loaded in your environment. 
+	For all commands you should now do the following: 
+	source $condaDotFile
+
+	CUDA-10.2 loaded
+
+faithfulness evaluation -> id:   0%|          | 0/720 [00:00<?, ?it/s]THCudaCheck FAIL file=/pytorch/aten/src/THC/THCCachingHostAllocator.cpp line=296 error=59 : device-side assert triggered
+/jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/src/models/bert.py:68: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  self.weights_or = torch.tensor(attention_weights[-1], requires_grad=True)  # debug by cass
+Traceback (most recent call last):
+  File "evaluate_posthoc.py", line 155, in <module>
+    evaluator.faithfulness_experiments_(data)
+  File "/jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/src/evaluation/evaluation_pipeline.py", line 254, in faithfulness_experiments_
+    model_random_seed = model_random_seed,
+  File "/jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/src/evaluation/experiments/erasure_tests.py", line 150, in conduct_tests_
+    print(' -------------------------------->', batch["lengths"].float())
+RuntimeError: CUDA error: device-side assert triggered
+faithfulness evaluation -> id:   0%|          | 0/720 [00:03<?, ?it/s]

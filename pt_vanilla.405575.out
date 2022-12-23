@@ -1,0 +1,21 @@
+
+Faithfuless metrics saved in: /jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/posthoc_results/evinf/
+
+  
+  len -> 
+ mean:  362.1375
+ max:  623
+ min:  165
+         max_len: 723
+"*********conducting flip experiments on in-domain"
+ 
+ --------------------------------> 0.01
+ --------------------------------> tensor([501., 501., 501., 501., 500., 500., 500., 500.], device='cuda:0')
+tensor([6., 6., 6., 6., 5., 5., 5., 5.], device='cuda:0')
+  ig  ---------------> 1
+  embeddings  --------------->  ---------- 
+ 
+ 
+ ----> one error, using comp instead
+ 
+ --------------------------------> 0.02
