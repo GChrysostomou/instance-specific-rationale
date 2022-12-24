@@ -12,7 +12,7 @@ parser.add_argument(
     "--dataset",
     type = str,
     help = "select dataset / task",
-    default = "sst", # sst agnews multirc
+    default = "multirc", # sst agnews multirc
 )
 
 
@@ -25,7 +25,6 @@ dataset = str(user_args["dataset"])
 pwd = os.getcwd()
 
 topk_scores_file = os.path.join(pwd, 'posthoc_results', str(dataset), 'topk-faithfulness-scores-detailed.npy') 
-
 NOISE_scores_file = os.path.join(pwd, 'posthoc_results', str(dataset), 'NOISElimit-faithfulness-scores-detailed.npy') 
 ATTENTION_scores_file = os.path.join(pwd, 'posthoc_results', str(dataset), 'ATTENTIONlimit-faithfulness-scores-detailed.npy')
 ZEROOUT_scores_file = os.path.join(pwd, 'posthoc_results', str(dataset), 'ZEROOUTlimit-faithfulness-scores-detailed.npy')
@@ -38,9 +37,10 @@ ATTENTION_scores = np.load(ATTENTION_scores_file, allow_pickle=True).item()
 NOISE_scores = np.load(NOISE_scores_file, allow_pickle=True).item() # key  feature_  suff/comp @
 
 
+
 data_id_list = TOPk_scores.keys()
 fea_list = ['attention', "scaled attention", "gradients", "ig", "deeplift"] # "gradientshap",
-rationale_ratios = [0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1.0] 
+rationale_ratios = [0.01, 0.02, 0.05, 0.1, 0.2, 0.5] 
 
 suff_or_comp = 'sufficiency' # sufficiency or comprehensiveness
 
@@ -81,35 +81,47 @@ def generate_table(suff_or_comp, ratio, include_feature_name=True):
             ATTENTION_random_suff_score = ATTENTION_scores.get(data_id).get('random').get(f'{suff_or_comp} @ {str(ratio)}')
 
             top_suff_score = TOPk_scores.get(data_id).get(FA).get(f'{suff_or_comp} @ {str(ratio)}')
-            if top_suff_score >= top_random_suff_score: 
-                Diag_TOP_attention += 1
-                #ABS_Diag_TOP_attention += top_suff_score-top_random_suff_score
-            else: pass
+            try:    
+                if top_suff_score >= top_random_suff_score: 
+                    Diag_TOP_attention += 1
+                    #ABS_Diag_TOP_attention += top_suff_score-top_random_suff_score
+                else: pass
+            except: print(' one bad data', data_id)
 
             NOISE_suff_score = NOISE_scores.get(data_id).get(FA).get(f'{suff_or_comp} @ {str(ratio)}')
-            if NOISE_suff_score >= NOISE_random_suff_score: 
-                Diag_NOISE_attention += 1
-                #ABS_Diag_NOISE_attention += NOISE_suff_score-NOISE_random_suff_score
-            else: pass
+            try:
+                if NOISE_suff_score >= NOISE_random_suff_score: 
+                    Diag_NOISE_attention += 1
+                    #ABS_Diag_NOISE_attention += NOISE_suff_score-NOISE_random_suff_score
+                else: pass
+            except: print(' one bad data', data_id)
 
             ZEROOUT_suff_score = ZEROOUT_scores.get(data_id).get(FA).get(f'{suff_or_comp} @ {str(ratio)}')
-            if ZEROOUT_suff_score >= ZEROOUT_random_suff_score: 
-                Diag_ZEROOUT_attention += 1
+            try:
+                if ZEROOUT_suff_score >= ZEROOUT_random_suff_score: 
+                    Diag_ZEROOUT_attention += 1
                 #ABS_Diag_ZEROOUT_attention += ZEROOUT_suff_score-ZEROOUT_random_suff_score
-            else: pass
+                else: pass
+            except: print(' one bad data', data_id)
 
             ATTENTION_suff_score = ATTENTION_scores.get(data_id).get(FA).get(f'sufficiency @ {str(ratio)}')
-            if ATTENTION_suff_score >= ATTENTION_random_suff_score: 
-                Diag_ATTENTION_attention += 1
-                #ABS_Diag_ATTENTION_attention += ATTENTION_suff_score-ATTENTION_random_suff_score
-            else: pass
+            try:
+                if ATTENTION_suff_score >= ATTENTION_random_suff_score: 
+                    Diag_ATTENTION_attention += 1
+                    #ABS_Diag_ATTENTION_attention += ATTENTION_suff_score-ATTENTION_random_suff_score
+                else: pass
+            except: print(' one bad data', data_id)
 
             
 
-            ABS_Diag_TOP_attention += top_suff_score-top_random_suff_score
-            ABS_Diag_NOISE_attention += NOISE_suff_score-NOISE_random_suff_score
-            ABS_Diag_ZEROOUT_attention += ZEROOUT_suff_score-ZEROOUT_random_suff_score
-            ABS_Diag_ATTENTION_attention += ATTENTION_suff_score-ATTENTION_random_suff_score
+            try: ABS_Diag_TOP_attention += top_suff_score-top_random_suff_score
+            except: print(' one bad data', data_id)
+            try: ABS_Diag_NOISE_attention += NOISE_suff_score-NOISE_random_suff_score
+            except: print(' one bad data', data_id)
+            try: ABS_Diag_ZEROOUT_attention += ZEROOUT_suff_score-ZEROOUT_random_suff_score
+            except: print(data_id, FA, f'{suff_or_comp} @ {str(ratio)}')
+            try: ABS_Diag_ATTENTION_attention += ATTENTION_suff_score-ATTENTION_random_suff_score
+            except: print(' one bad data', data_id)
 
 
 
@@ -173,6 +185,8 @@ os.makedirs(os.path.join(pwd, 'Diagnosticity', str(dataset)), exist_ok=True)
 for ratio in rationale_ratios:
 
     to_be_concatenated_df, ABS_to_be_concatenated_df = generate_table(suff_or_comp, ratio, False)
+    print(' ')
+    print(' ')
     print(' ')
     print(f' {ratio} ---> Diagnosticity and ABS Diagnosticity')
     print(to_be_concatenated_df)

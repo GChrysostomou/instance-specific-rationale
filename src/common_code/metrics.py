@@ -6,6 +6,9 @@ device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 import numpy as np
 import json
 
+
+softmax = torch.nn.Softmax(dim = 1)
+
 def softmax(x):
     """Compute softmax values for each sets of scores in x."""
     e_x = np.exp(x - np.max(x))
@@ -289,17 +292,8 @@ def normalized_comprehensiveness_(model,
 
      ## reduced input sufficiency
     comp_y_a = comprehensiveness_(full_text_probs, reduced_probs)
-
-    # # return comp_y_a
-    # suff_y_zero -= 1e-8 # to avoid nan
-
-    # ## 1 - suff_y_0 == comp_y_1
-    # norm_comp = np.maximum(0, comp_y_a / comp_y_one)
-    comp_y_one[comp_y_one==0] = 1e-8 # avoid denominator = 0
     norm_comp = np.maximum(0, comp_y_a / comp_y_one)
 
-
-    #norm_comp = np.maximum(0, comp_y_a / comp_y_zero)
 
     norm_comp = np.clip(norm_comp, a_min = 0, a_max = 1)
 
@@ -334,8 +328,12 @@ def normalized_sufficiency_soft_(model, use_topk,
 
     
     inputs["faithful_method"]="soft_suff"           # for soft, by cass
-    inputs["importance_scores"]=importance_scores   # for soft, by cass
+    #inputs["importance_scores"]=importance_scores   # for soft, by cass
     inputs["add_noise"] = True                      # for soft, by cass
+
+    softmax = torch.nn.Softmax(dim = 1)
+    inputs["importance_scores"]=softmax(importance_scores.to(device))
+
     yhat, _  = model(**inputs)
 
     yhat = torch.softmax(yhat.detach().cpu(), dim = -1).numpy()
@@ -376,7 +374,19 @@ def normalized_comprehensiveness_soft_(model, use_topk,
 
         
     inputs["faithful_method"]="soft_comp"
-    inputs["importance_scores"]=importance_scores.to(device)
+    
+    softmax = torch.nn.Softmax(dim = 1)
+    inputs["importance_scores"]=softmax(importance_scores.to(device))
+
+    # normalise importance scores !!! so range from 0 to 1 and sum up to 1
+    # print('  ')
+    # print(' ------------ ')
+    # print(importance_scores)
+    # print('  ')
+    # print(' ------------ ')
+    # print(inputs["importance_scores"])
+    # return
+
     inputs["add_noise"] = True
 
 
@@ -388,21 +398,8 @@ def normalized_comprehensiveness_soft_(model, use_topk,
 
 
     reduced_probs = yhat[rows, full_text_class]
-    #print(' --> rows', rows)
-    #print(' --> full_text_class', full_text_class)
-
-     ## reduced input sufficiency
-    #print('-> full_text_probs', full_text_probs)
-    #print('-> reduced_probs', reduced_probs)
-    
     comp_y_a = comprehensiveness_(full_text_probs, reduced_probs)
 
-    # # return comp_y_a
-    # suff_y_zero -= 1e-4 # to avoid nan
-
-    # ## 1 - suff_y_0 == comp_y_1
-    # norm_comp = np.maximum(0, comp_y_a / (1 - suff_y_zero))
-    comp_y_one[comp_y_one==0] = 1e-8 # avoid denominator = 0
     norm_comp = np.maximum(0, comp_y_a / comp_y_one)
 
     norm_comp = np.clip(norm_comp, a_min = 0, a_max = 1)

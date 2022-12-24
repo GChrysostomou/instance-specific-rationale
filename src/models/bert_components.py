@@ -152,32 +152,34 @@ class BertModelWrapper_zeroout(nn.Module):
 
 
 
-        ############### normalised to 0 to 1  #######
+        
         if add_noise == False:
             pass
         else:
-            importance_scores_max = importance_scores.max(1, keepdim=True)[0]
+            ############### normalised to 0 to 1  #######
+            # importance_scores_max = importance_scores.max(1, keepdim=True)[0]
 
-            temp_copy = importance_scores.clone().detach()
-            temp_copy[torch.isinf(temp_copy)] = 99
-            importance_scores_min = temp_copy.min(1, keepdim=True)[0]
+            # temp_copy = importance_scores.clone().detach()
+            # temp_copy[torch.isinf(temp_copy)] = 99
+            # importance_scores_min = temp_copy.min(1, keepdim=True)[0]
 
-            inf_mask = torch.isinf(importance_scores)
+            # inf_mask = torch.isinf(importance_scores)
 
-            if importance_scores.sum() ==  0:
-                pass
-            else:
-                importance_score = (importance_scores - importance_scores_min) / (importance_scores_max-importance_scores_min)
+            # # if importance_scores.sum() ==  0:
+            # #     pass
+            # # else:
+            # #     importance_score = (importance_scores - importance_scores_min) / (importance_scores_max-importance_scores_min)
+            # #     importance_scores = importance_score.clone().detach()
                 
-            importance_score[inf_mask] = float('-inf')
-            importance_score[:,0] = 1 
+            # importance_scores[inf_mask] = float('-inf')
+            importance_scores[:,0] = 1 
 
-
-            zeroout_mask = torch.zeros(importance_score.size())
+            # place holder , not really for zero importance scores
+            zeroout_mask = torch.zeros(importance_scores.size())
 
             for i in range(embeddings.size()[0]):
                 for k in range(embeddings.size()[1]):
-                    importance_score_one_token = importance_score[i,k]
+                    importance_score_one_token = importance_scores[i,k]
 
                     
                     if importance_score_one_token != float("-inf"):
@@ -382,23 +384,26 @@ class BertModelWrapper_noise(nn.Module):
             pass
         else:
             
-            try:importance_scores_max = importance_scores.max(1, keepdim=True)[0]
-            except:print(importance_scores)
+            # try:importance_scores_max = importance_scores.max(1, keepdim=True)[0]
+            # except:print(importance_scores)
 
-            temp_copy = importance_scores.clone().detach()
-            temp_copy[torch.isinf(temp_copy)] = 99
-            importance_scores_min = temp_copy.min(1, keepdim=True)[0]
+            # temp_copy = importance_scores.clone().detach()
+            # temp_copy[torch.isinf(temp_copy)] = 99
+            # importance_scores_min = temp_copy.min(1, keepdim=True)[0]
 
 
-            inf_mask = torch.isinf(importance_scores)
+            # inf_mask = torch.isinf(importance_scores)
 
-            if importance_scores.sum() ==  0:
-                pass
-            else:
-                importance_score = (importance_scores - importance_scores_min) / (importance_scores_max-importance_scores_min)
+            # # if importance_scores.sum() ==  0:
+            # #     pass
+            # # else:
+            # #     importance_score = (importance_scores - importance_scores_min) / (importance_scores_max-importance_scores_min)
                 
-            importance_score[inf_mask] = float('-inf')
-            importance_score[:,0] = 1 
+            # importance_score[inf_mask] = float('-inf')
+            importance_scores[:,0] = 1 
+            importance_score = importance_scores.clone().detach()
+
+            #zeroout_mask = torch.zeros(importance_scores.size())
 
             if importance_score.size() != embeddings.size()[:2]: # embeddings.size()[1] is bigger than importance_score.size()[1]
                 pad_x = torch.zeros((embeddings.size()[0], embeddings.size()[1]), 
@@ -506,20 +511,19 @@ class BertModelWrapper_attention(nn.Module):
                 # print(' ++++++++++++++++ importance 全为0, 那就是baseline, 没有rationales, zeroout全部sequence !!!!!!!!!!!!11, 此处importance score也全是 0 ')
                 pass
             else:
-                importance_scores_max = importance_scores.max(1, keepdim=True)[0]
-                temp_copy = importance_scores.clone().detach()
-                temp_copy[torch.isinf(temp_copy)] = 99
-                importance_scores_min = temp_copy.min(1, keepdim=True)[0]
-                inf_mask = torch.isinf(importance_scores)
-                if importance_scores.sum() ==  0:
-                    pass
-                else:
-                    importance_score = (importance_scores - importance_scores_min) / (importance_scores_max-importance_scores_min)
+                # importance_scores_max = importance_scores.max(1, keepdim=True)[0]
+                # temp_copy = importance_scores.clone().detach()
+                # temp_copy[torch.isinf(temp_copy)] = 99
+                # importance_scores_min = temp_copy.min(1, keepdim=True)[0]
+                # inf_mask = torch.isinf(importance_scores)
+                # if importance_scores.sum() ==  0:
+                #     pass
+                # else:
+                #     importance_score = (importance_scores - importance_scores_min) / (importance_scores_max-importance_scores_min)
                     
-                importance_score[inf_mask] = 0 # float('-inf')
-                importance_score[:,0] = 1 
+                #importance_score[inf_mask] = 0 # float('-inf')
+                importance_scores[:,0] = 1 
 
-                print(importance_score)
 
   
                 if faithful_method == "soft_suff":
