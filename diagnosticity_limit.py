@@ -53,6 +53,8 @@ D_ZEROOUT_Suff = []
 D_NOISE_Suff = []
 
 
+ratios = 0.2
+
 for FA in fea_list:
     Diag_TOP_attention = 0
     Diag_ATTENTION_attention = 0
@@ -62,23 +64,23 @@ for FA in fea_list:
     
     for i, data_id in enumerate(data_id_list):
 
-        top_random_suff_score = TOPk_scores.get(data_id).get('random').get('sufficiency @ 0.2')#.get('mean')
-        NOISE_random_suff_score = NOISE_scores.get(data_id).get('random').get('sufficiency @ 0.2')
-        ZEROOUT_random_suff_score = ZEROOUT_scores.get(data_id).get('random').get('sufficiency @ 0.2')
-        ATTENTION_random_suff_score = ATTENTION_scores.get(data_id).get('random').get('sufficiency @ 0.2')
-        top_suff_score = TOPk_scores.get(data_id).get(FA).get('sufficiency @ 0.2')
+        top_random_suff_score = TOPk_scores.get(data_id).get('random').get(f'sufficiency @ {ratios}')#.get('mean')
+        NOISE_random_suff_score = NOISE_scores.get(data_id).get('random').get(f'sufficiency @ {ratios}')
+        ZEROOUT_random_suff_score = ZEROOUT_scores.get(data_id).get('random').get(f'sufficiency @ {ratios}')
+        ATTENTION_random_suff_score = ATTENTION_scores.get(data_id).get('random').get(f'sufficiency @ {ratios}')
+        top_suff_score = TOPk_scores.get(data_id).get(FA).get(f'sufficiency @ {ratios}')
         if top_suff_score >= top_random_suff_score: Diag_TOP_attention += 1
         else: pass
 
-        NOISE_suff_score = NOISE_scores.get(data_id).get(FA).get('sufficiency @ 0.2')
+        NOISE_suff_score = NOISE_scores.get(data_id).get(FA).get(f'sufficiency @ {ratios}')
         if NOISE_suff_score >= NOISE_random_suff_score: Diag_NOISE_attention += 1
         else: pass
 
-        ZEROOUT_suff_score = ZEROOUT_scores.get(data_id).get(FA).get('sufficiency @ 0.2')
+        ZEROOUT_suff_score = ZEROOUT_scores.get(data_id).get(FA).get(f'sufficiency @ {ratios}')
         if ZEROOUT_suff_score >= ZEROOUT_random_suff_score: Diag_ZEROOUT_attention += 1
         else: pass
 
-        ATTENTION_suff_score = ATTENTION_scores.get(data_id).get(FA).get('sufficiency @ 0.2')
+        ATTENTION_suff_score = ATTENTION_scores.get(data_id).get(FA).get(f'sufficiency @ {ratios}')
         if ATTENTION_suff_score >= ATTENTION_random_suff_score: Diag_ATTENTION_attention += 1
         else: pass
 
@@ -96,8 +98,8 @@ for FA in fea_list:
     D_NOISE_Suff.append(D_NOISE)
 
 
-df = pd.DataFrame(list(zip(fea_list, D_TOP_Suff, D_ATTENTION_Suff, D_ZEROOUT_Suff, D_NOISE_Suff)),
-               columns =['Feature', 'TopK', 'Soft(ATTENTION limit)', 'Soft(ZEROOUT limit)', 'Soft(NOISE limit)'])
+df = pd.DataFrame(list(zip(fea_list, D_TOP_Suff, D_ZEROOUT_Suff, D_NOISE_Suff, D_ATTENTION_Suff)),
+               columns =['Feature', 'TopK', 'Soft(ZEROOUT limit)', 'Soft(NOISE limit)', 'Soft(ATTENTION limit)'])
 
 fname = os.path.join(pwd, 'Diagnosticity', str(dataset), 'Diagnosticity_Suff_limit.csv')
 os.makedirs(os.path.join(pwd, 'Diagnosticity', str(dataset)), exist_ok=True)

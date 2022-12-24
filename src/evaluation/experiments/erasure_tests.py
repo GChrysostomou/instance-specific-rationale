@@ -30,7 +30,7 @@ from sklearn.metrics import classification_report
 
 
 feat_name_dict = {"random", "attention", "scaled attention", "gradients", "ig", "deeplift"}
-rationale_ratios = [0.01, 0.02, 0.05, 0.1, 0.2, 0.5] 
+rationale_ratios = [0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1.0] 
 
 def conduct_tests_(model, data, model_random_seed):
 
@@ -128,7 +128,6 @@ def conduct_tests_(model, data, model_random_seed):
             for feat in feat_name_dict:
                 faithfulness_results[annot_id][feat] = {}
                 
-        #rationale_ratios = [0.01, 0.02] #, 0.05, 0.1, 0.2, 0.5] 
         for feat_name in feat_name_dict: #"ig" ,"lime", "deeplift", "gradientshap",
 
             feat_score =  batch_from_dict_(
@@ -145,10 +144,10 @@ def conduct_tests_(model, data, model_random_seed):
                 
                 # if we are masking for a query that means we are preserving
                 # the query and we DO NOT mask it
-                print(' ')
-                print(' -------------------------------->', rationale_length)
-                print(' -------------------------------->', batch["lengths"].float())
-                print(torch.ceil(batch["lengths"].float() * rationale_length))
+                # print(' ')
+                # print(' -------------------------------->', rationale_length)
+                # print(' -------------------------------->', batch["lengths"].float())
+                # print(torch.ceil(batch["lengths"].float() * rationale_length))
 
                 if args.query:
                     rationale_mask = create_rationale_mask_(
@@ -258,8 +257,8 @@ def conduct_tests_(model, data, model_random_seed):
         sufficiencies_05 = np.asarray([faithfulness_results[k][feat_attr][f"sufficiency @ 0.5"] for k in faithfulness_results.keys()])
         comprehensivenesses_05 = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness @ 0.5"] for k in faithfulness_results.keys()])
 
-        # sufficiencies_10 = np.asarray([faithfulness_results[k][feat_attr][f"sufficiency @ 1.0"] for k in faithfulness_results.keys()])
-        # comprehensivenesses_10 = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness @ 1.0"] for k in faithfulness_results.keys()])
+        sufficiencies_10 = np.asarray([faithfulness_results[k][feat_attr][f"sufficiency @ 1.0"] for k in faithfulness_results.keys()])
+        comprehensivenesses_10 = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness @ 1.0"] for k in faithfulness_results.keys()])
 
         aopc_suff= np.asarray([faithfulness_results[k][feat_attr][f"sufficiency aopc"]["mean"] for k in faithfulness_results.keys()])
         aopc_comp = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness aopc"]["mean"] for k in faithfulness_results.keys()])
@@ -328,14 +327,14 @@ def conduct_tests_(model, data, model_random_seed):
             },
 
 
-            # "sufficiencies @ 1.0" : {
-            #     "mean" : sufficiencies_10.mean(),
-            #     "std" : sufficiencies_10.std()
-            # },
-            # "comprehensiveness @ 1.0" : {
-            #     "mean" : comprehensivenesses_10.mean(),
-            #     "std" : comprehensivenesses_10.std()
-            # },
+            "sufficiencies @ 1.0" : {
+                "mean" : sufficiencies_10.mean(),
+                "std" : sufficiencies_10.std()
+            },
+            "comprehensiveness @ 1.0" : {
+                "mean" : comprehensivenesses_10.mean(),
+                "std" : comprehensivenesses_10.std()
+            },
 
 
             "AOPC - sufficiency" : {
@@ -854,7 +853,6 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk): #
         
         
         if use_topk:
-            rationale_ratios = [0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1.0] 
 
             for feat_name in {"random", "attention", "gradients", "scaled attention", "ig","deeplift"}: #"ig" ,"lime", "deeplift", "deepliftshap", 
                 feat_score =  batch_from_dict_(
@@ -1272,7 +1270,6 @@ def conduct_experiments_attention_(model, data, model_random_seed, use_topk): #f
         
         
         if use_topk:
-            rationale_ratios = [0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1.0]
 
             for feat_name in {"random", "attention", "gradients", "scaled attention", "ig", "deeplift"}: # ,"lime", , "deepliftshap", 
                 feat_score =  batch_from_dict_(
