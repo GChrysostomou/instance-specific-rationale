@@ -138,19 +138,14 @@ class BertClassifier_zeroout(nn.Module):
         self.output_dim = output_dim        
         self.dropout = dropout
 
-        self.bert_config = AutoConfig.from_pretrained(
-            args["model"], 
-            output_attentions = True
-        )   
+        self.bert_config = AutoConfig.from_pretrained(args["model"], output_attentions = True)   
         
         self.wrapper = BertModelWrapper_zeroout(
             AutoModel.from_pretrained(
                 args["model"], 
                 config=self.bert_config),
-            
-        )
+        ).to(device)
    
-        self.tasc_mech = tasc
   
         self.dropout = nn.Dropout(p = self.dropout)
 
@@ -164,13 +159,14 @@ class BertClassifier_zeroout(nn.Module):
         # 这里OKAY
 
         _, pooled_output, attention_weights = self.wrapper(
-            inputs["input_ids"], 
+            input_ids = inputs["input_ids"], 
             attention_mask = inputs["attention_mask"],
             token_type_ids = inputs["token_type_ids"],
             ig = inputs["ig"],
-            tasc_mech = self.tasc_mech,
+            #tasc_mech = self.tasc_mech,
             importance_scores = inputs["importance_scores"],
             faithful_method = inputs["faithful_method"],
+            add_noise = inputs['add_noise'],
         )
 
         self.weights_or = attention_weights[-1]
@@ -250,7 +246,6 @@ class BertClassifier_noise(nn.Module):
                 std=std,
         ).to(device)
         
-        self.tasc_mech = tasc
   
         self.dropout = nn.Dropout(p = self.dropout)
 
@@ -268,7 +263,7 @@ class BertClassifier_noise(nn.Module):
             attention_mask = inputs["attention_mask"].to(device),
             token_type_ids = inputs["token_type_ids"].to(device),
             ig = inputs["ig"],
-            tasc_mech = self.tasc_mech,
+            #tasc_mech = self.tasc_mech,
             importance_scores = inputs["importance_scores"].to(device),
             faithful_method = inputs["faithful_method"],
             # std = inputs['std'],
@@ -354,7 +349,7 @@ class BertClassifier_attention(nn.Module):
             
         )
    
-        self.tasc_mech = tasc
+        #self.tasc_mech = tasc
   
         self.dropout = nn.Dropout(p = self.dropout)
 
@@ -372,7 +367,7 @@ class BertClassifier_attention(nn.Module):
             attention_mask = inputs["attention_mask"],
             token_type_ids = inputs["token_type_ids"],
             ig = inputs["ig"],
-            tasc_mech = self.tasc_mech,
+            #tasc_mech = self.tasc_mech,
             importance_scores = inputs["importance_scores"],
             faithful_method = inputs['faithful_method'],
             # std = inputs['std'],

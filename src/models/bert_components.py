@@ -119,17 +119,15 @@ class BertModelWrapper_zeroout(nn.Module):
         """
         BERT model wrapper
         """
-
         self.model = model
-        # self.importance_score = importance_score
-        # self.faithful_method = faithful_method
         
     def forward(self, input_ids, attention_mask, token_type_ids, 
-                faithful_method,
                 importance_scores, 
-                ig = int(1), tasc_mech = None, add_noise=False,
-                ):     
-        
+                add_noise,
+                faithful_method,
+                ig = int(1),
+                ):
+
         embeddings, self.word_embeds = bert_embeddings(
             self.model, 
             input_ids = input_ids, 
@@ -137,7 +135,6 @@ class BertModelWrapper_zeroout(nn.Module):
             token_type_ids = token_type_ids,
             )
 
-        add_noise = add_noise
 
         if type(ig) == int or type(ig) == float:
             assert ig >= 0. and ig <= int(1), "IG(Integrated Gradients: a postdoc explanations) ratio cannot be out of the range 0-1"
@@ -149,54 +146,30 @@ class BertModelWrapper_zeroout(nn.Module):
             assert ig.size(2) == 1, "Rationale mask should be of size 1 in final dimension"
             ig = ig.float()
         
-
-
-
         
-        if add_noise == False:
-            pass
-        else:
-            ############### normalised to 0 to 1  #######
-            # importance_scores_max = importance_scores.max(1, keepdim=True)[0]
+        if add_noise: # when for zero baseline
+            importance_scores[:,0] = 1 # preserve cls
 
-            # temp_copy = importance_scores.clone().detach()
-            # temp_copy[torch.isinf(temp_copy)] = 99
-            # importance_scores_min = temp_copy.min(1, keepdim=True)[0]
 
-            # inf_mask = torch.isinf(importance_scores)
+            embeddings_3rd = embeddings.size(2)
+            
+            importance_scores = importance_scores.unsqueeze(2).repeat(1, 1, embeddings_3rd)
 
-            # # if importance_scores.sum() ==  0:
-            # #     pass
-            # # else:
-            # #     importance_score = (importance_scores - importance_scores_min) / (importance_scores_max-importance_scores_min)
-            # #     importance_scores = importance_score.clone().detach()
+
+           
+
+            if faithful_method == "soft_suff":
+                        # the higher importance score, the more info for model
+                        # the less perturbation, the less zero
+                zeroout_mask = torch.bernoulli(importance_scores).to(device)
+            elif faithful_method == "soft_comp":
+                zeroout_mask = torch.bernoulli(1-importance_scores).to(device)
+            else: print(' something wrong !!!!!!!!!!!!!!!!!!!!!!!!')     
                 
-            # importance_scores[inf_mask] = float('-inf')
-            importance_scores[:,0] = 1 
-
-            # place holder , not really for zero importance scores
-            zeroout_mask = torch.zeros(importance_scores.size())
-
-            for i in range(embeddings.size()[0]):
-                for k in range(embeddings.size()[1]):
-                    importance_score_one_token = importance_scores[i,k]
-
-                    
-                    if importance_score_one_token != float("-inf"):
-                        
-                        if faithful_method == "soft_suff":
-                            # the higher importance score, the more info for model
-                            # the less perturbation, the less zero
-                            zeroout_mask[i,k] = torch.bernoulli(importance_score_one_token).to(device)
-                        elif faithful_method == "soft_comp":
-                            zeroout_mask[i,k] = torch.bernoulli(1-importance_score_one_token).to(device)
-                        else:
-                            pass
-                    
-                    else:
-                        zeroout_mask[i,k] = 0
-
-                    embeddings = embeddings * zeroout_mask.unsqueeze(2).to(device)
+                
+                
+            embeddings = embeddings * zeroout_mask.to(device)
+        else: pass # add noise = false
 
 
         extended_attention_mask = attention_mask.unsqueeze(1).unsqueeze(2)
@@ -215,10 +188,6 @@ class BertModelWrapper_zeroout(nn.Module):
         )
 
         sequence_output = encoder_outputs[0]
-        # quit()
-
-
-
         attentions = encoder_outputs[2]
         pooled_output = self.model.pooler(sequence_output) if self.model.pooler is not None else None
 
@@ -242,7 +211,8 @@ class BertModelWrapper_zeroout_original_backup(nn.Module):
     def forward(self, input_ids, attention_mask, token_type_ids, 
                 faithful_method,
                 importance_scores, 
-                ig = int(1), tasc_mech = None):     
+                ig = int(1),
+                ):     
         # 这里开始变成0, 一共三次， 第二次开始变0
         embeddings, self.word_embeds = bert_embeddings(
             self.model, 
@@ -345,15 +315,12 @@ class BertModelWrapper_noise(nn.Module):
 
         self.model = model
         self.std = std
-        # self.importance_score = importance_score
-        # self.faithful_method = faithful_method
-
         
-    def forward(self, input_ids, attention_mask, token_type_ids, 
+    def forward(self, input_ids, attention_mask, token_type_ids,
+                importance_scores,
                 faithful_method,
-                importance_scores, # 进来的importance score就是指定了的某种method的score
-                ig = int(1), tasc_mech = None, add_noise=False,
-                
+                add_noise,
+                ig = int(1),
                 ):     
         
         embeddings, self.word_embeds = bert_embeddings(
@@ -366,7 +333,6 @@ class BertModelWrapper_noise(nn.Module):
         add_noise = add_noise
 
         if type(ig) == int or type(ig) == float:
-
             assert ig >= 0. and ig <= int(1), "IG(Integrated Gradients: a postdoc explanations) ratio cannot be out of the range 0-1"
 
         else:
@@ -383,27 +349,10 @@ class BertModelWrapper_noise(nn.Module):
         if add_noise == False:
             pass
         else:
-            
-            # try:importance_scores_max = importance_scores.max(1, keepdim=True)[0]
-            # except:print(importance_scores)
 
-            # temp_copy = importance_scores.clone().detach()
-            # temp_copy[torch.isinf(temp_copy)] = 99
-            # importance_scores_min = temp_copy.min(1, keepdim=True)[0]
-
-
-            # inf_mask = torch.isinf(importance_scores)
-
-            # # if importance_scores.sum() ==  0:
-            # #     pass
-            # # else:
-            # #     importance_score = (importance_scores - importance_scores_min) / (importance_scores_max-importance_scores_min)
-                
-            # importance_score[inf_mask] = float('-inf')
             importance_scores[:,0] = 1 
             importance_score = importance_scores.clone().detach()
 
-            #zeroout_mask = torch.zeros(importance_scores.size())
 
             if importance_score.size() != embeddings.size()[:2]: # embeddings.size()[1] is bigger than importance_score.size()[1]
                 pad_x = torch.zeros((embeddings.size()[0], embeddings.size()[1]), 
@@ -479,7 +428,7 @@ class BertModelWrapper_attention(nn.Module):
     def forward(self, input_ids, attention_mask, token_type_ids, 
                 faithful_method,
                 importance_scores, # 进来的importance score就是指定了的某种method的score
-                ig = int(1), tasc_mech = None, add_noise=False,
+                ig = int(1), add_noise=False,
                 ):     
         
         embeddings, self.word_embeds = bert_embeddings(

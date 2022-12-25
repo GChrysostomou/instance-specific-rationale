@@ -12,7 +12,7 @@ parser.add_argument(
     "--dataset",
     type = str,
     help = "select dataset / task",
-    default = "multirc", # sst agnews multirc
+    default = "sst", # sst agnews multirc
 )
 
 
@@ -47,6 +47,7 @@ suff_or_comp = 'sufficiency' # sufficiency or comprehensiveness
 
 
 def generate_table(suff_or_comp, ratio, include_feature_name=True):
+
     D_TOP_Suff = []
     D_ATTENTION_Suff = []
     D_ZEROOUT_Suff = []
@@ -72,56 +73,69 @@ def generate_table(suff_or_comp, ratio, include_feature_name=True):
         ABS_Diag_ZEROOUT_attention = 0
         ABS_Diag_NOISE_attention = 0
 
-
+        bad = []
         for i, data_id in enumerate(data_id_list):
 
+
             top_random_suff_score = TOPk_scores.get(data_id).get('random').get(f'{suff_or_comp} @ {str(ratio)}')#.get('mean')
+           
             NOISE_random_suff_score = NOISE_scores.get(data_id).get('random').get(f'{suff_or_comp} @ {str(ratio)}')
             ZEROOUT_random_suff_score = ZEROOUT_scores.get(data_id).get('random').get(f'{suff_or_comp} @ {str(ratio)}')
             ATTENTION_random_suff_score = ATTENTION_scores.get(data_id).get('random').get(f'{suff_or_comp} @ {str(ratio)}')
 
+
+
             top_suff_score = TOPk_scores.get(data_id).get(FA).get(f'{suff_or_comp} @ {str(ratio)}')
+
             try:    
                 if top_suff_score >= top_random_suff_score: 
                     Diag_TOP_attention += 1
                     #ABS_Diag_TOP_attention += top_suff_score-top_random_suff_score
                 else: pass
-            except: print(' one bad data', data_id)
+            except: 
+                print('top_suff_score', data_id, top_suff_score)
+                bad.append(data_id)
+
 
             NOISE_suff_score = NOISE_scores.get(data_id).get(FA).get(f'{suff_or_comp} @ {str(ratio)}')
-            try:
-                if NOISE_suff_score >= NOISE_random_suff_score: 
-                    Diag_NOISE_attention += 1
-                    #ABS_Diag_NOISE_attention += NOISE_suff_score-NOISE_random_suff_score
-                else: pass
-            except: print(' one bad data', data_id)
+            
+            if NOISE_suff_score >= NOISE_random_suff_score: 
+                Diag_NOISE_attention += 1
+                #ABS_Diag_NOISE_attention += NOISE_suff_score-NOISE_random_suff_score
+            else: pass
+
 
             ZEROOUT_suff_score = ZEROOUT_scores.get(data_id).get(FA).get(f'{suff_or_comp} @ {str(ratio)}')
-            try:
-                if ZEROOUT_suff_score >= ZEROOUT_random_suff_score: 
-                    Diag_ZEROOUT_attention += 1
-                #ABS_Diag_ZEROOUT_attention += ZEROOUT_suff_score-ZEROOUT_random_suff_score
-                else: pass
-            except: print(' one bad data', data_id)
 
-            ATTENTION_suff_score = ATTENTION_scores.get(data_id).get(FA).get(f'sufficiency @ {str(ratio)}')
-            try:
-                if ATTENTION_suff_score >= ATTENTION_random_suff_score: 
-                    Diag_ATTENTION_attention += 1
-                    #ABS_Diag_ATTENTION_attention += ATTENTION_suff_score-ATTENTION_random_suff_score
-                else: pass
-            except: print(' one bad data', data_id)
+            if ZEROOUT_suff_score >= ZEROOUT_random_suff_score: 
+                Diag_ZEROOUT_attention += 1
+            #ABS_Diag_ZEROOUT_attention += ZEROOUT_suff_score-ZEROOUT_random_suff_score
+            else: pass
+
+
+            ATTENTION_suff_score = ATTENTION_scores.get(data_id).get(FA).get(f'{suff_or_comp} @ {str(ratio)}')
+
+            if ATTENTION_suff_score >= ATTENTION_random_suff_score: 
+                Diag_ATTENTION_attention += 1
+                #ABS_Diag_ATTENTION_attention += ATTENTION_suff_score-ATTENTION_random_suff_score
+            else: pass
+
 
             
 
             try: ABS_Diag_TOP_attention += top_suff_score-top_random_suff_score
-            except: print(' one bad data', data_id)
-            try: ABS_Diag_NOISE_attention += NOISE_suff_score-NOISE_random_suff_score
-            except: print(' one bad data', data_id)
-            try: ABS_Diag_ZEROOUT_attention += ZEROOUT_suff_score-ZEROOUT_random_suff_score
-            except: print(data_id, FA, f'{suff_or_comp} @ {str(ratio)}')
-            try: ABS_Diag_ATTENTION_attention += ATTENTION_suff_score-ATTENTION_random_suff_score
-            except: print(' one bad data', data_id)
+            except: bad.append(data_id)
+            # try: ABS_Diag_NOISE_attention += NOISE_suff_score-NOISE_random_suff_score
+            # except: print('-----------------ABS----------', data_id)
+            # try: ABS_Diag_ZEROOUT_attention += ZEROOUT_suff_score-ZEROOUT_random_suff_score
+            # except: print('-----------------ABS----------', data_id)
+            # try: ABS_Diag_ATTENTION_attention += ATTENTION_suff_score-ATTENTION_random_suff_score
+            # except: print('-----------------ABS----------', data_id)
+
+
+            ABS_Diag_NOISE_attention += NOISE_suff_score-NOISE_random_suff_score
+            ABS_Diag_ZEROOUT_attention += ZEROOUT_suff_score-ZEROOUT_random_suff_score
+            ABS_Diag_ATTENTION_attention += ATTENTION_suff_score-ATTENTION_random_suff_score
 
 
 
@@ -172,13 +186,6 @@ def generate_table(suff_or_comp, ratio, include_feature_name=True):
 
 
 rationale_ratios = [0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1.0] 
-
-
-# suff_or_comp = 'sufficiency'
-# df_10, ABS_df_10 = generate_table(suff_or_comp, 1.0, True)
-
-# print(' 1.0 ')
-# print(df_10)
 os.makedirs(os.path.join(pwd, 'Diagnosticity', str(dataset)), exist_ok=True)
 
 
@@ -189,10 +196,11 @@ for ratio in rationale_ratios:
     print(' ')
     print(' ')
     print(f' {ratio} ---> Diagnosticity and ABS Diagnosticity')
+    print(' ')
     print(to_be_concatenated_df)
     print(ABS_to_be_concatenated_df)
 
-    if ABS_to_be_concatenated_df[f'Soff(ZEROOUT) {suff_or_comp} @ {str(ratio)}'].sum() <= ABS_to_be_concatenated_df[f'TopK {suff_or_comp} @ {str(ratio)}'].sum():
+    if ABS_to_be_concatenated_df[f'Soff(ZEROOUT) {suff_or_comp} @ {str(ratio)}'].sum() >= ABS_to_be_concatenated_df[f'TopK {suff_or_comp} @ {str(ratio)}'].sum():
 
 
         fname = os.path.join(pwd, 'Diagnosticity', str(dataset), f'D_{suff_or_comp}_{ratio}.csv')

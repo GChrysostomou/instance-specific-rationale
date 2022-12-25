@@ -407,8 +407,6 @@ class evaluate_zeroout():
     """
 
     def __init__(self, model_path, output_dims, use_topk,
-                # faithful_method = 'comp',
-                # feature_name = 'attention',
                 ):
         
         """
@@ -417,8 +415,6 @@ class evaluate_zeroout():
         print(model_path, args["model_abbreviation"])
         self.models = glob.glob(model_path + args["model_abbreviation"] + "*.pt")
         self.output_dims = output_dims
-        # self.faithful_method = faithful_method
-        # self.feature_name = feature_name
         self.use_topk = use_topk
 
         logging.info(f" *** there are {len(self.models)} models in :  {model_path}")

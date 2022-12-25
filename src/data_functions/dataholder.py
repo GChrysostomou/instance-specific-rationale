@@ -51,38 +51,7 @@ class BERT_HOLDER():
             print(' mean: ', test["document"].apply(lambda n: len(n.split())).mean())
             print(' max: ', test["document"].apply(lambda n: len(n.split())).max())
             print(' min: ', test["document"].apply(lambda n: len(n.split())).min())
-            # test['document'] = test["document"].apply(lambda n: ' '.join(n.split()[:400]))
-            # print('  ')
-            # print('  len -> ')
-            # print(' mean: ', test["document"].apply(lambda n: len(n.split())).mean())
-            # print(' max: ', test["document"].apply(lambda n: len(n.split())).max())
-            # print(' min: ', test["document"].apply(lambda n: len(n.split())).min())
 
-
-
-            # t = []
-            # print('  document data num:  ',  len(test))
-            # for text in test['document']:
-            #     if len(text.split()) < 412:
-            #         t.append(text)
-            #     elif len(text.split()) >= 412:
-            #         ttt = ' '.join(text.split()[:412])
-            #         t.append(ttt)
-            #     else: print('sth wrong with: ', text)
-
-            # test["document"] = t
-
-            # print('  document data num:  ',  len(test))
-
-            # print('  ')
-            # print('  len -> ')
-            # print(' mean: ', test["document"].apply(lambda n: len(n.split())).mean())
-            # print(' max: ', test["document"].apply(lambda n: len(n.split())).max())
-            # print(' min: ', test["document"].apply(lambda n: len(n.split())).min())
-
-
-
-        # quit()
  
         test = test.to_dict("records")
         ## if we are dealing with a query we need to account for the query length as well

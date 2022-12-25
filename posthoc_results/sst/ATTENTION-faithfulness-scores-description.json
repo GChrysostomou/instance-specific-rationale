@@ -1,0 +1,62 @@
+{
+    "gradients": {
+        "sufficiency": {
+            "mean": 0.9906359623249574,
+            "std": 0.08994546593059984
+        },
+        "comprehensiveness": {
+            "mean": NaN,
+            "std": NaN
+        }
+    },
+    "deeplift": {
+        "sufficiency": {
+            "mean": 0.9921185793312163,
+            "std": 0.0805109502896709
+        },
+        "comprehensiveness": {
+            "mean": 0.009363402408372419,
+            "std": 0.08994335055342506
+        }
+    },
+    "ig": {
+        "sufficiency": {
+            "mean": 0.992936391068118,
+            "std": 0.07554215098512942
+        },
+        "comprehensiveness": {
+            "mean": 0.007881112220128612,
+            "std": 0.08051037165574933
+        }
+    },
+    "random": {
+        "sufficiency": {
+            "mean": 0.9938224570977253,
+            "std": 0.06793453470726125
+        },
+        "comprehensiveness": {
+            "mean": 0.007063409115585243,
+            "std": 0.07554188161056484
+        }
+    },
+    "scaled attention": {
+        "sufficiency": {
+            "mean": 0.9947551062422032,
+            "std": 0.05832517454049543
+        },
+        "comprehensiveness": {
+            "mean": 0.006177397189729433,
+            "std": 0.06793415570813578
+        }
+    },
+    "attention": {
+        "sufficiency": {
+            "mean": 0.9954805717488551,
+            "std": 0.05057829009583775
+        },
+        "comprehensiveness": {
+            "mean": 0.005244780350371537,
+            "std": 0.058324892574275304
+        }
+    }
+}

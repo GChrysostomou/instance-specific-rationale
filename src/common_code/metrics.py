@@ -322,7 +322,7 @@ def normalized_sufficiency_soft_(model, use_topk,
         ## preserve sep
         rationale_mask[torch.arange(rationale_mask.size(0)).to(device), inputs["lengths"]] = 1
         #inputs["input_ids"]  =  rationale_mask[:,:original_sentences.size(1)] * original_sentences
-        inputs["input_ids"]  =  (rationale_mask + only_query_mask) * original_sentences
+        inputs["input_ids"]  =  (rationale_mask.to(device) + only_query_mask.to(device)) * original_sentences.to(device)
     else: 
         inputs["input_ids"]  =  original_sentences
 
@@ -331,9 +331,17 @@ def normalized_sufficiency_soft_(model, use_topk,
     #inputs["importance_scores"]=importance_scores   # for soft, by cass
     inputs["add_noise"] = True                      # for soft, by cass
 
-    softmax = torch.nn.Softmax(dim = 1)
-    inputs["importance_scores"]=softmax(importance_scores.to(device))
+    
+    
+    ######## NORMALISE Importance Scores
+    # softmax = torch.nn.Softmax(dim = 1)
+    # inputs["importance_scores"]=softmax(importance_scores.to(device))
 
+    
+    
+    
+    
+    
     yhat, _  = model(**inputs)
 
     yhat = torch.softmax(yhat.detach().cpu(), dim = -1).numpy()
@@ -368,26 +376,25 @@ def normalized_comprehensiveness_soft_(model, use_topk,
         rationale_mask[:,0] = 1
         ## preserve sep
         rationale_mask[torch.arange(rationale_mask.size(0)).to(device), inputs["lengths"]] = 1
-        inputs["input_ids"] =  original_sentences * rationale_mask.long()
+        inputs["input_ids"] =  original_sentences * rationale_mask.long().to(device)
     else:
         inputs["input_ids"] =  original_sentences
 
         
     inputs["faithful_method"]="soft_comp"
     
-    softmax = torch.nn.Softmax(dim = 1)
-    inputs["importance_scores"]=softmax(importance_scores.to(device))
 
-    # normalise importance scores !!! so range from 0 to 1 and sum up to 1
-    # print('  ')
-    # print(' ------------ ')
-    # print(importance_scores)
-    # print('  ')
-    # print(' ------------ ')
-    # print(inputs["importance_scores"])
-    # return
+
+
+    ######## NORMALISE Importance Scores
+    # softmax = torch.nn.Softmax(dim = 1)
+    # inputs["importance_scores"]=softmax(importance_scores.to(device))
+
+    
 
     inputs["add_noise"] = True
+
+    # print(model)
 
 
     yhat, _  = model(**inputs)
@@ -399,6 +406,8 @@ def normalized_comprehensiveness_soft_(model, use_topk,
 
     reduced_probs = yhat[rows, full_text_class]
     comp_y_a = comprehensiveness_(full_text_probs, reduced_probs)
+
+    comp_y_one[comp_y_one==4] = 0.0000001
 
     norm_comp = np.maximum(0, comp_y_a / comp_y_one)
 
