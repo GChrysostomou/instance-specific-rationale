@@ -43,10 +43,19 @@ def extract_importance_(model, data, data_split_name, model_random_seed):
     
 
     ## now to create folder where results will be saved
+    # fname = os.path.join(
+    #     os.getcwd(),
+    #     args["data_dir"],
+    #     "evaluation_dir",
+    #     ""
+    # )
+
     fname = os.path.join(
         os.getcwd(),
-        args["data_dir"],
-        "evaluation_dir",
+        "datasets",
+        args["dataset"],
+        "data",
+        "importance_scores",
         ""
     )
 
@@ -57,7 +66,7 @@ def extract_importance_(model, data, data_split_name, model_random_seed):
     # check if importance scores exist first to avoid unecessary calculations
     if os.path.exists(scorenames):
 
-        print(f"importance scores already saved in -> {scorenames}")
+        print(f"importance scores already saved in -> {scorenames}  !!!!!!!!!!!")
 
         return
     
@@ -145,7 +154,7 @@ def extract_importance_(model, data, data_split_name, model_random_seed):
     ## save them
     np.save(scorenames, feature_attribution)
 
-    print(f"model dependent importance scores stored in -> {scorenames}")
+    print(f"model dependent importance scores JUST HAVE BEEN stored in -> {scorenames}")
 
     return
 
@@ -362,6 +371,8 @@ def rationale_creator_(data, data_split_name, tokenizer, model_random_seed):
         ""
     )
 
+
+
     fname = f"{fname}{data_split_name}_importance_scores_{model_random_seed}.npy"
     ## retrieve importance scores
     importance_scores = np.load(fname, allow_pickle = True).item()
@@ -390,7 +401,7 @@ def rationale_creator_(data, data_split_name, tokenizer, model_random_seed):
     desired_rationale_length = args.rationale_length
 
     ## time to register rationales
-    for feature_attribution in {"attention", "gradients", "ig", "scaled attention", "deeplift", "lime"}:
+    for feature_attribution in {"attention", "scaled attention", "gradients", "ig", "deeplift"}: #, "lime", "deeplift"
         
         temp_registry = {}
 

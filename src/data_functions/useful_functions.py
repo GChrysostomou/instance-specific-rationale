@@ -69,6 +69,7 @@ def encode_plusplus_(data_dict, tokenizer, max_length, *arguments):
     returns token type ids, padded doc and 
     """
 
+
     ## if len(args)  > 1 that means that we have ctx + query
     if len(arguments) > 1:
 
@@ -82,6 +83,12 @@ def encode_plusplus_(data_dict, tokenizer, max_length, *arguments):
             truncation = True,
             return_tensors = "pt"             
         )
+
+    
+
+        # print(" ////   from here //////////  555 ////////////// ")
+        # print(max_length)
+        # print(tokenizer)
 
         data_dict.update(model_inputs)
 

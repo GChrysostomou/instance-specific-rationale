@@ -25,7 +25,7 @@ parser.add_argument(
     "--dataset", 
     type = str, 
     help = "select dataset / task", 
-    default = "sst", 
+    default = "evinf", 
     #choices = ["sst", "evinf", "multirc", "agnews"]
 )
 
@@ -65,20 +65,6 @@ parser.add_argument(
     default = "fixed",
     choices = ["fixed", "instance-specific"]
 )
-
-# parser.add_argument(
-#     "--divergence", 
-#     type = str, 
-#     help = "divergence metric used to compute variable rationales", 
-#     default = "jsd",
-#     choices = ["jsd", "kldiv", "perplexity", "classdiff"]
-# )
-
-# parser.add_argument(
-#     '--extract_double', 
-#     help='for testing at larger rationale lengths', 
-#     action='store_true'
-# )
 
 user_args = vars(parser.parse_args())
 
@@ -131,19 +117,22 @@ data = BERT_HOLDER(
     return_as_frames = True,
     stage = "extract",
 )
-data.test_loader = data.test_loader
+
 evaluator = evaluation_pipeline.evaluate(
     model_path = args["model_dir"], 
     output_dims = data.nu_of_labels
 ) # used for later .prepare_for_rationale_creation_ .register_importance_ .create_rationales_
 
 
-print(' ============================ ')
-print(' prepare_for_rationale_creation_ ')
+
+
+
+
 evaluator.prepare_for_rationale_creation_(data)
 
 evaluator.register_importance_(data, data_split_name='test', max_seq_len=data.max_len, tokenizer=data.tokenizer) #no_of_labels=data.nu_of_labels, 
 # changed by cass as .prepare_for_rationale_creation_ includes .register_importance_
+
 evaluator.create_rationales_(data)
 
 del data
