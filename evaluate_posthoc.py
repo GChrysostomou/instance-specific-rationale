@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -15,12 +14,15 @@ import gc
 import datetime
 import sys
 
+#"model" : "allenai/scibert_scivocab_uncased",
+
+
 torch.cuda.empty_cache()
 # torch.cuda.memory_summary(device=None, abbreviated=False)
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 # device = 'cpu'
 # print(' ---------> ', device)
-CUDA_LAUNCH_BLOCKING=1
+
 import en_core_web_sm
 nlp = en_core_web_sm.load()
 
@@ -33,7 +35,7 @@ parser.add_argument(
     "--dataset", 
     type = str, 
     help = "select dataset / task", 
-    default = "sst",
+    default = "evinf",
     # choices = ["agnews","evinf", "sst","multirc",]
 )
 
@@ -119,6 +121,8 @@ torch.backends.cudnn.deterministic = True
 torch.backends.cudnn.benchmark = False
 torch.cuda.empty_cache()
 CUDA_LAUNCH_BLOCKING=1
+# export CUDA_LAUNCH_BLOCKING=1
+# echo $CUDA_LAUNCH_BLOCKING
 
 from src.common_code.initialiser import initial_preparations
 
@@ -149,7 +153,6 @@ evaluator = evaluation_pipeline.evaluate(
 # will generate
 logging.info("*********conducting in-domain flip experiments")
 print('"*********conducting flip experiments on in-domain"')
-
 
 
 evaluator.faithfulness_experiments_(data)

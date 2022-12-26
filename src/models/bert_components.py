@@ -43,7 +43,7 @@ def bert_embeddings(bert_model,
     if token_type_ids is None:
     
         token_type_ids = torch.zeros(input_shape, dtype=torch.long, device=position_ids.device)  # +0.0000000001 by cass dabug
-    
+
     embed = bert_model.embeddings.word_embeddings(input_ids.to(device))
     position_embeddings = bert_model.embeddings.position_embeddings(position_ids)
     token_type_embeddings = bert_model.embeddings.token_type_embeddings(token_type_ids)
@@ -68,16 +68,23 @@ class BertModelWrapper(nn.Module):
         self.model = model
         
     def forward(self, input_ids, attention_mask, token_type_ids, ig = int(1)):        
+        print('-----ONE BATCH -- max, min, over --------')  ### 5555
+        print(torch.min(input_ids))
+        print(torch.max(input_ids))
+        print(torch.sum(input_ids > 31090))
         
+
         #print('  input_ids  --------------->', input_ids)
         try: embeddings, self.word_embeds = bert_embeddings(
             self.model, 
-            input_ids.long(), 
+            input_ids.long(),
             position_ids = None, 
             token_type_ids = token_type_ids,
         )
 
-        except: print('  embeddings  --------------->', embeddings)
+        except: 
+            print('  embeddings  --------------->', embeddings)
+            print('    END  PRINT')
 
         assert ig >= 0. and ig <= int(1), "IG ratio cannot be out of the range 0-1"
   
@@ -90,8 +97,10 @@ class BertModelWrapper(nn.Module):
 
 
 
-        try: encoder_outputs = self.model.encoder(
-            embeddings * ig,
+        try:
+            emb_temp = embeddings * ig
+            encoder_outputs = self.model.encoder(
+            emb_temp,
             attention_mask=extended_attention_mask,
             head_mask=head_mask,
             output_attentions=self.model.config.output_attentions,
@@ -99,8 +108,11 @@ class BertModelWrapper(nn.Module):
             return_dict=self.model.config.return_dict
         )
         except: 
-            print('  ig  --------------->',  ig)
-            print('  embeddings  --------------->', embeddings)
+            # print('  ig  --------------->',  ig)
+            # print('    ////////////////////   ')
+            print(' error riase embeddings  --------------->', embeddings)
+            # print('  encoder_outputs  --------------->', encoder_outputs)
+            # print('    END  PRINT')
 
 
         sequence_output = encoder_outputs[0]

@@ -45,6 +45,7 @@ class bert(nn.Module):  # equal to "BertClassifier"
             )
         )
 
+
         self.dropout = nn.Dropout(p = self.dropout)
 
         self.output_layer = nn.Linear(self.wrapper.model.config.hidden_size, self.output_dim)
@@ -56,12 +57,19 @@ class bert(nn.Module):  # equal to "BertClassifier"
     
         if "ig" not in inputs: inputs["ig"] = int(1)
 
-        _, pooled_output, attention_weights = self.wrapper(
+        try: 
+            _, pooled_output, attention_weights = self.wrapper(
             inputs["input_ids"].to(device), 
             attention_mask = inputs["attention_mask"].to(device),
             token_type_ids = inputs["token_type_ids"].to(device),
             ig = inputs["ig"],
         )
+        except:
+            print('   ----------------  ')
+            print('   ----------------  ')
+            print('   -------  except run---------  ')
+            print(inputs["annotation_id"])
+            
 
 
         # to retain gradients

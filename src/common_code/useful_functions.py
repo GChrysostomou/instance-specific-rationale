@@ -62,6 +62,10 @@ def wpiece2word(tokenizer, sentence, weights, print_err = False):
 
     tokens = tokenizer.convert_ids_to_tokens(sentence)
 
+
+    # print(" //////////////  222 ////////////// ")
+    # print(len(tokenizer))
+
     new_words = {}
     new_score = {}
 
@@ -295,6 +299,10 @@ def encode_plusplus_(data_dict, tokenizer, max_length, *arguments):
             truncation = True,
             return_tensors = "pt"             
         )
+        print(" //////////////  111 ////////////// ")
+        print(len(tokenizer))
+
+
 
         data_dict.update(model_inputs)
 
@@ -323,6 +331,10 @@ def encode_plusplus_(data_dict, tokenizer, max_length, *arguments):
             truncation = True,
             return_tensors = "pt"             
         )
+
+
+        print(" //////////////  333 ////////////// ")
+        print(len(tokenizer))
 
         del data_dict["text"]
     

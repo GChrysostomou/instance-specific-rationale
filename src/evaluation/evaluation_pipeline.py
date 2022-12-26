@@ -71,15 +71,15 @@ class evaluate():
             #     tokenizer = tokenizer,
             # )
 
-            # extract_shap_values_(
-            #     model = model, 
-            #     data = data,
-            #     data_split_name = data_split_name,
-            #     model_random_seed = self.model_random_seed,
-            #     # no_of_labels = no_of_labels,
-            #     # max_seq_len = max_seq_len,
-            #     # tokenizer = tokenizer
-            # )
+            extract_shap_values_(
+                model = model, 
+                data = data,
+                data_split_name = data_split_name,
+                model_random_seed = self.model_random_seed,
+                # no_of_labels = no_of_labels,
+                # max_seq_len = max_seq_len,
+                # tokenizer = tokenizer
+            )
 
         else:
 
@@ -107,25 +107,25 @@ class evaluate():
                     model_random_seed = self.model_random_seed
                 )
 
-                extract_lime_scores_(
-                    model = model, 
-                    data = data,
-                    data_split_name = data_split_name,
-                    model_random_seed = self.model_random_seed,
-                    no_of_labels = data.nu_of_labels,
-                    max_seq_len = data.max_len,
-                    tokenizer = data.tokenizer,
-                )
+                # extract_lime_scores_(
+                #     model = model, 
+                #     data = data,
+                #     data_split_name = data_split_name,
+                #     model_random_seed = self.model_random_seed,
+                #     no_of_labels = data.nu_of_labels,
+                #     max_seq_len = data.max_len,
+                #     tokenizer = data.tokenizer,
+                # )
 
-                extract_shap_values_(
-                    model = model, 
-                    data = data,
-                    data_split_name = data_split_name,
-                    model_random_seed = self.model_random_seed,
-                    #no_of_labels = data.nu_of_labels,
-                    #max_seq_len = data.max_len,
-                    #tokenizer = data.tokenizer
-                )
+                # extract_shap_values_(
+                #     model = model, 
+                #     data = data,
+                #     data_split_name = data_split_name,
+                #     model_random_seed = self.model_random_seed,
+                #     #no_of_labels = data.nu_of_labels,
+                #     #max_seq_len = data.max_len,
+                #     #tokenizer = data.tokenizer
+                # )
 
         return
 
@@ -191,7 +191,7 @@ class evaluate():
                     data = data_split,
                     data_split_name = data_split_name,
                     tokenizer = data.tokenizer,
-                    model_random_seed = 25,
+                    model_random_seed = self.model_random_seed,
                     )
 
         return
@@ -243,11 +243,13 @@ class evaluate():
 
             model_random_seed = re.sub("bert", "", model_name.split(".pt")[0].split("/")[-1])
 
+
             ## train neglected as we are evaluating on dev and test
-            for data_split_name, data_split in {"test":  data.test_loader
-                                                #"dev":  data.dev_loader
+            for data_split_name, data_split in {"test":  data.test_loader,
+                                                #"dev":  data.dev_loader,
+                                                #"train":  data.train_loader
                                                 }.items():
-            
+
                 conduct_tests_(
                     model = model, 
                     data = data_split,

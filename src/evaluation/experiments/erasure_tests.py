@@ -32,8 +32,7 @@ from sklearn.metrics import classification_report
 feat_name_dict = {"random", "attention", "scaled attention", "gradients", "ig", "deeplift"}
 rationale_ratios = [0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1.0] 
 
-def conduct_tests_(model, data, model_random_seed):
-
+def conduct_tests_(model, data, model_random_seed):    
 ## now to create folder where results will be saved
     fname = os.path.join(
         os.getcwd(),
@@ -74,7 +73,9 @@ def conduct_tests_(model, data, model_random_seed):
                 "special_tokens" : batch["special tokens"],
                 "retain_gradient" : False,
             }
-
+        # print('  #############')
+        # print(batch['lengths'])
+        # print('-----------------end test ---------------')
 
         assert batch["input_ids"].size(0) == len(batch["labels"]), "Error: batch size for item 1 not in correct position"
    
@@ -150,9 +151,20 @@ def conduct_tests_(model, data, model_random_seed):
                 # print(torch.ceil(batch["lengths"].float() * rationale_length))
 
                 if args.query:
+                    # print('  -------------- ><')
+                    # print(type(batch["lengths"]))
+                    len_tensor = batch["lengths"].clone()
+                    # print(len_tensor.dtype)
+                    # print(len_tensor)
+                    length_f = len_tensor.float()
+                    temp = length_f * rationale_length
+                    tempB = torch.ceil(temp)
+                    tempC = tempB.detach().cpu().numpy()
+
                     rationale_mask = create_rationale_mask_(
                             importance_scores = feat_score, 
-                            no_of_masked_tokens = torch.ceil(batch["lengths"].float() * rationale_length).detach().cpu().numpy(),
+                            # no_of_masked_tokens = torch.ceil(batch["lengths"].float() * rationale_length).detach().cpu().numpy(),
+                            no_of_masked_tokens = tempC,
                             method = 'topk',
                             batch_input_ids = original_sentences,
                             special_tokens = batch["special_tokens"],
@@ -181,7 +193,7 @@ def conduct_tests_(model, data, model_random_seed):
                     comp_y_one= 1-suff_y_zero,
                 )
             
-                try: suff, suff_probs = normalized_sufficiency_(
+                suff, suff_probs = normalized_sufficiency_(
                     model = model, 
                     original_sentences = original_sentences, 
                     rationale_mask = rationale_mask, 
@@ -192,12 +204,7 @@ def conduct_tests_(model, data, model_random_seed):
                     suff_y_zero = suff_y_zero,
                     only_query_mask=only_query_mask,
                 )
-                except: 
-                    suff = comp
-                    suff_probs = comp_probs
-                    print(' ')
-                    print(' ')
-                    print(' ----> one error, using comp instead')
+
                 # print(' ')
                 # print(' ')
                 # print(' ---------> ')
