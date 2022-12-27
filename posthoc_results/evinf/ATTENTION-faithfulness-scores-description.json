@@ -1,62 +1,62 @@
 {
-    "deeplift": {
-        "sufficiency": {
-            "mean": 0.98247055658872,
-            "std": 0.1287056986841022
-        },
-        "comprehensiveness": {
-            "mean": NaN,
-            "std": NaN
-        }
-    },
-    "scaled attention": {
-        "sufficiency": {
-            "mean": 0.983392926023665,
-            "std": 0.12413952475081012
-        },
-        "comprehensiveness": {
-            "mean": 0.017528673279638664,
-            "std": 0.12870354761738753
-        }
-    },
     "ig": {
         "sufficiency": {
-            "mean": 0.9852921017556394,
-            "std": 0.11250303679065848
+            "mean": 1.0,
+            "std": 0.0
         },
         "comprehensiveness": {
-            "mean": 0.01660713136415366,
-            "std": 0.12414219981461033
+            "mean": 0.0013889726931758403,
+            "std": 0.03724190709772552
+        }
+    },
+    "deeplift": {
+        "sufficiency": {
+            "mean": 1.0,
+            "std": 0.0
+        },
+        "comprehensiveness": {
+            "mean": 1.7390491834668695e-06,
+            "std": 4.439847589821013e-05
         }
     },
     "random": {
         "sufficiency": {
-            "mean": 0.9867269138919692,
-            "std": 0.10440604995756378
+            "mean": 1.0,
+            "std": 0.0
         },
         "comprehensiveness": {
-            "mean": 0.014708507209586072,
-            "std": 0.11250814957665171
-        }
-    },
-    "attention": {
-        "sufficiency": {
-            "mean": 0.9881975184674641,
-            "std": 0.09495844055787067
-        },
-        "comprehensiveness": {
-            "mean": 0.01327355678731441,
-            "std": 0.10440913750867985
+            "mean": 9.107754528202325e-07,
+            "std": 2.220613465579669e-05
         }
     },
     "gradients": {
         "sufficiency": {
-            "mean": 0.989212516791241,
-            "std": 0.08910706655808384
+            "mean": 1.0,
+            "std": 0.0
         },
         "comprehensiveness": {
-            "mean": 0.011802869120443621,
-            "std": 0.09496060724391558
+            "mean": 6.34404553177448e-07,
+            "std": 1.4812189842597815e-05
+        }
+    },
+    "attention": {
+        "sufficiency": {
+            "mean": 1.0,
+            "std": 0.0
+        },
+        "comprehensiveness": {
+            "mean": 4.960150858039454e-07,
+            "std": 1.1117695514952959e-05
+        }
+    },
+    "scaled attention": {
+        "sufficiency": {
+            "mean": 1.0,
+            "std": 0.0
+        },
+        "comprehensiveness": {
+            "mean": 4.128225787378742e-07,
+            "std": 8.902868721865488e-06
         }
     }
 }
