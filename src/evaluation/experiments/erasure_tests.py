@@ -89,8 +89,8 @@ def conduct_tests_(model, data, model_random_seed):
         ## prepping for our experiments
         original_sentences = batch["input_ids"].clone().detach()
         original_prediction = torch.softmax(original_prediction, dim = -1).detach().cpu().numpy().astype(np.float64)
-        print("==>> (original_prediction): ")
-        print( original_prediction)
+        # print("==>> (original_prediction): ")
+        # print( original_prediction)
 
 
         full_text_probs = original_prediction.max(-1)
@@ -210,7 +210,7 @@ def conduct_tests_(model, data, model_random_seed):
                 print(comp_probs)
                 print(comp)
 
-                quit()
+
                 
                 suff_aopc[:,_i_] = suff
                 comp_aopc[:,_i_] = comp
