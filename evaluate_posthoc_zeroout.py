@@ -30,7 +30,7 @@ parser.add_argument(
     "--dataset", 
     type = str, 
     help = "select dataset / task", 
-    default = "multirc",
+    default = "evinf",
     # choices = ["multirc", "agnews", "sst", "evinf",
 )
 
@@ -77,6 +77,14 @@ parser.add_argument(
     type = float, 
     help = "decide noise density, the higher the smaller noise, 1 is the normal distribution", 
     default = 1, 
+)
+
+
+parser.add_argument(
+    "--normalise", 
+    type = int, 
+    help = "decide how to normalise importance scores", 
+    default = 0, 
 )
 
 parser.add_argument(
@@ -167,9 +175,8 @@ data = BERT_HOLDER(
 evaluator = evaluation_pipeline.evaluate_zeroout(
     model_path = args["model_dir"], 
     output_dims = data.nu_of_labels,
-    # faithful_method = 'top',
-    # feature_name = 'attention',
     use_topk = args["use_topk"],
+    normalise = args["normalise"],
 )
 
 # will generate

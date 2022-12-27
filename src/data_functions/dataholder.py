@@ -55,6 +55,7 @@ class BERT_HOLDER():
             max_len = round(max_len)
             print('        the document max_len (in train):', round(max([len(x["document"].split()) for x in train])))
             print('        the query max_len (in train):', round(max([len(x["query"].split()) for x in train])))
+            print('        the query mean len (in train):', sum([len(x["query"].split()) for x in train])/len(train))
 
         else:
             

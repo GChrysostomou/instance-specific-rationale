@@ -408,7 +408,7 @@ class evaluate_zeroout():
     Saves rationales in a csv file with their dedicated annotation_id 
     """
 
-    def __init__(self, model_path, output_dims, use_topk,
+    def __init__(self, model_path, output_dims, use_topk, normalise
                 ):
         
         """
@@ -418,6 +418,7 @@ class evaluate_zeroout():
         self.models = glob.glob(model_path + args["model_abbreviation"] + "*.pt")
         self.output_dims = output_dims
         self.use_topk = use_topk
+        self.normalise = normalise
 
         logging.info(f" *** there are {len(self.models)} models in :  {model_path}")
 
@@ -453,6 +454,7 @@ class evaluate_zeroout():
                 #faithful_method = self.faithful_method,
                 #set = None,
                 use_topk = self.use_topk,
+                normalise= self.normalise,
             )
 
         return

@@ -29,7 +29,7 @@ from src.common_code.metrics import comprehensiveness_, normalized_comprehensive
 from sklearn.metrics import classification_report
 
 
-feat_name_dict = {"attention", "scaled attention", "gradients", "ig", "deeplift", "random"}
+feat_name_dict = {"attention", "scaled attention", "gradients", "ig", "deeplift", "random"} 
 rationale_ratios = [1.0, 0.01, 0.02, 0.05, 0.1, 0.2, 0.5] 
 
 def conduct_tests_(model, data, model_random_seed):    
@@ -89,6 +89,8 @@ def conduct_tests_(model, data, model_random_seed):
         ## prepping for our experiments
         original_sentences = batch["input_ids"].clone().detach()
         original_prediction = torch.softmax(original_prediction, dim = -1).detach().cpu().numpy().astype(np.float64)
+        print("==>> (original_prediction): ")
+        print( original_prediction)
 
 
         full_text_probs = original_prediction.max(-1)
@@ -97,15 +99,20 @@ def conduct_tests_(model, data, model_random_seed):
         ## prepping for our experiments
         rows = np.arange(batch["input_ids"].size(0))
 
-
+        ####################### check baseline y suff zero
         if args.query:
             only_query_mask=create_only_query_mask_(
+                
                 batch_input_ids=batch["input_ids"],
                 special_tokens=batch["special_tokens"]
             )
             batch["input_ids"] = only_query_mask * original_sentences
+            
+
+            
         else:
             only_query_mask=torch.zeros_like(batch["input_ids"]).long()
+            
             batch["input_ids"] = only_query_mask
 
 
@@ -118,7 +125,7 @@ def conduct_tests_(model, data, model_random_seed):
             full_text_probs, 
             reduced_probs
         )
-        
+        ####################### DONE check baseline y suff zero
 
         for _j_, annot_id in enumerate(batch["annotation_id"]):
                 
@@ -138,24 +145,15 @@ def conduct_tests_(model, data, model_random_seed):
             suff_aopc = np.zeros([yhat.shape[0], len(rationale_ratios)], dtype=np.float64)
             comp_aopc = np.zeros([yhat.shape[0], len(rationale_ratios)], dtype=np.float64)
 
-            print('')
-            print('')
 
-            print('============================>>>>>>>>>>>>>>>>', feat_name )
             for _i_, rationale_length in enumerate(rationale_ratios):
-                print('============================>>>>>>>>>>>>>>>>', rationale_length )
 
                 if args.query:
-                    len_tensor = batch["lengths"].clone()
-                    length_f = len_tensor.float()
-                    temp = length_f * rationale_length
-                    tempB = torch.ceil(temp)
-                    tempC = tempB.detach().cpu().numpy()
 
                     rationale_mask = create_rationale_mask_(
                             importance_scores = feat_score, 
-                            # no_of_masked_tokens = torch.ceil(batch["lengths"].float() * rationale_length).detach().cpu().numpy(),
-                            no_of_masked_tokens = tempC,
+                            no_of_masked_tokens = torch.ceil(batch["lengths"].float() * rationale_length).detach().cpu().numpy(),
+                            #no_of_masked_tokens = tempC,
                             method = 'topk',
                             batch_input_ids = original_sentences,
                             special_tokens = batch["special_tokens"],
@@ -171,6 +169,7 @@ def conduct_tests_(model, data, model_random_seed):
                         )
                     
                 ## measuring faithfulness
+                        
 
 
 
@@ -188,13 +187,8 @@ def conduct_tests_(model, data, model_random_seed):
                     only_query_mask=only_query_mask,
                 )
 
-                print("".center(50, "-"))
-                print("".center(50, "-"))
-                print("".center(50, "-"))
-                print("==>> type(suff): ", type(suff), suff)
-                print("==>> type(suff_probs): ", type(suff_probs), suff_probs)
 
-                quit()
+                
 
                 comp, comp_probs  = normalized_comprehensiveness_(
                     model = model, 
@@ -208,7 +202,15 @@ def conduct_tests_(model, data, model_random_seed):
                     comp_y_one= 1-suff_y_zero,
                 )
 
+                print(suff_probs)
+                print(suff)
+                print("".center(50, "-"))
                 
+                print("".center(50, "-"))
+                print(comp_probs)
+                print(comp)
+
+                quit()
                 
                 suff_aopc[:,_i_] = suff
                 comp_aopc[:,_i_] = comp
@@ -368,7 +370,7 @@ def conduct_tests_(model, data, model_random_seed):
 
 
 
-def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk):
+def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk, normalise=0): # 0 for no normalization, 1 for softmax
 
     
     fname = os.path.join(os.getcwd(),args["data_dir"], "importance_scores","" )
@@ -490,6 +492,7 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk):
                         comp_y_one= 1-suff_y_zero,
                         importance_scores = feat_score,
                         use_topk=False,
+                        normalise=normalise,
                     )
                     soft_suff, soft_suff_probs = normalized_sufficiency_soft_(
                         model = model, 
@@ -503,6 +506,7 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk):
                         importance_scores = feat_score,
                         use_topk=False,
                         only_query_mask=only_query_mask,
+                        normalise=normalise,
                     )
                 
                 
@@ -533,6 +537,7 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk):
                         comp_y_one= 1-suff_y_zero,
                         importance_scores = feat_score,
                         use_topk=True,
+                        normalise=normalise,
                     )
                     soft_suff, soft_suff_probs = normalized_sufficiency_soft_(
                         model = model, 
@@ -546,9 +551,10 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk):
                         importance_scores = feat_score,
                         use_topk=True,
                         only_query_mask=only_query_mask,
+                        normalise=normalise,
                     )
 
-                # quit()
+
                 suff_aopc[:,_i_] = soft_suff  # id, lenght
                 comp_aopc[:,_i_] = soft_comp
                 
@@ -578,7 +584,7 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk):
     
     pbar.update(data.batch_size)
 
-    detailed_fname = args["evaluation_dir"] + f"ZEROOUTlimit-faithfulness-scores-detailed.npy"
+    detailed_fname = args["evaluation_dir"] + f"ZEROOUTlimit-faithfulness-scores-normal_{normalise}.npy"
         #description_fname = args["evaluation_dir"] + f"ATTENTION-faithfulness-scores-description.json"
     np.save(detailed_fname, faithfulness_results)
             
@@ -698,7 +704,7 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk):
             }        
 
 
-            description_fname = args["evaluation_dir"] + f"ZEROOUTlimit-faithfulness-scores-description.json"
+            description_fname = args["evaluation_dir"] + f"ZEROOUTlimit-faithfulness-scores-normal_{normalise}.json"
         else:
             sufficiencies = np.asarray([faithfulness_results[k][feat_attr][f"sufficiency"] for k in faithfulness_results.keys()])
             comprehensivenesses = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness"] for k in faithfulness_results.keys()])
@@ -713,7 +719,7 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk):
                     "std" : comprehensivenesses.std()
                 },
             }
-            description_fname = args["evaluation_dir"] + f"ZEROOUT-faithfulness-scores-description.json"
+            description_fname = args["evaluation_dir"] + f"ZEROOUT-faithfulness-scores-normal_{normalise}.json"
 
     #np.save(detailed_fname, faithfulness_results)
     with open(description_fname, 'w') as file:
@@ -724,7 +730,9 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk):
 
 
 
-def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk): #faithful_method
+
+
+def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk, normalise=0): #faithful_method
     ## now to create folder where results will be saved
     fname = os.path.join(os.getcwd(),args["data_dir"],"importance_scores", "")
     os.makedirs(fname, exist_ok = True)
@@ -857,6 +865,7 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk): #
                         comp_y_one = 1-suff_y_zero,    
                         importance_scores = feat_score,
                         use_topk=use_topk,
+                        normalise=normalise,
                     )
 
                     
@@ -872,21 +881,14 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk): #
                         rows = rows,
                         suff_y_zero = suff_y_zero,
                         importance_scores = feat_score,
-                        
                         use_topk=use_topk,
                         only_query_mask = only_query_mask,
+                        normalise=normalise,
                     )
  
                     
                     suff_aopc[:,_i_] = soft_suff
                     comp_aopc[:,_i_] = soft_comp
-
-                    # if rationale_length == desired_rationale_length:
-
-                    #     sufficiency = soft_suff
-                    #     comprehensiveness = soft_comp
-                    #     comp_probs_save = soft_comp_probs
-                    #     suff_probs_save = soft_suff_probs
 
                     
                     for _j_, annot_id in enumerate(batch["annotation_id"]):
@@ -933,7 +935,7 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk): #
                     importance_scores = feat_score,
                     comp_y_one= 1-suff_y_zero,
                     use_topk=use_topk,
-
+                    normalise=normalise,
                 )
                 soft_suff, soft_suff_probs = normalized_sufficiency_soft_(
                     model = model, 
@@ -947,19 +949,9 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk): #
                     suff_y_zero = suff_y_zero,
                     importance_scores = feat_score,
                     use_topk=use_topk,
-                    
+                    normalise=normalise,
                 )
                                     ## the rest are just for aopc
-
-
-                # suff_aopc[:,:] = soft_suff
-                # comp_aopc[:,:] = soft_comp
-
-                #if rationale_length == desired_rationale_length:
-
-                # suff_aopc[:,_i_] = soft_suff
-                # comp_aopc[:,_i_] = soft_comp
-
 
                     
                 for _j_, annot_id in enumerate(batch["annotation_id"]):
@@ -978,10 +970,10 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk): #
 
 
     if use_topk:
-        detailed_fname = args["evaluation_dir"] + f"NOISElimit-faithfulness-scores-detailed.npy"
+        detailed_fname = args["evaluation_dir"] + f"NOISElimit-faithfulness-scores-normal_{normalise}.npy"
         #description_fname = args["evaluation_dir"] + f"ATTENTIONlimit-faithfulness-scores-description.json"
     else:
-        detailed_fname = args["evaluation_dir"] + f"NOISE-faithfulness-scores-detailed.npy"
+        detailed_fname = args["evaluation_dir"] + f"NOISE-faithfulness-scores-normal_{normalise}.npy"
         #description_fname = args["evaluation_dir"] + f"ATTENTION-faithfulness-scores-description.json"
 
     np.save(detailed_fname, faithfulness_results)
@@ -1102,7 +1094,7 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk): #
             }        
 
 
-            description_fname = args["evaluation_dir"] + f"NOISElimit-faithfulness-scores-description.json"
+            description_fname = args["evaluation_dir"] + f"NOISElimit-faithfulness-scores-normal_{normalise}.json"
         else:
             sufficiencies = np.asarray([faithfulness_results[k][feat_attr][f"sufficiency"] for k in faithfulness_results.keys()])
             comprehensivenesses = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness"] for k in faithfulness_results.keys()])
@@ -1117,7 +1109,7 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk): #
                     "std" : comprehensivenesses.std()
                 },
             }
-            description_fname = args["evaluation_dir"] + f"NOISE-faithfulness-scores-description.json"
+            description_fname = args["evaluation_dir"] + f"NOISE-faithfulness-scores-normal_{normalise}.json"
 
 
     #np.save(detailed_fname, faithfulness_results)
@@ -1129,7 +1121,7 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk): #
 
 
 
-def conduct_experiments_attention_(model, data, model_random_seed, use_topk): #faithful_method
+def conduct_experiments_attention_(model, data, model_random_seed, use_topk, normalise=0): #faithful_method
 
     fname = os.path.join(os.getcwd(),args["data_dir"],"importance_scores","")
 
@@ -1276,6 +1268,7 @@ def conduct_experiments_attention_(model, data, model_random_seed, use_topk): #f
                                                     comp_y_one= 1-suff_y_zero,
                                                     #suff_y_zero = suff_y_zero,
                                                     use_topk=use_topk,
+                                                    normalise=normalise,
                                                     )
                     soft_suff, soft_suff_probs = normalized_sufficiency_soft_(
                                                     model = model, 
@@ -1289,6 +1282,7 @@ def conduct_experiments_attention_(model, data, model_random_seed, use_topk): #f
                                                     importance_scores = feat_score,
                                                     only_query_mask=only_query_mask,
                                                     use_topk=use_topk,
+                                                    normalise=normalise,
                                                     )
 
                     suff_aopc[:,_i_] = soft_suff
@@ -1305,7 +1299,6 @@ def conduct_experiments_attention_(model, data, model_random_seed, use_topk): #f
                         faithfulness_results[annot_id][feat_name][f"only R probs (suff) @ {rationale_length}"] = soft_suff_probs[_j_].astype(np.float64)
                     
 
-                        # print(_i_)
                         
                         if _i_ == len(rationale_ratios)-1:
                             faithfulness_results[annot_id][feat_name]["sufficiency aopc"] = {
@@ -1360,6 +1353,7 @@ def conduct_experiments_attention_(model, data, model_random_seed, use_topk): #f
                     importance_scores = feat_score,
                     comp_y_one= 1-suff_y_zero,
                     use_topk=use_topk,
+                    normalise=normalise,
                 )
                 soft_suff, soft_suff_probs = normalized_sufficiency_soft_(
                     model = model, 
@@ -1373,6 +1367,7 @@ def conduct_experiments_attention_(model, data, model_random_seed, use_topk): #f
                     importance_scores = feat_score,
                     use_topk=use_topk,
                     only_query_mask=only_query_mask,
+                    normalise=normalise,
                 )
 
                 # suff_aopc[:,_i_] = soft_suff
@@ -1391,9 +1386,9 @@ def conduct_experiments_attention_(model, data, model_random_seed, use_topk): #f
         pbar.update(data.batch_size)
 
     if use_topk:
-        detailed_fname = args["evaluation_dir"] + f"ATTENTIONlimit-faithfulness-scores-detailed.npy"
+        detailed_fname = args["evaluation_dir"] + f"ATTENTIONlimit-faithfulness-scores-normal_{normalise}.npy"
     else:
-        detailed_fname = args["evaluation_dir"] + f"ATTENTION-faithfulness-scores-detailed.npy"
+        detailed_fname = args["evaluation_dir"] + f"ATTENTION-faithfulness-scores-normal_{normalise}.npy"
 
     np.save(detailed_fname, faithfulness_results)
 
@@ -1512,7 +1507,7 @@ def conduct_experiments_attention_(model, data, model_random_seed, use_topk): #f
             }        
 
 
-            description_fname = args["evaluation_dir"] + f"ATTENTIONlimit-faithfulness-scores-description.json"
+            description_fname = args["evaluation_dir"] + f"ATTENTIONlimit-faithfulness-scores-normal_{normalise}.json"
         else:
             sufficiencies = np.asarray([faithfulness_results[k][feat_attr][f"sufficiency"] for k in faithfulness_results.keys()])
             comprehensivenesses = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness"] for k in faithfulness_results.keys()])
@@ -1527,7 +1522,7 @@ def conduct_experiments_attention_(model, data, model_random_seed, use_topk): #f
                     "std" : comprehensivenesses.std()
                 },
             }
-            description_fname = args["evaluation_dir"] + f"ATTENTION-faithfulness-scores-description.json"
+            description_fname = args["evaluation_dir"] + f"ATTENTION-faithfulness-scores-normal_{normalise}.json"
 
     
     #np.save(detailed_fname, faithfulness_results)

@@ -72,6 +72,7 @@ def encode_plusplus_(data_dict, tokenizer, max_length, *arguments):
 
     ## if len(args)  > 1 that means that we have ctx + query
     if len(arguments) > 1:
+        #print(arguments[0], '/////////////////////////////////////',arguments[1])
 
         model_inputs = tokenizer.encode_plus(
             arguments[0], 
@@ -86,8 +87,6 @@ def encode_plusplus_(data_dict, tokenizer, max_length, *arguments):
 
     
 
-        # print(" ////   from here //////////  555 ////////////// ")
-        # print(max_length)
         # print(tokenizer)
 
         data_dict.update(model_inputs)

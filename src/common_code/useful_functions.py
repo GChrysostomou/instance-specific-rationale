@@ -36,19 +36,10 @@ def topk_(importance_scores, tokens_to_mask):
 def batch_from_dict_(batch_data, metadata, target_key = "original prediction"):
     new_tensor = []
     for _id_ in batch_data["annotation_id"]:
-        # print(' ===================  ++++++++++ ')
-        # print(batch_data)
-        # print(' ===================  ++++++++++ ')
-        # print(metadata.keys())
-        # print(batch_data.keys())
-        # print(batch_data.get('test_564'))
         # "annotatiion_id" "input_ids" "lengths" "labels" "token_type_ides" "attention_mask" "query_mask" "special_tokens"
         new_tensor.append(
             metadata[_id_][target_key]
         )
-    # print(' ===================  ++++++++++ ')
-    # print(len(new_tensor))
-    # print(new_tensor[0])
     return torch.tensor(new_tensor)#.to(device)
 
 
@@ -63,8 +54,6 @@ def wpiece2word(tokenizer, sentence, weights, print_err = False):
     tokens = tokenizer.convert_ids_to_tokens(sentence)
 
 
-    # print(" //////////////  222 ////////////// ")
-    # print(len(tokenizer))
 
     new_words = {}
     new_score = {}
@@ -130,7 +119,7 @@ def mask_contigious(sentences, scores, length_to_mask):
     return sentences * mask.long()
 
 
-# need to debug
+# ########################## RATIONALE MASKS ---> CORE 
 def create_rationale_mask_(
         importance_scores : torch.tensor, 
         no_of_masked_tokens : np.ndarray,
@@ -148,56 +137,57 @@ def create_rationale_mask_(
         
         ## if contigious or not a unigram (unigram == topk of 1)
         if method == "contigious" and tokens_to_mask > 1:
-
-            top_k = contigious_indxs_(
-                importance_scores = score,
-                tokens_to_mask = tokens_to_mask
-            )
-        
+            top_k = contigious_indxs_(importance_scores = score,  tokens_to_mask = tokens_to_mask)
         else:
-
-            top_k = topk_indxs_(
-                importance_scores = score,
-                tokens_to_mask = tokens_to_mask
-            )
+            top_k = topk_indxs_(importance_scores = score, tokens_to_mask = tokens_to_mask )
 
         ## create the instance specific mask
-        ## 1 represents the rationale :)
-        ## 0 represents tokens that we dont care about :'(
+        ## 1 represents the rationale :), 0 represents tokens that we dont care about :'(
         mask = torch.zeros(score.shape).to(device)
         mask = mask.scatter_(-1,  top_k.to(device), 1).long()
 
 
-        if batch_input_ids is not None:
+        # if batch_input_ids is not None:
             
-            #sos_eos = torch.where(batch_input_ids[_i_] == 102)[0]
-            sos_eos = torch.where(batch_input_ids[_i_] == special_tokens["sep_token_id"][0].item())[0]
-            seq_length = sos_eos[0]
-            query_end = sos_eos[1]
+        #     sos_eos = torch.where(batch_input_ids[_i_] == special_tokens["sep_token_id"][0].item())[0] #sos_eos = torch.where(batch_input_ids[_i_] == 102)[0]
+        #     seq_length = sos_eos[-2] # the start of query
+        #     query_end = sos_eos[-1]
 
-            mask[seq_length: query_end+1] = 1 
+
+        #     if args.query:
+        #         mask[: seq_length-1] = 1 # not include query
+        #     else:
+        #         mask[seq_length: query_end+1] = 1 
+
+
+        if args.query:
+            
+            sos_eos = torch.where(batch_input_ids[_i_] == special_tokens["sep_token_id"][0].item())[0] #sos_eos = torch.where(batch_input_ids[_i_] == 102)[0]
+            seq_length = sos_eos[-2] # the start of query
+            query_end = sos_eos[-1]
+            mask[: seq_length-1] = 1 # not include query
+
 
         rationale_mask.append(mask)
 
     rationale_mask = torch.stack(rationale_mask).to(device)
+    
+
 
     return rationale_mask
 
 ## used for preserving queries
-def create_only_query_mask_(
-    batch_input_ids : torch.tensor, 
-    special_tokens : dict):
-
+def create_only_query_mask_(batch_input_ids : torch.tensor, special_tokens : dict):
     query_mask = []
 
     for seq in batch_input_ids:
         
         only_query_mask = torch.zeros(seq.shape).to(device)
-
         sos_eos = torch.where(seq == special_tokens["sep_token_id"][0].item())[0]
-        seq_length = sos_eos[0] + 1 
-        query_end = sos_eos[1]
 
+        seq_length = sos_eos[-2] # query start
+        query_end = sos_eos[-1]
+        
         only_query_mask[seq_length: query_end+1] = 1 
 
         query_mask.append(only_query_mask)
@@ -205,6 +195,8 @@ def create_only_query_mask_(
     query_mask = torch.stack(query_mask).to(device)
 
     return query_mask.long()
+
+
 
 def contigious_indxs_(importance_scores, tokens_to_mask):
 
@@ -299,8 +291,6 @@ def encode_plusplus_(data_dict, tokenizer, max_length, *arguments):
             truncation = True,
             return_tensors = "pt"             
         )
-        print(" //////////////  111 ////////////// ")
-        print(len(tokenizer))
 
 
 
@@ -333,8 +323,6 @@ def encode_plusplus_(data_dict, tokenizer, max_length, *arguments):
         )
 
 
-        print(" //////////////  333 ////////////// ")
-        print(len(tokenizer))
 
         del data_dict["text"]
     
