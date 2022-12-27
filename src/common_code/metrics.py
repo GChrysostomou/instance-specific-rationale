@@ -121,43 +121,6 @@ def sufficiency_(full_text_probs : np.array, reduced_probs : np.array) -> np.arr
 
     return sufficiency
 
-# def normalized_sufficiency_(model, 
-#                             original_sentences : torch.tensor, 
-#                             rationale_mask : torch.tensor, 
-#                             inputs : dict, 
-#                             full_text_probs : np.array, 
-#                             full_text_class : np.array, 
-#                             rows : np.array, 
-#                             suff_y_zero : np.array, 
-#                             only_query_mask : torch.tensor) -> np.array:
-
-#     ## for sufficiency we always keep the rationale
-#     ## since ones represent rationale tokens
-#     ## preserve cls
-#     rationale_mask[:,0] = 1
-#     ## preserve sep
-#     rationale_mask[torch.arange(rationale_mask.size(0)).to(device), inputs["lengths"]] = 1
-    
-#     inputs["input_ids"]  =  (rationale_mask + only_query_mask) * original_sentences
-
-#     yhat, _  = model(**inputs) # wrong
-
-#     yhat = torch.softmax(yhat.detach().cpu(), dim = -1).numpy()
-
-#     reduced_probs = yhat[rows, full_text_class]
-
-#     ## reduced input sufficiency
-#     suff_y_a = sufficiency_(full_text_probs, reduced_probs)
-
-#     # return suff_y_a
-#     suff_y_zero -= 1e-8 ## to avoid nan
-
-#     norm_suff = np.maximum(0, (suff_y_a - suff_y_zero) / (1 - suff_y_zero))
-
-#     norm_suff = np.clip( norm_suff, a_min = 0, a_max = 1)
-
-#     return norm_suff, yhat
-
 
 
 def normalized_comprehensiveness_(model, 
