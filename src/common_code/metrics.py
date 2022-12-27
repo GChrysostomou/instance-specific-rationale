@@ -123,6 +123,125 @@ def sufficiency_(full_text_probs : np.array, reduced_probs : np.array) -> np.arr
 
 
 
+
+def normalized_sufficiency_(model, 
+                            original_sentences : torch.tensor, rationale_mask : torch.tensor, 
+                            inputs : dict, full_text_probs : np.array, full_text_class : np.array, rows : np.array, 
+                            suff_y_zero : np.array, only_query_mask : torch.tensor) -> np.array:
+
+    ## for sufficiency we always keep the rationale (from the document) + query
+    ## since '1' represent rationale tokens ---> keep in suff predictions & out in comp predictions
+    ## preserve cls 
+    rationale_mask[:,0] = 1
+    ## preserve sep
+    rationale_mask[torch.arange(rationale_mask.size(0)).to(device), inputs["lengths"]] = 1
+
+    mask = rationale_mask * only_query_mask
+
+    print('  ---> rationale_mask ', rationale_mask, rationale_mask.size())
+    rationale_numbers = torch.sum(rationale_mask, dim=1)
+    print("".center(50, "-"))
+    print("==>> rationale_numbers.sum: ", rationale_numbers)
+    print('  ---> only_query_mask ', only_query_mask, only_query_mask.size())
+    only_query_mask_numbers = torch.sum(only_query_mask, dim = 0)
+    print("".center(50, "-"))
+    print("==>> only_query_mask_numbers.sum: ", only_query_mask_numbers)
+    print('  ---> mask ', mask, mask.size())
+
+    assert mask.size() == original_sentences.size()
+
+    inputs["input_ids"]  =  mask * original_sentences
+    #inputs["input_ids"]  =  rationale_mask[:,:original_sentences.size(1)] * original_sentences
+    
+
+    yhat, _  = model(**inputs)
+    yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
+    reduced_probs = yhat[rows, full_text_class]
+    print('')
+    print("==>> type(reduced_probs): ",reduced_probs, type(reduced_probs))
+    print('')
+    print("==>> type(full_text_probs): ",full_text_probs, type(full_text_probs))
+
+    ## reduced input sufficiency
+    suff_y_a = sufficiency_(full_text_probs, reduced_probs)
+    
+    print("==>> suff_y_a.shape: ",suff_y_a, suff_y_a.shape)
+
+    # return suff_y_a
+    suff_y_zero -= 1e-4 ## to avoid nan
+
+    norm_suff = np.maximum(0, (suff_y_a - suff_y_zero) / (1 - suff_y_zero))
+
+    print('  ---> suff_y_a for R=0.01, ', suff_y_a)
+    print('  ---> suff_y_zero ', suff_y_zero)
+    print('  ---> norm_suff ', norm_suff)
+
+    norm_suff = np.clip( norm_suff, a_min = 0, a_max = 1)
+    print('  ---> norm_suff ', norm_suff)
+
+    return norm_suff, yhat
+
+
+def normalized_sufficiency_soft_(model, use_topk,
+                            original_sentences : torch.tensor, 
+                            rationale_mask : torch.tensor, # by Cass, 这里用上rationale nikos想要的
+                            inputs : dict, 
+                            full_text_probs : np.array, 
+                            full_text_class : np.array, 
+                            rows : np.array, 
+                            suff_y_zero : np.array,
+                            importance_scores: torch.tensor,
+                            only_query_mask: torch.tensor,
+                            ) -> np.array:
+
+    # for sufficiency we always keep the rationale
+    # since ones represent rationale tokens
+    # preserve cls
+
+    if use_topk:
+        ## preserve cls
+        rationale_mask[:,0] = 1
+        ## preserve sep
+        rationale_mask[torch.arange(rationale_mask.size(0)).to(device), inputs["lengths"]] = 1
+        #inputs["input_ids"]  =  rationale_mask[:,:original_sentences.size(1)] * original_sentences
+        inputs["input_ids"]  =  rationale_mask * only_query_mask * original_sentences
+    else: 
+        inputs["input_ids"]  =  original_sentences
+
+    
+    inputs["faithful_method"]="soft_suff"           # for soft, by cass
+    #inputs["importance_scores"]=importance_scores   # for soft, by cass
+    inputs["add_noise"] = True                      # for soft, by cass
+
+    
+    
+    ######## NORMALISE Importance Scores
+    # softmax = torch.nn.Softmax(dim = 1)
+    # inputs["importance_scores"]=softmax(importance_scores.to(device))
+
+    
+    
+    
+    yhat, _  = model(**inputs)
+
+    yhat = torch.softmax(yhat.detach().cpu(), dim = -1).numpy()
+
+    reduced_probs = yhat[rows, full_text_class]
+
+    ## reduced input sufficiency
+    suff_y_a = sufficiency_(full_text_probs, reduced_probs)
+
+    # return suff_y_a
+    suff_y_zero -= 1e-4 ## to avoid nan
+
+    norm_suff = np.maximum(0, (suff_y_a - suff_y_zero) / (1 - suff_y_zero))
+    norm_suff = np.clip( norm_suff, a_min = 0, a_max = 1)
+
+    return norm_suff, reduced_probs
+
+
+
+
 def normalized_comprehensiveness_(model, 
                                 original_sentences : torch.tensor, 
                                 rationale_mask : torch.tensor, 
@@ -209,109 +328,11 @@ def normalized_comprehensiveness_soft_(model, use_topk,
 
     return norm_comp, yhat
 
-def normalized_sufficiency_(model, 
-                            original_sentences : torch.tensor, rationale_mask : torch.tensor, 
-                            inputs : dict, full_text_probs : np.array, full_text_class : np.array, rows : np.array, 
-                            suff_y_zero : np.array, only_query_mask : torch.tensor) -> np.array:
 
-    ## for sufficiency we always keep the rationale (from the document) + query
-    ## since ones represent rationale tokens
-    ## preserve cls
-    rationale_mask[:,0] = 1
-    ## preserve sep
-    rationale_mask[torch.arange(rationale_mask.size(0)).to(device), inputs["lengths"]] = 1
-
-    mask = rationale_mask * only_query_mask
-
-    assert mask.size() == original_sentences.size()
-
-    inputs["input_ids"]  =  mask * original_sentences
-    #inputs["input_ids"]  =  rationale_mask[:,:original_sentences.size(1)] * original_sentences
-    
-
-    yhat, _  = model(**inputs)
-  
-        
-
-    yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
-
-    reduced_probs = yhat[rows, full_text_class]
-
-    ## reduced input sufficiency
-    suff_y_a = sufficiency_(full_text_probs, reduced_probs)
-
-    # return suff_y_a
-    suff_y_zero -= 1e-4 ## to avoid nan
-
-    norm_suff = np.maximum(0, (suff_y_a - suff_y_zero) / (1 - suff_y_zero))
-
-    norm_suff = np.clip( norm_suff, a_min = 0, a_max = 1)
-
-    return norm_suff, yhat
 
 def comprehensiveness_(full_text_probs : np.array, reduced_probs : np.array) -> np.array:
 
     comprehensiveness = np.maximum(0, full_text_probs - reduced_probs)
 
     return comprehensiveness
-
-
-def normalized_sufficiency_soft_(model, use_topk,
-                            original_sentences : torch.tensor, 
-                            rationale_mask : torch.tensor, # by Cass, 这里用上rationale nikos想要的
-                            inputs : dict, 
-                            full_text_probs : np.array, 
-                            full_text_class : np.array, 
-                            rows : np.array, 
-                            suff_y_zero : np.array,
-                            importance_scores: torch.tensor,
-                            only_query_mask: torch.tensor,
-                            ) -> np.array:
-
-    # for sufficiency we always keep the rationale
-    # since ones represent rationale tokens
-    # preserve cls
-
-    if use_topk:
-        ## preserve cls
-        rationale_mask[:,0] = 1
-        ## preserve sep
-        rationale_mask[torch.arange(rationale_mask.size(0)).to(device), inputs["lengths"]] = 1
-        #inputs["input_ids"]  =  rationale_mask[:,:original_sentences.size(1)] * original_sentences
-        inputs["input_ids"]  =  rationale_mask * only_query_mask * original_sentences
-    else: 
-        inputs["input_ids"]  =  original_sentences
-
-    
-    inputs["faithful_method"]="soft_suff"           # for soft, by cass
-    #inputs["importance_scores"]=importance_scores   # for soft, by cass
-    inputs["add_noise"] = True                      # for soft, by cass
-
-    
-    
-    ######## NORMALISE Importance Scores
-    # softmax = torch.nn.Softmax(dim = 1)
-    # inputs["importance_scores"]=softmax(importance_scores.to(device))
-
-    
-    
-    
-    yhat, _  = model(**inputs)
-
-    yhat = torch.softmax(yhat.detach().cpu(), dim = -1).numpy()
-
-    reduced_probs = yhat[rows, full_text_class]
-
-    ## reduced input sufficiency
-    suff_y_a = sufficiency_(full_text_probs, reduced_probs)
-
-    # return suff_y_a
-    suff_y_zero -= 1e-4 ## to avoid nan
-
-    norm_suff = np.maximum(0, (suff_y_a - suff_y_zero) / (1 - suff_y_zero))
-    norm_suff = np.clip( norm_suff, a_min = 0, a_max = 1)
-
-    return norm_suff, reduced_probs
-
-
 

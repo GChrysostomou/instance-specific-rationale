@@ -68,23 +68,13 @@ class BertModelWrapper(nn.Module):
         self.model = model
         
     def forward(self, input_ids, attention_mask, token_type_ids, ig = int(1)):        
-        print('-----ONE BATCH -- max, min, over --------')  ### 5555
-        print(torch.min(input_ids))
-        print(torch.max(input_ids))
-        print(torch.sum(input_ids > 31090))
-        
 
-        #print('  input_ids  --------------->', input_ids)
-        try: embeddings, self.word_embeds = bert_embeddings(
+        embeddings, self.word_embeds = bert_embeddings(
             self.model, 
             input_ids.long(),
             position_ids = None, 
             token_type_ids = token_type_ids,
         )
-
-        except: 
-            print('  embeddings  --------------->', embeddings)
-            print('    END  PRINT')
 
         assert ig >= 0. and ig <= int(1), "IG ratio cannot be out of the range 0-1"
   
@@ -97,9 +87,8 @@ class BertModelWrapper(nn.Module):
 
 
 
-        try:
-            emb_temp = embeddings * ig
-            encoder_outputs = self.model.encoder(
+        emb_temp = embeddings * ig
+        encoder_outputs = self.model.encoder(
             emb_temp,
             attention_mask=extended_attention_mask,
             head_mask=head_mask,
@@ -107,12 +96,6 @@ class BertModelWrapper(nn.Module):
             output_hidden_states=self.model.config.output_attentions,
             return_dict=self.model.config.return_dict
         )
-        except: 
-            # print('  ig  --------------->',  ig)
-            # print('    ////////////////////   ')
-            print(' error riase embeddings  --------------->', embeddings)
-            # print('  encoder_outputs  --------------->', encoder_outputs)
-            # print('    END  PRINT')
 
 
         sequence_output = encoder_outputs[0]

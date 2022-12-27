@@ -47,15 +47,20 @@ class BERT_HOLDER():
         ## if we are dealing with a query we need to account for the query length as well
 
         if args.query:
-            max_len = round(max([len(x["document"].split()) for x in test])) + \
-                            max([len(x["query"].split()) for x in test])
+            # max_len = round(max([len(x["document"].split()) for x in test])) + \
+            #                 max([len(x["query"].split()) for x in test])
+
+            max_len = round(max([len(x["document"].split()) for x in train])) + \
+            max([len(x["query"].split()) for x in train])
             max_len = round(max_len)
+            print('        the document max_len (in train):', round(max([len(x["document"].split()) for x in train])))
+            print('        the query max_len (in train):', round(max([len(x["query"].split()) for x in train])))
 
         else:
             
             max_len = round(max([len(x["text"].split()) for x in train]))
 
-        print('         max_len:', max_len)
+        print('        the task max_len (in train):', max_len)
 
         max_len = min(max_len, 512)
         self.max_len = max_len # 还在inti 里面

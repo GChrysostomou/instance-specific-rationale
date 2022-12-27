@@ -29,8 +29,8 @@ from src.common_code.metrics import comprehensiveness_, normalized_comprehensive
 from sklearn.metrics import classification_report
 
 
-feat_name_dict = {"random", "attention", "scaled attention", "gradients", "ig", "deeplift"}
-rationale_ratios = [0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1.0] 
+feat_name_dict = {"attention", "scaled attention", "gradients", "ig", "deeplift", "random"}
+rationale_ratios = [1.0, 0.01, 0.02, 0.05, 0.1, 0.2, 0.5] 
 
 def conduct_tests_(model, data, model_random_seed):    
 ## now to create folder where results will be saved
@@ -73,9 +73,6 @@ def conduct_tests_(model, data, model_random_seed):
                 "special_tokens" : batch["special tokens"],
                 "retain_gradient" : False,
             }
-        # print('  #############')
-        # print(batch['lengths'])
-        # print('-----------------end test ---------------')
 
         assert batch["input_ids"].size(0) == len(batch["labels"]), "Error: batch size for item 1 not in correct position"
    
@@ -92,6 +89,7 @@ def conduct_tests_(model, data, model_random_seed):
         ## prepping for our experiments
         original_sentences = batch["input_ids"].clone().detach()
         original_prediction = torch.softmax(original_prediction, dim = -1).detach().cpu().numpy().astype(np.float64)
+
 
         full_text_probs = original_prediction.max(-1)
         full_text_class = original_prediction.argmax(-1)
@@ -140,22 +138,15 @@ def conduct_tests_(model, data, model_random_seed):
             suff_aopc = np.zeros([yhat.shape[0], len(rationale_ratios)], dtype=np.float64)
             comp_aopc = np.zeros([yhat.shape[0], len(rationale_ratios)], dtype=np.float64)
 
-            
+            print('')
+            print('')
+
+            print('============================>>>>>>>>>>>>>>>>', feat_name )
             for _i_, rationale_length in enumerate(rationale_ratios):
-                
-                # if we are masking for a query that means we are preserving
-                # the query and we DO NOT mask it
-                # print(' ')
-                # print(' -------------------------------->', rationale_length)
-                # print(' -------------------------------->', batch["lengths"].float())
-                # print(torch.ceil(batch["lengths"].float() * rationale_length))
+                print('============================>>>>>>>>>>>>>>>>', rationale_length )
 
                 if args.query:
-                    # print('  -------------- ><')
-                    # print(type(batch["lengths"]))
                     len_tensor = batch["lengths"].clone()
-                    # print(len_tensor.dtype)
-                    # print(len_tensor)
                     length_f = len_tensor.float()
                     temp = length_f * rationale_length
                     tempB = torch.ceil(temp)
@@ -169,8 +160,7 @@ def conduct_tests_(model, data, model_random_seed):
                             batch_input_ids = original_sentences,
                             special_tokens = batch["special_tokens"],
                         )
-                        # print(' ============  ')
-                        # print(rationale_mask.size()) # batch 
+
                     
 
                 else:
@@ -181,19 +171,12 @@ def conduct_tests_(model, data, model_random_seed):
                         )
                     
                 ## measuring faithfulness
-                comp, comp_probs  = normalized_comprehensiveness_(
-                    model = model, 
-                    original_sentences = original_sentences, 
-                    rationale_mask = rationale_mask, 
-                    inputs = batch, 
-                    full_text_probs = full_text_probs, 
-                    full_text_class = full_text_class, 
-                    rows = rows,
-                    #suff_y_zero = suff_y_zero,
-                    comp_y_one= 1-suff_y_zero,
-                )
+
+
+
             
                 suff, suff_probs = normalized_sufficiency_(
+                
                     model = model, 
                     original_sentences = original_sentences, 
                     rationale_mask = rationale_mask, 
@@ -205,11 +188,27 @@ def conduct_tests_(model, data, model_random_seed):
                     only_query_mask=only_query_mask,
                 )
 
-                # print(' ')
-                # print(' ')
-                # print(' ---------> ')
+                print("".center(50, "-"))
+                print("".center(50, "-"))
+                print("".center(50, "-"))
+                print("==>> type(suff): ", type(suff), suff)
+                print("==>> type(suff_probs): ", type(suff_probs), suff_probs)
 
-                # print(comp, comp_probs, suff, suff_probs)
+                quit()
+
+                comp, comp_probs  = normalized_comprehensiveness_(
+                    model = model, 
+                    original_sentences = original_sentences, 
+                    rationale_mask = rationale_mask, 
+                    inputs = batch, 
+                    full_text_probs = full_text_probs, 
+                    full_text_class = full_text_class, 
+                    rows = rows,
+                    #suff_y_zero = suff_y_zero,
+                    comp_y_one= 1-suff_y_zero,
+                )
+
+                
                 
                 suff_aopc[:,_i_] = suff
                 comp_aopc[:,_i_] = comp
@@ -270,10 +269,6 @@ def conduct_tests_(model, data, model_random_seed):
         aopc_suff= np.asarray([faithfulness_results[k][feat_attr][f"sufficiency aopc"]["mean"] for k in faithfulness_results.keys()])
         aopc_comp = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness aopc"]["mean"] for k in faithfulness_results.keys()])
 
-        # print('  -------- faithfulness_results --- ')
-        # print(faithfulness_results)
-        # print('  -------- sufficiencies_001 --- ')
-        # print(sufficiencies_001)
         
         descriptor[feat_attr] = {
             "sufficiencies @ 0.01" : {
@@ -374,10 +369,7 @@ def conduct_tests_(model, data, model_random_seed):
 
 
 def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk):
-    print(' ')
-    print(' ')
 
-    print( '   START CONDUCTING ZEROOUT, in func')
     
     fname = os.path.join(os.getcwd(),args["data_dir"], "importance_scores","" )
     os.makedirs(fname, exist_ok = True)
@@ -817,10 +809,6 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk): #
             reduced_probs
         ) # Suff(x, ˆ y, 0) , no rationales to compare
 
-        # print('  ')
-        # print('  ')
-        # print(' -------------> suff_y_zero')
-        # print(suff_y_zero)
 
         for _j_, annot_id in enumerate(batch["annotation_id"]):
                     faithfulness_results[annot_id]["full text prediction"] = original_prediction[_j_] 
@@ -1317,7 +1305,6 @@ def conduct_experiments_attention_(model, data, model_random_seed, use_topk): #f
                         faithfulness_results[annot_id][feat_name][f"only R probs (suff) @ {rationale_length}"] = soft_suff_probs[_j_].astype(np.float64)
                     
 
-                        # print(' ')
                         # print(_i_)
                         
                         if _i_ == len(rationale_ratios)-1:
