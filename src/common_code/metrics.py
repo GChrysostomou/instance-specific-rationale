@@ -140,22 +140,8 @@ def normalized_comprehensiveness_(model,
     ## preserve sep
     
     rationale_mask[torch.arange(rationale_mask.size(0)).to(device), inputs["lengths"]] = 1
-
-    # print('  ')
-    # print('  ')
-    # print(' COMPPPPPPPPPPPPPPP ')
-    # print('  ')
-    # print('  ')
-    # print(' BEFORE  --> ')
-    # print(original_sentences)
-    # print(rationale_mask)
-
     inputs["input_ids"] =  original_sentences * rationale_mask.long().to(device)
-    # print('  ')
-    # print('  ')
-    # print(' AFTER  --> ')
-    # print(inputs["input_ids"])
-    # print('the max ', torch.max(inputs["input_ids"]))
+
 
     
     yhat, _  = model(**inputs)
@@ -176,7 +162,52 @@ def normalized_comprehensiveness_(model,
     return norm_comp, yhat
 
 
+def normalized_comprehensiveness_soft_(model, use_topk,
+                                        original_sentences : torch.tensor, 
+                                        inputs : dict, full_text_probs : np.array, full_text_class : np.array, rows : np.array, 
+                                        comp_y_one : np.array,
+                                        importance_scores: torch.tensor,
+                                        rationale_mask : torch.tensor, 
+                                        ) -> np.array:
+    
+    if use_topk:
+        # for comprehensivness we always remove the rationale and keep the rest of the input
+        # since ones represent rationale tokens, invert them and multiply the original input
+        rationale_mask = (rationale_mask == 0)
+        ## preserve cls
+        rationale_mask[:,0] = 1
+        ## preserve sep
+        rationale_mask[torch.arange(rationale_mask.size(0)).to(device), inputs["lengths"]] = 1
+        inputs["input_ids"] =  original_sentences * rationale_mask.long().to(device)
+    else:
+        inputs["input_ids"] =  original_sentences
 
+        
+    inputs["faithful_method"]="soft_comp"
+    
+
+    inputs["add_noise"] = True
+
+    # print(model)
+
+
+    yhat, _  = model(**inputs)
+
+    yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
+
+    #print(' --> yhat', yhat)
+
+
+    reduced_probs = yhat[rows, full_text_class]
+    comp_y_a = comprehensiveness_(full_text_probs, reduced_probs)
+
+    comp_y_one[comp_y_one==0] = 0.0000001
+
+    norm_comp = np.maximum(0, comp_y_a / comp_y_one)
+
+    norm_comp = np.clip(norm_comp, a_min = 0, a_max = 1)
+
+    return norm_comp, yhat
 
 def normalized_sufficiency_(model, 
                             original_sentences : torch.tensor, rationale_mask : torch.tensor, 
@@ -194,25 +225,7 @@ def normalized_sufficiency_(model,
 
     assert mask.size() == original_sentences.size()
 
-
-
-    print('  ')
-    print('  ')
-    print(' SUFFFFFFFFFFFF ')
-    print('  ')
-    print('  ')
-    print(' BEFORE  --> ')
-    print(original_sentences)
-    print(mask)
-
     inputs["input_ids"]  =  mask * original_sentences
-    print('  ')
-    print('  ')
-    print(' AFTER  --> ')
-    print(inputs["input_ids"])
-    print('the max ', torch.max(inputs["input_ids"]))
-
-
     #inputs["input_ids"]  =  rationale_mask[:,:original_sentences.size(1)] * original_sentences
     
 
@@ -265,7 +278,7 @@ def normalized_sufficiency_soft_(model, use_topk,
         ## preserve sep
         rationale_mask[torch.arange(rationale_mask.size(0)).to(device), inputs["lengths"]] = 1
         #inputs["input_ids"]  =  rationale_mask[:,:original_sentences.size(1)] * original_sentences
-        inputs["input_ids"]  =  (rationale_mask.to(device) + only_query_mask.to(device)) * original_sentences.to(device)
+        inputs["input_ids"]  =  rationale_mask * only_query_mask * original_sentences
     else: 
         inputs["input_ids"]  =  original_sentences
 
@@ -280,8 +293,6 @@ def normalized_sufficiency_soft_(model, use_topk,
     # softmax = torch.nn.Softmax(dim = 1)
     # inputs["importance_scores"]=softmax(importance_scores.to(device))
 
-    
-    
     
     
     
@@ -303,57 +314,4 @@ def normalized_sufficiency_soft_(model, use_topk,
     return norm_suff, reduced_probs
 
 
-def normalized_comprehensiveness_soft_(model, use_topk,
-                                    original_sentences : torch.tensor, 
-                                  inputs : dict, full_text_probs : np.array, full_text_class : np.array, rows : np.array, 
-                                  comp_y_one : np.array,
-                                  importance_scores: torch.tensor,
-                                  rationale_mask : torch.tensor, 
-                                  ) -> np.array:
-    
-    if use_topk:
-        # for comprehensivness we always remove the rationale and keep the rest of the input
-        # since ones represent rationale tokens, invert them and multiply the original input
-        rationale_mask = (rationale_mask == 0)
-        ## preserve cls
-        rationale_mask[:,0] = 1
-        ## preserve sep
-        rationale_mask[torch.arange(rationale_mask.size(0)).to(device), inputs["lengths"]] = 1
-        inputs["input_ids"] =  original_sentences * rationale_mask.long().to(device)
-    else:
-        inputs["input_ids"] =  original_sentences
 
-        
-    inputs["faithful_method"]="soft_comp"
-    
-
-
-
-    ######## NORMALISE Importance Scores
-    # softmax = torch.nn.Softmax(dim = 1)
-    # inputs["importance_scores"]=softmax(importance_scores.to(device))
-
-    
-
-    inputs["add_noise"] = True
-
-    # print(model)
-
-
-    yhat, _  = model(**inputs)
-
-    yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
-
-    #print(' --> yhat', yhat)
-
-
-    reduced_probs = yhat[rows, full_text_class]
-    comp_y_a = comprehensiveness_(full_text_probs, reduced_probs)
-
-    comp_y_one[comp_y_one==4] = 0.0000001
-
-    norm_comp = np.maximum(0, comp_y_a / comp_y_one)
-
-    norm_comp = np.clip(norm_comp, a_min = 0, a_max = 1)
-
-    return norm_comp, yhat
