@@ -23,7 +23,6 @@ if importance.size() != embeddings.size()[:2]:
 
 
 
-quit()
 
 a = float('-inf') * 2
 print(a)
@@ -39,13 +38,13 @@ a = ex * bbb
 print(a.size())
 print(' --------- ')
 print(ex)
-quit()
+
 min_value, min_index = ttt.min(1, keepdim=True)
 print(min_index)
 ttt[min_index] = 0
 
 print(ttt)
-quit()
+
 
 data = np.load('./posthoc_results/sst/ZEROOUTlimit-faithfulness-scores-detailed.npy', allow_pickle=True).item() 
 a = data['test_445']['random']

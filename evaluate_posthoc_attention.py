@@ -30,7 +30,7 @@ parser.add_argument(
     "--dataset", 
     type = str, 
     help = "select dataset / task", 
-    default = "sst",
+    default = "evinf",
     # choices = ["evinf", "agnews", "SST","IMDB", "Yelp", "AmazDigiMu", "AmazPantry", "AmazInstr", "fc1", "fc2", "fc3"]
 )
 
@@ -74,7 +74,7 @@ parser.add_argument(
     '--use_topk', 
     help='for using the component by GChrys and Aletras 2021', 
     action='store_true',
-    default=False,
+    default=True,
 )
 
 

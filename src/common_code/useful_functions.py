@@ -121,11 +121,11 @@ def mask_contigious(sentences, scores, length_to_mask):
 
 # ########################## RATIONALE MASKS ---> CORE 
 def create_rationale_mask_(
-        importance_scores : torch.tensor, 
-        no_of_masked_tokens : np.ndarray,
-        method : str = "topk",
-        batch_input_ids = None,
-        special_tokens = None,
+        
+        importance_scores: torch.tensor, 
+        no_of_masked_tokens: np.ndarray,
+        special_tokens: dict,
+        method = "topk", batch_input_ids = None
     ):
 
     rationale_mask = []
@@ -137,42 +137,37 @@ def create_rationale_mask_(
         
         ## if contigious or not a unigram (unigram == topk of 1)
         if method == "contigious" and tokens_to_mask > 1:
-            top_k = contigious_indxs_(importance_scores = score,  tokens_to_mask = tokens_to_mask)
+
+            top_k = contigious_(
+                importance_scores = score,
+                tokens_to_mask = tokens_to_mask
+            )
+        
         else:
-            top_k = topk_indxs_(importance_scores = score, tokens_to_mask = tokens_to_mask )
+
+            top_k = topk_(
+                importance_scores = score,
+                tokens_to_mask = tokens_to_mask
+            )
 
         ## create the instance specific mask
-        ## 1 represents the rationale :), 0 represents tokens that we dont care about :'(
+        ## 1 represents the rationale :)
+        ## 0 represents tokens that we dont care about :'(
         mask = torch.zeros(score.shape).to(device)
         mask = mask.scatter_(-1,  top_k.to(device), 1).long()
 
-
-        # if batch_input_ids is not None:
+        ## now if we have a query we need to preserve the query in the mask
+        if batch_input_ids is not None:
             
-        #     sos_eos = torch.where(batch_input_ids[_i_] == special_tokens["sep_token_id"][0].item())[0] #sos_eos = torch.where(batch_input_ids[_i_] == 102)[0]
-        #     seq_length = sos_eos[-2] # the start of query
-        #     query_end = sos_eos[-1]
+            sos_eos = torch.where( batch_input_ids[_i_] == special_tokens["sep_token_id"][0].item())[0]
+            seq_length = sos_eos[0]
+            query_end = sos_eos[1]
 
-
-        #     if args.query:
-        #         mask[: seq_length-1] = 1 # not include query
-        #     else:
-        #         mask[seq_length: query_end+1] = 1 
-
-
-        if args.query:
-            
-            sos_eos = torch.where(batch_input_ids[_i_] == special_tokens["sep_token_id"][0].item())[0] #sos_eos = torch.where(batch_input_ids[_i_] == 102)[0]
-            seq_length = sos_eos[-2] # the start of query
-            query_end = sos_eos[-1]
-            mask[: seq_length-1] = 1 # not include query
-
+            mask[seq_length: query_end+1] = 1 
 
         rationale_mask.append(mask)
 
     rationale_mask = torch.stack(rationale_mask).to(device)
-    
-
 
     return rationale_mask
 
