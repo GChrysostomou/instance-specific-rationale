@@ -166,6 +166,7 @@ def conduct_tests_(model, data, model_random_seed):
                             importance_scores = feat_score, 
                             no_of_masked_tokens = torch.ceil(batch["lengths"].float() * rationale_length).detach().cpu().numpy(),
                             method = 'topk',
+                            special_tokens = batch["special_tokens"],
                         )
                         
 

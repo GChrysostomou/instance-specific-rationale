@@ -89,7 +89,7 @@ class BERT_HOLDER():
 
 
         # IF TESTING LOCALLY
-        # test = test[:7]
+        test = test[:200]
 
 
         
