@@ -88,6 +88,10 @@ class BERT_HOLDER():
         shuffle_during_iter = True
 
 
+        # IF TESTING LOCALLY
+        # test = test[:7]
+
+
         
 
         if stage != "train": 

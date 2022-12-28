@@ -90,15 +90,6 @@ parser.add_argument(
 )
 
 
-# parser.add_argument(
-#     "--inherently_faithful", 
-#     type = str, 
-#     help = "select dataset / task", 
-#     default = None, 
-#     choices = [None, "kuma", "rl"]
-# )
-
-
 
 
 user_args = vars(parser.parse_args())
