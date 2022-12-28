@@ -520,7 +520,8 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk, norma
                         rationale_mask = create_rationale_mask_(
                             importance_scores = feat_score, 
                             no_of_masked_tokens = torch.ceil(batch["lengths"].float() * rationale_length).detach().cpu().numpy(),
-                            method = 'topk'
+                            method = 'topk',
+                            special_tokens = batch["special_tokens"],
                         )
 
 
@@ -888,6 +889,7 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk, no
                         importance_scores = feat_score, 
                         no_of_masked_tokens = torch.ceil(batch["lengths"].float() * rationale_length).detach().cpu().numpy(),
                         method = 'topk',
+                        special_tokens = batch["special_tokens"],
                     )
 
                     soft_comp, soft_comp_probs  = normalized_comprehensiveness_soft_(
@@ -947,7 +949,7 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk, no
                                                                         }
     pbar.update(data.batch_size)   
 
-    detailed_fname = args["evaluation_dir"] + f"NOISE-faithfulness-scores-normal_{normalise}.npy"
+    detailed_fname = args["evaluation_dir"] + f"NOISE-std{std}_faithfulness-scores-normal_{normalise}.npy"
     
     np.save(detailed_fname, faithfulness_results)
             
@@ -1067,7 +1069,7 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk, no
             }        
 
 
-            description_fname = args["evaluation_dir"] + f"NOISE-faithfulness-scores-normal_{normalise}.json"
+            description_fname = args["evaluation_dir"] + f"NOISE-std{std}_faithfulness-scores-normal_{normalise}.json"
         else:
             sufficiencies = np.asarray([faithfulness_results[k][feat_attr][f"sufficiency"] for k in faithfulness_results.keys()])
             comprehensivenesses = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness"] for k in faithfulness_results.keys()])
@@ -1082,7 +1084,7 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk, no
                     "std" : comprehensivenesses.std()
                 },
             }
-            description_fname = args["evaluation_dir"] + f"NOISE-faithfulness-scores-normal_{normalise}.json"
+            description_fname = args["evaluation_dir"] + f"NOISE-std{std}_faithfulness-scores-normal_{normalise}.json"
 
 
     #np.save(detailed_fname, faithfulness_results)
@@ -1245,7 +1247,8 @@ def conduct_experiments_attention_(model, data, model_random_seed, use_topk, nor
                         rationale_mask = create_rationale_mask_(
                             importance_scores = feat_score, 
                             no_of_masked_tokens = torch.ceil(batch["lengths"].float() * rationale_length).detach().cpu().numpy(),
-                            method = 'topk'
+                            method = 'topk',
+                            special_tokens = batch["special_tokens"],
                         )
 
 
