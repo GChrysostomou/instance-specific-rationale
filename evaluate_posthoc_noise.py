@@ -34,13 +34,6 @@ parser.add_argument(
 )
 
 
-parser.add_argument(
-    "--std", 
-    type = float, 
-    help = "decide noise density, the higher the smaller noise, 1 is the normal distribution", 
-    default = 0.5, 
-)
-
 
 parser.add_argument(
     '--use_topk', 
@@ -78,8 +71,21 @@ parser.add_argument(
     default = "extracted_rationales/"
 )
 
+parser.add_argument(
+    "--normalise", 
+    type = int, 
+    help = "decide how to normalise importance scores", 
+    default = 0, # 0 1 
+)
 
 
+
+parser.add_argument(
+    "--std", 
+    type = float, 
+    help = "decide noise density, the higher the smaller noise, 1 is the normal distribution", 
+    default = 1, 
+)
 
 parser.add_argument(
     "--thresholder", 
@@ -164,6 +170,7 @@ evaluator = evaluation_pipeline.evaluate_noise(
     #faithful_method = 'topk',
     use_topk = args["use_topk"],
     std = args["std"],
+    normalise = args["normalise"],
 )
 
 

@@ -408,7 +408,7 @@ class evaluate_zeroout():
     Saves rationales in a csv file with their dedicated annotation_id 
     """
 
-    def __init__(self, model_path, output_dims, use_topk, normalise
+    def __init__(self, model_path, output_dims, use_topk, normalise,
                 ):
         
         """
@@ -452,7 +452,6 @@ class evaluate_zeroout():
                 data = data.test_loader,
                 model_random_seed = model_random_seed,
                 #faithful_method = self.faithful_method,
-                #set = None,
                 use_topk = self.use_topk,
                 normalise= self.normalise,
             )
@@ -468,7 +467,7 @@ class evaluate_noise():
     Saves rationales in a csv file with their dedicated annotation_id 
     """
 
-    def __init__(self, model_path, std, use_topk, output_dims = 2,
+    def __init__(self, model_path, std, use_topk, output_dims, normalise,
                 ):
         
         """
@@ -481,6 +480,7 @@ class evaluate_noise():
         #self.feature_name = feature_name
         self.std = std
         self.use_topk = use_topk
+        self.normalise = normalise
 
         logging.info(f" *** there are {len(self.models)} models in :  {model_path}")
 
@@ -518,6 +518,7 @@ class evaluate_noise():
                 #faithful_method = self.faithful_method,
                 std = self.std,
                 use_topk = self.use_topk,
+                normalise= self.normalise,
             )
 
         return
@@ -531,7 +532,7 @@ class evaluate_attention():
     Saves rationales in a csv file with their dedicated annotation_id 
     """
 
-    def __init__(self, model_path, output_dims, use_topk,
+    def __init__(self, model_path, output_dims, use_topk, normalise,
                 # faithful_method = 'comp',
                 # feature_name = 'attention',
                 #std = 1
@@ -543,10 +544,8 @@ class evaluate_attention():
         print(model_path, args["model_abbreviation"])
         self.models = glob.glob(model_path + args["model_abbreviation"] + "*.pt")
         self.output_dims = output_dims
-        # self.faithful_method = faithful_method
-        #self.feature_name = feature_name
-        #self.std = std
         self.use_topk =use_topk
+        self.normalise = normalise
 
         logging.info(f" *** there are {len(self.models)} models in :  {model_path}")
 
@@ -583,6 +582,7 @@ class evaluate_attention():
                 #faithful_method = self.faithful_method,
                 #std = self.std,
                 use_topk=self.use_topk,
+                normalise= self.normalise,
             )
 
         return

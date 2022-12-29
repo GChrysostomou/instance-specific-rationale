@@ -30,8 +30,8 @@ parser.add_argument(
     "--dataset", 
     type = str, 
     help = "select dataset / task", 
-    default = "evinf",
-    # choices = ["evinf", "agnews", "SST","IMDB", "Yelp", "AmazDigiMu", "AmazPantry", "AmazInstr", "fc1", "fc2", "fc3"]
+    default = "sst",
+    # choices = ["evinf", "agnews", sst]
 )
 
 parser.add_argument(
@@ -95,13 +95,13 @@ parser.add_argument(
     choices = [None, "kuma", "rl"]
 )
 
+
 parser.add_argument(
-    "--std", 
-    type = float, 
-    help = "decide noise density, the higher the smaller noise, 1 is the normal distribution", 
+    "--normalise", 
+    type = int, 
+    help = "decide how to normalise importance scores", 
     default = 1, 
 )
-
 
 user_args = vars(parser.parse_args())
 user_args["importance_metric"] = None
@@ -176,6 +176,7 @@ evaluator = evaluation_pipeline.evaluate_attention(
     # feature_name = 'attention',
     #std = args["std"],
     use_topk = args["use_topk"],
+    normalise = args["normalise"],
 )
 
 # will generate

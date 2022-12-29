@@ -765,7 +765,7 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk, no
                 "special_tokens" : batch["special tokens"],
                 "retain_gradient" : False,
                 "importance_scores":torch.zeros(batch["input_ids"].squeeze(1).size()),  # baseline, so all important 
-                "std": std,
+         
                 #"add_noise": False,
             }
 

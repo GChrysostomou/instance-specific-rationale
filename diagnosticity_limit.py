@@ -12,7 +12,7 @@ parser.add_argument(
     "--dataset",
     type = str,
     help = "select dataset / task",
-    default = "agnews", # sst
+    default = "sst", # sst
 )
 
 parser.add_argument(
@@ -31,9 +31,9 @@ pwd = os.getcwd()
 
 topk_scores_file = os.path.join(pwd, 'posthoc_results', str(dataset), 'topk-faithfulness-scores-detailed.npy') 
 
-NOISE_scores_file = os.path.join(pwd, 'posthoc_results', str(dataset), 'NOISElimit-faithfulness-scores-detailed.npy') 
-ATTENTION_scores_file = os.path.join(pwd, 'posthoc_results', str(dataset), 'ATTENTIONlimit-faithfulness-scores-detailed.npy')
-ZEROOUT_scores_file = os.path.join(pwd, 'posthoc_results', str(dataset), 'ZEROOUTlimit-faithfulness-scores-detailed.npy')
+NOISE_scores_file = os.path.join(pwd, 'posthoc_results', str(dataset), 'NOISE-std1_faithfulness-scores-normal_0.npy') 
+ATTENTION_scores_file = os.path.join(pwd, 'posthoc_results', str(dataset), 'ATTENTION-faithfulness-scores-normal_0.npy')
+ZEROOUT_scores_file = os.path.join(pwd, 'posthoc_results', str(dataset), 'ZEROOUT-faithfulness-scores-normal_0.npy')
 
 
 
