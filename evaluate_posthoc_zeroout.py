@@ -72,19 +72,14 @@ parser.add_argument(
 )
 
 
-parser.add_argument(
-    "--std", 
-    type = float, 
-    help = "decide noise density, the higher the smaller noise, 1 is the normal distribution", 
-    default = 1, 
-)
+
 
 
 parser.add_argument(
     "--normalise", 
     type = int, 
     help = "decide how to normalise importance scores", 
-    default = 0, 
+    default = 1, 
 )
 
 parser.add_argument(
