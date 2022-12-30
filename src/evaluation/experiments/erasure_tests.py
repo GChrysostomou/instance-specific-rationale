@@ -171,8 +171,6 @@ def conduct_tests_(model, data, model_random_seed):
                         )
                         
 
-
-
             
                 suff, suff_probs = normalized_sufficiency_(
                 
@@ -188,7 +186,6 @@ def conduct_tests_(model, data, model_random_seed):
                 )
 
 
-                
 
                 comp, comp_probs  = normalized_comprehensiveness_(
                     model = model, 
@@ -201,12 +198,6 @@ def conduct_tests_(model, data, model_random_seed):
                     #suff_y_zero = suff_y_zero,
                     comp_y_one= 1-suff_y_zero,
                 )
-
-
-
-
-
-
            
                 suff_aopc[:,_i_] = suff
                 comp_aopc[:,_i_] = comp
@@ -464,11 +455,14 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk, norma
             
         for feat_name in feat_name_dict: #"ig" ,"lime", "deeplift", "deepliftshap", 
 
-            feat_score =  batch_from_dict_(
-                batch_data = batch, 
-                metadata = importance_scores, 
-                target_key = feat_name,
-            )
+            feat_score =  batch_from_dict_(batch_data = batch, metadata = importance_scores, target_key = feat_name,)
+            # print("==>> ORIGINAL (feat_score): ")
+            # print("==>> ORIGINAL (feat_score): ")
+            # print("==>> ORIGINAL (feat_score): ")
+            # print("==>> ORIGINAL (feat_score): ")
+            # print(feat_score)
+
+
 
             suff_aopc = np.zeros([yhat.shape[0], len(rationale_ratios)], dtype=np.float64)
             comp_aopc = np.zeros([yhat.shape[0], len(rationale_ratios)], dtype=np.float64)
@@ -480,6 +474,7 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk, norma
 
 
 
+                    print(batch['input_ids'])
                     soft_comp, soft_comp_probs  = normalized_comprehensiveness_soft_(
                         model = model, 
                         original_sentences = original_sentences, 
@@ -489,7 +484,7 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk, norma
                         full_text_class = full_text_class, 
                         rows = rows,
                         comp_y_one= 1-suff_y_zero,
-                        importance_scores = feat_score,
+                        importance_scores = feat_score, # original
                         use_topk=False,
                         normalise=normalise,
                     )
@@ -508,8 +503,21 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk, norma
                         normalise=normalise,
                     )
 
+                    # print(' ')
+                    # print(' ')
+                    # print(' ======== R=1 == soft_comp, soft_comp_probs  ===== ')
+                    # print(soft_comp, soft_comp_probs)
+                    # print(' ======== R=1 == soft_suff, soft_suff_probs  ===== ')
+                    # print(soft_suff, soft_suff_probs)
+                    # quit()
+
                 
                 else:
+                    # print(' ')
+                    # print(' ')
+                    # print( ' =============  rationale_length ')
+                    # print(rationale_length)
+
                     if args.query:
                         rationale_mask = create_rationale_mask_(
                             importance_scores = feat_score, 
@@ -526,7 +534,7 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk, norma
                             special_tokens = batch["special_tokens"],
                         )
 
-
+                    
                     soft_comp, soft_comp_probs  = normalized_comprehensiveness_soft_(
                         model = model, 
                         original_sentences = original_sentences, 
@@ -555,8 +563,15 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk, norma
                         normalise=normalise,
                     )
 
+                    # print(' ')
+                    # print(' ')
+                    # print(' ======== R= 0.01 === soft_comp, soft_comp_probs  ===== ')
+                    # print(soft_comp, soft_comp_probs)
+                    # print(' ========  R= 0.01  == soft_suff, soft_suff_probs  ===== ')
+                    # print(soft_suff, soft_suff_probs)
 
-                    quit()
+
+                    # quit()
 
 
                 suff_aopc[:,_i_] = soft_suff  # id, lenght
@@ -769,7 +784,6 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk, no
                 "special_tokens" : batch["special tokens"],
                 "retain_gradient" : False,
                 "importance_scores":torch.zeros(batch["input_ids"].squeeze(1).size()),  # baseline, so all important 
-         
                 #"add_noise": False,
             }
 
@@ -845,6 +859,7 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk, no
             comp_aopc = np.zeros([yhat.shape[0], len(rationale_ratios)], dtype=np.float64)
             
             for _i_, rationale_length in enumerate(rationale_ratios):  
+                print(' ----------> rationale_length', rationale_length)
                 
 
 
@@ -879,6 +894,8 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk, no
                         only_query_mask=only_query_mask,
                         normalise=normalise,
                     )
+                    print(   'soft_suff  ', soft_suff )
+                    print(   'soft_comp  ', soft_comp )
 
                     
                 else:
@@ -929,6 +946,8 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk, no
                     only_query_mask = only_query_mask,
                     normalise=normalise,
                     )
+                    print(   'soft_suff  ', soft_suff )
+                    print(   'soft_comp  ', soft_comp )
 
 
                 
@@ -952,7 +971,9 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk, no
                                                                         "mean" : comp_aopc[_j_].sum() / (len(rationale_ratios)),
                                                                         "per ratio" : comp_aopc[_j_]
                                                                         }
-                    
+                   
+            
+        
     pbar.update(data.batch_size)   
 
     detailed_fname = args["evaluation_dir"] + f"NOISE-std{std}_faithfulness-scores-normal_{normalise}.npy"
@@ -1206,6 +1227,7 @@ def conduct_experiments_attention_(model, data, model_random_seed, use_topk, nor
             comp_aopc = np.zeros([yhat.shape[0], len(rationale_ratios)], dtype=np.float64)
 
             for _i_, rationale_length in enumerate(rationale_ratios):
+                print(' ----------> rationale_length', rationale_length)
 
 
                 if rationale_length == 1.0: 
@@ -1238,7 +1260,8 @@ def conduct_experiments_attention_(model, data, model_random_seed, use_topk, nor
                         only_query_mask=only_query_mask,
                         normalise=normalise,
                     )
-
+                    print(   'soft_suff  ', soft_suff )
+                    print(   'soft_comp  ', soft_comp )
                     
                     
                 else:    
@@ -1287,6 +1310,8 @@ def conduct_experiments_attention_(model, data, model_random_seed, use_topk, nor
                         normalise=normalise,
                     )
                 
+                    print(   'soft_suff  ', soft_suff )
+                    print(   'soft_comp  ', soft_comp )
 
                 suff_aopc[:,_i_] = soft_suff
                 comp_aopc[:,_i_] = soft_comp
@@ -1313,7 +1338,7 @@ def conduct_experiments_attention_(model, data, model_random_seed, use_topk, nor
                                                                         "per ratio" : comp_aopc[_j_]
                                                                         }
 
-    
+              
     pbar.update(data.batch_size)
         
     detailed_fname = args["evaluation_dir"] + f"ATTENTION-faithfulness-scores-normal_{normalise}.npy"

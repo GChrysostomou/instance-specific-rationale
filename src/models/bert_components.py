@@ -123,6 +123,10 @@ class BertModelWrapper_zeroout(nn.Module):
                 faithful_method,
                 ig = int(1),
                 ):
+        print(' //////////////////// input id max')
+        print(' //////////////////// input id max')
+        print(torch.max(input_ids))
+        print(input_ids)
 
         embeddings, self.word_embeds = bert_embeddings(
             self.model, 
@@ -148,22 +152,45 @@ class BertModelWrapper_zeroout(nn.Module):
             # importance_scores = torch.clip(importance_scores, min=-2).to(device)
             embeddings_3rd = embeddings.size(2)
             importance_scores = importance_scores.unsqueeze(2).repeat(1, 1, embeddings_3rd)
+            
+            print(' ')
+            print("==>> inside model ==> (importance_scores) 变形后: ")
+            print("==>> inside model ===>importance_scores.shape: ", importance_scores.shape)
+            print(importance_scores)
+            print(' ')
 
-           
+        
+
             if faithful_method == "soft_suff":
                         # the higher importance score, the more info for model
                         # the less perturbation, the less zero
+                print(' DDDDDDDDDDDDDDDDDDDDDDDDDD EBUG')
                 zeroout_mask = torch.bernoulli(importance_scores).to(device)
+                print("==>> (zeroout_mask): ", (zeroout_mask))
+                print("==>> zeroout_mask.shape: ", zeroout_mask.shape)
 
                 embeddings = (embeddings * zeroout_mask).to(device)
+                print("==>> embeddings.shape: ", embeddings.shape)
+
+                # print(f"  {faithful_method}   ==>> inside model ==> (importance_scores): ")
+                # print(importance_scores)
+                # print(f"                      ==>> inside model ==> (embeddings): ")
+                # print(embeddings)
 
 
             elif faithful_method == "soft_comp":
                 zeroout_mask = torch.bernoulli(1-importance_scores).to(device)
+                print("==>> (zeroout_mask): ", (zeroout_mask))
+                print("==>> zeroout_mask.shape: ", zeroout_mask.shape)
                 embeddings = embeddings * zeroout_mask
 
                 rationale_mask_interleave = rationale_mask.repeat_interleave(embeddings.size()[2]).view(embeddings.shape)
                 embeddings = rationale_mask_interleave * embeddings
+
+                # print(f"  {faithful_method}   ==>> inside model ==> (importance_scores): ")
+                # print(importance_scores)
+                # print(f"                      ==>> inside model ==> (embeddings): ")
+                # print(embeddings)
         
             else: print(' something wrong !!!!!!!!!!!!!!!!!!!!!!!!')     
 

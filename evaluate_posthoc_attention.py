@@ -30,7 +30,7 @@ parser.add_argument(
     "--dataset", 
     type = str, 
     help = "select dataset / task", 
-    default = "evinf",
+    default = "sst",
     # choices = ["evinf", "agnews", sst]
 )
 
@@ -72,7 +72,7 @@ parser.add_argument(
 
 parser.add_argument(
     '--use_topk', 
-    help='for using the component by GChrys and Aletras 2021', 
+    help='take topk for soft metrics', 
     action='store_true',
     default=True,
 )

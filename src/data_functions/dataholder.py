@@ -47,15 +47,12 @@ class BERT_HOLDER():
         ## if we are dealing with a query we need to account for the query length as well
 
         if args.query:
-            # max_len = round(max([len(x["document"].split()) for x in test])) + \
-            #                 max([len(x["query"].split()) for x in test])
-
             max_len = round(max([len(x["document"].split()) for x in train])) + \
             max([len(x["query"].split()) for x in train])
             max_len = round(max_len)
-            print('        the document max_len (in train):', round(max([len(x["document"].split()) for x in train])))
-            print('        the query max_len (in train):', round(max([len(x["query"].split()) for x in train])))
-            print('        the query mean len (in train):', sum([len(x["query"].split()) for x in train])/len(train))
+            # print('        the document max_len (in train):', round(max([len(x["document"].split()) for x in train])))
+            # print('        the query max_len (in train):', round(max([len(x["query"].split()) for x in train])))
+            # print('        the query mean len (in train):', sum([len(x["query"].split()) for x in train])/len(train))
 
         else:
             
