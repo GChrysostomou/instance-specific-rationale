@@ -84,7 +84,7 @@ parser.add_argument(
     "--std", 
     type = float, 
     help = "decide noise density, the higher the smaller noise, 1 is the normal distribution", 
-    default = 1, 
+    default = 5, 
 )
 
 parser.add_argument(

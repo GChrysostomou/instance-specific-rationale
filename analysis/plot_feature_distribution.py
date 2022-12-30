@@ -7,7 +7,7 @@ dataset = 'evinf'
 dataset_path = f'../extracted_rationales/{dataset}/topk/test-rationale_metadata.npy'
 data = np.load(dataset_path, allow_pickle=True).item(0)
 print(data)
-quit()
+
 id_list = list(data.keys())
 
 selected_feat_list = []
