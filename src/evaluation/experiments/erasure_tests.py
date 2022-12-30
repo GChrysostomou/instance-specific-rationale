@@ -1,4 +1,5 @@
 from pickle import NONE
+from re import T
 import torch
 import torch.nn as nn
 import math 
@@ -417,6 +418,7 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk, norma
         original_sentences = batch["input_ids"].clone().detach()
         original_prediction = torch.softmax(original_prediction, dim = -1).detach().cpu().numpy().astype(np.float64)
 
+
         full_text_probs = original_prediction.max(-1)
         full_text_class = original_prediction.argmax(-1)
 
@@ -435,7 +437,8 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk, norma
 
         batch["faithful_method"] = "soft_suff"
         batch["importance_scores"]=torch.zeros(batch["input_ids"].squeeze(1).size())
-        batch["add_noise"]=False
+        batch["rationale_mask"]=torch.zeros(batch["input_ids"].size())
+        batch["add_noise"]=True  # 测试点 zerrout 和 noise 定用 true
         yhat, _  = model(**batch) # 此时 input id 全为o, 做的baseline ---> suff(x, y', 0)
         yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
         reduced_probs = yhat[rows, full_text_class]
@@ -471,12 +474,11 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk, norma
             comp_aopc = np.zeros([yhat.shape[0], len(rationale_ratios)], dtype=np.float64)
             
             for _i_, rationale_length in enumerate(rationale_ratios):   
-
-
-
                 
                 if rationale_length == 1.0: 
                     rationale_mask= torch.ones(batch["input_ids"].size())
+
+
 
                     soft_comp, soft_comp_probs  = normalized_comprehensiveness_soft_(
                         model = model, 
@@ -505,7 +507,7 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk, norma
                         only_query_mask=only_query_mask,
                         normalise=normalise,
                     )
-                
+
                 
                 else:
                     if args.query:
@@ -553,6 +555,8 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk, norma
                         normalise=normalise,
                     )
 
+
+                    quit()
 
 
                 suff_aopc[:,_i_] = soft_suff  # id, lenght
@@ -782,10 +786,12 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk, no
 
         original_sentences = batch["input_ids"].clone().detach()
         original_prediction = torch.softmax(original_prediction, dim = -1).detach().cpu().numpy().astype(np.float64)
-        # (batch size, class)
+
 
         full_text_probs = original_prediction.max(-1) 
         full_text_class = original_prediction.argmax(-1)
+
+
 
         ## prepping for our experiments
         rows = np.arange(batch["input_ids"].size(0))
@@ -793,20 +799,18 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk, no
 
         ## now measuring baseline sufficiency for all 0 rationale mask
         if args.query:
-            only_query_mask=create_only_query_mask_(
-                batch_input_ids=batch["input_ids"],
-                special_tokens=batch["special_tokens"],
-            )
+            only_query_mask=create_only_query_mask_(batch_input_ids=batch["input_ids"], special_tokens=batch["special_tokens"])
             batch["input_ids"] = only_query_mask * original_sentences
         else:
             only_query_mask=torch.zeros_like(batch["input_ids"]).long()
             batch["input_ids"] = only_query_mask 
 
-        
 
-        batch["faithful_method"] = "soft_suff"
-        batch["importance_scores"]=torch.zeros(batch["input_ids"].squeeze(1).size())
-        batch["add_noise"]=False
+        batch["faithful_method"] = "soft_suff" 
+
+        batch["importance_scores"]=torch.zeros(batch["input_ids"].squeeze(1).size()) # 都不重要
+        batch["add_noise"]=True  ### 测试!!!!!!!!!!!! zeroout(probably does not matter) and attention is false
+        batch["rationale_mask"]=torch.zeros(batch["input_ids"].size())
         yhat, _  = model(**batch) # 此时 input id 全为o, 做的baseline ---> suff(x, y', 0)
         yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
         reduced_probs = yhat[rows, full_text_class]
@@ -841,6 +845,8 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk, no
             comp_aopc = np.zeros([yhat.shape[0], len(rationale_ratios)], dtype=np.float64)
             
             for _i_, rationale_length in enumerate(rationale_ratios):  
+                
+
 
 
                 if rationale_length == 1.0: 
@@ -873,6 +879,7 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk, no
                         only_query_mask=only_query_mask,
                         normalise=normalise,
                     )
+
                     
                 else:
                     if args.query:
@@ -904,9 +911,8 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk, no
                     importance_scores = feat_score,
                     use_topk=use_topk,
                     normalise=normalise,
-                )
-
-                
+                    )
+                    
 
 
                     soft_suff, soft_suff_probs = normalized_sufficiency_soft_(
@@ -922,15 +928,17 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk, no
                     use_topk=use_topk,
                     only_query_mask = only_query_mask,
                     normalise=normalise,
-                )
+                    )
 
+
+                    quit()
 
 
                 
                 suff_aopc[:,_i_] = soft_suff
                 comp_aopc[:,_i_] = soft_comp
 
-                
+  
                 for _j_, annot_id in enumerate(batch["annotation_id"]):
                     faithfulness_results[annot_id][feat_name][f"sufficiency @ {rationale_length}"] = soft_suff[_j_]
                     faithfulness_results[annot_id][feat_name][f"comprehensiveness @ {rationale_length}"] = soft_comp[_j_]
@@ -947,6 +955,7 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk, no
                                                                         "mean" : comp_aopc[_j_].sum() / (len(rationale_ratios)),
                                                                         "per ratio" : comp_aopc[_j_]
                                                                         }
+                    
     pbar.update(data.batch_size)   
 
     detailed_fname = args["evaluation_dir"] + f"NOISE-std{std}_faithfulness-scores-normal_{normalise}.npy"
@@ -1145,7 +1154,6 @@ def conduct_experiments_attention_(model, data, model_random_seed, use_topk, nor
 
         original_sentences = batch["input_ids"].clone().detach()
         original_prediction = torch.softmax(original_prediction, dim = -1).detach().cpu().numpy().astype(np.float64)
-        # (batch size, class)
 
         full_text_probs = original_prediction.max(-1) 
         full_text_class = original_prediction.argmax(-1)
@@ -1165,7 +1173,8 @@ def conduct_experiments_attention_(model, data, model_random_seed, use_topk, nor
 
         batch["faithful_method"] = "soft_suff"
         batch["importance_scores"]=torch.zeros(batch["input_ids"].squeeze(1).size())
-        batch["add_noise"]=False
+        batch["rationale_mask"]=torch.zeros(batch["input_ids"].size())
+        batch["add_noise"]=True  ### 测试点, noise定用true
         yhat, _  = model(**batch) # 此时 input id 全为o, 做的baseline ---> suff(x, y', 0)
         yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
         reduced_probs = yhat[rows, full_text_class]
@@ -1232,6 +1241,7 @@ def conduct_experiments_attention_(model, data, model_random_seed, use_topk, nor
                         only_query_mask=only_query_mask,
                         normalise=normalise,
                     )
+
                     
                     
                 else:    
@@ -1279,6 +1289,9 @@ def conduct_experiments_attention_(model, data, model_random_seed, use_topk, nor
                         only_query_mask=only_query_mask,
                         normalise=normalise,
                     )
+
+
+                    quit()
                 
 
                 suff_aopc[:,_i_] = soft_suff
