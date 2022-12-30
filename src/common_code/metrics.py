@@ -205,7 +205,7 @@ def normalized_sufficiency_soft_(model, use_topk,
 
 
     #remove -inf
-    importance_scores = torch.clip(importance_scores, min=-3)  # remove -inf
+    importance_scores[importance_scores==float('-inf')] = -3  # remove -inf, if version higher than 1.11.0, go for torch.clip
     
 
     if normalise == 1:
@@ -264,7 +264,8 @@ def normalized_comprehensiveness_soft_(model, use_topk,
     inputs["rationale_mask"] = rationale_mask
 
 
-    importance_scores = torch.clip(importance_scores, min=-3)  # remove -inf
+    #importance_scores = torch.clip(importance_scores, min=-3)  # remove -inf
+    importance_scores[importance_scores==float('-inf')] = -3  # remove -inf, if version higher than 1.11.0, go for torch.clip
 
 
     if normalise == 1:

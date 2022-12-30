@@ -556,6 +556,8 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk, norma
                     )
 
 
+                    quit()
+
 
                 suff_aopc[:,_i_] = soft_suff  # id, lenght
                 comp_aopc[:,_i_] = soft_comp
@@ -929,7 +931,6 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk, no
                     )
 
 
-
                 
                 suff_aopc[:,_i_] = soft_suff
                 comp_aopc[:,_i_] = soft_comp
@@ -1285,8 +1286,6 @@ def conduct_experiments_attention_(model, data, model_random_seed, use_topk, nor
                         only_query_mask=only_query_mask,
                         normalise=normalise,
                     )
-
-
                 
 
                 suff_aopc[:,_i_] = soft_suff

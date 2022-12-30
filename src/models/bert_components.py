@@ -401,7 +401,6 @@ class BertModelWrapper_noise(nn.Module):
             return_dict=self.model.config.return_dict,
         )
 
-        # quit()
 
         sequence_output = encoder_outputs[0].to(device)
 
