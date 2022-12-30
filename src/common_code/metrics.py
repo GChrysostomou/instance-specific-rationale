@@ -295,11 +295,11 @@ def normalized_comprehensiveness_soft_(model, use_topk,
 
     ##### 进 model 前, rationale 已经因为comp 被删掉了
 
-    print('   COMP 测试内, 进 model 前 (被softmax了) ----------> inputs["importance_scores"]')
-    print(inputs["importance_scores"])
+    # print('   COMP 测试内, 进 model 前 (被softmax了) ----------> inputs["importance_scores"]')
+    # print(inputs["importance_scores"])
 
-    print('   COMP 测试内, 进 model 前 (COMP, len=1时, 全部要遮掉)----------> inputs["rationale_mask"]')
-    print(inputs["rationale_mask"])
+    # print('   COMP 测试内, 进 model 前 (COMP, len=1时, 全部要遮掉)----------> inputs["rationale_mask"]')
+    # print(inputs["rationale_mask"])
     yhat, _  = model(**inputs)
 
     yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
