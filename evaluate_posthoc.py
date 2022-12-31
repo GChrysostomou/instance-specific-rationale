@@ -141,7 +141,7 @@ from src.evaluation import evaluation_pipeline
 data = BERT_HOLDER(
     args["data_dir"], 
     stage = "eval",
-    b_size = 8,
+    b_size = 4,
     #b_size = args["batch_size"], # TO FIX CUDA OUT OF MEMORY, MAY NOT WORK
 )
 

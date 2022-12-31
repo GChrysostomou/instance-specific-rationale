@@ -31,7 +31,7 @@ from sklearn.metrics import classification_report
 
 
 feat_name_dict = {"attention", "scaled attention", "gradients", "ig", "deeplift", "random"} 
-rationale_ratios = [1.0, 0.01, 0.02, 0.05, 0.1, 0.2, 0.5] 
+rationale_ratios = [1.0, 0.01, 0.02, 0.05, 0.1, 0.2, 0.5]   # [1.0, 0.01, 0.02, 0.05, 0.1, 0.2, 0.5] 
 
 def conduct_tests_(model, data, model_random_seed):    
 ## now to create folder where results will be saved
@@ -83,6 +83,7 @@ def conduct_tests_(model, data, model_random_seed):
                     target_key = "predicted",
                 )  # return torch.tensor(new_tensor).to(device)
 
+
         ## setting up the placeholder for storing the results
         for annot_id in batch["annotation_id"]:
             faithfulness_results[annot_id] = {}
@@ -90,7 +91,6 @@ def conduct_tests_(model, data, model_random_seed):
         ## prepping for our experiments
         original_sentences = batch["input_ids"].clone().detach()
         original_prediction = torch.softmax(original_prediction, dim = -1).detach().cpu().numpy().astype(np.float64)
-    
 
         full_text_probs = original_prediction.max(-1)
         full_text_class = original_prediction.argmax(-1)
@@ -133,8 +133,7 @@ def conduct_tests_(model, data, model_random_seed):
             for feat in feat_name_dict:
                 faithfulness_results[annot_id][feat] = {}
                 
-        for feat_name in feat_name_dict: #"ig" ,"lime", "deeplift", "gradientshap",
-
+        for feat_name in feat_name_dict:#feat_name_dict: #"ig" ,"lime", "deeplift", "gradientshap",
 
             feat_score =  batch_from_dict_(
                 batch_data = batch, 
@@ -147,7 +146,6 @@ def conduct_tests_(model, data, model_random_seed):
 
 
             for _i_, rationale_length in enumerate(rationale_ratios):
-        
 
                 if args.query:
 
@@ -196,8 +194,10 @@ def conduct_tests_(model, data, model_random_seed):
                     full_text_class = full_text_class, 
                     rows = rows,
                     #suff_y_zero = suff_y_zero,
-                    comp_y_one= 1-suff_y_zero,
+                    suff_y_zero = suff_y_zero,
                 )
+
+
            
                 suff_aopc[:,_i_] = suff
                 comp_aopc[:,_i_] = comp
@@ -222,6 +222,8 @@ def conduct_tests_(model, data, model_random_seed):
                                                                         "mean" : comp_aopc[_j_].sum() / (len(rationale_ratios)),
                                                                         "per ratio" : comp_aopc[_j_]
                                                                         }
+        
+            #quit()
         pbar.update(data.batch_size)
 
 
@@ -456,11 +458,6 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk, norma
         for feat_name in feat_name_dict: #"ig" ,"lime", "deeplift", "deepliftshap", 
 
             feat_score =  batch_from_dict_(batch_data = batch, metadata = importance_scores, target_key = feat_name,)
-            # print("==>> ORIGINAL (feat_score): ")
-            # print("==>> ORIGINAL (feat_score): ")
-            # print("==>> ORIGINAL (feat_score): ")
-            # print("==>> ORIGINAL (feat_score): ")
-            # print(feat_score)
 
 
 
@@ -474,7 +471,6 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk, norma
 
 
 
-                    print(batch['input_ids'])
                     soft_comp, soft_comp_probs  = normalized_comprehensiveness_soft_(
                         model = model, 
                         original_sentences = original_sentences, 
@@ -483,7 +479,7 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk, norma
                         full_text_probs = full_text_probs, 
                         full_text_class = full_text_class, 
                         rows = rows,
-                        comp_y_one= 1-suff_y_zero,
+                        suff_y_zero = suff_y_zero,
                         importance_scores = feat_score, # original
                         use_topk=False,
                         normalise=normalise,
@@ -503,20 +499,10 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk, norma
                         normalise=normalise,
                     )
 
-                    # print(' ')
-                    # print(' ')
-                    # print(' ======== R=1 == soft_comp, soft_comp_probs  ===== ')
-                    # print(soft_comp, soft_comp_probs)
-                    # print(' ======== R=1 == soft_suff, soft_suff_probs  ===== ')
-                    # print(soft_suff, soft_suff_probs)
                     # quit()
 
                 
                 else:
-                    # print(' ')
-                    # print(' ')
-                    # print( ' =============  rationale_length ')
-                    # print(rationale_length)
 
                     if args.query:
                         rationale_mask = create_rationale_mask_(
@@ -543,7 +529,7 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk, norma
                         full_text_probs = full_text_probs, 
                         full_text_class = full_text_class, 
                         rows = rows,
-                        comp_y_one= 1-suff_y_zero,
+                        suff_y_zero = suff_y_zero,
                         importance_scores = feat_score,
                         use_topk=True,
                         normalise=normalise,
@@ -563,12 +549,6 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk, norma
                         normalise=normalise,
                     )
 
-                    # print(' ')
-                    # print(' ')
-                    # print(' ======== R= 0.01 === soft_comp, soft_comp_probs  ===== ')
-                    # print(soft_comp, soft_comp_probs)
-                    # print(' ========  R= 0.01  == soft_suff, soft_suff_probs  ===== ')
-                    # print(soft_suff, soft_suff_probs)
 
 
                     # quit()
@@ -795,11 +775,14 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk, no
                     target_key = "predicted",
                 )  # return torch.tensor(new_tensor).to(device)
 
+        
+
         for annot_id in batch["annotation_id"]:
             faithfulness_results[annot_id] = {}
 
         original_sentences = batch["input_ids"].clone().detach()
         original_prediction = torch.softmax(original_prediction, dim = -1).detach().cpu().numpy().astype(np.float64)
+        
 
 
         full_text_probs = original_prediction.max(-1) 
@@ -836,9 +819,6 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk, no
         ) # Suff(x, ˆ y, 0) , no rationales to compare
 
 
-        batch["add_noise"]=True
-
-
         for _j_, annot_id in enumerate(batch["annotation_id"]):
                     faithfulness_results[annot_id]["full text prediction"] = original_prediction[_j_] 
                     faithfulness_results[annot_id]["true label"] = batch["labels"][_j_].detach().cpu().item()
@@ -847,7 +827,7 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk, no
         
         
 
-        for feat_name in feat_name_dict: #"ig" ,"lime", "deeplift", "deepliftshap", 
+        for feat_name in feat_name_dict:#feat_name_dict: #"ig" ,"lime", "deeplift", "deepliftshap", 
 
             feat_score =  batch_from_dict_(
                     batch_data = batch, 
@@ -858,99 +838,59 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk, no
             suff_aopc = np.zeros([yhat.shape[0], len(rationale_ratios)], dtype=np.float64)
             comp_aopc = np.zeros([yhat.shape[0], len(rationale_ratios)], dtype=np.float64)
             
-            for _i_, rationale_length in enumerate(rationale_ratios):  
-                print(' ----------> rationale_length', rationale_length)
-                
+            for _i_, rationale_length in enumerate(rationale_ratios): 
 
+                if args.query:
 
-
-                if rationale_length == 1.0: 
-                    rationale_mask= torch.ones(batch["input_ids"].size())
-
-                    soft_comp, soft_comp_probs  = normalized_comprehensiveness_soft_(
-                        model = model, 
-                        original_sentences = original_sentences, 
-                        rationale_mask = rationale_mask, 
-                        inputs = batch, 
-                        full_text_probs = full_text_probs, 
-                        full_text_class = full_text_class, 
-                        rows = rows,
-                        comp_y_one= 1-suff_y_zero,
-                        importance_scores = feat_score,
-                        use_topk=False,
-                        normalise=normalise,
-                    )
-                    soft_suff, soft_suff_probs = normalized_sufficiency_soft_(
-                        model = model, 
-                        original_sentences = original_sentences, 
-                        rationale_mask = rationale_mask, 
-                        inputs = batch, 
-                        full_text_probs = full_text_probs, 
-                        full_text_class = full_text_class, 
-                        rows = rows,
-                        suff_y_zero = suff_y_zero,
-                        importance_scores = feat_score,
-                        use_topk=False,
-                        only_query_mask=only_query_mask,
-                        normalise=normalise,
-                    )
-                    print(   'soft_suff  ', soft_suff )
-                    print(   'soft_comp  ', soft_comp )
-
-                    
+                    rationale_mask = create_rationale_mask_(
+                    importance_scores = feat_score, 
+                    no_of_masked_tokens = torch.ceil(batch["lengths"].float() * rationale_length).detach().cpu().numpy(),
+                    method = 'topk',
+                    batch_input_ids = original_sentences,
+                    special_tokens = batch["special_tokens"],
+                )
                 else:
-                    if args.query:
+                    rationale_mask = create_rationale_mask_(
+                    importance_scores = feat_score, 
+                    no_of_masked_tokens = torch.ceil(batch["lengths"].float() * rationale_length).detach().cpu().numpy(),
+                    method = 'topk',
+                    special_tokens = batch["special_tokens"],
+                )
 
-                        rationale_mask = create_rationale_mask_(
-                        importance_scores = feat_score, 
-                        no_of_masked_tokens = torch.ceil(batch["lengths"].float() * rationale_length).detach().cpu().numpy(),
-                        method = 'topk',
-                        batch_input_ids = original_sentences,
-                        special_tokens = batch["special_tokens"],
-                    )
-                    else:
-                        rationale_mask = create_rationale_mask_(
-                        importance_scores = feat_score, 
-                        no_of_masked_tokens = torch.ceil(batch["lengths"].float() * rationale_length).detach().cpu().numpy(),
-                        method = 'topk',
-                        special_tokens = batch["special_tokens"],
-                    )
-
-                    soft_comp, soft_comp_probs  = normalized_comprehensiveness_soft_(
-                    model = model, 
-                    original_sentences = original_sentences, 
-                    rationale_mask = rationale_mask, 
-                    inputs = batch, 
-                    full_text_probs = full_text_probs,   
-                    full_text_class = full_text_class,  
-                    rows = rows,
-                    comp_y_one = 1-suff_y_zero,    
-                    importance_scores = feat_score,
-                    use_topk=use_topk,
-                    normalise=normalise,
-                    )
-                    
-
-
-                    soft_suff, soft_suff_probs = normalized_sufficiency_soft_(
-                    model = model, 
-                    original_sentences = original_sentences, 
-                    rationale_mask = rationale_mask, 
-                    inputs = batch, 
-                    full_text_probs = full_text_probs, 
-                    full_text_class = full_text_class, 
-                    rows = rows,
-                    suff_y_zero = suff_y_zero,
-                    importance_scores = feat_score,
-                    use_topk=use_topk,
-                    only_query_mask = only_query_mask,
-                    normalise=normalise,
-                    )
-                    print(   'soft_suff  ', soft_suff )
-                    print(   'soft_comp  ', soft_comp )
-
-
+                soft_comp, soft_comp_probs  = normalized_comprehensiveness_soft_(
+                model = model, 
+                original_sentences = original_sentences, 
+                rationale_mask = rationale_mask, 
+                inputs = batch, 
+                full_text_probs = full_text_probs,   
+                full_text_class = full_text_class,  
+                rows = rows,
+                suff_y_zero = suff_y_zero, 
+                importance_scores = feat_score,
+                use_topk=use_topk,
+                normalise=normalise,
+                )
                 
+
+
+                soft_suff, soft_suff_probs = normalized_sufficiency_soft_(
+                model = model, 
+                original_sentences = original_sentences, 
+                rationale_mask = rationale_mask, 
+                inputs = batch, 
+                full_text_probs = full_text_probs, 
+                full_text_class = full_text_class, 
+                rows = rows,
+                suff_y_zero = suff_y_zero,
+                importance_scores = feat_score,
+                use_topk=use_topk,
+                only_query_mask = only_query_mask,
+                normalise=normalise,
+                )
+
+            #'''
+
+            
                 suff_aopc[:,_i_] = soft_suff
                 comp_aopc[:,_i_] = soft_comp
 
@@ -971,10 +911,10 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk, no
                                                                         "mean" : comp_aopc[_j_].sum() / (len(rationale_ratios)),
                                                                         "per ratio" : comp_aopc[_j_]
                                                                         }
-                   
-            
+
+            #quit()
         
-    pbar.update(data.batch_size)   
+        pbar.update(data.batch_size)   
 
     detailed_fname = args["evaluation_dir"] + f"NOISE-std{std}_faithfulness-scores-normal_{normalise}.npy"
     
@@ -1227,7 +1167,6 @@ def conduct_experiments_attention_(model, data, model_random_seed, use_topk, nor
             comp_aopc = np.zeros([yhat.shape[0], len(rationale_ratios)], dtype=np.float64)
 
             for _i_, rationale_length in enumerate(rationale_ratios):
-                print(' ----------> rationale_length', rationale_length)
 
 
                 if rationale_length == 1.0: 
@@ -1241,7 +1180,7 @@ def conduct_experiments_attention_(model, data, model_random_seed, use_topk, nor
                         full_text_probs = full_text_probs, 
                         full_text_class = full_text_class, 
                         rows = rows,
-                        comp_y_one= 1-suff_y_zero,
+                        suff_y_zero = suff_y_zero,
                         importance_scores = feat_score,
                         use_topk=False,
                         normalise=normalise,
@@ -1260,8 +1199,6 @@ def conduct_experiments_attention_(model, data, model_random_seed, use_topk, nor
                         only_query_mask=only_query_mask,
                         normalise=normalise,
                     )
-                    print(   'soft_suff  ', soft_suff )
-                    print(   'soft_comp  ', soft_comp )
                     
                     
                 else:    
@@ -1290,7 +1227,7 @@ def conduct_experiments_attention_(model, data, model_random_seed, use_topk, nor
                         full_text_probs = full_text_probs, 
                         full_text_class = full_text_class, 
                         rows = rows,
-                        comp_y_one= 1-suff_y_zero,
+                        suff_y_zero = suff_y_zero,
                         importance_scores = feat_score,
                         use_topk=True,
                         normalise=normalise,
@@ -1310,8 +1247,6 @@ def conduct_experiments_attention_(model, data, model_random_seed, use_topk, nor
                         normalise=normalise,
                     )
                 
-                    print(   'soft_suff  ', soft_suff )
-                    print(   'soft_comp  ', soft_comp )
 
                 suff_aopc[:,_i_] = soft_suff
                 comp_aopc[:,_i_] = soft_comp
