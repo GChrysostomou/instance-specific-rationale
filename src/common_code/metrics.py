@@ -174,62 +174,65 @@ def normalized_sufficiency_soft_(model, use_topk,
                             normalise: int,
                             ) -> np.array:
 
-    # for sufficiency we always keep the rationale
-    # since ones represent rationale tokens
-    # preserve cls
+    ######### for sufficiency we always keep the rationale
+    ######### since ones represent rationale tokens
+#
 
     ####### 这里可以变动 only for suff
-    ### preserve cls
+    ######## preserve cls
     rationale_mask[:,0] = 1
-    ## preserve sep
+    ######## preserve sep
     rationale_mask[torch.arange(rationale_mask.size(0)).to(device), inputs["lengths"]] = 1
 
-
     mask = rationale_mask.to(device) + only_query_mask.to(device)
-    # print(' ========= inside normalise suff ')
-    # print("==>> rationale_mask: ", rationale_mask.shape)
-    # print("==>> only_query_mask: ", only_query_mask.shape)
-    # print("==>> mask.shape  = rationale_mask.to(device) + only_query_mask.to(device) : ", mask.shape)
     mask[mask>1] = mask[mask>1]-1
     assert torch.max(mask).item() <=1
     assert mask.size() == original_sentences.size()
     inputs["input_ids"]  = (mask * original_sentences).type(torch.int64)
-    #inputs["input_ids"] = inputs["input_ids"].type(torch.int64)
 
 
     # else: 
     #     inputs["input_ids"]  =  original_sentences
 
-    
     inputs["faithful_method"]="soft_suff"          
     #inputs["importance_scores"]=importance_scores 
     inputs["add_noise"] = True                     
 
-
-
     #remove -inf
-    importance_scores[importance_scores==float('-inf')] = -3  # remove -inf, if version higher than 1.11.0, go for torch.clip
+    importance_scores[importance_scores==float('-inf')] = -999  # remove -inf, if version higher than 1.11.0, go for torch.clip
 
     #print(' BEFORE MODEL , BEFORE softmax Importance scores:' , importance_scores)
     
 
     if normalise == 1:
-        #importance_scores = torch.sigmoid(importance_scores)
+        importance_scores = torch.sigmoid(importance_scores)
         softmax = torch.nn.Softmax(dim = 1)
         importance_scores =softmax(importance_scores).to(device)
-        if torch.mean(importance_scores) < 0.1:
-            importance_scores=importance_scores*100 # can only multiply after softmax to avoid negative values
-            if torch.mean(importance_scores) < 0.1:
-                importance_scores=importance_scores*10 # can only multiply after softmax to avoid negative values
+        
         inputs["importance_scores"]=importance_scores
+        # if torch.mean(importance_scores) < 0.1:
+        #     importance_scores=importance_scores*100 # can only multiply after softmax to avoid negative values
+        #     if torch.mean(importance_scores) < 0.1:
+        #         importance_scores=importance_scores*10 # can only multiply after softmax to avoid negative values
+        # inputs["importance_scores"]=importance_scores
+
+    elif normalise == 2:
+        #### NORMALISE METHOD 2
+        importance_scores[torch.isinf(importance_scores)] = 1e-4
+        importance_scores -= 1e-4 # modify by cass 1711
+        importance_scores_min = importance_scores.min(1, keepdim=True)[0]
+        importance_scores_max = importance_scores.max(1, keepdim=True)[0]
+        importance_scores = (importance_scores - importance_scores_min) / (importance_scores_max-importance_scores_min)
+        
+        inputs["importance_scores"]=importance_scores
+
     else:
         inputs["importance_scores"]=importance_scores
 
-
     yhat, _  = model(**inputs)
+    
 
     yhat = torch.softmax(yhat.detach().cpu(), dim = -1).numpy()
-
     reduced_probs = yhat[rows, full_text_class]
 
     ## reduced input sufficiency
@@ -253,15 +256,15 @@ def normalized_comprehensiveness_soft_(model, use_topk,
                                         full_text_probs : np.array, 
                                         full_text_class : np.array, 
                                         rows : np.array, 
-                                        comp_y_one : np.array,
+                                        suff_y_zero : np.array,
                                         importance_scores: torch.tensor,
                                         #only_query_mask: torch.tensor,
                                         normalise: int,
                                         ) -> np.array:
     
     rationale_mask = (rationale_mask == 0) # when ration len = 1, all 1s --> here become ration mask all 0 --> all masked as comprehensivenss mask all rationales
+    #print("==>> INSIDE NORMAL COMP SOFT EVA (rationale_mask):  ", (rationale_mask))
 
-    
     ### preserve cls
     rationale_mask[:,0] = 1 # 测试!!!
     ####### # preserve sep
@@ -274,45 +277,53 @@ def normalized_comprehensiveness_soft_(model, use_topk,
     inputs["rationale_mask"] = rationale_mask
     inputs["input_ids"] = original_sentences
 
-    # print(' ')
-    # print(' ')
-    # print( ' =============  input_ids ')
-
-    
 
 
     #importance_scores = torch.clip(importance_scores, min=-3)  # remove -inf
-    importance_scores[importance_scores==float('-inf')] = -3  # remove -inf, if version higher than 1.11.0, go for torch.clip
+    #importance_scores[importance_scores==float('-inf')] = -99  # remove -inf, if version higher than 1.11.0, go for torch.clip
 
 
     if normalise == 1:
-        ####### NORMALISE Importance Scores
+        importance_scores = torch.sigmoid(importance_scores)
         softmax = torch.nn.Softmax(dim = 1)
-        inputs["importance_scores"]=softmax(importance_scores).to(device)
+        importance_scores =softmax(importance_scores).to(device)
+        
+        inputs["importance_scores"]=importance_scores
+        # if torch.mean(importance_scores) < 0.1:
+        #     importance_scores=importance_scores*100 # can only multiply after softmax to avoid negative values
+        #     if torch.mean(importance_scores) < 0.1:
+        #         importance_scores=importance_scores*10 # can only multiply after softmax to avoid negative values
+        # inputs["importance_scores"]=importance_scores
+
+    elif normalise == 2:
+        #### NORMALISE METHOD 2
+        importance_scores[torch.isinf(importance_scores)] = 1e-4
+        importance_scores -= 1e-4 # modify by cass 1711
+        importance_scores_min = importance_scores.min(1, keepdim=True)[0]
+        importance_scores_max = importance_scores.max(1, keepdim=True)[0]
+        importance_scores = (importance_scores - importance_scores_min) / (importance_scores_max-importance_scores_min)
+        
+        inputs["importance_scores"]=importance_scores
+
     else:
-        inputs["importance_scores"]=importance_scores.to(device)  ## probably need to deal with -inf
+        inputs["importance_scores"]=importance_scores
 
 
     ##### 进 model 前, rationale 已经因为comp 被删掉了
 
-    # print('   COMP 测试内, 进 model 前 (被softmax了) ----------> inputs["importance_scores"]')
-    # print(inputs["importance_scores"])
 
-    # print('   COMP 测试内, 进 model 前 (COMP, len=1时, 全部要遮掉)----------> inputs["rationale_mask"]')
-    # print(inputs["rationale_mask"])
     yhat, _  = model(**inputs)
 
     yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
 
-    #print(' --> yhat', yhat)
 
 
     reduced_probs = yhat[rows, full_text_class]
     comp_y_a = comprehensiveness_(full_text_probs, reduced_probs)
 
-    comp_y_one[comp_y_one==0] = 0.0000001
+    suff_y_zero[suff_y_zero==0] = 0.0000001
 
-    norm_comp = np.maximum(0, comp_y_a / comp_y_one)
+    norm_comp = np.maximum(0, comp_y_a / (1-suff_y_zero))
 
     norm_comp = np.clip(norm_comp, a_min = 0, a_max = 1)
 
@@ -329,7 +340,7 @@ def normalized_comprehensiveness_(model,
                                 full_text_probs : np.array, 
                                 full_text_class : np.array, 
                                 rows : np.array, 
-                                comp_y_one : np.array,
+                                suff_y_zero : np.array,
                                 
                                 ) -> np.array: #suff_y_zero : np.array, 
     
@@ -350,14 +361,13 @@ def normalized_comprehensiveness_(model,
     yhat, _  = model(**inputs)
 
     yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
-
     reduced_probs = yhat[rows, full_text_class]
 
      ## reduced input sufficiency
     comp_y_a = comprehensiveness_(full_text_probs, reduced_probs)
     
-    comp_y_one[comp_y_one==0] = 1e-4 # avoid denominator = 0 把 等于0 的 加 1额-8, 其他不变
-    norm_comp = np.maximum(0, comp_y_a / comp_y_one)
+    suff_y_zero[suff_y_zero==0] = 0.0000001 # avoid denominator = 0 把 等于0 的 加 1额-8, 其他不变
+    norm_comp = np.maximum(0, comp_y_a / (1-suff_y_zero))
 
 
     norm_comp = np.clip(norm_comp, a_min = 0, a_max = 1)

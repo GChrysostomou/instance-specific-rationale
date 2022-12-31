@@ -3,7 +3,7 @@
                                  "allenai/scibert_scivocab_uncased": "scibert",
                                  "roberta-base": "roberta"},
      "evinf" : {
-        "rationale_length" : 0.2,
+        "rationale_length" : 0.1,
         "batch_size": 4,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
