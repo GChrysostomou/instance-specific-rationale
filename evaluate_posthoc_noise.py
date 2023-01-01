@@ -30,7 +30,7 @@ parser.add_argument(
     "--dataset", 
     type = str, 
     help = "select dataset / task", 
-    default = "evinf",  # choices = ["evinf", "agnews", "sst","multirc"]
+    default = "sst",  # choices = ["evinf", "agnews", "sst","multirc"]
 )
 
 

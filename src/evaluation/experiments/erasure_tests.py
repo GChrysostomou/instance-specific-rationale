@@ -33,7 +33,9 @@ from sklearn.metrics import classification_report
 feat_name_dict = {"attention", "scaled attention", "gradients", "ig", "deeplift", "random"} 
 rationale_ratios = [1.0, 0.01, 0.02, 0.05, 0.1, 0.2, 0.5]   # [1.0, 0.01, 0.02, 0.05, 0.1, 0.2, 0.5] 
 
-def conduct_tests_(model, data, model_random_seed):    
+
+def conduct_experiments_noise_2(model, data, model_random_seed,
+                                std, use_topk,normalise):    
 ## now to create folder where results will be saved
     fname = os.path.join(
         os.getcwd(),
@@ -107,11 +109,8 @@ def conduct_tests_(model, data, model_random_seed):
             )
             batch["input_ids"] = only_query_mask * original_sentences
             
-
-            
         else:
             only_query_mask=torch.zeros_like(batch["input_ids"]).long()
-            
             batch["input_ids"] = only_query_mask
 
 
@@ -146,6 +145,343 @@ def conduct_tests_(model, data, model_random_seed):
 
 
             for _i_, rationale_length in enumerate(rationale_ratios):
+                # print(' ')
+                # print('  ------- rationale_length', rationale_length)
+
+                if args.query:
+
+                    rationale_mask = create_rationale_mask_(
+                            importance_scores = feat_score, 
+                            no_of_masked_tokens = torch.ceil(batch["lengths"].float() * rationale_length).detach().cpu().numpy(),
+                            #no_of_masked_tokens = tempC,
+                            method = 'topk',
+                            batch_input_ids = original_sentences,
+                            special_tokens = batch["special_tokens"],
+                        )
+
+                    
+
+                else:
+                    rationale_mask = create_rationale_mask_(
+                            importance_scores = feat_score, 
+                            no_of_masked_tokens = torch.ceil(batch["lengths"].float() * rationale_length).detach().cpu().numpy(),
+                            method = 'topk',
+                            special_tokens = batch["special_tokens"],
+                        )
+                        
+
+            
+                suff, suff_probs = normalized_sufficiency_soft_(
+                
+                    model = model, 
+                    original_sentences = original_sentences, 
+                    rationale_mask = rationale_mask, 
+                    inputs = batch, 
+                    full_text_probs = full_text_probs, 
+                    full_text_class = full_text_class, 
+                    rows = rows,
+                    suff_y_zero = suff_y_zero,
+                    only_query_mask=only_query_mask,
+                )
+
+
+
+                comp, comp_probs  = normalized_comprehensiveness_soft_(
+                    model = model, 
+                    original_sentences = original_sentences, 
+                    rationale_mask = rationale_mask, 
+                    inputs = batch, 
+                    full_text_probs = full_text_probs, 
+                    full_text_class = full_text_class, 
+                    rows = rows,
+                    #suff_y_zero = suff_y_zero,
+                    suff_y_zero = suff_y_zero,
+                )
+
+                # print(' ------------  SUFF  ----------')
+                # print(suff, suff_probs)
+                # print(' ------------  COMP  ----------')
+                # print(comp, comp_probs)
+
+
+           
+                suff_aopc[:,_i_] = suff
+                comp_aopc[:,_i_] = comp
+                
+                for _j_, annot_id in enumerate(batch["annotation_id"]):
+                        # faithfulness_results[annot_id]["full text prediction"] = original_prediction[_j_] 
+                        # faithfulness_results[annot_id]["true label"] = batch["labels"][_j_].detach().cpu().item()
+                    
+                    faithfulness_results[annot_id][feat_name][f"sufficiency @ {rationale_length}"] = suff[_j_]
+                    faithfulness_results[annot_id][feat_name][f"comprehensiveness @ {rationale_length}"] = comp[_j_]
+                    faithfulness_results[annot_id][feat_name][f"masked R probs (comp) @ {rationale_length}"] = comp_probs[_j_].astype(np.float64)
+                    faithfulness_results[annot_id][feat_name][f"only R probs (suff) @ {rationale_length}"] = suff_probs[_j_].astype(np.float64)
+                
+
+                    
+                    if _i_ == len(rationale_ratios)-1:
+                        faithfulness_results[annot_id][feat_name]["sufficiency aopc"] = {
+                                                                        "mean" : suff_aopc[_j_].sum() / (len(rationale_ratios)),
+                                                                        "per ratio" : suff_aopc[_j_]
+                                                                        }
+                        faithfulness_results[annot_id][feat_name]["comprehensiveness aopc"] = {
+                                                                        "mean" : comp_aopc[_j_].sum() / (len(rationale_ratios)),
+                                                                        "per ratio" : comp_aopc[_j_]
+                                                                        }
+        
+            #quit()
+        pbar.update(data.batch_size)
+
+
+            
+    descriptor = {}
+    # filling getting averages
+    for feat_attr in {"random", "attention", "scaled attention", "ig", "gradients", 
+            "deeplift"}: #"ig", "gradientshap", , "lime"
+
+        
+        sufficiencies_001 = np.asarray([faithfulness_results[k][feat_attr][f"sufficiency @ 0.01"] for k in faithfulness_results.keys()])
+        comprehensivenesses_001 = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness @ 0.01"] for k in faithfulness_results.keys()])
+
+        sufficiencies_002 = np.asarray([faithfulness_results[k][feat_attr][f"sufficiency @ 0.02"] for k in faithfulness_results.keys()])
+        comprehensivenesses_002 = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness @ 0.02"] for k in faithfulness_results.keys()])
+
+        sufficiencies_005 = np.asarray([faithfulness_results[k][feat_attr][f"sufficiency @ 0.05"] for k in faithfulness_results.keys()])
+        comprehensivenesses_005 = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness @ 0.05"] for k in faithfulness_results.keys()])
+
+        sufficiencies_01 = np.asarray([faithfulness_results[k][feat_attr][f"sufficiency @ 0.1"] for k in faithfulness_results.keys()])
+        comprehensivenesses_01 = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness @ 0.1"] for k in faithfulness_results.keys()])
+
+        sufficiencies_02 = np.asarray([faithfulness_results[k][feat_attr][f"sufficiency @ 0.2"] for k in faithfulness_results.keys()])
+        comprehensivenesses_02 = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness @ 0.2"] for k in faithfulness_results.keys()])
+
+        sufficiencies_05 = np.asarray([faithfulness_results[k][feat_attr][f"sufficiency @ 0.5"] for k in faithfulness_results.keys()])
+        comprehensivenesses_05 = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness @ 0.5"] for k in faithfulness_results.keys()])
+
+        sufficiencies_05 = np.asarray([faithfulness_results[k][feat_attr][f"sufficiency @ 0.5"] for k in faithfulness_results.keys()])
+        comprehensivenesses_05 = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness @ 0.5"] for k in faithfulness_results.keys()])
+
+        sufficiencies_10 = np.asarray([faithfulness_results[k][feat_attr][f"sufficiency @ 1.0"] for k in faithfulness_results.keys()])
+        comprehensivenesses_10 = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness @ 1.0"] for k in faithfulness_results.keys()])
+
+        aopc_suff= np.asarray([faithfulness_results[k][feat_attr][f"sufficiency aopc"]["mean"] for k in faithfulness_results.keys()])
+        aopc_comp = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness aopc"]["mean"] for k in faithfulness_results.keys()])
+
+        
+        descriptor[feat_attr] = {
+            "sufficiencies @ 0.01" : {
+                "mean" : sufficiencies_001.mean(),
+                "std" : sufficiencies_001.std()
+            },
+            "comprehensiveness @ 0.01" : {
+                "mean" : comprehensivenesses_001.mean(),
+                "std" : comprehensivenesses_001.std()
+            },
+
+            "sufficiencies @ 0.02" : {
+                "mean" : sufficiencies_002.mean(),
+                "std" : sufficiencies_002.std()
+            },
+            "comprehensiveness @ 0.02" : {
+                "mean" : comprehensivenesses_002.mean(),
+                "std" : comprehensivenesses_002.std()
+            },
+
+            "sufficiencies @ 0.05" : {
+                "mean" : sufficiencies_005.mean(),
+                "std" : sufficiencies_005.std()
+            },
+            "comprehensiveness @ 0.05" : {
+                "mean" : comprehensivenesses_005.mean(),
+                "std" : comprehensivenesses_005.std()
+            },
+
+
+            "sufficiencies @ 0.1" : {
+                "mean" : sufficiencies_01.mean(),
+                "std" : sufficiencies_01.std()
+            },
+            "comprehensiveness @ 0.1" : {
+                "mean" : comprehensivenesses_01.mean(),
+                "std" : comprehensivenesses_01.std()
+            },
+
+            
+            "sufficiencies @ 0.2" : {
+                "mean" : sufficiencies_02.mean(),
+                "std" : sufficiencies_02.std()
+            },
+            "comprehensiveness @ 0.2" : {
+                "mean" : comprehensivenesses_02.mean(),
+                "std" : comprehensivenesses_02.std()
+            },
+            
+
+            "sufficiencies @ 0.5" : {
+                "mean" : sufficiencies_05.mean(),
+                "std" : sufficiencies_05.std()
+            },
+            "comprehensiveness @ 0.5" : {
+                "mean" : comprehensivenesses_05.mean(),
+                "std" : comprehensivenesses_05.std()
+            },
+
+
+            "sufficiencies @ 1.0" : {
+                "mean" : sufficiencies_10.mean(),
+                "std" : sufficiencies_10.std()
+            },
+            "comprehensiveness @ 1.0" : {
+                "mean" : comprehensivenesses_10.mean(),
+                "std" : comprehensivenesses_10.std()
+            },
+
+
+            "AOPC - sufficiency" : {
+                "mean" : aopc_suff.mean(),
+                "std" : aopc_suff.std()
+            },
+            "AOPC - comprehensiveness" : {
+                "mean" : aopc_comp.mean(),
+                "std" : aopc_comp.std()
+            }
+            }        
+
+    ## save all info
+    fname = args["evaluation_dir"] + f"{args.thresholder}-faithfulness-scores-detailed.npy"
+    np.save(fname, faithfulness_results)
+
+    ## save descriptors
+    fname = args["evaluation_dir"] + f"{args.thresholder}-faithfulness-scores-average-description.json"
+
+    with open(fname, 'w') as file:
+            json.dump(
+                descriptor,
+                file,
+                indent = 4
+            ) 
+
+    return
+
+
+def conduct_tests_(model, data, model_random_seed):    
+## now to create folder where results will be saved
+    fname = os.path.join(
+        os.getcwd(),
+        args["data_dir"],
+        "importance_scores",
+        ""
+    )
+    os.makedirs(fname, exist_ok = True)
+    fname = f"{fname}test_importance_scores_{model_random_seed}.npy"
+    importance_scores = np.load(fname, allow_pickle = True).item()  ### change it back later fname
+
+
+## retrieve original prediction probability
+    fname2 = os.path.join(
+        os.getcwd(),
+        args["model_dir"],
+    )
+    fname2 = glob.glob(fname2 + f"*output*{model_random_seed}.npy")[0]
+    original_prediction_output = np.load(fname2, allow_pickle = True).item()
+
+    desc = 'faithfulness evaluation -> id'
+    pbar = trange(len(data) * data.batch_size, desc=desc, leave=True)
+    faithfulness_results = {}
+    desired_rationale_length = args.rationale_length
+
+    for i, batch in enumerate(data):
+
+        print(' len =======', batch['lengths'])
+        
+        model.eval()
+        model.zero_grad()
+        batch = {
+                "annotation_id" : batch["annotation_id"],
+                "input_ids" : batch["input_ids"].squeeze(1).to(device),
+                "lengths" : batch["lengths"].to(device),
+                "labels" : batch["label"].to(device),
+                "token_type_ids" : batch["token_type_ids"].squeeze(1).to(device),
+                "attention_mask" : batch["attention_mask"].squeeze(1).to(device),
+                "query_mask" : batch["query_mask"].squeeze(1).to(device),
+                "special_tokens" : batch["special tokens"],
+                "retain_gradient" : False,
+            }
+
+        assert batch["input_ids"].size(0) == len(batch["labels"]), "Error: batch size for item 1 not in correct position"
+   
+        original_prediction =  batch_from_dict_(
+                    batch_data = batch, 
+                    metadata = original_prediction_output, 
+                    target_key = "predicted",
+                )  # return torch.tensor(new_tensor).to(device)
+
+
+        ## setting up the placeholder for storing the results
+        for annot_id in batch["annotation_id"]:
+            faithfulness_results[annot_id] = {}
+
+        ## prepping for our experiments
+        original_sentences = batch["input_ids"].clone().detach()
+        original_prediction = torch.softmax(original_prediction, dim = -1).detach().cpu().numpy().astype(np.float64)
+
+        full_text_probs = original_prediction.max(-1)
+        full_text_class = original_prediction.argmax(-1)
+
+        ## prepping for our experiments
+        rows = np.arange(batch["input_ids"].size(0))
+
+        ####################### check baseline y suff zero
+        if args.query:
+            only_query_mask=create_only_query_mask_(
+                
+                batch_input_ids=batch["input_ids"],
+                special_tokens=batch["special_tokens"]
+            )
+            batch["input_ids"] = only_query_mask * original_sentences
+            
+        else:
+            only_query_mask=torch.zeros_like(batch["input_ids"]).long()
+            batch["input_ids"] = only_query_mask
+
+
+        yhat, _  = model(**batch)
+        yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
+        reduced_probs = yhat[rows, full_text_class]
+
+        ## baseline sufficiency
+        suff_y_zero = sufficiency_(
+            full_text_probs, 
+            reduced_probs
+        )
+        ####################### DONE check baseline y suff zero
+
+        for _j_, annot_id in enumerate(batch["annotation_id"]):
+                
+            faithfulness_results[annot_id]["full text prediction"] = original_prediction[_j_] 
+            faithfulness_results[annot_id]["true label"] = batch["labels"][_j_].detach().cpu().item()
+            for feat in feat_name_dict:
+                faithfulness_results[annot_id][feat] = {}
+                
+        for feat_name in feat_name_dict:#feat_name_dict: #"ig" ,"lime", "deeplift", "gradientshap",
+            # print('  ', feat_name)
+            # print('  ', feat_name)
+            # print('  ', feat_name)
+            # print('  ', feat_name)
+
+            feat_score =  batch_from_dict_(
+                batch_data = batch, 
+                metadata = importance_scores, 
+                target_key = feat_name,
+            )
+
+            suff_aopc = np.zeros([yhat.shape[0], len(rationale_ratios)], dtype=np.float64)
+            comp_aopc = np.zeros([yhat.shape[0], len(rationale_ratios)], dtype=np.float64)
+
+
+            for _i_, rationale_length in enumerate(rationale_ratios):
+                # print(' ')
+                # print('  ------- rationale_length', rationale_length)
 
                 if args.query:
 
@@ -196,6 +532,11 @@ def conduct_tests_(model, data, model_random_seed):
                     #suff_y_zero = suff_y_zero,
                     suff_y_zero = suff_y_zero,
                 )
+
+                # print(' ------------  SUFF  ----------')
+                # print(suff, suff_probs)
+                # print(' ------------  COMP  ----------')
+                # print(comp, comp_probs)
 
 
            
@@ -360,7 +701,7 @@ def conduct_tests_(model, data, model_random_seed):
 
 
 
-def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk, normalise=0): # 0 for no normalization, 1 for softmax
+def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk, normalise): # 0 for no normalization, 1 for softmax
 
     fname = os.path.join(os.getcwd(),args["data_dir"], "importance_scores","" )
     os.makedirs(fname, exist_ok = True)
@@ -474,7 +815,7 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk, norma
                     soft_comp, soft_comp_probs  = normalized_comprehensiveness_soft_(
                         model = model, 
                         original_sentences = original_sentences, 
-                        rationale_mask = rationale_mask, 
+                        #rationale_mask = rationale_mask, 
                         inputs = batch, 
                         full_text_probs = full_text_probs, 
                         full_text_class = full_text_class, 
@@ -487,7 +828,7 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk, norma
                     soft_suff, soft_suff_probs = normalized_sufficiency_soft_(
                         model = model, 
                         original_sentences = original_sentences, 
-                        rationale_mask = rationale_mask, 
+                        #rationale_mask = rationale_mask, 
                         inputs = batch, 
                         full_text_probs = full_text_probs, 
                         full_text_class = full_text_class, 
@@ -503,6 +844,7 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk, norma
 
                 
                 else:
+                    pass # return
 
                     if args.query:
                         rationale_mask = create_rationale_mask_(
@@ -524,7 +866,7 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk, norma
                     soft_comp, soft_comp_probs  = normalized_comprehensiveness_soft_(
                         model = model, 
                         original_sentences = original_sentences, 
-                        rationale_mask = rationale_mask, 
+                        #rationale_mask = rationale_mask, 
                         inputs = batch, 
                         full_text_probs = full_text_probs, 
                         full_text_class = full_text_class, 
@@ -537,7 +879,7 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk, norma
                     soft_suff, soft_suff_probs = normalized_sufficiency_soft_(
                         model = model, 
                         original_sentences = original_sentences, 
-                        rationale_mask = rationale_mask, 
+                        #rationale_mask = rationale_mask, 
                         inputs = batch, 
                         full_text_probs = full_text_probs, 
                         full_text_class = full_text_class, 
@@ -595,26 +937,26 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk, norma
     for feat_attr in feat_name_dict: #"gradientshap", "lime","deepliftshap",   [0.01, 0.02, 0.05, 0.1, 0.2, 0.5] 
         
         if use_topk: # 0.05, 0.1, 0.2, 0.5]
-            sufficiencies_001 = np.asarray([faithfulness_results[k][feat_attr][f"sufficiency @ 0.01"] for k in faithfulness_results.keys()])
-            comprehensivenesses_001 = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness @ 0.01"] for k in faithfulness_results.keys()])
+            # sufficiencies_001 = np.asarray([faithfulness_results[k][feat_attr][f"sufficiency @ 0.01"] for k in faithfulness_results.keys()])
+            # comprehensivenesses_001 = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness @ 0.01"] for k in faithfulness_results.keys()])
 
-            sufficiencies_002 = np.asarray([faithfulness_results[k][feat_attr][f"sufficiency @ 0.02"] for k in faithfulness_results.keys()])
-            comprehensivenesses_002 = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness @ 0.02"] for k in faithfulness_results.keys()])
+            # sufficiencies_002 = np.asarray([faithfulness_results[k][feat_attr][f"sufficiency @ 0.02"] for k in faithfulness_results.keys()])
+            # comprehensivenesses_002 = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness @ 0.02"] for k in faithfulness_results.keys()])
 
-            sufficiencies_005 = np.asarray([faithfulness_results[k][feat_attr][f"sufficiency @ 0.05"] for k in faithfulness_results.keys()])
-            comprehensivenesses_005 = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness @ 0.05"] for k in faithfulness_results.keys()])
+            # sufficiencies_005 = np.asarray([faithfulness_results[k][feat_attr][f"sufficiency @ 0.05"] for k in faithfulness_results.keys()])
+            # comprehensivenesses_005 = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness @ 0.05"] for k in faithfulness_results.keys()])
 
-            sufficiencies_01 = np.asarray([faithfulness_results[k][feat_attr][f"sufficiency @ 0.1"] for k in faithfulness_results.keys()])
-            comprehensivenesses_01 = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness @ 0.1"] for k in faithfulness_results.keys()])
+            # sufficiencies_01 = np.asarray([faithfulness_results[k][feat_attr][f"sufficiency @ 0.1"] for k in faithfulness_results.keys()])
+            # comprehensivenesses_01 = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness @ 0.1"] for k in faithfulness_results.keys()])
 
-            sufficiencies_02 = np.asarray([faithfulness_results[k][feat_attr][f"sufficiency @ 0.2"] for k in faithfulness_results.keys()])
-            comprehensivenesses_02 = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness @ 0.2"] for k in faithfulness_results.keys()])
+            # sufficiencies_02 = np.asarray([faithfulness_results[k][feat_attr][f"sufficiency @ 0.2"] for k in faithfulness_results.keys()])
+            # comprehensivenesses_02 = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness @ 0.2"] for k in faithfulness_results.keys()])
 
-            sufficiencies_05 = np.asarray([faithfulness_results[k][feat_attr][f"sufficiency @ 0.5"] for k in faithfulness_results.keys()])
-            comprehensivenesses_05 = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness @ 0.5"] for k in faithfulness_results.keys()])
+            # sufficiencies_05 = np.asarray([faithfulness_results[k][feat_attr][f"sufficiency @ 0.5"] for k in faithfulness_results.keys()])
+            # comprehensivenesses_05 = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness @ 0.5"] for k in faithfulness_results.keys()])
 
-            sufficiencies_05 = np.asarray([faithfulness_results[k][feat_attr][f"sufficiency @ 0.5"] for k in faithfulness_results.keys()])
-            comprehensivenesses_05 = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness @ 0.5"] for k in faithfulness_results.keys()])
+            # sufficiencies_05 = np.asarray([faithfulness_results[k][feat_attr][f"sufficiency @ 0.5"] for k in faithfulness_results.keys()])
+            # comprehensivenesses_05 = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness @ 0.5"] for k in faithfulness_results.keys()])
 
             sufficiencies_10 = np.asarray([faithfulness_results[k][feat_attr][f"sufficiency @ 1.0"] for k in faithfulness_results.keys()])
             comprehensivenesses_10 = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness @ 1.0"] for k in faithfulness_results.keys()])
@@ -623,63 +965,63 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk, norma
             aopc_comp = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness aopc"]["mean"] for k in faithfulness_results.keys()])
             
             descriptor[feat_attr] = {
-                "sufficiencies @ 0.01" : {
-                    "mean" : sufficiencies_001.mean(),
-                    "std" : sufficiencies_001.std()
-                },
-                "comprehensiveness @ 0.01" : {
-                    "mean" : comprehensivenesses_001.mean(),
-                    "std" : comprehensivenesses_001.std()
-                },
+                # "sufficiencies @ 0.01" : {
+                #     "mean" : sufficiencies_001.mean(),
+                #     "std" : sufficiencies_001.std()
+                # },
+                # "comprehensiveness @ 0.01" : {
+                #     "mean" : comprehensivenesses_001.mean(),
+                #     "std" : comprehensivenesses_001.std()
+                # },
 
 
-                "sufficiencies @ 0.02" : {
-                    "mean" : sufficiencies_002.mean(),
-                    "std" : sufficiencies_002.std()
-                },
-                "comprehensiveness @ 0.02" : {
-                    "mean" : comprehensivenesses_002.mean(),
-                    "std" : comprehensivenesses_002.std()
-                },
+                # "sufficiencies @ 0.02" : {
+                #     "mean" : sufficiencies_002.mean(),
+                #     "std" : sufficiencies_002.std()
+                # },
+                # "comprehensiveness @ 0.02" : {
+                #     "mean" : comprehensivenesses_002.mean(),
+                #     "std" : comprehensivenesses_002.std()
+                # },
 
-                "sufficiencies @ 0.05" : {
-                    "mean" : sufficiencies_005.mean(),
-                    "std" : sufficiencies_005.std()
-                },
-                "comprehensiveness @ 0.05" : {
-                    "mean" : comprehensivenesses_005.mean(),
-                    "std" : comprehensivenesses_005.std()
-                },
+                # "sufficiencies @ 0.05" : {
+                #     "mean" : sufficiencies_005.mean(),
+                #     "std" : sufficiencies_005.std()
+                # },
+                # "comprehensiveness @ 0.05" : {
+                #     "mean" : comprehensivenesses_005.mean(),
+                #     "std" : comprehensivenesses_005.std()
+                # },
 
 
-                "sufficiencies @ 0.1" : {
-                    "mean" : sufficiencies_01.mean(),
-                    "std" : sufficiencies_01.std()
-                },
-                "comprehensiveness @ 0.1" : {
-                    "mean" : comprehensivenesses_01.mean(),
-                    "std" : comprehensivenesses_01.std()
-                },
+                # "sufficiencies @ 0.1" : {
+                #     "mean" : sufficiencies_01.mean(),
+                #     "std" : sufficiencies_01.std()
+                # },
+                # "comprehensiveness @ 0.1" : {
+                #     "mean" : comprehensivenesses_01.mean(),
+                #     "std" : comprehensivenesses_01.std()
+                # },
 
                 
-                "sufficiencies @ 0.2" : {
-                    "mean" : sufficiencies_02.mean(),
-                    "std" : sufficiencies_02.std()
-                },
-                "comprehensiveness @ 0.2" : {
-                    "mean" : comprehensivenesses_02.mean(),
-                    "std" : comprehensivenesses_02.std()
-                },
+                # "sufficiencies @ 0.2" : {
+                #     "mean" : sufficiencies_02.mean(),
+                #     "std" : sufficiencies_02.std()
+                # },
+                # "comprehensiveness @ 0.2" : {
+                #     "mean" : comprehensivenesses_02.mean(),
+                #     "std" : comprehensivenesses_02.std()
+                # },
                 
 
-                "sufficiencies @ 0.5" : {
-                    "mean" : sufficiencies_05.mean(),
-                    "std" : sufficiencies_05.std()
-                },
-                "comprehensiveness @ 0.5" : {
-                    "mean" : comprehensivenesses_05.mean(),
-                    "std" : comprehensivenesses_05.std()
-                },
+                # "sufficiencies @ 0.5" : {
+                #     "mean" : sufficiencies_05.mean(),
+                #     "std" : sufficiencies_05.std()
+                # },
+                # "comprehensiveness @ 0.5" : {
+                #     "mean" : comprehensivenesses_05.mean(),
+                #     "std" : comprehensivenesses_05.std()
+                # },
 
 
                 "sufficiencies @ 1.0" : {
@@ -782,12 +1124,12 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk, no
 
         original_sentences = batch["input_ids"].clone().detach()
         original_prediction = torch.softmax(original_prediction, dim = -1).detach().cpu().numpy().astype(np.float64)
+        #print("==>> (original_prediction): ", (original_prediction))
         
 
 
         full_text_probs = original_prediction.max(-1) 
         full_text_class = original_prediction.argmax(-1)
-
 
 
         ## prepping for our experiments
@@ -807,9 +1149,10 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk, no
 
         batch["importance_scores"]=torch.zeros(batch["input_ids"].squeeze(1).size()) # 都不重要
         batch["add_noise"]=True  ### 测试!!!!!!!!!!!! zeroout(probably does not matter) and attention is false
-        batch["rationale_mask"]=torch.zeros(batch["input_ids"].size())
+        #batch["rationale_mask"]=torch.zeros(batch["input_ids"].size())
         yhat, _  = model(**batch) # 此时 input id 全为o, 做的baseline ---> suff(x, y', 0)
         yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
+        
         reduced_probs = yhat[rows, full_text_class]
 
         ## baseline sufficiency
@@ -817,6 +1160,11 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk, no
             full_text_probs, 
             reduced_probs
         ) # Suff(x, ˆ y, 0) , no rationales to compare
+        print("==>> (suff_y_zero): ")
+
+        print("==>> (suff_y_zero): ")
+        print("==>> (suff_y_zero): ", (suff_y_zero))
+        print("==>> 1-(suff_y_zero): ", (1-suff_y_zero))
 
 
         for _j_, annot_id in enumerate(batch["annotation_id"]):
@@ -838,29 +1186,30 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk, no
             suff_aopc = np.zeros([yhat.shape[0], len(rationale_ratios)], dtype=np.float64)
             comp_aopc = np.zeros([yhat.shape[0], len(rationale_ratios)], dtype=np.float64)
             
-            for _i_, rationale_length in enumerate(rationale_ratios): 
+            for _i_, rationale_length in enumerate([1.0]): 
+                #print(' ---------------- >', rationale_length)
 
-                if args.query:
+                # if args.query:
 
-                    rationale_mask = create_rationale_mask_(
-                    importance_scores = feat_score, 
-                    no_of_masked_tokens = torch.ceil(batch["lengths"].float() * rationale_length).detach().cpu().numpy(),
-                    method = 'topk',
-                    batch_input_ids = original_sentences,
-                    special_tokens = batch["special_tokens"],
-                )
-                else:
-                    rationale_mask = create_rationale_mask_(
-                    importance_scores = feat_score, 
-                    no_of_masked_tokens = torch.ceil(batch["lengths"].float() * rationale_length).detach().cpu().numpy(),
-                    method = 'topk',
-                    special_tokens = batch["special_tokens"],
-                )
+                #     rationale_mask = create_rationale_mask_(
+                #     importance_scores = feat_score, 
+                #     no_of_masked_tokens = torch.ceil(batch["lengths"].float() * rationale_length).detach().cpu().numpy(),
+                #     method = 'topk',
+                #     batch_input_ids = original_sentences,
+                #     special_tokens = batch["special_tokens"],
+                # )
+                # else:
+                #     rationale_mask = create_rationale_mask_(
+                #     importance_scores = feat_score, 
+                #     no_of_masked_tokens = torch.ceil(batch["lengths"].float() * rationale_length).detach().cpu().numpy(),
+                #     method = 'topk',
+                #     special_tokens = batch["special_tokens"],
+                # )
 
                 soft_comp, soft_comp_probs  = normalized_comprehensiveness_soft_(
                 model = model, 
                 original_sentences = original_sentences, 
-                rationale_mask = rationale_mask, 
+                #rationale_mask = rationale_mask, 
                 inputs = batch, 
                 full_text_probs = full_text_probs,   
                 full_text_class = full_text_class,  
@@ -876,7 +1225,7 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk, no
                 soft_suff, soft_suff_probs = normalized_sufficiency_soft_(
                 model = model, 
                 original_sentences = original_sentences, 
-                rationale_mask = rationale_mask, 
+                #rationale_mask = rationale_mask, 
                 inputs = batch, 
                 full_text_probs = full_text_probs, 
                 full_text_class = full_text_class, 
@@ -889,8 +1238,11 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk, no
                 )
 
             #'''
+                # print(' ------------SOFT  SUFF  ----------')
+                # print(soft_suff, soft_suff_probs)
+                # print(' ------------SOFT  COMP  ----------')
+                # print(soft_comp, soft_comp_probs)
 
-            
                 suff_aopc[:,_i_] = soft_suff
                 comp_aopc[:,_i_] = soft_comp
 
@@ -928,91 +1280,91 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk, no
     for feat_attr in feat_name_dict: #"gradientshap", "lime","deepliftshap",   [0.01, 0.02, 0.05, 0.1, 0.2, 0.5] 
         
         if use_topk: # 0.05, 0.1, 0.2, 0.5]
-            sufficiencies_001 = np.asarray([faithfulness_results[k][feat_attr][f"sufficiency @ 0.01"] for k in faithfulness_results.keys()])
-            comprehensivenesses_001 = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness @ 0.01"] for k in faithfulness_results.keys()])
+            # sufficiencies_001 = np.asarray([faithfulness_results[k][feat_attr][f"sufficiency @ 0.01"] for k in faithfulness_results.keys()])
+            # comprehensivenesses_001 = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness @ 0.01"] for k in faithfulness_results.keys()])
 
-            sufficiencies_002 = np.asarray([faithfulness_results[k][feat_attr][f"sufficiency @ 0.02"] for k in faithfulness_results.keys()])
-            comprehensivenesses_002 = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness @ 0.02"] for k in faithfulness_results.keys()])
+            # sufficiencies_002 = np.asarray([faithfulness_results[k][feat_attr][f"sufficiency @ 0.02"] for k in faithfulness_results.keys()])
+            # comprehensivenesses_002 = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness @ 0.02"] for k in faithfulness_results.keys()])
 
-            sufficiencies_005 = np.asarray([faithfulness_results[k][feat_attr][f"sufficiency @ 0.05"] for k in faithfulness_results.keys()])
-            comprehensivenesses_005 = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness @ 0.05"] for k in faithfulness_results.keys()])
+            # sufficiencies_005 = np.asarray([faithfulness_results[k][feat_attr][f"sufficiency @ 0.05"] for k in faithfulness_results.keys()])
+            # comprehensivenesses_005 = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness @ 0.05"] for k in faithfulness_results.keys()])
 
-            sufficiencies_01 = np.asarray([faithfulness_results[k][feat_attr][f"sufficiency @ 0.1"] for k in faithfulness_results.keys()])
-            comprehensivenesses_01 = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness @ 0.1"] for k in faithfulness_results.keys()])
+            # sufficiencies_01 = np.asarray([faithfulness_results[k][feat_attr][f"sufficiency @ 0.1"] for k in faithfulness_results.keys()])
+            # comprehensivenesses_01 = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness @ 0.1"] for k in faithfulness_results.keys()])
 
-            sufficiencies_02 = np.asarray([faithfulness_results[k][feat_attr][f"sufficiency @ 0.2"] for k in faithfulness_results.keys()])
-            comprehensivenesses_02 = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness @ 0.2"] for k in faithfulness_results.keys()])
+            # sufficiencies_02 = np.asarray([faithfulness_results[k][feat_attr][f"sufficiency @ 0.2"] for k in faithfulness_results.keys()])
+            # comprehensivenesses_02 = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness @ 0.2"] for k in faithfulness_results.keys()])
 
-            sufficiencies_05 = np.asarray([faithfulness_results[k][feat_attr][f"sufficiency @ 0.5"] for k in faithfulness_results.keys()])
-            comprehensivenesses_05 = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness @ 0.5"] for k in faithfulness_results.keys()])
+            # sufficiencies_05 = np.asarray([faithfulness_results[k][feat_attr][f"sufficiency @ 0.5"] for k in faithfulness_results.keys()])
+            # comprehensivenesses_05 = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness @ 0.5"] for k in faithfulness_results.keys()])
 
-            sufficiencies_05 = np.asarray([faithfulness_results[k][feat_attr][f"sufficiency @ 0.5"] for k in faithfulness_results.keys()])
-            comprehensivenesses_05 = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness @ 0.5"] for k in faithfulness_results.keys()])
+            # sufficiencies_05 = np.asarray([faithfulness_results[k][feat_attr][f"sufficiency @ 0.5"] for k in faithfulness_results.keys()])
+            # comprehensivenesses_05 = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness @ 0.5"] for k in faithfulness_results.keys()])
 
             sufficiencies_10 = np.asarray([faithfulness_results[k][feat_attr][f"sufficiency @ 1.0"] for k in faithfulness_results.keys()])
             comprehensivenesses_10 = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness @ 1.0"] for k in faithfulness_results.keys()])
 
-            aopc_suff= np.asarray([faithfulness_results[k][feat_attr][f"sufficiency aopc"]["mean"] for k in faithfulness_results.keys()])
-            aopc_comp = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness aopc"]["mean"] for k in faithfulness_results.keys()])
+            #aopc_suff= np.asarray([faithfulness_results[k][feat_attr][f"sufficiency aopc"]["mean"] for k in faithfulness_results.keys()])
+            #aopc_comp = np.asarray([faithfulness_results[k][feat_attr][f"comprehensiveness aopc"]["mean"] for k in faithfulness_results.keys()])
             
             descriptor[feat_attr] = {
-                "sufficiencies @ 0.01" : {
-                    "mean" : sufficiencies_001.mean(),
-                    "std" : sufficiencies_001.std()
-                },
-                "comprehensiveness @ 0.01" : {
-                    "mean" : comprehensivenesses_001.mean(),
-                    "std" : comprehensivenesses_001.std()
-                },
+                # "sufficiencies @ 0.01" : {
+                #     "mean" : sufficiencies_001.mean(),
+                #     "std" : sufficiencies_001.std()
+                # },
+                # "comprehensiveness @ 0.01" : {
+                #     "mean" : comprehensivenesses_001.mean(),
+                #     "std" : comprehensivenesses_001.std()
+                # },
 
 
-                "sufficiencies @ 0.02" : {
-                    "mean" : sufficiencies_002.mean(),
-                    "std" : sufficiencies_002.std()
-                },
-                "comprehensiveness @ 0.02" : {
-                    "mean" : comprehensivenesses_002.mean(),
-                    "std" : comprehensivenesses_002.std()
-                },
+                # "sufficiencies @ 0.02" : {
+                #     "mean" : sufficiencies_002.mean(),
+                #     "std" : sufficiencies_002.std()
+                # },
+                # "comprehensiveness @ 0.02" : {
+                #     "mean" : comprehensivenesses_002.mean(),
+                #     "std" : comprehensivenesses_002.std()
+                # },
 
-                "sufficiencies @ 0.05" : {
-                    "mean" : sufficiencies_005.mean(),
-                    "std" : sufficiencies_005.std()
-                },
-                "comprehensiveness @ 0.05" : {
-                    "mean" : comprehensivenesses_005.mean(),
-                    "std" : comprehensivenesses_005.std()
-                },
+                # "sufficiencies @ 0.05" : {
+                #     "mean" : sufficiencies_005.mean(),
+                #     "std" : sufficiencies_005.std()
+                # },
+                # "comprehensiveness @ 0.05" : {
+                #     "mean" : comprehensivenesses_005.mean(),
+                #     "std" : comprehensivenesses_005.std()
+                # },
 
 
-                "sufficiencies @ 0.1" : {
-                    "mean" : sufficiencies_01.mean(),
-                    "std" : sufficiencies_01.std()
-                },
-                "comprehensiveness @ 0.1" : {
-                    "mean" : comprehensivenesses_01.mean(),
-                    "std" : comprehensivenesses_01.std()
-                },
+                # "sufficiencies @ 0.1" : {
+                #     "mean" : sufficiencies_01.mean(),
+                #     "std" : sufficiencies_01.std()
+                # },
+                # "comprehensiveness @ 0.1" : {
+                #     "mean" : comprehensivenesses_01.mean(),
+                #     "std" : comprehensivenesses_01.std()
+                # },
 
                 
-                "sufficiencies @ 0.2" : {
-                    "mean" : sufficiencies_02.mean(),
-                    "std" : sufficiencies_02.std()
-                },
-                "comprehensiveness @ 0.2" : {
-                    "mean" : comprehensivenesses_02.mean(),
-                    "std" : comprehensivenesses_02.std()
-                },
+                # "sufficiencies @ 0.2" : {
+                #     "mean" : sufficiencies_02.mean(),
+                #     "std" : sufficiencies_02.std()
+                # },
+                # "comprehensiveness @ 0.2" : {
+                #     "mean" : comprehensivenesses_02.mean(),
+                #     "std" : comprehensivenesses_02.std()
+                # },
                 
 
-                "sufficiencies @ 0.5" : {
-                    "mean" : sufficiencies_05.mean(),
-                    "std" : sufficiencies_05.std()
-                },
-                "comprehensiveness @ 0.5" : {
-                    "mean" : comprehensivenesses_05.mean(),
-                    "std" : comprehensivenesses_05.std()
-                },
+                # "sufficiencies @ 0.5" : {
+                #     "mean" : sufficiencies_05.mean(),
+                #     "std" : sufficiencies_05.std()
+                # },
+                # "comprehensiveness @ 0.5" : {
+                #     "mean" : comprehensivenesses_05.mean(),
+                #     "std" : comprehensivenesses_05.std()
+                # },
 
 
                 "sufficiencies @ 1.0" : {
@@ -1025,14 +1377,14 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk, no
                 },
 
 
-                "AOPC - sufficiency" : {
-                    "mean" : aopc_suff.mean(),
-                    "std" : aopc_suff.std()
-                },
-                "AOPC - comprehensiveness" : {
-                    "mean" : aopc_comp.mean(),
-                    "std" : aopc_comp.std()
-                }
+            #     "AOPC - sufficiency" : {
+            #         "mean" : aopc_suff.mean(),
+            #         "std" : aopc_suff.std()
+            #     },
+            #     "AOPC - comprehensiveness" : {
+            #         "mean" : aopc_comp.mean(),
+            #         "std" : aopc_comp.std()
+            #     }
             }        
 
 
@@ -1175,7 +1527,7 @@ def conduct_experiments_attention_(model, data, model_random_seed, use_topk, nor
                     soft_comp, soft_comp_probs  = normalized_comprehensiveness_soft_(
                         model = model, 
                         original_sentences = original_sentences, 
-                        rationale_mask = rationale_mask, 
+                        #rationale_mask = rationale_mask, 
                         inputs = batch, 
                         full_text_probs = full_text_probs, 
                         full_text_class = full_text_class, 
@@ -1188,7 +1540,7 @@ def conduct_experiments_attention_(model, data, model_random_seed, use_topk, nor
                     soft_suff, soft_suff_probs = normalized_sufficiency_soft_(
                         model = model, 
                         original_sentences = original_sentences, 
-                        rationale_mask = rationale_mask, 
+                        #rationale_mask = rationale_mask, 
                         inputs = batch, 
                         full_text_probs = full_text_probs, 
                         full_text_class = full_text_class, 
@@ -1202,6 +1554,7 @@ def conduct_experiments_attention_(model, data, model_random_seed, use_topk, nor
                     
                     
                 else:    
+                    pass
                     if args.query:
                         rationale_mask = create_rationale_mask_(
                             importance_scores = feat_score, 
@@ -1222,7 +1575,7 @@ def conduct_experiments_attention_(model, data, model_random_seed, use_topk, nor
                     soft_comp, soft_comp_probs  = normalized_comprehensiveness_soft_(
                         model = model, 
                         original_sentences = original_sentences, 
-                        rationale_mask = rationale_mask, 
+                        #rationale_mask = rationale_mask, 
                         inputs = batch, 
                         full_text_probs = full_text_probs, 
                         full_text_class = full_text_class, 
@@ -1235,7 +1588,7 @@ def conduct_experiments_attention_(model, data, model_random_seed, use_topk, nor
                     soft_suff, soft_suff_probs = normalized_sufficiency_soft_(
                         model = model, 
                         original_sentences = original_sentences, 
-                        rationale_mask = rationale_mask, 
+                        #rationale_mask = rationale_mask, 
                         inputs = batch, 
                         full_text_probs = full_text_probs, 
                         full_text_class = full_text_class, 

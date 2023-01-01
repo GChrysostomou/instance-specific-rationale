@@ -271,7 +271,7 @@ class BertClassifier_noise(nn.Module):
             attention_mask = inputs["attention_mask"].to(device),
             token_type_ids = inputs["token_type_ids"].to(device),
             ig = inputs["ig"],
-            rationale_mask = inputs["rationale_mask"].to(device),
+            #rationale_mask = inputs["rationale_mask"].to(device),
             importance_scores = inputs["importance_scores"].to(device),
             faithful_method = inputs["faithful_method"],
             # std = inputs['std'],

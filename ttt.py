@@ -49,7 +49,7 @@ print(ttt)
 data = np.load('./posthoc_results/sst/ZEROOUTlimit-faithfulness-scores-detailed.npy', allow_pickle=True).item() 
 a = data['test_445']['random']
 print(a)
-quit()
+
 
 
 x = np.array([3, 1, 2])

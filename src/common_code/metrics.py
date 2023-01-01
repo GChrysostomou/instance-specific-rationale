@@ -161,9 +161,38 @@ def normalized_sufficiency_(model,
     return norm_suff, yhat
 
 
+def normal_importance(importance_scores, normalise):
+    #importance_scores[importance_scores==float('-inf')] = -999  # remove -inf, if version higher than 1.11.0, go for torch.clip
+
+    if normalise == 1:
+        importance_scores = torch.sigmoid(importance_scores)
+    elif normalise == 2:
+        importance_scores[torch.isinf(importance_scores)] = -10  #importance_scores -= 1e-4 # modify by cass 1711
+        importance_scores_min = importance_scores.min(1, keepdim=True)[0]
+        importance_scores_max = importance_scores.max(1, keepdim=True)[0]
+        importance_scores = (importance_scores - importance_scores_min) / (importance_scores_max-importance_scores_min)
+        
+    elif normalise == 3:
+        softmax = torch.nn.Softmax(dim = -1)
+        importance_scores =softmax(importance_scores).to(device)
+    elif normalise == 4:
+        importance_scores[torch.isinf(importance_scores)] = -3
+        importance_scores_min = importance_scores.min(1, keepdim=True)[0]
+        importance_scores_max = importance_scores.max(1, keepdim=True)[0]
+        importance_scores = (importance_scores - importance_scores_min) / (importance_scores_max-importance_scores_min)
+    elif normalise == 5:
+        importance_scores[torch.isinf(importance_scores)] = -1
+        importance_scores_min = importance_scores.min(1, keepdim=True)[0]
+        importance_scores_max = importance_scores.max(1, keepdim=True)[0]
+        importance_scores = (importance_scores - importance_scores_min) / (importance_scores_max-importance_scores_min)
+    else:
+        print(' no normalisation on importance scores !!!!')
+
+    return importance_scores
+
 def normalized_sufficiency_soft_(model, use_topk,
                             original_sentences : torch.tensor, 
-                            rationale_mask : torch.tensor, # by Cass, 这里用上rationale nikos想要的
+                            #rationale_mask : torch.tensor, # by Cass, 这里用上rationale nikos想要的
                             inputs : dict, 
                             full_text_probs : np.array, 
                             full_text_class : np.array, 
@@ -177,19 +206,17 @@ def normalized_sufficiency_soft_(model, use_topk,
     ######### for sufficiency we always keep the rationale
     ######### since ones represent rationale tokens
 #
-
     ####### 这里可以变动 only for suff
     ######## preserve cls
-    rationale_mask[:,0] = 1
-    ######## preserve sep
-    rationale_mask[torch.arange(rationale_mask.size(0)).to(device), inputs["lengths"]] = 1
+    # rationale_mask[:,0] = 1
+    # ######## preserve sep
+    # rationale_mask[torch.arange(rationale_mask.size(0)).to(device), inputs["lengths"]] = 1
 
-    mask = rationale_mask.to(device) + only_query_mask.to(device)
-    mask[mask>1] = mask[mask>1]-1
-    assert torch.max(mask).item() <=1
-    assert mask.size() == original_sentences.size()
-    inputs["input_ids"]  = (mask * original_sentences).type(torch.int64)
-
+    # mask = rationale_mask.to(device) + only_query_mask.to(device)
+    # mask[mask>1] = mask[mask>1]-1
+    # assert torch.max(mask).item() <=1
+    # assert mask.size() == original_sentences.size()
+    # inputs["input_ids"]  = (mask * original_sentences).type(torch.int64)
 
     # else: 
     #     inputs["input_ids"]  =  original_sentences
@@ -198,36 +225,9 @@ def normalized_sufficiency_soft_(model, use_topk,
     #inputs["importance_scores"]=importance_scores 
     inputs["add_noise"] = True                     
 
-    #remove -inf
-    importance_scores[importance_scores==float('-inf')] = -999  # remove -inf, if version higher than 1.11.0, go for torch.clip
 
-    #print(' BEFORE MODEL , BEFORE softmax Importance scores:' , importance_scores)
-    
+    inputs["importance_scores"]= normal_importance(importance_scores, normalise)
 
-    if normalise == 1:
-        importance_scores = torch.sigmoid(importance_scores)
-        softmax = torch.nn.Softmax(dim = 1)
-        importance_scores =softmax(importance_scores).to(device)
-        
-        inputs["importance_scores"]=importance_scores
-        # if torch.mean(importance_scores) < 0.1:
-        #     importance_scores=importance_scores*100 # can only multiply after softmax to avoid negative values
-        #     if torch.mean(importance_scores) < 0.1:
-        #         importance_scores=importance_scores*10 # can only multiply after softmax to avoid negative values
-        # inputs["importance_scores"]=importance_scores
-
-    elif normalise == 2:
-        #### NORMALISE METHOD 2
-        importance_scores[torch.isinf(importance_scores)] = 1e-4
-        importance_scores -= 1e-4 # modify by cass 1711
-        importance_scores_min = importance_scores.min(1, keepdim=True)[0]
-        importance_scores_max = importance_scores.max(1, keepdim=True)[0]
-        importance_scores = (importance_scores - importance_scores_min) / (importance_scores_max-importance_scores_min)
-        
-        inputs["importance_scores"]=importance_scores
-
-    else:
-        inputs["importance_scores"]=importance_scores
 
     yhat, _  = model(**inputs)
     
@@ -240,7 +240,8 @@ def normalized_sufficiency_soft_(model, use_topk,
 
     # return suff_y_a
     suff_y_zero -= 1e-4 ## to avoid nan
-
+    # print(' ')
+    # print("==>> suff (suff_y_a) should bigger than suff_y_zero, but similar to (1-(suff_y_zero): ", (suff_y_a))
     # 在这之前, soft comp和soft suff 都是一样的 (模型里面不一样), 
     norm_suff = np.maximum(0, (suff_y_a - suff_y_zero) / (1 - suff_y_zero))
     norm_suff = np.clip( norm_suff, a_min = 0, a_max = 1)
@@ -251,7 +252,7 @@ def normalized_sufficiency_soft_(model, use_topk,
 
 def normalized_comprehensiveness_soft_(model, use_topk,
                                         original_sentences : torch.tensor, 
-                                        rationale_mask : torch.tensor, 
+                                        #rationale_mask : torch.tensor, 
                                         inputs : dict, 
                                         full_text_probs : np.array, 
                                         full_text_class : np.array, 
@@ -261,66 +262,27 @@ def normalized_comprehensiveness_soft_(model, use_topk,
                                         #only_query_mask: torch.tensor,
                                         normalise: int,
                                         ) -> np.array:
-    
-    rationale_mask = (rationale_mask == 0) # when ration len = 1, all 1s --> here become ration mask all 0 --> all masked as comprehensivenss mask all rationales
-    #print("==>> INSIDE NORMAL COMP SOFT EVA (rationale_mask):  ", (rationale_mask))
-
-    ### preserve cls
-    rationale_mask[:,0] = 1 # 测试!!!
-    ####### # preserve sep
-    rationale_mask[  torch.arange(rationale_mask.size(0)).to(device), inputs["lengths"]  ] = 1  # 最后一个 都保留? 透露 句子长度的信息
-
-
-        
     inputs["faithful_method"]="soft_comp"
     inputs["add_noise"] = True
-    inputs["rationale_mask"] = rationale_mask
     inputs["input_ids"] = original_sentences
 
-
-
-    #importance_scores = torch.clip(importance_scores, min=-3)  # remove -inf
-    #importance_scores[importance_scores==float('-inf')] = -99  # remove -inf, if version higher than 1.11.0, go for torch.clip
-
-
-    if normalise == 1:
-        importance_scores = torch.sigmoid(importance_scores)
-        softmax = torch.nn.Softmax(dim = 1)
-        importance_scores =softmax(importance_scores).to(device)
-        
-        inputs["importance_scores"]=importance_scores
-        # if torch.mean(importance_scores) < 0.1:
-        #     importance_scores=importance_scores*100 # can only multiply after softmax to avoid negative values
-        #     if torch.mean(importance_scores) < 0.1:
-        #         importance_scores=importance_scores*10 # can only multiply after softmax to avoid negative values
-        # inputs["importance_scores"]=importance_scores
-
-    elif normalise == 2:
-        #### NORMALISE METHOD 2
-        importance_scores[torch.isinf(importance_scores)] = 1e-4
-        importance_scores -= 1e-4 # modify by cass 1711
-        importance_scores_min = importance_scores.min(1, keepdim=True)[0]
-        importance_scores_max = importance_scores.max(1, keepdim=True)[0]
-        importance_scores = (importance_scores - importance_scores_min) / (importance_scores_max-importance_scores_min)
-        
-        inputs["importance_scores"]=importance_scores
-
-    else:
-        inputs["importance_scores"]=importance_scores
-
-
+    inputs["importance_scores"]= normal_importance(importance_scores, normalise)
     ##### 进 model 前, rationale 已经因为comp 被删掉了
-
-
     yhat, _  = model(**inputs)
-
     yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
+
 
 
 
     reduced_probs = yhat[rows, full_text_class]
     comp_y_a = comprehensiveness_(full_text_probs, reduced_probs)
 
+    # print(' ')
+    # print(' --------- suff_y_zero -----> ', suff_y_zero)
+    # print(' --------- 1-suff_y_zero -----> ', 1-suff_y_zero)
+
+    # print("==>> comp (comp_y_a) should small but similar to 1-(suff_y_zero): ", (comp_y_a))
+    # print(' ')
     suff_y_zero[suff_y_zero==0] = 0.00001
 
     norm_comp = np.maximum(0, comp_y_a / (1-suff_y_zero))

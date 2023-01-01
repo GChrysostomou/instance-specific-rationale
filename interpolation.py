@@ -155,7 +155,7 @@ def F_i(M_SO, M_S4, M_Si): # M is the metrics score
     return F_i
 
 
-
+## testing different FA!!!!!!!!
 FA_name = "scaled attention" #['attention', "scaled attention", "gradients", "ig", "deeplift"]
 
 
