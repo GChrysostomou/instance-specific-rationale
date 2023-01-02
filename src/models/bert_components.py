@@ -286,7 +286,7 @@ class BertModelWrapper_zeroout_original_backup(nn.Module):
 
 
 
-
+# sigma = importance scores
 class GaussianNoise(nn.Module):
 
     def __init__(self, sigma=1, is_relative_detach=True):
@@ -310,17 +310,12 @@ class BertModelWrapper_noise(nn.Module):
     def __init__(self, model, std):
     
         super(BertModelWrapper_noise, self).__init__()
-
-        """
-        BERT model wrapper
-        """
-
         self.model = model
         self.std = std
         
     def forward(self, input_ids, attention_mask, token_type_ids,
                 importance_scores,
-                rationale_mask, # not using it
+                #rationale_mask, # not using it
                 faithful_method,
                 add_noise,
                 ig = int(1),
@@ -339,8 +334,6 @@ class BertModelWrapper_noise(nn.Module):
             assert ig >= 0. and ig <= int(1), "IG(Integrated Gradients: a postdoc explanations) ratio cannot be out of the range 0-1"
 
         else:
-            ## else we need it to match the embeddings size for the KUMA mask
-            ## therefore in this case ig is actually z from the KUMA model
             assert ig.size(0) == embeddings.size(0), "Mis-match in dimensions of mask and embeddings"
             assert ig.size(1) == embeddings.size(1), "Mis-match in dimensions of mask and embeddings"
             assert ig.size(2) == 1, "Rationale mask should be of size 1 in final dimension"
@@ -355,9 +348,6 @@ class BertModelWrapper_noise(nn.Module):
 
             #importance_scores[:,0] = 1 # preserve cls ?
             importance_score = importance_scores.clone().detach()
-
-
-
 
             if importance_score.size() != embeddings.size()[:2]: # embeddings.size()[1] is bigger than importance_score.size()[1]
                 pad_x = torch.zeros((embeddings.size()[0], embeddings.size()[1]),
@@ -381,9 +371,9 @@ class BertModelWrapper_noise(nn.Module):
                             add_noise_fuc = GaussianNoise(sigma=importance_score_one_token) #is_relative_detach=True, 
                             embeddings[i,k,:] = add_noise_fuc(embeddings[i,k,:], std=self.std)
 
-                # suff 在进来前处理掉了, id 直接遮掉了
-                rationale_mask_interleave = rationale_mask.repeat_interleave(embeddings.size()[2]).view(embeddings.shape)
-                embeddings = rationale_mask_interleave * embeddings
+                #############suff 在进来前处理掉了, id 直接遮掉了
+                # rationale_mask_interleave = rationale_mask.repeat_interleave(embeddings.size()[2]).view(embeddings.shape)
+                # embeddings = rationale_mask_interleave * embeddings
 
             else: pass # no changes to embeddings
 
