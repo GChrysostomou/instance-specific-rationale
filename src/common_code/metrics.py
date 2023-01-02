@@ -283,7 +283,7 @@ def normalized_comprehensiveness_soft_(model, use_topk,
 
     # print("==>> comp (comp_y_a) should small but similar to 1-(suff_y_zero): ", (comp_y_a))
     # print(' ')
-    suff_y_zero[suff_y_zero==0] = 0.00001
+    suff_y_zero[(1-suff_y_zero)==0] += 0.00001
 
     norm_comp = np.maximum(0, comp_y_a / (1-suff_y_zero))
 
@@ -328,7 +328,7 @@ def normalized_comprehensiveness_(model,
      ## reduced input sufficiency
     comp_y_a = comprehensiveness_(full_text_probs, reduced_probs)
     
-    suff_y_zero[suff_y_zero==0] = 0.00001 # avoid denominator = 0 把 等于0 的 加 1额-8, 其他不变
+    suff_y_zero[(1-suff_y_zero)==0] += 0.00001 # avoid denominator = 0 把 等于0 的 加 1额-8, 其他不变
     norm_comp = np.maximum(0, comp_y_a / (1-suff_y_zero))
 
 

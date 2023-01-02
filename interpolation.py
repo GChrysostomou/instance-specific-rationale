@@ -138,14 +138,14 @@ logging.info("\n ----------------------")
 
 from src.data_functions.dataholder import BERT_HOLDER_interpolation
 from src.evaluation import evaluation_pipeline
-from src.models.bert import BertClassifier_noise, BertClassifier_zeroout, bert, BertClassifier_attention
+from src.models.bert import BertClassifier_zeroout, bert, BertClassifier_attention
 from src.common_code.useful_functions import batch_from_dict_, create_only_query_mask_, create_rationale_mask_ # batch_from_dict --> batch_from_dict_
 
 model = bert(output_dim = 2)
 model.load_state_dict(torch.load("./trained_models/sst/bert25.pt", map_location=device))
 model.to(device)
 
-model2 = BertClassifier_noise(output_dim = 2)
+model2 = BertClassifier_zeroout(output_dim = 2)
 model2.load_state_dict(torch.load("./trained_models/sst/bert25.pt", map_location=device))
 model2.to(device)
 
@@ -161,7 +161,8 @@ FA_name = "scaled attention" #['attention', "scaled attention", "gradients", "ig
 
 data = BERT_HOLDER_interpolation(args["data_dir"], stage = "interpolation",b_size = 4, FA_name = FA_name)
 
-loader_list = [data.fixed6_loader,
+loader_list = [
+            data.fixed6_loader,
             data.fixed5_loader,
             data.fixed4_loader,
             data.fixed3_loader,
@@ -173,7 +174,9 @@ loader_list = [data.fixed6_loader,
 comp_list = []
 comp_list2 = []
 for data_loader in loader_list:
-    
+
+    print(' ++++++++++++++++++ ', data_loader)
+    print('+++++++++++++++++++++++++++++++++++')
     fname2 = os.path.join(
             os.getcwd(),
             args["model_dir"],
@@ -195,7 +198,7 @@ for data_loader in loader_list:
             one_list = one_list[:-1]
             floats = [float(x) for x in one_list.split()]
 
-            if i == 0:
+            if i == 0: # 都不重要
                 IS = torch.tensor(floats).unsqueeze(0)
             else:
                 one_list = torch.tensor(floats).unsqueeze(0)
@@ -254,20 +257,22 @@ for data_loader in loader_list:
         comp, comp_probs  = normalized_comprehensiveness_(
                         model = model, 
                         original_sentences = original_sentences.to(device), 
-                        rationale_mask = rationale_mask.to(device), 
+                        rationale_mask = torch.ones(batch["input_ids"].shape).to(device), 
                         inputs = batch, 
                         full_text_probs = full_text_probs, 
                         full_text_class = full_text_class, 
                         rows = rows,
-                        #suff_y_zero = suff_y_zero,
-                        comp_y_one=1-suff_y_zero,
+                        suff_y_zero = suff_y_zero,
                     )
         comp_total = np.concatenate((comp_total, comp),axis=0)
         #print('  comp_total', comp_total)
 
-
+        batch["faithful_method"] = rationale_mask
         batch["faithful_method"] = "soft_comp"
         batch["add_noise"] = True
+        batch["rationale_mask"] = torch.ones(batch["input_ids"].shape).to(device), 
+
+
         yhat, _  = model2(**batch)
         yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
         reduced_probs = yhat[rows, full_text_class]
@@ -275,21 +280,25 @@ for data_loader in loader_list:
         ## baseline sufficiency
         suff_y_zero = sufficiency_(
             full_text_probs, 
-            reduced_probs
+            reduced_probs,
         )
-        
+        print( "==>>  2 batch[importance_scores]: ", batch["importance_scores"].shape )
+        print(  batch["importance_scores"])
+        #comp2, comp_probs2  = normalized_comprehensiveness_soft_(
         comp2, comp_probs2  = normalized_comprehensiveness_soft_(
                         model = model2.to(device), 
                         original_sentences = original_sentences.to(device), 
-                        rationale_mask = rationale_mask.to(device), 
+                        #rationale_mask = torch.ones(batch["input_ids"].shape).to(device), 
                         inputs = batch, 
                         full_text_probs = full_text_probs, 
                         full_text_class = full_text_class, 
                         importance_scores = batch["importance_scores"],
                         rows = rows,
-                        #suff_y_zero = suff_y_zero,
-                        comp_y_one=1-suff_y_zero,
+                        suff_y_zero = suff_y_zero,
                         use_topk=True,
+                        normalise =4,
+                        #only_query_mask = None,
+
                     )
         comp_total2 = np.concatenate((comp_total2, comp2),axis=0)
         #print(' comp_total2 ', comp_total2)

@@ -171,7 +171,7 @@ class BertClassifier_zeroout(nn.Module):
             attention_mask = inputs["attention_mask"],
             token_type_ids = inputs["token_type_ids"],
             ig = inputs["ig"],
-            rationale_mask = inputs["rationale_mask"].to(device),
+            rationale_mask = inputs["rationale_mask"], #.to(device),
             importance_scores = inputs["importance_scores"],
             faithful_method = inputs["faithful_method"],
             add_noise = inputs['add_noise'],
