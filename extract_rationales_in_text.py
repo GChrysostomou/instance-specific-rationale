@@ -121,7 +121,7 @@ evaluator = evaluation_pipeline.evaluate(
 
 logging.info("*********extracting in-domain rationales")
 
-evaluator.register_importance_(data, data_split_name="test")
+evaluator.register_importance_(data, data_split_name="test", tokenizer=None, max_seq_len=None)
 #evaluator.create_rationales_(data)
 evaluator.create_rationales_interpolation(data, fixed_rationale_len=6)
 evaluator.create_rationales_interpolation(data, fixed_rationale_len=5)

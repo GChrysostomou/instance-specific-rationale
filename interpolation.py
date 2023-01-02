@@ -16,6 +16,7 @@ import datetime
 import sys
 import glob
 import matplotlib.pyplot as plt
+import torch.nn.functional as F
 
 from src.common_code.metrics import comprehensiveness_, normalized_comprehensiveness_, normalized_sufficiency_, sufficiency_, normalized_comprehensiveness_soft_, normalized_sufficiency_soft_
 from sklearn.metrics import classification_report
@@ -135,7 +136,7 @@ logging.info("config  : \n ----------------------")
 logging.info("\n ----------------------")
 
 
-
+from src.evaluation.experiments.rationale_extractor import rationale_creator_, rationale_creator_interpolation_, extract_importance_, extract_shap_values_
 from src.data_functions.dataholder import BERT_HOLDER_interpolation
 from src.evaluation import evaluation_pipeline
 from src.models.bert import BertClassifier_zeroout, bert, BertClassifier_attention
@@ -162,20 +163,43 @@ FA_name = "scaled attention" #['attention', "scaled attention", "gradients", "ig
 data = BERT_HOLDER_interpolation(args["data_dir"], stage = "interpolation",b_size = 4, FA_name = FA_name)
 
 loader_list = [
-            data.fixed6_loader,
-            data.fixed5_loader,
-            data.fixed4_loader,
-            data.fixed3_loader,
-            data.fixed2_loader,
+            data.fixed0_loader,
             data.fixed1_loader,
-            data.fixed0_loader]
+            data.fixed2_loader,
+            data.fixed3_loader,
+            data.fixed4_loader,
+            data.fixed5_loader,
+            data.fixed6_loader,
+            ]
     
 
 comp_list = []
 comp_list2 = []
-for data_loader in loader_list:
+for i, data_loader in enumerate(loader_list):
 
-    print(' ++++++++++++++++++ ', data_loader)
+
+    ########## register importance scores 
+    # #evaluator.register_importance_(data, data_split_name="test")
+    # extract_importance_(
+    #                 model = model, 
+    #                 data_split_name = "test",
+    #                 data = data,
+    #                 model_random_seed = 25,
+    #             )
+
+    # extract_shap_values_(
+    #             model = model, 
+    #             data = data,
+    #             data_split_name = "test",
+    #             model_random_seed = 25,
+    #             # no_of_labels = no_of_labels,
+    #             # max_seq_len = max_seq_len,
+    #             # tokenizer = tokenizer
+    #         )
+
+
+
+    print(' ++++++++++++++++++ data_loader', i )
     print('+++++++++++++++++++++++++++++++++++')
     fname2 = os.path.join(
             os.getcwd(),
@@ -192,6 +216,7 @@ for data_loader in loader_list:
     for i, batch in enumerate(data_loader):
 
         IS = torch.zeros(batch["input_ids"].squeeze(1).size())
+
         for i, one_list in enumerate(batch["importance_scores"]):
                 
             one_list = one_list[1:]
@@ -203,9 +228,20 @@ for data_loader in loader_list:
             else:
                 one_list = torch.tensor(floats).unsqueeze(0)
                 IS = torch.cat((IS, one_list), 0) 
-            
+    
+        # print("==>> type(IS): ", (IS))
+        # print(" =========    input_ids     =====", batch["input_ids"])
+        pad = torch.zeros(IS.size()[0], len(loader_list)-1-IS.size()[1])
+        paded_IS = torch.cat((IS,pad), dim = 1)
+         
+
+
+        importance_scores = F.pad(input=IS, pad=batch["input_ids"].squeeze(1).size(), mode='constant', value=0)
+        print("==>> 2  importance_scores: ", importance_scores)
+        
         model.eval()
         model.zero_grad()
+        
         batch = {"annotation_id" : batch["annotation_id"],
                 "input_ids" : batch["input_ids"].squeeze(1).to(device),
                 "lengths" : batch["lengths"].to(device),
@@ -215,10 +251,9 @@ for data_loader in loader_list:
                 "query_mask" : batch["query_mask"].squeeze(1).to(device),
                 "special_tokens" : batch["special tokens"],
                 "retain_gradient" : False,
-                "importance_scores": IS.to(device),
+                "importance_scores": paded_IS.to(device),
                 }
-        # print('  ---> batch')
-        # print(batch)
+        print( "==>>  3 batch[importance_scores]: ", batch["importance_scores"].shape )
         
         assert batch["input_ids"].size(0) == len(batch["labels"]), "Error: batch size for item 1 not in correct position"
     
@@ -239,10 +274,8 @@ for data_loader in loader_list:
         ## prepping for our experiments
         rows = np.arange(batch["input_ids"].size(0))
 
-        only_query_mask=torch.zeros_like(batch["input_ids"]).long()
-        batch["input_ids"] = only_query_mask
+        batch["input_ids"] = torch.zeros_like(batch["input_ids"]).long()
 
-        
         yhat, _  = model(**batch)
         yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
         reduced_probs = yhat[rows, full_text_class]
@@ -265,8 +298,11 @@ for data_loader in loader_list:
                         suff_y_zero = suff_y_zero,
                     )
         comp_total = np.concatenate((comp_total, comp),axis=0)
-        #print('  comp_total', comp_total)
+        print(' HAPPY £££££££  comp_total', comp_total)
 
+
+
+######################### OURS ###################
         batch["faithful_method"] = rationale_mask
         batch["faithful_method"] = "soft_comp"
         batch["add_noise"] = True
@@ -282,7 +318,9 @@ for data_loader in loader_list:
             full_text_probs, 
             reduced_probs,
         )
-        print( "==>>  2 batch[importance_scores]: ", batch["importance_scores"].shape )
+        print('  ')
+        print('  ')
+        print( "==>>  4 batch[importance_scores]: ", batch["importance_scores"].shape )
         print(  batch["importance_scores"])
         #comp2, comp_probs2  = normalized_comprehensiveness_soft_(
         comp2, comp_probs2  = normalized_comprehensiveness_soft_(
@@ -303,7 +341,7 @@ for data_loader in loader_list:
         comp_total2 = np.concatenate((comp_total2, comp2),axis=0)
         #print(' comp_total2 ', comp_total2)
 
-                
+    #quit()            
     comp_final = np.mean(comp_total)
     comp_list.append(comp_final)
     comp_final2 = np.mean(comp_total2)

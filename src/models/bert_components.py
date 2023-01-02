@@ -147,6 +147,7 @@ class BertModelWrapper_zeroout(nn.Module):
         #importance_scores[:,0] = 1 # preserve cls
         # importance_scores = torch.clip(importance_scores, min=-2).to(device)
         embeddings_3rd = embeddings.size(2)
+        print("==>> importance_scores.shape: ", importance_scores.shape)
         importance_scores = importance_scores.unsqueeze(2).repeat(1, 1, embeddings_3rd)
         print('   ================================= ')
         print('   ================================= ')
