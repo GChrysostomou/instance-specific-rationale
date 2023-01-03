@@ -165,13 +165,12 @@ def normal_importance(importance_scores, normalise):
     #importance_scores[importance_scores==float('-inf')] = -999  # remove -inf, if version higher than 1.11.0, go for torch.clip
 
     if normalise == 1:
-        importance_scores = torch.sigmoid(importance_scores)
+        importance_scores = torch.sigmoid(importance_scores) # 偏大, hover 0.5 SUFF works
     elif normalise == 2:
         importance_scores[torch.isinf(importance_scores)] = -10  #importance_scores -= 1e-4 # modify by cass 1711
         importance_scores_min = importance_scores.min(1, keepdim=True)[0]
         importance_scores_max = importance_scores.max(1, keepdim=True)[0]
         importance_scores = (importance_scores - importance_scores_min) / (importance_scores_max-importance_scores_min)
-        
     elif normalise == 3:
         softmax = torch.nn.Softmax(dim = -1)
         importance_scores =softmax(importance_scores).to(device)
@@ -185,10 +184,32 @@ def normal_importance(importance_scores, normalise):
         importance_scores_min = importance_scores.min(1, keepdim=True)[0]
         importance_scores_max = importance_scores.max(1, keepdim=True)[0]
         importance_scores = (importance_scores - importance_scores_min) / (importance_scores_max-importance_scores_min)
+    elif normalise == 6:
+        importance_scores = torch.sigmoid(importance_scores)
+        importance_scores[torch.isinf(importance_scores)] = -1
+        importance_scores_min = importance_scores.min(1, keepdim=True)[0]
+        importance_scores_max = importance_scores.max(1, keepdim=True)[0]
+        importance_scores = (importance_scores - importance_scores_min) / (importance_scores_max-importance_scores_min)
+    elif normalise == 7:
+        importance_scores[torch.isinf(importance_scores)] = -1
+        importance_scores_min = importance_scores.min(1, keepdim=True)[0]
+        importance_scores_max = importance_scores.max(1, keepdim=True)[0]
+        importance_scores = (importance_scores - importance_scores_min) / (importance_scores_max-importance_scores_min)
+        importance_scores = torch.sigmoid(importance_scores)
     else:
         print(' no normalisation on importance scores !!!!')
 
     return importance_scores
+
+
+# importance_scores = torch.rand([4,6])
+# print(importance_scores)
+# print(normal_importance(importance_scores, 6))
+# print(normal_importance(importance_scores, 7))
+# print('SUFF', normal_importance(importance_scores, 1))
+# print('COMP', normal_importance(importance_scores, 5))
+
+
 
 def normalized_sufficiency_soft_(model, use_topk,
                             original_sentences : torch.tensor, 

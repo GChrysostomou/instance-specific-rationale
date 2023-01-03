@@ -76,7 +76,7 @@ parser.add_argument(
     "--normalise", 
     type = int, 
     help = "decide how to normalise importance scores", 
-    default = 4, 
+    default = 7, 
 )
 
 parser.add_argument(

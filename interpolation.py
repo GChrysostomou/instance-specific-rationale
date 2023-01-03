@@ -157,7 +157,7 @@ def F_i(M_SO, M_S4, M_Si): # M is the metrics score
 
 
 ## testing different FA!!!!!!!!
-FA_name = "scaled attention" #['attention', "scaled attention", "gradients", "ig", "deeplift"]
+FA_name = "ig" #['attention', "scaled attention", "gradients", "ig", "deeplift"]
 
 
 data = BERT_HOLDER_interpolation(args["data_dir"], stage = "interpolation",b_size = 4, FA_name = FA_name)
@@ -212,35 +212,26 @@ for i, data_loader in enumerate(loader_list):
     comp_total2 = torch.tensor([])
 
 
-
     for i, batch in enumerate(data_loader):
 
-        IS = torch.zeros(batch["input_ids"].squeeze(1).size())
+        ############ get the importance scores and pad random ones ##########
 
         for i, one_list in enumerate(batch["importance_scores"]):
-                
-            one_list = one_list[1:]
+            one_list = one_list[1:] # remove "["" 
             one_list = one_list[:-1]
             floats = [float(x) for x in one_list.split()]
 
-            if i == 0: # 都不重要
+            if i == 0: 
                 IS = torch.tensor(floats).unsqueeze(0)
             else:
                 one_list = torch.tensor(floats).unsqueeze(0)
                 IS = torch.cat((IS, one_list), 0) 
     
-        # print("==>> type(IS): ", (IS))
-        # print(" =========    input_ids     =====", batch["input_ids"])
         pad = torch.zeros(IS.size()[0], len(loader_list)-1-IS.size()[1])
         paded_IS = torch.cat((IS,pad), dim = 1)
-         
-
-
-        importance_scores = F.pad(input=IS, pad=batch["input_ids"].squeeze(1).size(), mode='constant', value=0)
-        print("==>> 2  importance_scores: ", importance_scores)
         
         model.eval()
-        model.zero_grad()
+        #model.zero_grad()
         
         batch = {"annotation_id" : batch["annotation_id"],
                 "input_ids" : batch["input_ids"].squeeze(1).to(device),
@@ -253,7 +244,7 @@ for i, data_loader in enumerate(loader_list):
                 "retain_gradient" : False,
                 "importance_scores": paded_IS.to(device),
                 }
-        print( "==>>  3 batch[importance_scores]: ", batch["importance_scores"].shape )
+        #print( "==>>  3 batch[importance_scores]: ", batch["importance_scores"].shape )
         
         assert batch["input_ids"].size(0) == len(batch["labels"]), "Error: batch size for item 1 not in correct position"
     
@@ -279,12 +270,15 @@ for i, data_loader in enumerate(loader_list):
         yhat, _  = model(**batch)
         yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
         reduced_probs = yhat[rows, full_text_class]
+        #print("==>> (reduced_probs): ", (reduced_probs))
 
         ## baseline sufficiency
         suff_y_zero = sufficiency_(
             full_text_probs, 
             reduced_probs
         )
+        #print("==>> suff_y_zero: ", (suff_y_zero))
+
 
         rationale_mask = torch.zeros(original_sentences.size())
         comp, comp_probs  = normalized_comprehensiveness_(
@@ -298,7 +292,11 @@ for i, data_loader in enumerate(loader_list):
                         suff_y_zero = suff_y_zero,
                     )
         comp_total = np.concatenate((comp_total, comp),axis=0)
-        print(' HAPPY £££££££  comp_total', comp_total)
+        # print(' --------------------->  comp', comp)
+        # print(' --------------------->  comp_total', comp_total)
+
+        comp_final = np.mean(comp_total)
+        comp_list.append(comp_final)
 
 
 
@@ -306,7 +304,10 @@ for i, data_loader in enumerate(loader_list):
         batch["faithful_method"] = rationale_mask
         batch["faithful_method"] = "soft_comp"
         batch["add_noise"] = True
-        batch["rationale_mask"] = torch.ones(batch["input_ids"].shape).to(device), 
+        batch["rationale_mask"] = torch.ones(batch["input_ids"].shape).to(device)
+
+        model2.eval()
+        #model2.zero_grad()
 
 
         yhat, _  = model2(**batch)
@@ -318,10 +319,7 @@ for i, data_loader in enumerate(loader_list):
             full_text_probs, 
             reduced_probs,
         )
-        print('  ')
-        print('  ')
-        print( "==>>  4 batch[importance_scores]: ", batch["importance_scores"].shape )
-        print(  batch["importance_scores"])
+
         #comp2, comp_probs2  = normalized_comprehensiveness_soft_(
         comp2, comp_probs2  = normalized_comprehensiveness_soft_(
                         model = model2.to(device), 
@@ -338,16 +336,18 @@ for i, data_loader in enumerate(loader_list):
                         #only_query_mask = None,
 
                     )
+        
         comp_total2 = np.concatenate((comp_total2, comp2),axis=0)
         #print(' comp_total2 ', comp_total2)
 
     #quit()            
-    comp_final = np.mean(comp_total)
-    comp_list.append(comp_final)
+
     comp_final2 = np.mean(comp_total2)
     comp_list2.append(comp_final2)
 
-    print(' comp list  ', comp_list, comp_list2)
+    print(' comp list  ')
+    print(comp_list)
+    print(comp_list2)
 
 
 
@@ -380,25 +380,28 @@ comp = df["F-Comp"]
 soft = df["F-SoftComp"]
 SET=df.index
 # Initialize figure and axis
+
+
+plt.style.use('ggplot')
 fig, ax = plt.subplots(figsize=(5, 5))
 
 # Plot lines
 ax.plot(SET, comp, color="red")
 ax.plot(SET, soft, color="green")
 
-# Fill area when income > expenses with green
-ax.fill_between(
-    SET, comp, soft, where=(soft >= comp), 
-    interpolate=True, color="green", alpha=0.25, 
-    label="Soft Comprehensiveness"
-)
+# # Fill area when income > expenses with green
+# ax.fill_between(
+#     SET, comp, soft, where=(soft >= comp), 
+#     interpolate=True, color="green", alpha=0.25, 
+#     label="Soft Comprehensiveness"
+# )
 
-# Fill area when income <= expenses with red
-ax.fill_between(
-    SET, comp, soft, where=(soft < comp), 
-    interpolate=True, color="red", alpha=0.25,
-    label="Comprehensiveness"
-)
+# # Fill area when income <= expenses with red
+# ax.fill_between(
+#     SET, comp, soft, where=(soft < comp), 
+#     interpolate=True, color="red", alpha=0.25,
+#     label="Comprehensiveness"
+# )
 
 ax.set_xlabel('Replaced tokens')
 ax.set_ylabel('f(i) = |M(So)-M(Si)| / |M(So)-M(S6)|')
