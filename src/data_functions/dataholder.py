@@ -86,7 +86,7 @@ class BERT_HOLDER():
 
 
         # IF TESTING LOCALLY
-        test = test[111:122] + test[222:233] + test[333:344] + test[444:455] + test[555:566] + test[-20:]
+        #test = test[111:122] + test[222:233] + test[333:344] + test[444:455] + test[555:566] + test[-20:]
 
 
         if stage != "train": 
