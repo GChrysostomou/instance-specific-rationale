@@ -141,21 +141,14 @@ class BertModelWrapper_zeroout(nn.Module):
             assert ig.size(1) == embeddings.size(1), "Mis-match in dimensions of mask and embeddings"
             assert ig.size(2) == 1, "Rationale mask should be of size 1 in final dimension"
             ig = ig.float()
+
+        #print('#############################',ig)
         
-        print(" just in model ==>> importance_scores.shape: ", importance_scores.shape)
     #if add_noise: # when for zero baseline
         #importance_scores[:,0] = 1 # preserve cls
         # importance_scores = torch.clip(importance_scores, min=-2).to(device)
         embeddings_3rd = embeddings.size(2)
-        print("==>> importance_scores.shape: ", importance_scores.shape)
         importance_scores = importance_scores.unsqueeze(2).repeat(1, 1, embeddings_3rd)
-        print('   ================================= ')
-        print('   ================================= ')
-        print("==>> importance_scores.shape: ", importance_scores.shape)
-        
-        
-
-    
 
         if faithful_method == "soft_suff":
                     # the higher importance score, the more info for model
@@ -167,8 +160,6 @@ class BertModelWrapper_zeroout(nn.Module):
         elif faithful_method == "soft_comp":
             zeroout_mask = torch.bernoulli(importance_scores).to(device)
             
-            print("==>> zeroout_mask.shape: ", zeroout_mask.shape)
-            print("==>> embeddings.shape: ", embeddings.shape)
             embeddings = embeddings * zeroout_mask
 
             # rationale_mask_interleave = rationale_mask.repeat_interleave(embeddings.size()[2]).view(embeddings.shape)
