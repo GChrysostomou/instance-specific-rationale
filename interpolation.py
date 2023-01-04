@@ -387,7 +387,7 @@ fig, ax = plt.subplots(figsize=(5, 5))
 
 # Plot lines
 ax.plot(SET, comp, color="red")
-ax.plot(SET, soft, color="green")
+ax.plot(SET, soft, color="grey")
 
 # # Fill area when income > expenses with green
 # ax.fill_between(
