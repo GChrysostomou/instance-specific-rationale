@@ -144,19 +144,22 @@ def add_random_word(dataset, fixed_set):
     for single_text in dataset['text']:
 
         if fixed_set == "fixed0":
-            p = r.get_random_word() + " " + r.get_random_word() + " " + r.get_random_word() + " " + r.get_random_word() + r.get_random_word() + r.get_random_word()# fixed 0 --> 4 random  --> add 3
+            p = r.get_random_word() + " " + r.get_random_word() + " " + r.get_random_word() + " " + r.get_random_word() + r.get_random_word() + r.get_random_word()+ " " + r.get_random_word() # fixed 0 --> 4 random  --> add 3
         elif fixed_set == "fixed1":
-            p = single_text + " " + r.get_random_word() + " " + r.get_random_word() + " " + r.get_random_word() + r.get_random_word() + r.get_random_word()# fixed 3 --> three random
+            p = single_text + " " + r.get_random_word() + " " + r.get_random_word() + " " + r.get_random_word() + r.get_random_word() + r.get_random_word()+ " " + r.get_random_word() # fixed 3 --> three random
         elif fixed_set == "fixed2":
-            p = single_text + " " + r.get_random_word() + " " + r.get_random_word() + r.get_random_word() + r.get_random_word()
+            p = single_text + " " + r.get_random_word() + " " + r.get_random_word() + r.get_random_word() + r.get_random_word()+ " " + r.get_random_word() 
         elif fixed_set == "fixed3":
-            p = single_text + " " + r.get_random_word() + r.get_random_word() + r.get_random_word()
+            p = single_text + " " + r.get_random_word() + r.get_random_word() + r.get_random_word()+ " " + r.get_random_word() 
         elif fixed_set == "fixed4":
-            p = single_text + " " + r.get_random_word() + r.get_random_word() 
+            p = single_text + " " + r.get_random_word() + r.get_random_word() + " " + r.get_random_word() 
         elif fixed_set == "fixed5":
+            p = single_text + " " + r.get_random_word() + " " + r.get_random_word() 
+        elif fixed_set == "fixed6":
             p = single_text + " " + r.get_random_word() 
         else:
             pass
+
         text.append(p)
     dataset["text"] = text
     return dataset
@@ -191,6 +194,7 @@ class BERT_HOLDER_interpolation():
         fixed4 = pd.read_csv(f"./extracted_rationales/sst/data/fixed4/{FA_name}-test.csv")
         fixed5 = pd.read_csv(f"./extracted_rationales/sst/data/fixed5/{FA_name}-test.csv")
         fixed6 = pd.read_csv(f"./extracted_rationales/sst/data/fixed6/{FA_name}-test.csv")
+        fixed7 = pd.read_csv(f"./extracted_rationales/sst/data/fixed7/{FA_name}-test.csv")
 
         # print('  ')
         # print('  ')
@@ -210,6 +214,7 @@ class BERT_HOLDER_interpolation():
         fixed3 = fixed3.loc[fixed3['annotation_id'].isin(ids)]
         fixed4 = fixed4.loc[fixed4['annotation_id'].isin(ids)]
         fixed5 = fixed5.loc[fixed5['annotation_id'].isin(ids)]
+        fixed7 = fixed7.loc[fixed7['annotation_id'].isin(ids)]
         fixed0 = fixed1.copy(deep=True)
         #print(' ================> fixed2 len :', len(fixed2))
         
@@ -220,21 +225,12 @@ class BERT_HOLDER_interpolation():
         fixed3 = add_random_word(fixed3, "fixed3").to_dict("records")
         fixed4 = add_random_word(fixed4, "fixed4").to_dict("records")
         fixed5 = add_random_word(fixed5, "fixed5").to_dict("records")
-        
-        fixed6 = fixed6.to_dict("records") # no need to add
+        fixed6 = add_random_word(fixed6, "fixed5").to_dict("records")
+        fixed7 = fixed7.to_dict("records")
 
 
 
-        ## if we are dealing with a query we need to account for the query length as well
-        if args.query:
-            max_len = round(max([len(x["document"].split()) for x in fixed6])) + \
-                        max([len(x["query"].split()) for x in fixed6])
-            max_len = round(max_len)
-
-        else:
-            max_len = round(max([len(x["text"].split()) for x in fixed6]))
-
-
+        max_len = round(max([len(x["text"].split()) for x in fixed6]))
         max_len = min(max_len, 512)
         self.max_len = max_len
 
@@ -247,37 +243,30 @@ class BERT_HOLDER_interpolation():
         #print('self.nu_of_labels  ', self.nu_of_labels)
 
 
-        if args.query:
-
-            fixed6 = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["document"], dic["query"]) for dic in fixed6]
-            fixed5 = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["document"], dic["query"]) for dic in fixed5]
-            fixed4 = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["document"], dic["query"]) for dic in fixed4]
-            fixed3 = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["document"], dic["query"]) for dic in fixed3]
-            fixed2 = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["document"], dic["query"]) for dic in fixed2]
-            fixed1 = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["document"], dic["query"]) for dic in fixed1]
-            fixed0 = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["document"], dic["query"]) for dic in fixed0]
-        else:
-            fixed6 = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["text"]) for dic in fixed6]
-            fixed5 = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["text"]) for dic in fixed5]
-            fixed4 = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["text"]) for dic in fixed4]
-            fixed3 = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["text"]) for dic in fixed3]
-            fixed2 = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["text"]) for dic in fixed2]
-            fixed1 = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["text"]) for dic in fixed1]
-            fixed0 = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["text"]) for dic in fixed0]
+        fixed7 = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["text"]) for dic in fixed7]
+        fixed6 = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["text"]) for dic in fixed6]
+        fixed5 = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["text"]) for dic in fixed5]
+        fixed4 = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["text"]) for dic in fixed4]
+        fixed3 = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["text"]) for dic in fixed3]
+        fixed2 = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["text"]) for dic in fixed2]
+        fixed1 = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["text"]) for dic in fixed1]
+        fixed0 = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["text"]) for dic in fixed0]
 
 
-        fixed6 = sorted(fixed6, key = lambda x : x["lengths"], reverse = False)
-        fixed5 = sorted(fixed5, key = lambda x : x["lengths"], reverse = False)
-        fixed4 = sorted(fixed4, key = lambda x : x["lengths"], reverse = False)
-        fixed3 = sorted(fixed3, key = lambda x : x["lengths"], reverse = False)
-        fixed2 = sorted(fixed2, key = lambda x : x["lengths"], reverse = False)
-        fixed1 = sorted(fixed1, key = lambda x : x["lengths"], reverse = False)
-        fixed0 = sorted(fixed0, key = lambda x : x["lengths"], reverse = False)
+        # fixed7 = sorted(fixed7, key = lambda x : x["lengths"], reverse = False)
+        # fixed6 = sorted(fixed6, key = lambda x : x["lengths"], reverse = False)
+        # fixed5 = sorted(fixed5, key = lambda x : x["lengths"], reverse = False)
+        # fixed4 = sorted(fixed4, key = lambda x : x["lengths"], reverse = False)
+        # fixed3 = sorted(fixed3, key = lambda x : x["lengths"], reverse = False)
+        # fixed2 = sorted(fixed2, key = lambda x : x["lengths"], reverse = False)
+        # fixed1 = sorted(fixed1, key = lambda x : x["lengths"], reverse = False)
+        # fixed0 = sorted(fixed0, key = lambda x : x["lengths"], reverse = False)
         shuffle_during_iter = False
         
         if return_as_frames:
 
             self.return_as_frames = {
+                "fixed7" : pd.DataFrame(fixed7),
                 "fixed6" : pd.DataFrame(fixed6),
                 "fixed5" : pd.DataFrame(fixed5),
                 "fixed4" : pd.DataFrame(fixed4),
@@ -288,6 +277,13 @@ class BERT_HOLDER_interpolation():
             }
 
         # prepare data-loaders for training
+        self.fixed7_loader = DataLoader(
+            fixed6,
+            batch_size = self.batch_size,
+            shuffle = shuffle_during_iter,
+            pin_memory = False,
+        )
+
         self.fixed6_loader = DataLoader(
             fixed6,
             batch_size = self.batch_size,

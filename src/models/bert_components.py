@@ -151,14 +151,19 @@ class BertModelWrapper_zeroout(nn.Module):
         importance_scores = importance_scores.unsqueeze(2).repeat(1, 1, embeddings_3rd)
 
         if faithful_method == "soft_suff":
-                    # the higher importance score, the more info for model
-                    # the less perturbation, the less zero
-            zeroout_mask = torch.bernoulli(1-importance_scores).to(device)
-            embeddings = (embeddings * zeroout_mask).to(device)
+            try: zeroout_mask = torch.bernoulli(1-importance_scores).to(device)
+            except: 
+                importance_scores = torch.zeros(embeddings.size())
+                zeroout_mask = torch.bernoulli(1-importance_scores).to(device)
+            embeddings = embeddings * zeroout_mask
 
 
         elif faithful_method == "soft_comp":
-            zeroout_mask = torch.bernoulli(importance_scores).to(device)
+            #print(importance_scores)
+            try: zeroout_mask = torch.bernoulli(importance_scores).to(device)
+            except: 
+                importance_scores = torch.zeros(embeddings.size())
+                zeroout_mask = torch.bernoulli(importance_scores).to(device)
             
             embeddings = embeddings * zeroout_mask
 

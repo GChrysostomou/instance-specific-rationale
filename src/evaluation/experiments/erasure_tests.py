@@ -392,7 +392,7 @@ def conduct_tests_(model, data, model_random_seed):
 
     for i, batch in enumerate(data):
 
-        print(' len =======', batch['lengths'])
+        #print(' len =======', batch['lengths'])
         
         model.eval()
         model.zero_grad()
