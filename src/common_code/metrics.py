@@ -196,22 +196,16 @@ def normal_importance(importance_scores, normalise):
         importance_scores_max = importance_scores.max(1, keepdim=True)[0]
         importance_scores = (importance_scores - importance_scores_min) / (importance_scores_max-importance_scores_min)
         importance_scores = torch.sigmoid(importance_scores)
-    else:
-        print(' no normalisation on importance scores !!!!')
+    else:pass
 
     return importance_scores
 
 
 # importance_scores = torch.rand([4,6])
-# print(importance_scores)
-# print(normal_importance(importance_scores, 6))
-# print(normal_importance(importance_scores, 7))
-# print('SUFF', normal_importance(importance_scores, 1))
-# print('COMP', normal_importance(importance_scores, 5))
 
 
 
-def normalized_sufficiency_soft_(model, use_topk,
+def normalized_sufficiency_soft_(model2, use_topk,
                             original_sentences : torch.tensor, 
                             #rationale_mask : torch.tensor, # by Cass, 这里用上rationale nikos想要的
                             inputs : dict, 
@@ -242,6 +236,7 @@ def normalized_sufficiency_soft_(model, use_topk,
     # else: 
     #     inputs["input_ids"]  =  original_sentences
 
+    inputs["input_ids"] = original_sentences
     inputs["faithful_method"]="soft_suff"          
     #inputs["importance_scores"]=importance_scores 
     inputs["add_noise"] = True                     
@@ -250,7 +245,7 @@ def normalized_sufficiency_soft_(model, use_topk,
     inputs["importance_scores"]= normal_importance(importance_scores, normalise)
 
 
-    yhat, _  = model(**inputs)
+    yhat, _  = model2(**inputs)
     
 
     yhat = torch.softmax(yhat.detach().cpu(), dim = -1).numpy()
@@ -261,8 +256,6 @@ def normalized_sufficiency_soft_(model, use_topk,
 
     # return suff_y_a
     suff_y_zero -= 1e-4 ## to avoid nan
-    # print(' ')
-    # print("==>> suff (suff_y_a) should bigger than suff_y_zero, but similar to (1-(suff_y_zero): ", (suff_y_a))
     # 在这之前, soft comp和soft suff 都是一样的 (模型里面不一样), 
     norm_suff = np.maximum(0, (suff_y_a - suff_y_zero) / (1 - suff_y_zero))
     norm_suff = np.clip( norm_suff, a_min = 0, a_max = 1)
@@ -271,9 +264,9 @@ def normalized_sufficiency_soft_(model, use_topk,
 
 
 
-def normalized_comprehensiveness_soft_(model, use_topk,
+def normalized_comprehensiveness_soft_(model2, use_topk,
                                         original_sentences : torch.tensor, 
-                                        #rationale_mask : torch.tensor, 
+                                        rationale_mask : torch.tensor, 
                                         inputs : dict, 
                                         full_text_probs : np.array, 
                                         full_text_class : np.array, 
@@ -289,7 +282,7 @@ def normalized_comprehensiveness_soft_(model, use_topk,
 
     inputs["importance_scores"]= normal_importance(importance_scores, normalise)
     ##### 进 model 前, rationale 已经因为comp 被删掉了
-    yhat, _  = model(**inputs)
+    yhat, _  = model2(**inputs)
     yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
 
 
@@ -298,12 +291,7 @@ def normalized_comprehensiveness_soft_(model, use_topk,
     reduced_probs = yhat[rows, full_text_class]
     comp_y_a = comprehensiveness_(full_text_probs, reduced_probs)
 
-    # print(' ')
-    # print(' --------- suff_y_zero -----> ', suff_y_zero)
-    # print(' --------- 1-suff_y_zero -----> ', 1-suff_y_zero)
 
-    # print("==>> comp (comp_y_a) should small but similar to 1-(suff_y_zero): ", (comp_y_a))
-    # print(' ')
     suff_y_zero[(1-suff_y_zero)==0] += 0.00001
 
     norm_comp = np.maximum(0, comp_y_a / (1-suff_y_zero))
