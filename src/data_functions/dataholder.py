@@ -139,7 +139,7 @@ from random_word import RandomWords
 r = RandomWords()
 
 # Return a single random word
-def add_random_word(dataset, fixed_set, fix_size = 4):
+def add_random_word(dataset, fixed_set, fix_size):
     text = []
     for single_text in dataset['text']:
         
@@ -153,21 +153,30 @@ def add_random_word(dataset, fixed_set, fix_size = 4):
             p = single_text + " " + r.get_random_word() + " " + r.get_random_word()#  + " " + r.get_random_word()+ " " + r.get_random_word() 
         elif fixed_set == "fixed4":
             p = single_text + " " + r.get_random_word()# + " " + r.get_random_word() + " " + r.get_random_word() 
-        else: p=None
+        else: pass
         
         if fix_size == 6:
             if fixed_set == "fixed5":
+                print('--------------> 5', single_text)
                 p = single_text + " " + r.get_random_word() + " " + r.get_random_word() 
+                print('----- 5', len(p.split()), p)
             elif fixed_set == "fixed6":
                 p = single_text + " " + r.get_random_word() 
+                print('----- 6', len(p.split()))
             elif fixed_set == "fixed7": 
+                print('----- 7', len(p.split()))
                 pass
-            else:
+            else: # for fixed0 to fixed4
                 p = p + " " + r.get_random_word() + " " + r.get_random_word()#
+            print(len(p.split()))
+            assert len(p.split()) == 7
 
 
 
         text.append(p)
+        if fix_size == 4:
+            assert len(p.split()) == 5
+
     dataset["text"] = text
     return dataset
 
@@ -198,17 +207,19 @@ class BERT_HOLDER_interpolation():
         fixed7 = pd.read_csv(f"./extracted_rationales/sst/data/fixed7/{FA_name}-test.csv")
 
 
-        fixed7 = fixed7[fixed7["text"].str.contains("[CLS]")==False]
-        fixed7 = fixed7[fixed7["text"].str.contains("[SEP]")==False]
-        fixed7 = fixed7.sample(sample_size) #####################################################################################  TEST ###############
-        print('    len of all ', len(fixed7))
-        fixed7.to_csv(f"./interpolation/sst/fixed{fix}/{FA_name}-sample{sample_size}-AnalysisSamples.csv")
-        ids = fixed7["annotation_id"]
+        if fix == 6:
+            fixed7 = fixed7[fixed7["text"].str.contains("[CLS]")==False]
+            fixed7 = fixed7[fixed7["text"].str.contains("[SEP]")==False]
+            fixed7 = fixed7.sample(sample_size) #####################################################################################  TEST ###############
+            fixed7.to_csv(f"./interpolation/sst/fixed{fix}/{FA_name}-sample{sample_size}-AnalysisSamples.csv")
+            ids = fixed7["annotation_id"]
+            fixed5 = fixed5.loc[fixed5['annotation_id'].isin(ids)]
+            fixed6 = fixed6.loc[fixed6['annotation_id'].isin(ids)]
         
         if fix == 4:
             fixed5 = fixed5[fixed5["text"].str.contains("[CLS]")==False]
             fixed5 = fixed5[fixed5["text"].str.contains("[SEP]")==False]
-            fixed5 = fixed5.sample(50)
+            fixed5 = fixed5.sample(sample_size)
             fixed5.to_csv(f"./interpolation/sst/fixed{fix}/{FA_name}-sample{sample_size}-AnalysisSamples.csv")
             ids = fixed5["annotation_id"]
 
@@ -216,9 +227,6 @@ class BERT_HOLDER_interpolation():
         fixed2 = fixed2.loc[fixed2['annotation_id'].isin(ids)]
         fixed3 = fixed3.loc[fixed3['annotation_id'].isin(ids)]
         fixed4 = fixed4.loc[fixed4['annotation_id'].isin(ids)]
-        if fix == 6:
-            fixed5 = fixed5.loc[fixed5['annotation_id'].isin(ids)]
-        fixed6 = fixed6.loc[fixed6['annotation_id'].isin(ids)]
         fixed0 = fixed1.copy(deep=True)
         #print(' ================> fixed2 len :', len(fixed2))
         
@@ -229,19 +237,21 @@ class BERT_HOLDER_interpolation():
         fixed3 = add_random_word(fixed3, "fixed3", fix_size=fix).to_dict("records")
         fixed4 = add_random_word(fixed4, "fixed4", fix_size=fix).to_dict("records")
         if fix == 4: fixed5 = fixed5.to_dict("records")
-        else: 
+        elif fix ==6: 
             fixed5 = add_random_word(fixed5, "fixed5", fix_size=fix).to_dict("records")
-        
-        fixed6 = add_random_word(fixed6, "fixed5", fix_size=fix).to_dict("records")
-        fixed7 = fixed7.to_dict("records")
+            fixed6 = add_random_word(fixed6, "fixed6", fix_size=fix).to_dict("records")
+            fixed7 = fixed7.to_dict("records")
+        else:
+            print('need to define fix = 4 or 6')
 
         # print(fixed0)
         # print(fixed1)
 
 
 
-        max_len = round(max([len(x["text"].split()) for x in fixed7]))
-        max_len = min(max_len, 512)
+        if fix == 6: max_len = round(max([len(x["text"].split()) for x in fixed7]))
+        else: max_len = round(max([len(x["text"].split()) for x in fixed5]))
+        
         self.max_len = max_len
 
         # load the pretrained tokenizer
@@ -266,43 +276,42 @@ class BERT_HOLDER_interpolation():
         fixed0 = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["text"]) for dic in fixed0]
 
 
-        # fixed7 = sorted(fixed7, key = lambda x : x["lengths"], reverse = False)
-        # fixed6 = sorted(fixed6, key = lambda x : x["lengths"], reverse = False)
-        # fixed5 = sorted(fixed5, key = lambda x : x["lengths"], reverse = False)
-        # fixed4 = sorted(fixed4, key = lambda x : x["lengths"], reverse = False)
-        # fixed3 = sorted(fixed3, key = lambda x : x["lengths"], reverse = False)
-        # fixed2 = sorted(fixed2, key = lambda x : x["lengths"], reverse = False)
-        # fixed1 = sorted(fixed1, key = lambda x : x["lengths"], reverse = False)
-        # fixed0 = sorted(fixed0, key = lambda x : x["lengths"], reverse = False)
+
         shuffle_during_iter = False
         
         if return_as_frames:
-
-            self.return_as_frames = {
-                "fixed7" : pd.DataFrame(fixed7),
-                "fixed6" : pd.DataFrame(fixed6),
-                "fixed5" : pd.DataFrame(fixed5),
-                "fixed4" : pd.DataFrame(fixed4),
-                "fixed3" : pd.DataFrame(fixed3),
-                "fixed2" : pd.DataFrame(fixed2),
-                "fixed1" : pd.DataFrame(fixed1),
-                "fixed0" : pd.DataFrame(fixed0),
-            }
+            if fix == 4: self.return_as_frames = { "fixed7" : pd.DataFrame(fixed7), "fixed6" : pd.DataFrame(fixed6),
+                                                    "fixed5" : pd.DataFrame(fixed5),
+                                                    "fixed4" : pd.DataFrame(fixed4),
+                                                    "fixed3" : pd.DataFrame(fixed3),
+                                                    "fixed2" : pd.DataFrame(fixed2),
+                                                    "fixed1" : pd.DataFrame(fixed1),
+                                                    "fixed0" : pd.DataFrame(fixed0),
+                                                }
+            else:        self.return_as_frames = { #"fixed7" : pd.DataFrame(fixed7), "fixed6" : pd.DataFrame(fixed6),
+                                                    "fixed5" : pd.DataFrame(fixed5),
+                                                    "fixed4" : pd.DataFrame(fixed4),
+                                                    "fixed3" : pd.DataFrame(fixed3),
+                                                    "fixed2" : pd.DataFrame(fixed2),
+                                                    "fixed1" : pd.DataFrame(fixed1),
+                                                    "fixed0" : pd.DataFrame(fixed0),
+                                                }
 
         # prepare data-loaders for training
-        self.fixed7_loader = DataLoader(
-            fixed6,
-            batch_size = self.batch_size,
-            shuffle = shuffle_during_iter,
-            pin_memory = False,
-        )
+        if fix == 6:
+            self.fixed7_loader = DataLoader(
+                fixed6,
+                batch_size = self.batch_size,
+                shuffle = shuffle_during_iter,
+                pin_memory = False,
+            )
 
-        self.fixed6_loader = DataLoader(
-            fixed6,
-            batch_size = self.batch_size,
-            shuffle = shuffle_during_iter,
-            pin_memory = False,
-        )
+            self.fixed6_loader = DataLoader(
+                fixed6,
+                batch_size = self.batch_size,
+                shuffle = shuffle_during_iter,
+                pin_memory = False,
+            )
 
         self.fixed5_loader = DataLoader(
             fixed5,

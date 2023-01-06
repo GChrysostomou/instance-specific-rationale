@@ -94,14 +94,14 @@ parser.add_argument(
     "--sample_size",   
     type = int, 
     help = "directory to save extracted_rationales", 
-    default = 50,
+    default = 4,
 )
 
 parser.add_argument(
     "--fix_size",   
     type = int, 
     help = "directory to save extracted_rationales", 
-    default = 4,
+    default = 6,
 )
 
 user_args = vars(parser.parse_args())
@@ -145,7 +145,8 @@ figsize1, figsize2 = 4, 3
 FA_name = args["FA_name"]
 sample_size =  args["sample_size"]
 fix_size = args["fix_size"]
-total_len = fix_size+1
+
+total_len = fix_size 
 
 def F_i(M_SO, M_S4, M_Si): # M is the metrics score 
     F_i = abs(M_SO-M_Si)/abs(M_SO-M_S4+0.0001)
@@ -181,6 +182,7 @@ comp_list = []
 comp_list2 = []
 
 for dataloader_i, data_loader in enumerate(loader_list):
+
 
     fname2 = os.path.join(
             os.getcwd(),
@@ -241,18 +243,6 @@ for dataloader_i, data_loader in enumerate(loader_list):
         #suff_y_zero = sufficiency_(full_text_probs, reduced_probs)
         comp = sufficiency_(full_text_probs, reduced_probs)
 
-        
-        # if dataloader_i <=1: 
-
-        # comp, comp_probs  = normalized_sufficiency_(only_query_mask=None
-        #                 model = model, 
-        #                 original_sentences = original_sentences.to(device), 
-        #                 rationale_mask = torch.zeros(batch["input_ids"].shape).to(device), 
-        #                 inputs = batch, 
-        #                 full_text_probs = full_text_probs, 
-        #                 full_text_class = full_text_class, 
-        #                 rows = rows,
-        #                 suff_y_zero = suff_y_zero)
         comp_total = np.concatenate((comp_total, comp),axis=0)
         
      
@@ -262,8 +252,6 @@ for dataloader_i, data_loader in enumerate(loader_list):
 
         if dataloader_i == 0:
             paded_IS = torch.rand(batch["input_ids"].squeeze(1).size()) # all 
-            #batch["importance_scores"]=torch.zeros(paded_IS.shape)
-            #batch["importance_scores"]=torch.rand(batch["input_ids"].squeeze(1).size()) # all 
         else:
             for n, one_list in enumerate(batch["importance_scores"]):
                 one_list = one_list[1:] # remove "["" 
@@ -275,10 +263,9 @@ for dataloader_i, data_loader in enumerate(loader_list):
                     one_list = torch.tensor(floats).unsqueeze(0)
                     IS = torch.cat((IS, one_list), 0) 
             # pad zero for random words
-            to_pad_num = total_len-IS.size()[1] ######### need to change if testing !!!!!!!!
+            to_pad_num = fix_size+1-IS.size()[1] ######### need to change if testing !!!!!!!!
             pad = torch.zeros(IS.size()[0], to_pad_num) # len(loader_list)=6
             paded_IS = torch.cat((IS,pad), dim = 1)
-    
 
 
         
@@ -288,10 +275,8 @@ for dataloader_i, data_loader in enumerate(loader_list):
         
         if batch["faithful_method"] == "soft_suff":
             normal = 1
-        else: normal = 5
+        else: normal = 5 # 1 for Suff and 5 for Comp
         batch["importance_scores"]= normal_importance(paded_IS, normal).to(device)
-
-
 
         batch["rationale_mask"] = torch.ones(batch["input_ids"].shape).to(device), # all out
         model2.eval()
@@ -300,25 +285,7 @@ for dataloader_i, data_loader in enumerate(loader_list):
         yhat, _  = model2(**batch)
         yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
         reduced_probs = yhat[rows, full_text_class]
-        # baseline sufficiency
-        # suff_y_zero = sufficiency_(
-        #     full_text_probs, 
-        #     reduced_probs,
-        # )
         comp2 = sufficiency_(full_text_probs, reduced_probs)
-        #comp2, comp_probs2  = normalized_comprehensiveness_soft_(rationale_mask = torch.zeros(batch["input_ids"].shape).to(device), #
-        # comp2, comp_probs2  = normalized_sufficiency_soft_(only_query_mask = None,
-        #                 model2 = model2.to(device), =
-        #                 original_sentences = original_sentences.to(device), 
-        #                 inputs = batch, 
-        #                 full_text_probs = full_text_probs, 
-        #                 full_text_class = full_text_class, 
-        #                 importance_scores = paded_IS.to(device),
-        #                 rows = rows,
-        #                 suff_y_zero = suff_y_zero,
-        #                 use_topk=True,
-        #                 normalise =normal,
-        #             )
         
         comp_total2 = np.concatenate((comp_total2, comp2),axis=0)
 
