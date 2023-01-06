@@ -813,7 +813,7 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk, norma
 
 
                     soft_comp, soft_comp_probs  = normalized_comprehensiveness_soft_(
-                        model = model, 
+                        model2 = model, 
                         original_sentences = original_sentences, 
                         #rationale_mask = rationale_mask, 
                         inputs = batch, 

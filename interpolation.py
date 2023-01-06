@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-
+#  CUDA_LAUNCH_BLOCKING=1
 import re
 import torch
 import torch.nn as nn
@@ -39,9 +39,10 @@ def normal_importance(importance_scores, normalise=5):
 
 
 normal = 5
-FA_name = "deeplift" #['attention', "scaled attention", "gradients", "ig", "deeplift"]
-figsize1, figsize2 =  4,4
-fixed_size = 4
+
+figsize1, figsize2 = 4, 3
+fixed_size = 6
+total_len = 7
 date_time = str(datetime.date.today()) + "_" + ":".join(str(datetime.datetime.now()).split()[1].split(":")[:2])
 
 parser = argparse.ArgumentParser()
@@ -70,6 +71,15 @@ parser.add_argument(
 
 
 parser.add_argument(
+    "--FA_name",   
+    type = str, 
+    help = "directory to save models", 
+    default="ig" 
+    #[random 'attention', "scaled attention", "gradients", "ig", "deeplift"]
+)
+
+
+parser.add_argument(
     "--evaluation_dir",   
     type = str, 
     help = "directory to save faithfulness results", 
@@ -83,41 +93,37 @@ parser.add_argument(
     default = "extracted_rationales/"
 )
 
+parser.add_argument(
+    "--sample_size",   
+    type = int, 
+    help = "directory to save extracted_rationales", 
+    default = 50,
+)
 
 user_args = vars(parser.parse_args())
-user_args["importance_metric"] = None
-
 log_dir = "experiment_logs/evaluate_" + user_args["dataset"] + "_" +  date_time + "/"
 config_dir = "experiment_config/evaluate_" + user_args["dataset"] + "_" +  date_time + "/"
-
-
 os.makedirs(log_dir, exist_ok = True)
 os.makedirs(config_dir, exist_ok = True)
-
-
 import config.cfg
 config.cfg.config_directory = config_dir
 logging.basicConfig(filename= log_dir + "/out.log", format='%(asctime)s %(levelname)-8s %(message)s', level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')
-
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
-
 logging.info("Running on cuda ? {}".format(torch.cuda.is_available()))
-
 torch.backends.cudnn.deterministic = True
 torch.backends.cudnn.benchmark = False
 torch.cuda.empty_cache()
-
 from src.common_code.initialiser import initial_preparations
-
 # creating unique config from stage_config.json file and model_config.json file
 args = initial_preparations(user_args, stage = "evaluate")
-
-
 from src.evaluation.experiments.rationale_extractor import rationale_creator_, rationale_creator_interpolation_, extract_importance_, extract_shap_values_
 from src.data_functions.dataholder import BERT_HOLDER_interpolation
 from src.evaluation import evaluation_pipeline
 from src.models.bert import BertClassifier_zeroout, bert, BertClassifier_attention
 from src.common_code.useful_functions import batch_from_dict_, create_only_query_mask_, create_rationale_mask_ # batch_from_dict --> batch_from_dict_
+
+
+
 
 model = bert(output_dim = 2)
 model.load_state_dict(torch.load("./trained_models/sst/bert25.pt", map_location=device))
@@ -128,34 +134,38 @@ model2.load_state_dict(torch.load("./trained_models/sst/bert25.pt", map_location
 model2.to(device)
 
 
+
+FA_name = args["FA_name"]
+sample_size =  args["sample_size"]
+
 def F_i(M_SO, M_S4, M_Si): # M is the metrics score 
     F_i = abs(M_SO-M_Si)/abs(M_SO-M_S4+0.0001)
     return F_i
 
+fix_size = 6
+data = BERT_HOLDER_interpolation(args["data_dir"], stage = "interpolation", b_size = 8, 
+                                        FA_name = FA_name, fix = fix_size, sample_size = sample_size)
 
-data = BERT_HOLDER_interpolation(args["data_dir"], stage = "interpolation", b_size = 8, FA_name = FA_name)
-
-if fixed_size == 6:
-    loader_list = [
-                data.fixed0_loader,
-                data.fixed1_loader,
-                data.fixed2_loader,
-                data.fixed3_loader,
-                data.fixed4_loader,
-                # data.fixed5_loader,
-                # data.fixed6_loader,
-                ]
-else:    
-    loader_list = [
-                data.fixed0_loader,
-                data.fixed1_loader,
-                data.fixed2_loader,
-                data.fixed3_loader,
-                data.fixed4_loader,
-                data.fixed5_loader,
-                data.fixed6_loader,
-                data.fixed7_loader,
-                ]
+if fix_size == 4:
+    loader_list = [ #data.fixed0_loader,
+                    data.fixed1_loader,
+                    data.fixed2_loader,
+                    data.fixed3_loader,
+                    data.fixed4_loader,
+                    data.fixed5_loader,
+                    # data.fixed6_loader,
+                    # data.fixed7_loader,
+                    ]
+else:
+    loader_list = [data.fixed0_loader,
+                    data.fixed1_loader,
+                    data.fixed2_loader,
+                    data.fixed3_loader,
+                    data.fixed4_loader,
+                    data.fixed5_loader,
+                    data.fixed6_loader,
+                    data.fixed7_loader,
+                    ]
     
 
 comp_list = []
@@ -176,9 +186,12 @@ for dataloader_i, data_loader in enumerate(loader_list):
 
     for i, batch in enumerate(data_loader):
 
+
+
+
         ############ get the importance scores and pad random ones ##########
         model.eval()
-        
+
         batch = {"annotation_id" : batch["annotation_id"],
                 "input_ids" : batch["input_ids"].squeeze(1).to(device),
                 "lengths" : batch["lengths"].to(device),
@@ -210,97 +223,95 @@ for dataloader_i, data_loader in enumerate(loader_list):
         ## prepping for our experiments
         rows = np.arange(batch["input_ids"].size(0))
 
-        batch["input_ids"] = torch.zeros_like(batch["input_ids"]).long() 
+
+        ## baseline sufficiency # input all zero
+        #batch["input_ids"] = torch.zeros_like(batch["input_ids"]).long() 
         yhat, _  = model(**batch)
         yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
         reduced_probs = yhat[rows, full_text_class]
-        ## baseline sufficiency
-        suff_y_zero = sufficiency_(full_text_probs, reduced_probs)
+        #suff_y_zero = sufficiency_(full_text_probs, reduced_probs)
+        comp = sufficiency_(full_text_probs, reduced_probs)
 
-        rationale_mask = torch.zeros(original_sentences.size()) # none rationale
+        
         # if dataloader_i <=1: 
 
-        comp, comp_probs  = normalized_comprehensiveness_(
-                        model = model, 
-                        original_sentences = original_sentences.to(device), 
-                        rationale_mask = torch.zeros(batch["input_ids"].shape).to(device), 
-                        inputs = batch, 
-                        full_text_probs = full_text_probs, 
-                        full_text_class = full_text_class, 
-                        rows = rows,
-                        suff_y_zero = suff_y_zero,
-                    )
+        # comp, comp_probs  = normalized_sufficiency_(only_query_mask=None
+        #                 model = model, 
+        #                 original_sentences = original_sentences.to(device), 
+        #                 rationale_mask = torch.zeros(batch["input_ids"].shape).to(device), 
+        #                 inputs = batch, 
+        #                 full_text_probs = full_text_probs, 
+        #                 full_text_class = full_text_class, 
+        #                 rows = rows,
+        #                 suff_y_zero = suff_y_zero)
         comp_total = np.concatenate((comp_total, comp),axis=0)
         
      
 
 
 ######################### OURS ###################
-        for n, one_list in enumerate(batch["importance_scores"]):
-            one_list = one_list[1:] # remove "["" 
-            one_list = one_list[:-1]
-            floats = [float(x) for x in one_list.split()]
-            if n == 0: 
-                IS = torch.tensor(floats).unsqueeze(0)
-            else:
-                one_list = torch.tensor(floats).unsqueeze(0)
-                IS = torch.cat((IS, one_list), 0) 
-        
-        words_num = IS.size()[1]
-        to_pad_num = 7-words_num  ######### need to change if testing !!!!!!!!
 
-        pad = torch.zeros(IS.size()[0], to_pad_num) # len(loader_list)=6
-
-        paded_IS = torch.cat((IS,pad), dim = 1)
+        if dataloader_i == 0:
+            paded_IS = torch.rand(batch["input_ids"].squeeze(1).size()) # all 
+            #batch["importance_scores"]=torch.zeros(paded_IS.shape)
+            #batch["importance_scores"]=torch.rand(batch["input_ids"].squeeze(1).size()) # all 
+        else:
+            for n, one_list in enumerate(batch["importance_scores"]):
+                one_list = one_list[1:] # remove "["" 
+                one_list = one_list[:-1]
+                floats = [float(x) for x in one_list.split()]
+                if n == 0: 
+                    IS = torch.tensor(floats).unsqueeze(0)
+                else:
+                    one_list = torch.tensor(floats).unsqueeze(0)
+                    IS = torch.cat((IS, one_list), 0) 
+            # pad zero for random words
+            to_pad_num = total_len-IS.size()[1] ######### need to change if testing !!!!!!!!
+            pad = torch.zeros(IS.size()[0], to_pad_num) # len(loader_list)=6
+            paded_IS = torch.cat((IS,pad), dim = 1)
     
 
-        if dataloader_i == 0:
-            paded_IS = torch.zeros(paded_IS.size())
-            #batch["faithful_method"] = rationale_mask
 
-        batch["faithful_method"] = "soft_suff"
+        
         batch["add_noise"] = True
-        #batch["rationale_mask"] = torch.ones(batch["input_ids"].shape).to(device)
         batch["input_ids"] = original_sentences.to(device)
-        if dataloader_i == 0:
-            batch["importance_scores"]=torch.zeros(paded_IS.shape)
-        else:
-            batch["importance_scores"]= normal_importance(paded_IS, normal).to(device)
-        batch["rationale_mask"] = torch.ones(batch["input_ids"].shape).to(device), 
+        
+
+        batch["importance_scores"]= normal_importance(paded_IS, normal).to(device)
+
+
+
+        batch["rationale_mask"] = torch.ones(batch["input_ids"].shape).to(device), # all out
         model2.eval()
         ##### 进 model 前, rationale 已经因为comp 被删掉了
-        # yhat, _  = model2(**batch)
-        # yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
-        # reduced_probs = yhat[rows, full_text_class]
-        ## baseline sufficiency
+        batch["faithful_method"] = "soft_suff"
+        yhat, _  = model2(**batch)
+        yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
+        reduced_probs = yhat[rows, full_text_class]
+        # baseline sufficiency
         # suff_y_zero = sufficiency_(
         #     full_text_probs, 
         #     reduced_probs,
         # )
-        print('   ')
-        print(paded_IS.shape)
-        print(original_sentences.shape)
-        #comp2, comp_probs2  = normalized_comprehensiveness_soft_(
-        comp2, comp_probs2  = normalized_sufficiency_soft_(
-                        model2 = model2.to(device), 
-                        original_sentences = original_sentences.to(device), 
-                        #rationale_mask = torch.ones(batch["input_ids"].shape).to(device), 
-                        inputs = batch, 
-                        full_text_probs = full_text_probs, 
-                        full_text_class = full_text_class, 
-                        importance_scores = paded_IS.to(device),
-                        rows = rows,
-                        suff_y_zero = suff_y_zero,
-                        use_topk=True,
-                        normalise =normal,
-                        only_query_mask = None,
-
-                    )
+        comp2 = sufficiency_(full_text_probs, reduced_probs)
+        #comp2, comp_probs2  = normalized_comprehensiveness_soft_(rationale_mask = torch.zeros(batch["input_ids"].shape).to(device), #
+        # comp2, comp_probs2  = normalized_sufficiency_soft_(only_query_mask = None,
+        #                 model2 = model2.to(device), =
+        #                 original_sentences = original_sentences.to(device), 
+        #                 inputs = batch, 
+        #                 full_text_probs = full_text_probs, 
+        #                 full_text_class = full_text_class, 
+        #                 importance_scores = paded_IS.to(device),
+        #                 rows = rows,
+        #                 suff_y_zero = suff_y_zero,
+        #                 use_topk=True,
+        #                 normalise =normal,
+        #             )
         
         comp_total2 = np.concatenate((comp_total2, comp2),axis=0)
-    comp_final2 = np.mean(comp_total2)
-    #quit()    
 
+
+    comp_final2 = np.mean(comp_total2)
     comp_final = np.mean(comp_total)
     comp_list.append(comp_final)  
     comp_list2.append(comp_final2)
@@ -351,5 +362,10 @@ ax.set_ylabel('f(i) = |M(So)-M(Si)| / |M(So)-M(S6)|')
 ax.set_title(str(FA_name).capitalize(), fontsize=16)
 
 ax.legend()
-plt.show()
-fig.savefig(f'./interpolation/sst/fixed{fixed_size}/{FA_name}_plot.png')
+import matplotlib
+fig = matplotlib.pyplot.gcf()
+fig.set_size_inches(figsize1, figsize2)
+plt.gcf().subplots_adjust(bottom=0.15)
+plt.gcf().subplots_adjust(left=0.15)
+#plt.show()
+fig.savefig(f'./interpolation/sst/fixed{fixed_size}/{FA_name}_sample{sample_size}_plot.png')

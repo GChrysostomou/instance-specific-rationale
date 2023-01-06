@@ -6,7 +6,6 @@ import json
 
 
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
-CUDA_LAUNCH_BLOCKING=1.
 
 import config.cfg
 from config.cfg import AttrDict
@@ -130,6 +129,11 @@ class BertModelWrapper_zeroout(nn.Module):
             position_ids = None, 
             token_type_ids = token_type_ids,
             )
+        print(' ')
+        print(' -----  input_ids  -------  ')
+        print(input_ids.shape)
+        print(' embeddings DONE')
+        print(embeddings.shape)
 
 
         if type(ig) == int or type(ig) == float:
@@ -144,18 +148,25 @@ class BertModelWrapper_zeroout(nn.Module):
 
         #print('#############################',ig)
         
-    #if add_noise: # when for zero baseline
-        #importance_scores[:,0] = 1 # preserve cls
-        # importance_scores = torch.clip(importance_scores, min=-2).to(device)
+    #if the more importance, keep more in suff and less in comp, less zero in suff and more in comp
         embeddings_3rd = embeddings.size(2)
         importance_scores = importance_scores.unsqueeze(2).repeat(1, 1, embeddings_3rd)
+        if torch.sum(torch.isnan(importance_scores)) > 2: # for fixed0, generate a zero ones
+            importance_scores = torch.zeros(importance_scores.size())
+            
 
         if faithful_method == "soft_suff":
             try: zeroout_mask = torch.bernoulli(1-importance_scores).to(device)
             except: 
                 importance_scores = torch.zeros(embeddings.size())
                 zeroout_mask = torch.bernoulli(1-importance_scores).to(device)
+            # print(' ')
+            # print("==>> embeddings: ", embeddings)
+            # print("==>> embeddings.shape: ", embeddings.shape)
+            # print("==>> zeroout_mask.shape: ", zeroout_mask.shape)
             embeddings = embeddings * zeroout_mask
+            # print("==>> embeddings.shape: ", embeddings.shape)
+            # quit()
 
 
         elif faithful_method == "soft_comp":

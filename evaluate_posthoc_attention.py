@@ -124,14 +124,12 @@ logging.basicConfig(
                   )
 
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
-CUDA_LAUNCH_BLOCKING=1
 
 logging.info("Running on cuda ? {}".format(torch.cuda.is_available()))
 
 torch.backends.cudnn.deterministic = True
 torch.backends.cudnn.benchmark = False
 torch.cuda.empty_cache()
-CUDA_LAUNCH_BLOCKING=1
 
 from src.common_code.initialiser import initial_preparations
 
