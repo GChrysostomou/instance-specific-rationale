@@ -38,11 +38,8 @@ def normal_importance(importance_scores, normalise=5):
     return importance_scores
 
 
-normal = 5
 
-figsize1, figsize2 = 4, 3
-fixed_size = 6
-total_len = 7
+
 date_time = str(datetime.date.today()) + "_" + ":".join(str(datetime.datetime.now()).split()[1].split(":")[:2])
 
 parser = argparse.ArgumentParser()
@@ -71,15 +68,6 @@ parser.add_argument(
 
 
 parser.add_argument(
-    "--FA_name",   
-    type = str, 
-    help = "directory to save models", 
-    default="ig" 
-    #[random 'attention', "scaled attention", "gradients", "ig", "deeplift"]
-)
-
-
-parser.add_argument(
     "--evaluation_dir",   
     type = str, 
     help = "directory to save faithfulness results", 
@@ -94,10 +82,26 @@ parser.add_argument(
 )
 
 parser.add_argument(
+    "--FA_name",   
+    type = str, 
+    help = "directory to save models", 
+    default="random" 
+    #[random 'attention', "scaled attention", "gradients", "ig", "deeplift"]
+)
+
+
+parser.add_argument(
     "--sample_size",   
     type = int, 
     help = "directory to save extracted_rationales", 
     default = 50,
+)
+
+parser.add_argument(
+    "--fix_size",   
+    type = int, 
+    help = "directory to save extracted_rationales", 
+    default = 4,
 )
 
 user_args = vars(parser.parse_args())
@@ -135,19 +139,24 @@ model2.to(device)
 
 
 
+
+figsize1, figsize2 = 4, 3
+
 FA_name = args["FA_name"]
 sample_size =  args["sample_size"]
+fix_size = args["fix_size"]
+total_len = fix_size+1
 
 def F_i(M_SO, M_S4, M_Si): # M is the metrics score 
     F_i = abs(M_SO-M_Si)/abs(M_SO-M_S4+0.0001)
     return F_i
 
-fix_size = 6
+
 data = BERT_HOLDER_interpolation(args["data_dir"], stage = "interpolation", b_size = 8, 
                                         FA_name = FA_name, fix = fix_size, sample_size = sample_size)
 
 if fix_size == 4:
-    loader_list = [ #data.fixed0_loader,
+    loader_list = [ data.fixed0_loader,
                     data.fixed1_loader,
                     data.fixed2_loader,
                     data.fixed3_loader,
@@ -275,8 +284,11 @@ for dataloader_i, data_loader in enumerate(loader_list):
         
         batch["add_noise"] = True
         batch["input_ids"] = original_sentences.to(device)
+        batch["faithful_method"] = "soft_suff"
         
-
+        if batch["faithful_method"] == "soft_suff":
+            normal = 1
+        else: normal = 5
         batch["importance_scores"]= normal_importance(paded_IS, normal).to(device)
 
 
@@ -284,7 +296,7 @@ for dataloader_i, data_loader in enumerate(loader_list):
         batch["rationale_mask"] = torch.ones(batch["input_ids"].shape).to(device), # all out
         model2.eval()
         ##### 进 model 前, rationale 已经因为comp 被删掉了
-        batch["faithful_method"] = "soft_suff"
+        
         yhat, _  = model2(**batch)
         yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
         reduced_probs = yhat[rows, full_text_class]
@@ -368,4 +380,4 @@ fig.set_size_inches(figsize1, figsize2)
 plt.gcf().subplots_adjust(bottom=0.15)
 plt.gcf().subplots_adjust(left=0.15)
 #plt.show()
-fig.savefig(f'./interpolation/sst/fixed{fixed_size}/{FA_name}_sample{sample_size}_plot.png')
+fig.savefig(f'./interpolation/sst/fixed{fix_size}/{FA_name}_sample{sample_size}_plot.png')

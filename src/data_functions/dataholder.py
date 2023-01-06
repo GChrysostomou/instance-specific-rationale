@@ -202,14 +202,14 @@ class BERT_HOLDER_interpolation():
         fixed7 = fixed7[fixed7["text"].str.contains("[SEP]")==False]
         fixed7 = fixed7.sample(sample_size) #####################################################################################  TEST ###############
         print('    len of all ', len(fixed7))
-        fixed7.to_csv(f"./interpolation/sst/{FA_name}-fixed7-AnalysisSamples.csv")
+        fixed7.to_csv(f"./interpolation/sst/fixed{fix}/{FA_name}-sample{sample_size}-AnalysisSamples.csv")
         ids = fixed7["annotation_id"]
         
         if fix == 4:
             fixed5 = fixed5[fixed5["text"].str.contains("[CLS]")==False]
             fixed5 = fixed5[fixed5["text"].str.contains("[SEP]")==False]
             fixed5 = fixed5.sample(50)
-            fixed5.to_csv(f"./interpolation/sst/{FA_name}-fixed5-AnalysisSamples.csv")
+            fixed5.to_csv(f"./interpolation/sst/fixed{fix}/{FA_name}-sample{sample_size}-AnalysisSamples.csv")
             ids = fixed5["annotation_id"]
 
         fixed1 = fixed1.loc[fixed1['annotation_id'].isin(ids)]
