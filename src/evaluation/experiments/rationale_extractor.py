@@ -675,7 +675,7 @@ def rationale_creator_interpolation_(data, data_split_name, tokenizer, model_ran
     desired_rationale_length = fixed_rationale_len
 
     ## time to register rationales
-    for feature_attribution in {"attention", "gradients", "ig", "scaled attention", "deeplift"}: #, "lime"
+    for feature_attribution in {"random", "attention", "gradients", "ig", "scaled attention", "deeplift"}: #, "lime"
         
         temp_registry = {}
 

@@ -139,26 +139,33 @@ from random_word import RandomWords
 r = RandomWords()
 
 # Return a single random word
-def add_random_word(dataset, fixed_set):
+def add_random_word(dataset, fixed_set, fix_size = 4):
     text = []
     for single_text in dataset['text']:
-
+        
         if fixed_set == "fixed0":
-            p = r.get_random_word() + " " + r.get_random_word() + " " + r.get_random_word() + " " + r.get_random_word() + r.get_random_word() + r.get_random_word()+ " " + r.get_random_word() # fixed 0 --> 4 random  --> add 3
+            p = r.get_random_word() + " " + r.get_random_word() + " " + r.get_random_word() + " " + r.get_random_word()  + " " + r.get_random_word()#  + " " + r.get_random_word()+ " " + r.get_random_word() # fixed 0 --> 4 random  --> add 3
         elif fixed_set == "fixed1":
-            p = single_text + " " + r.get_random_word() + " " + r.get_random_word() + " " + r.get_random_word() + r.get_random_word() + r.get_random_word()+ " " + r.get_random_word() # fixed 3 --> three random
+            p = single_text + " " + r.get_random_word() + " " + r.get_random_word() + " " + r.get_random_word()  + " " + r.get_random_word()#  + " " + r.get_random_word()+ " " + r.get_random_word() # fixed 3 --> three random
         elif fixed_set == "fixed2":
-            p = single_text + " " + r.get_random_word() + " " + r.get_random_word() + r.get_random_word() + r.get_random_word()+ " " + r.get_random_word() 
+            p = single_text + " " + r.get_random_word() + " " + r.get_random_word()  + " " + r.get_random_word()#  + " " + r.get_random_word()+ " " + r.get_random_word() 
         elif fixed_set == "fixed3":
-            p = single_text + " " + r.get_random_word() + r.get_random_word() + r.get_random_word()+ " " + r.get_random_word() 
+            p = single_text + " " + r.get_random_word() + " " + r.get_random_word()#  + " " + r.get_random_word()+ " " + r.get_random_word() 
         elif fixed_set == "fixed4":
-            p = single_text + " " + r.get_random_word() + r.get_random_word() + " " + r.get_random_word() 
-        elif fixed_set == "fixed5":
-            p = single_text + " " + r.get_random_word() + " " + r.get_random_word() 
-        elif fixed_set == "fixed6":
-            p = single_text + " " + r.get_random_word() 
-        else:
-            pass
+            p = single_text + " " + r.get_random_word()# + " " + r.get_random_word() + " " + r.get_random_word() 
+        else: p=None
+        
+        if fix_size == 6:
+            if fixed_set == "fixed5":
+                p = single_text + " " + r.get_random_word() + " " + r.get_random_word() 
+            elif fixed_set == "fixed6":
+                p = single_text + " " + r.get_random_word() 
+            elif fixed_set == "fixed7": 
+                pass
+            else:
+                p = p + " " + r.get_random_word() + " " + r.get_random_word()#
+
+
 
         text.append(p)
     dataset["text"] = text
@@ -172,22 +179,16 @@ class BERT_HOLDER_interpolation():
     def __init__(self, path = str, b_size = 8 , FA_name = "attention",
                 for_rationale = False, variable = False, 
                 return_as_frames = False, stage = "interpolation",
+                fix = 4, sample_size = 50,
                 ):
         
         assert type(b_size) == int
-    
         self.batch_size = b_size
         """
         loads data for a classification task from preprocessed .csv =
         files in the dataset/data folder
         and returns three dataholders : train, dev, test
         """
-
-        # ## if loading rationales we have to also include the importance metric
-
-        # if for_rationale:
-            
-        #     path += args["importance_metric"] + "-"
         fixed1 = pd.read_csv(f"./extracted_rationales/sst/data/fixed1/{FA_name}-test.csv")
         fixed2 = pd.read_csv(f"./extracted_rationales/sst/data/fixed2/{FA_name}-test.csv")
         fixed3 = pd.read_csv(f"./extracted_rationales/sst/data/fixed3/{FA_name}-test.csv")
@@ -196,41 +197,50 @@ class BERT_HOLDER_interpolation():
         fixed6 = pd.read_csv(f"./extracted_rationales/sst/data/fixed6/{FA_name}-test.csv")
         fixed7 = pd.read_csv(f"./extracted_rationales/sst/data/fixed7/{FA_name}-test.csv")
 
-        # print('  ')
-        # print('  ')
-        # print('  ')
-        # print(' BEFORE FILTER OUT CLS ANS SEP DATA ', len(fixed6))
-        fixed6 = fixed6[fixed6["text"].str.contains("[CLS]")==False]
-        fixed6 = fixed6[fixed6["text"].str.contains("[SEP]")==False]
-        #print(' AFTER FILTER OUT CLS ANS SEP DATA ', len(fixed6))
-        fixed6 = fixed6.sample(50)
+
+        fixed7 = fixed7[fixed7["text"].str.contains("[CLS]")==False]
+        fixed7 = fixed7[fixed7["text"].str.contains("[SEP]")==False]
+        fixed7 = fixed7.sample(sample_size) #####################################################################################  TEST ###############
+        print('    len of all ', len(fixed7))
+        fixed7.to_csv(f"./interpolation/sst/{FA_name}-fixed7-AnalysisSamples.csv")
+        ids = fixed7["annotation_id"]
         
-        fixed6.to_csv(f"./interpolation/sst/{FA_name}-fixed6-AnalysisSamples.csv")
-        ids = fixed6["annotation_id"]
-        
+        if fix == 4:
+            fixed5 = fixed5[fixed5["text"].str.contains("[CLS]")==False]
+            fixed5 = fixed5[fixed5["text"].str.contains("[SEP]")==False]
+            fixed5 = fixed5.sample(50)
+            fixed5.to_csv(f"./interpolation/sst/{FA_name}-fixed5-AnalysisSamples.csv")
+            ids = fixed5["annotation_id"]
 
         fixed1 = fixed1.loc[fixed1['annotation_id'].isin(ids)]
         fixed2 = fixed2.loc[fixed2['annotation_id'].isin(ids)]
         fixed3 = fixed3.loc[fixed3['annotation_id'].isin(ids)]
         fixed4 = fixed4.loc[fixed4['annotation_id'].isin(ids)]
-        fixed5 = fixed5.loc[fixed5['annotation_id'].isin(ids)]
-        fixed7 = fixed7.loc[fixed7['annotation_id'].isin(ids)]
+        if fix == 6:
+            fixed5 = fixed5.loc[fixed5['annotation_id'].isin(ids)]
+        fixed6 = fixed6.loc[fixed6['annotation_id'].isin(ids)]
         fixed0 = fixed1.copy(deep=True)
         #print(' ================> fixed2 len :', len(fixed2))
         
 
-        fixed0 = add_random_word(fixed0, "fixed0").to_dict("records")
-        fixed1 = add_random_word(fixed1, "fixed1").to_dict("records")
-        fixed2 = add_random_word(fixed2, "fixed2").to_dict("records")        
-        fixed3 = add_random_word(fixed3, "fixed3").to_dict("records")
-        fixed4 = add_random_word(fixed4, "fixed4").to_dict("records")
-        fixed5 = add_random_word(fixed5, "fixed5").to_dict("records")
-        fixed6 = add_random_word(fixed6, "fixed5").to_dict("records")
+        fixed0 = add_random_word(fixed0, "fixed0", fix_size=fix).to_dict("records")
+        fixed1 = add_random_word(fixed1, "fixed1", fix_size=fix).to_dict("records")
+        fixed2 = add_random_word(fixed2, "fixed2", fix_size=fix).to_dict("records")        
+        fixed3 = add_random_word(fixed3, "fixed3", fix_size=fix).to_dict("records")
+        fixed4 = add_random_word(fixed4, "fixed4", fix_size=fix).to_dict("records")
+        if fix == 4: fixed5 = fixed5.to_dict("records")
+        else: 
+            fixed5 = add_random_word(fixed5, "fixed5", fix_size=fix).to_dict("records")
+        
+        fixed6 = add_random_word(fixed6, "fixed5", fix_size=fix).to_dict("records")
         fixed7 = fixed7.to_dict("records")
 
+        # print(fixed0)
+        # print(fixed1)
 
 
-        max_len = round(max([len(x["text"].split()) for x in fixed6]))
+
+        max_len = round(max([len(x["text"].split()) for x in fixed7]))
         max_len = min(max_len, 512)
         self.max_len = max_len
 
@@ -243,8 +253,11 @@ class BERT_HOLDER_interpolation():
         #print('self.nu_of_labels  ', self.nu_of_labels)
 
 
-        fixed7 = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["text"]) for dic in fixed7]
-        fixed6 = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["text"]) for dic in fixed6]
+        if fix == 4 :
+            pass
+        else:
+            fixed7 = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["text"]) for dic in fixed7]
+            fixed6 = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["text"]) for dic in fixed6]
         fixed5 = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["text"]) for dic in fixed5]
         fixed4 = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["text"]) for dic in fixed4]
         fixed3 = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["text"]) for dic in fixed3]
