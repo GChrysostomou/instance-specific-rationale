@@ -94,7 +94,7 @@ parser.add_argument(
     "--sample_size",   
     type = int, 
     help = "directory to save extracted_rationales", 
-    default = 4,
+    default = 100,
 )
 
 parser.add_argument(
@@ -241,7 +241,7 @@ for dataloader_i, data_loader in enumerate(loader_list):
         yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
         reduced_probs = yhat[rows, full_text_class]
         #suff_y_zero = sufficiency_(full_text_probs, reduced_probs)
-        comp = sufficiency_(full_text_probs, reduced_probs)
+        comp = comprehensiveness_(full_text_probs, reduced_probs)
 
         comp_total = np.concatenate((comp_total, comp),axis=0)
         
@@ -285,7 +285,7 @@ for dataloader_i, data_loader in enumerate(loader_list):
         yhat, _  = model2(**batch)
         yhat = torch.softmax(yhat, dim = -1).detach().cpu().numpy()
         reduced_probs = yhat[rows, full_text_class]
-        comp2 = sufficiency_(full_text_probs, reduced_probs)
+        comp2 = comprehensiveness_(full_text_probs, reduced_probs)
         
         comp_total2 = np.concatenate((comp_total2, comp2),axis=0)
 
@@ -328,7 +328,8 @@ soft = df["F-SoftComp"]
 SET=df.index
 # Initialize figure and axis
 
-
+from matplotlib import rcParams
+rcParams.update({'figure.autolayout': True})
 plt.style.use('ggplot')
 fig, ax = plt.subplots(figsize=(figsize1, figsize2)) # gradients 3
 
@@ -343,8 +344,9 @@ ax.set_title(str(FA_name).capitalize(), fontsize=16)
 ax.legend()
 import matplotlib
 fig = matplotlib.pyplot.gcf()
-fig.set_size_inches(figsize1, figsize2)
-plt.gcf().subplots_adjust(bottom=0.15)
-plt.gcf().subplots_adjust(left=0.15)
-#plt.show()
+fig.set_size_inches(figsize1+0.5, figsize2+0.5)
+# plt.gcf().subplots_adjust(bottom=0.15)
+# plt.gcf().subplots_adjust(left=0.25)
+# plt.gcf().subplots_adjust(right=-0.05)
+plt.show()
 fig.savefig(f'./interpolation/sst/fixed{fix_size}/{FA_name}_sample{sample_size}_plot.png')

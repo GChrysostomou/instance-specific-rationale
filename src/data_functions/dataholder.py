@@ -157,18 +157,13 @@ def add_random_word(dataset, fixed_set, fix_size):
         
         if fix_size == 6:
             if fixed_set == "fixed5":
-                print('--------------> 5', single_text)
                 p = single_text + " " + r.get_random_word() + " " + r.get_random_word() 
-                print('----- 5', len(p.split()), p)
             elif fixed_set == "fixed6":
                 p = single_text + " " + r.get_random_word() 
-                print('----- 6', len(p.split()))
             elif fixed_set == "fixed7": 
-                print('----- 7', len(p.split()))
                 pass
             else: # for fixed0 to fixed4
                 p = p + " " + r.get_random_word() + " " + r.get_random_word()#
-            print(len(p.split()))
             assert len(p.split()) == 7
 
 
@@ -243,10 +238,6 @@ class BERT_HOLDER_interpolation():
             fixed7 = fixed7.to_dict("records")
         else:
             print('need to define fix = 4 or 6')
-
-        # print(fixed0)
-        # print(fixed1)
-
 
 
         if fix == 6: max_len = round(max([len(x["text"].split()) for x in fixed7]))

@@ -151,10 +151,8 @@ class BertModelWrapper_zeroout(nn.Module):
     #if the more importance, keep more in suff and less in comp, less zero in suff and more in comp
         embeddings_3rd = embeddings.size(2)
         importance_scores = importance_scores.unsqueeze(2).repeat(1, 1, embeddings_3rd)
-        print(" 3 ==>> importance_scores.shape: ", importance_scores.shape)
         if torch.sum(torch.isnan(importance_scores)) > 2: # for fixed0, generate a zero ones
             importance_scores = torch.zeros(importance_scores.size())
-        print(" 4 ==>> importance_scores.shape: ", importance_scores.shape)
             
 
         if faithful_method == "soft_suff":

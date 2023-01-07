@@ -1,0 +1,1001 @@
+,Unnamed: 0,annotation_id,exp_split,label,label_id,text,full text doc,importance_scores
+595,595,test_408,test,1,positive,of as is the the an to,the film is exhilarating to watch because sandler liberated from the constraints of formula reveals unexpected depths as an actor,"[0.09034914 0.06945431 0.06707105 0.0562798  0.0562798  0.05207492
+ 0.04806764]"
+929,929,test_1154,test,0,negative,you being think the material author for,being author wells great grandson you d think filmmaker simon wells would have more reverence for the material,"[0.02558853 0.01765667 0.01246551 0.0119366  0.01076996 0.01059271
+ 0.00644063]"
+947,947,test_1790,test,1,positive,the the a of in world providing,succeeds in providing a disquiet world the long dreaded completion of the police academy series,"[ 0.10205255  0.10205255  0.08839484  0.08016038  0.06113361  0.01686361
+ -0.08554077]"
+286,286,test_100,test,0,negative,nor an spend though neither the somewhere,somewhere short of tremors on the modern b scene neither as funny nor as clever though an agreeably unpretentious way to spend ninety minutes,"[0.13937792 0.05968352 0.05225228 0.05188436 0.04699282 0.03746472
+ 0.02951659]"
+547,547,test_760,test,1,positive,of beautifully s meditation a a the,it s a beautifully accomplished lyrical meditation on a bunch of despondent and vulnerable characters living in the renown chelsea hotel,"[0.07287827 0.03975366 0.02794204 0.02385578 0.01838448 0.01838448
+ 0.01443133]"
+199,199,test_1033,test,0,negative,lack pacing maddeningly slow acting film creativity,a simple sometimes maddeningly slow film that has just enough charm and good acting to make it interesting but is ultimately pulled under by the pacing and lack of creativity within,"[0.8759755  0.47801584 0.4002891  0.39343822 0.17183289 0.16253291
+ 0.07696028]"
+141,141,test_1086,test,0,negative,cringing and a sucks from out the,the vampire thriller blade ii starts off as a wild hoot and then sucks the blood out of its fun toward the end you can feel your veins cringing from the workout,"[0.12745771 0.0710379  0.06432538 0.06261924 0.05845459 0.02458568
+ 0.02323468]"
+579,579,test_1,test,1,positive,keenly does movie emerges feel n honest,emerges as something rare an issue movie that s so honest and keenly observed that it does n t feel like one,"[0.08811016 0.08549974 0.06979202 0.04883859 0.0412982  0.0402451
+ 0.03999477]"
+274,274,test_1017,test,0,negative,ornamentation telegraphed cliches episodes henna old group,nair stuffs the film with dancing henna ornamentation and group song but her narrative cliches and telegraphed episodes smell of old soap opera,"[0.15182352 0.12661815 0.06085573 0.05835079 0.05501011 0.04606671
+ 0.04402505]"
+606,606,test_679,test,1,positive,that and the the it because for,works because for the most part it avoids the stupid cliches and formulaic potholes that befall its brethren,"[0.08489516 0.0389415  0.03829514 0.03829514 0.02783551 0.02659039
+ 0.01993139]"
+853,853,test_1188,test,0,negative,flaunts excesses hat quirky drunk party paper,flaunts its quirky excesses like a new year s eve drunk sporting a paper party hat,"[0.35608268 0.23266844 0.14157747 0.11036822 0.10571827 0.10247482
+ 0.07278211]"
+513,513,test_1519,test,0,negative,jokester punchline delivery never dead live t,never quite transcends jokester status and the punchline does n t live up to barry s dead eyed perfectly chilled delivery,"[0.08558553 0.03003268 0.0288857  0.02806095 0.01467479 0.01231257
+ 0.01229078]"
+855,855,test_1270,test,0,negative,a a a spends when it never,it s never a good sign when a film s star spends the entirety of the film in a coma,"[0.04732667 0.04732667 0.04732667 0.04106087 0.03924464 0.0380215
+ 0.03785436]"
+415,415,test_1770,test,0,negative,uberviolence fu kung clericks premise action becomes,the premise is overshadowed by the uberviolence of the clericks as this becomes just another kung fu sci fi movie with silly action sequences,"[0.20031065 0.07197178 0.0653914  0.06137105 0.05196141 0.04432803
+ 0.04356405]"
+1688,1688,test_911,test,1,positive,loving considerable appeal film little of a,a loving little film of considerable appeal,"[ 0.25127047  0.16482781  0.16275027  0.13500655  0.05223903 -0.03301055
+ -0.20409553]"
+1608,1608,test_348,test,1,positive,since best of kind the its movie,the best movie of its kind since brazil,"[ 0.03150836  0.02902529  0.0256166   0.02507041  0.01213467  0.00475522
+ -0.01180637]"
+456,456,test_1456,test,0,negative,jokes old forsaken instead leave doorstep rehash,the makers have forsaken the entertaining elements of the original and instead rehash old jokes and leave any life at the doorstep,"[0.11559566 0.09487461 0.07351476 0.05542849 0.05125614 0.05003665
+ 0.0432181 ]"
+1248,1248,test_987,test,0,negative,movie most incoherent the and arguably year,arguably the year s silliest and most incoherent movie,"[ 0.04040408  0.0219085   0.01430521  0.0124046   0.00723418  0.00585451
+ -0.00531764]"
+211,211,test_1613,test,0,negative,observant facile preciousness cleverness leavitt noxious based,based on a david leavitt story the film shares that writer s usual blend of observant cleverness too facile coincidence and slightly noxious preciousness,"[0.18876308 0.15584461 0.13022482 0.10669789 0.08367264 0.07639188
+ 0.0371334 ]"
+591,591,test_351,test,1,positive,eerie night creates time events of of,kaufman creates an eerie sense of not only being there at the time of these events but the very night matthew was killed,"[0.14031424 0.13137557 0.12394007 0.1219534  0.09900852 0.08563336
+ 0.08563336]"
+482,482,test_520,test,1,positive,providing of of that twinkle generally precious,a budget affair that exposes the generally sad existence of the bedouins while providing a precious twinkle of insight into their lives,"[0.09812278 0.06234034 0.06234034 0.04507415 0.0301508  0.02796703
+ 0.02290759]"
+773,773,test_1104,test,0,negative,the with to of its parker s,earnest falls short of its ideal predecessor largely due to parker s ill advised meddling with the timeless source material,"[0.07135118 0.0390635  0.02983392 0.01163223 0.01034482 0.00946369
+ 0.00324877]"
+1463,1463,test_1476,test,0,negative,half scene timing nearly beat off seems,the timing in nearly every scene seems a half beat off,"[ 0.1950895   0.17030641  0.16076337  0.07428467  0.06863612  0.03382996
+ -0.01626474]"
+333,333,test_295,test,1,positive,valedictory movies somehow making fine experiences richer,the pianist is a fine valedictory work for polanski made richer by his own experiences making his other movies somehow richer in the bargain,"[0.10627036 0.04892185 0.03541092 0.03514576 0.03462869 0.02702425
+ 0.02092947]"
+749,749,test_540,test,1,positive,of good if s s it it,it s the cinematic equivalent of a good page turner and even if it s nonsense its claws dig surprisingly deep,"[0.06827938 0.06554352 0.02196232 0.01776835 0.01776835 0.01462279
+ 0.01462279]"
+831,831,test_631,test,1,positive,of that is the all should a,theirs is a simple and heart warming story full of mirth that should charm all but the most cynical,"[0.09318605 0.04189963 0.02862636 0.02258839 0.02044643 0.01840013
+ 0.01687973]"
+942,942,test_1621,test,0,negative,mean happened just t it it because,just because it really happened to you honey does n t mean that it s interesting to anyone else,"[0.08959104 0.06214031 0.06186241 0.05586675 0.03146773 0.03146773
+ 0.03070658]"
+369,369,test_1743,test,0,negative,are but mean shot is they it,the streets shot by cinematographer michael ballhaus may be as authentic as they are mean but it is nearly impossible to care about what happens on them,"[0.30930611 0.30708742 0.17825961 0.15970533 0.15099001 0.08106206
+ 0.0456932 ]"
+1171,1171,test_306,test,1,positive,unbelievably fun just man away leading perfection,an unbelievably fun film just a leading man away from perfection,"[0.16195065 0.01674569 0.01455258 0.01440797 0.0124682  0.00776074
+ 0.00682139]"
+552,552,test_948,test,0,negative,only is an ridden the the worse,the only thing worse than your substandard run of the mill hollywood picture is an angst ridden attempt to be profound,"[0.08423136 0.07475588 0.0657052  0.04616125 0.0451746  0.0451746
+ 0.04081523]"
+686,686,test_768,test,1,positive,of as the a a look at,sits uneasily as a horror picture but finds surprising depth in its look at the binds of a small family,"[0.07710735 0.05449365 0.03187373 0.02774998 0.02774998 0.02373418
+ 0.01442751]"
+551,551,test_877,test,0,negative,contrived gags stultifyingly half pieces gross stylized,its gross out gags and colorful set pieces are of course stultifyingly contrived and too stylized by half,"[0.12284539 0.09304672 0.09239215 0.05370936 0.0372171  0.02787787
+ 0.01985526]"
+1200,1200,test_1366,test,0,negative,disjointed humorless mess movie but it s,but as a movie it s a humorless disjointed mess,"[ 0.5791035   0.2957223   0.09076314  0.02869918 -0.04072282 -0.04559512
+ -0.04942261]"
+873,873,test_1749,test,0,negative,sadism unceasing own ends obsession graphically so,the unceasing sadism is so graphically excessive the director just ends up exposing his own obsession,"[0.10838604 0.05634536 0.03511884 0.03158567 0.02417285 0.01476285
+ 0.0131426 ]"
+1657,1657,test_1797,test,0,negative,format suffer chosen stories the the from,the stories here suffer from the chosen format,"[ 0.06565508  0.05998939  0.03643793  0.0260392  -0.02034989 -0.02034989
+ -0.04246287]"
+443,443,test_836,test,1,positive,that this funny and it it so,thrilling provocative and darkly funny this timely sci fi mystery works on so many different levels that it not only invites it demands repeated viewings,"[0.05691915 0.0419363  0.0404072  0.02954861 0.02214267 0.02214267
+ 0.01601931]"
+1554,1554,test_887,test,1,positive,stinging times thoughtful even of lots fun,thoughtful even stinging at times and lots of fun,"[ 5.6150548e-02  4.2787883e-02  2.5536150e-02  1.6955733e-02
+  1.0556716e-02  5.9402473e-03 -5.2661635e-05]"
+270,270,test_775,test,1,positive,hypnotically huppert gives yourself you understand intriguing,huppert gives erika a persona that is so intriguing that you find yourself staring hypnotically at her trying to understand her and wondering if she ll crack,"[0.9600228  0.66620874 0.38335434 0.23683879 0.22244614 0.22169861
+ 0.21428838]"
+621,621,test_932,test,0,negative,nikita perspective transporter unlike lacks femme professional,unlike his directorial efforts la femme nikita and the professional the transporter lacks besson s perspective as a storyteller,"[0.03535508 0.03416032 0.03388435 0.02975201 0.01611535 0.01363077
+ 0.00987531]"
+502,502,test_1213,test,1,positive,bright wish fulfilling chipper characters davis things,davis has a bright chipper style that keeps things moving while never quite managing to connect her wish fulfilling characters to the human race,"[0.18903363 0.14713281 0.13296619 0.1239446  0.10737027 0.0613021
+ 0.05633204]"
+1580,1580,test_1425,test,0,negative,yuks movement not much no no of,no movement no yuks not much of anything,"[ 0.11679929  0.06494892  0.01004142 -0.00270358 -0.01883273 -0.01883273
+ -0.05047355]"
+888,888,test_321,test,1,positive,of like by the the the for,by the end of no such thing the audience like beatrice has a watchful affection for the monster,"[0.06104521 0.01959549 0.00922987 0.00655704 0.00655704 0.00655704
+ 0.00346512]"
+875,875,test_3,test,1,positive,good to intentions more perhaps picture literally,perhaps no picture ever made has more literally showed that the road to hell is paved with good intentions,"[0.08611566 0.01665659 0.0120991  0.00959339 0.00672159 0.00618455
+ 0.00259849]"
+1369,1369,test_658,test,1,positive,just is the a big gorgeous taking,the film is just a big gorgeous mind blowing breath taking mess,"[0.10284469 0.10172149 0.08976737 0.07192569 0.04358721 0.02036782
+ 0.00628932]"
+285,285,test_1711,test,0,negative,to to to in the that a,on the right track to something that s creepy and effective it s just going to take more than a man in a bullwinkle costume to get there,"[0.18746747 0.18746747 0.18746747 0.15616965 0.14364004 0.13601695
+ 0.11944547]"
+1680,1680,test_628,test,1,positive,fact blend fiction clever of a and,a clever blend of fact and fiction,"[ 0.21620819  0.17870222  0.13799024  0.12866652 -0.03586579 -0.17499988
+ -0.20138696]"
+874,874,test_1768,test,0,negative,lots adults young score other hipness try,winds up feeling like lots of other quirky movies that try to score hipness points with young adults,"[0.03307517 0.03060191 0.02834068 0.02617371 0.02350321 0.01353072
+ 0.01201955]"
+741,741,test_456,test,1,positive,goals yes comedy characters romantic talk working,a romantic comedy yes but one with characters who think and talk about their goals and are working on hard decisions,"[0.12889975 0.07116172 0.06675811 0.05538641 0.04264103 0.04148596
+ 0.03535844]"
+1181,1181,test_554,test,1,positive,that the a it by without marvel,a yarn that respects the marvel version without becoming ensnared by it,"[ 0.14851211  0.09931441  0.08828662  0.05953394  0.03612008 -0.03769625
+ -0.05848942]"
+412,412,test_1637,test,0,negative,crosscuts fails abruptly resonance lend individual dramatic,as it abruptly crosscuts among the five friends it fails to lend the characters individual stories enough dramatic resonance to make us care about them,"[0.15364616 0.13878104 0.04654106 0.04422558 0.03167356 0.02528734
+ 0.01858492]"
+1389,1389,test_1285,test,0,negative,dull provocative nor only neither be turns,all this turns out to be neither funny nor provocative only dull,"[ 0.30517912  0.27132863  0.260019    0.1408244   0.0792411  -0.00220231
+ -0.01582168]"
+374,374,test_105,test,1,positive,may has how the to to a,a classy item by a legend who may have nothing left to prove but still has the chops and drive to show how its done,"[0.25508404 0.20066258 0.18828264 0.17793187 0.1684669  0.1684669
+ 0.13361964]"
+1364,1364,test_560,test,1,positive,of the made it s honest ever,it s one of the most honest films ever made about hollywood,"[0.0795209  0.03606037 0.03343216 0.02571123 0.02017636 0.01287865
+ 0.00994318]"
+1374,1374,test_736,test,1,positive,is a s for many eight crazy,eight crazy nights is a showcase for sandler s many talents,"[ 0.12286694  0.08235613  0.06169761  0.03363009  0.01085617 -0.01190716
+ -0.02680418]"
+1211,1211,test_1739,test,0,negative,remotely stopped intelligent long ago done all,had anyone here done anything remotely intelligent we all could have stopped watching long ago,"[ 0.0474588   0.0308633   0.02537289  0.01516695  0.00939924  0.00715419
+ -0.00979328]"
+1235,1235,test_649,test,1,positive,that and is a created has weird,barney has created a tour de force that is weird wacky and wonderful,"[ 0.15619914  0.13618904  0.11837294  0.10669763  0.06809131  0.05753989
+ -0.04126343]"
+21,21,test_1472,test,0,negative,implausible sitcom bows never a situation loose,director brian levant who never strays far from his sitcom roots skates blithely from one implausible situation to another pausing only to tie up loose ends with more bows than you ll find on a french poodle,"[0.11361878 0.05959604 0.05493012 0.04116063 0.03347755 0.02603433
+ 0.02360568]"
+1486,1486,test_302,test,1,positive,what a of this like like should,a model of what films like this should be like,"[0.15598941 0.10593466 0.09656614 0.09077845 0.05137905 0.05137905
+ 0.03148011]"
+108,108,test_192,test,1,positive,a a t from and the put,visits spy movie territory like a novel you ca n t put down examines a footnote to history seldom brought to light on the screen and keeps you guessing from first frame to last,"[0.13196397 0.13196397 0.08808866 0.08546997 0.07682105 0.06062565
+ 0.03898758]"
+172,172,test_1147,test,0,negative,but dull a the back scarcely not,dull if not devoid of wit this shaggy dog longs to frisk through the back alleys of history but scarcely manages more than a modest snoozy charm,"[0.08939933 0.07695547 0.04650047 0.02429777 0.01349872 0.00749834
+ 0.00501551]"
+1379,1379,test_846,test,1,positive,that and a a an both mind,an excellent romp that boasts both a heart and a mind,"[ 0.17525215  0.11378229  0.09690839  0.09690839  0.0603672   0.03266199
+ -0.04081412]"
+1093,1093,test_202,test,1,positive,provocatuers testud parmentier superlative performances give lead,lead provocatuers testud and parmentier give superlative performances,"[ 0.70335364  0.40230888  0.27945814  0.1659947   0.0594807  -0.00858484
+ -0.0192863 ]"
+1551,1551,test_772,test,0,negative,the a of like place south border,like a south of the border melrose place,"[ 0.12850699  0.1095472   0.04608596 -0.02300998 -0.05281812 -0.12247296
+ -0.13076845]"
+421,421,test_155,test,1,positive,moviemaking welcome period wit way done careful,it s traditional moviemaking all the way but it s done with a lot of careful period attention as well as some very welcome wit,"[0.29603362 0.21102896 0.15403432 0.14308394 0.10216037 0.0911338
+ 0.08991601]"
+1529,1529,test_1794,test,0,negative,an about old dusty film entire quietly,an entire film about researchers quietly reading dusty old letters,"[ 0.08708771  0.08491518  0.00425562 -0.00859892 -0.0210923  -0.02609271
+ -0.0318234 ]"
+890,890,test_363,test,1,positive,that is the to open s impressive,most impressive though is the film s open ended finale that refuses to entirely close its characters emotional wounds,"[0.10170844 0.07171457 0.06046087 0.05956154 0.04543352 0.03883256
+ 0.03631338]"
+980,980,test_1052,test,0,negative,birot nothing but competent very or enough,birot is a competent enough filmmaker but her story has nothing fresh or very exciting about it,"[0.07284009 0.06399428 0.03424853 0.03037837 0.02382708 0.01362324
+ 0.00264995]"
+1113,1113,test_621,test,1,positive,just and it it to there are,there are slow and repetitive parts but it has just enough spice to keep it interesting,"[0.09580096 0.07739207 0.0609125  0.0609125  0.05689235 0.05677638
+ 0.0565845 ]"
+948,948,test_1793,test,0,negative,search laughs does favour t audience miss,a frantic search for laughs with a hit to miss ratio that does n t exactly favour the audience,"[0.04281551 0.04092718 0.02476628 0.02378053 0.02252525 0.01926853
+ 0.01661338]"
+1276,1276,test_1786,test,0,negative,boring refuses flat grim werewolf develop level,a grim flat and boring werewolf movie that refuses to develop an energy level,"[0.22601622 0.2011053  0.17841391 0.13864541 0.13061354 0.11839963
+ 0.06508261]"
+104,104,test_1516,test,0,negative,the a it even s up of,a gob of drivel so sickly sweet even the eager consumers of moore s pasteurized ditties will retch it up like rancid creme brulee,"[0.06354159 0.05503808 0.04716195 0.03706323 0.02008228 0.01535762
+ 0.00153758]"
+116,116,test_652,test,1,positive,insultingly innocuous sappy degrees refreshing years 180,it is so refreshing to see robin williams turn 180 degrees from the string of insultingly innocuous and sappy fiascoes he s been making for the last several years,"[0.18053097 0.1673597  0.14775875 0.14499256 0.13015303 0.12562402
+ 0.11494526]"
+153,153,test_121,test,1,positive,special indulge effects force way folks fi,as lo fi as the special effects are the folks who cobbled nemesis together indulge the force of humanity over hardware in a way that george lucas has long forgotten,"[0.31002474 0.1928674  0.10866205 0.08959953 0.07307736 0.06788569
+ 0.05834725]"
+1630,1630,test_1135,test,0,negative,intermittently pleasing routine mostly effort but an,an intermittently pleasing but mostly routine effort,"[ 0.57466304  0.34080577  0.11020251  0.08138139  0.02678142 -0.10883839
+ -0.15245625]"
+646,646,test_1488,test,0,negative,alone funny steven spielberg home do know,home alone goes hollywood a funny premise until the kids start pulling off stunts not even steven spielberg would know how to do,"[0.03611704 0.03453988 0.02673008 0.02363389 0.02285551 0.01556691
+ 0.0147233 ]"
+1328,1328,test_1395,test,0,negative,utter lack complete offense movie tension its,the movie s biggest offense is its complete and utter lack of tension,"[ 0.12812763  0.09252464  0.09178224  0.08795481  0.02464897  0.01779551
+ -0.00514044]"
+120,120,test_787,test,0,negative,nothing us the and perverted for before,nothing denis has made before like beau travil and nenette et boni could prepare us for this gory perverted sex soaked riff on the cannibal genre,"[0.06827559 0.05412477 0.05225471 0.05030483 0.02725942 0.0212112
+ 0.01808144]"
+157,157,test_397,test,1,positive,fully you you is to examined how,one of the best examples of how to treat a subject you re not fully aware is being examined much like a photo of yourself you did n t know was being taken,"[0.34966063 0.2841609  0.2841609  0.22346255 0.21924993 0.19364978
+ 0.16651407]"
+91,91,test_236,test,1,positive,is polished meaning to to a a,parker holds true to wilde s own vision of a pure comedy with absolutely no meaning and no desire to be anything but a polished sophisticated entertainment that is in love with its own cleverness,"[0.3061316  0.22936755 0.17149293 0.17087305 0.17087305 0.16836123
+ 0.16836123]"
+314,314,test_1281,test,0,negative,are when when it it and in,falters when it takes itself too seriously and when it depends too heavily on its otherwise talented cast to clown in situations that are n t funny,"[0.3157555  0.15575168 0.15575168 0.15298304 0.15298304 0.14794841
+ 0.09733427]"
+1531,1531,test_161,test,1,positive,that the a cop well story amazingly,a cop story that understands the medium amazingly well,"[0.06922492 0.03229381 0.02411821 0.01530434 0.00968112 0.00054557
+ 0.00026617]"
+88,88,test_16,test,1,positive,includes how is amazing that lives it,with a cast that includes some of the top actors working in independent film lovely amazing involves us because it is so incisive so bleakly amusing about how we go about our lives,"[0.3903028  0.24120009 0.2292134  0.22872268 0.2195108  0.21216476
+ 0.16789421]"
+85,85,test_1441,test,0,negative,but been embarrassing script still weak and,the overall feel of the film is pretty cheesy but there s still a real sense that the star trek tradition has been honored as best it can given the embarrassing script and weak direction,"[0.191526   0.18019286 0.04886998 0.04028006 0.03506576 0.03042125
+ 0.02576765]"
+892,892,test_423,test,1,positive,elling therapeutic of really laugh crazy guys,elling really is about a couple of crazy guys and it s therapeutic to laugh along with them,"[0.20814735 0.12173998 0.07595123 0.03671655 0.02271651 0.0202365
+ 0.01269153]"
+1143,1143,test_1397,test,0,negative,franchise off halloween resurrection is it been,if this is the resurrection of the halloween franchise it would have been better off dead,"[0.07899036 0.04333586 0.03906441 0.0378869  0.02702434 0.02193663
+ 0.02191065]"
+232,232,test_1075,test,0,negative,a a and damned get many many,a gimmick in search of a movie how to get carvey into as many silly costumes and deliver as many silly voices as possible plot mechanics be damned,"[0.07085312 0.07085312 0.03635716 0.0117914  0.00939171 0.00805996
+ 0.00805996]"
+1336,1336,test_1493,test,0,negative,of will this a one fans find,even die hard fans of japanese animation will find this one a challenge,"[ 0.07449514  0.06761259  0.06252915  0.06012461  0.01166511 -0.01229859
+ -0.02153389]"
+971,971,test_781,test,1,positive,of is heart the the in just,in adobo ethnicity is not just the spice but at the heart of more universal concerns,"[0.07716596 0.0202656  0.01824646 0.01678983 0.01678983 0.01236147
+ 0.0095496 ]"
+1317,1317,test_1084,test,0,negative,and a so first slightly less average,a strong first quarter slightly less so second quarter and average second half,"[ 0.13941447  0.11517402  0.05992788  0.01228222 -0.01578966 -0.0721079
+ -0.08675742]"
+612,612,test_770,test,1,positive,of is the a a there even,there is a refreshing absence of cynicism in stuart little 2 quite a rarity even in the family film market,"[0.09298514 0.0590233  0.05130985 0.04422057 0.04422057 0.04262376
+ 0.01004836]"
+1006,1006,test_18,test,1,positive,and a a what doing it good,scores a few points for doing what it does with a dedicated and good hearted professionalism,"[0.05576006 0.0542962  0.0542962  0.05173822 0.04972723 0.04411682
+ 0.02946757]"
+768,768,test_1001,test,0,negative,stillborn worn future box video cover ballistic,some like ballistic arrive stillborn looking like the beaten well worn video box cover of seven years into the future,"[0.1176409  0.08354519 0.07113204 0.0510609  0.04362015 0.02439041
+ 0.02218245]"
+1615,1615,test_659,test,1,positive,sobering lively film sharp ultimately funny and,sharp lively funny and ultimately sobering film,"[ 0.33100486  0.21618754  0.12431694  0.10757156  0.08077867 -0.06479802
+ -0.19687603]"
+1127,1127,test_951,test,0,negative,nerdy cherish inhabit dull imprisonment avoid folks,it s best to avoid imprisonment with the dull nerdy folks that inhabit cherish,"[0.6113118  0.49206275 0.32087806 0.30324954 0.25623024 0.16931134
+ 0.02528192]"
+1490,1490,test_365,test,1,positive,escapism sincere polished relatively piece of a,a polished and relatively sincere piece of escapism,"[ 0.78750455  0.30132085  0.1653803   0.16440241  0.14865986 -0.02421188
+ -0.1658121 ]"
+936,936,test_1367,test,0,negative,and just dr another evil with if,if myers decides to make another austin powers movie maybe he should just stick with austin and dr evil,"[0.03020941 0.0245839  0.02427218 0.02309614 0.02125304 0.01793179
+ 0.01368085]"
+1625,1625,test_1050,test,0,negative,movie me same they to like felt,they felt like the same movie to me,"[ 0.06153777 -0.04658042 -0.04837042 -0.06393336 -0.06611365 -0.07866424
+ -0.08680972]"
+100,100,test_1081,test,0,negative,but a t the than there to,there s plenty of style in guillermo del toro s sequel to the 1998 hit but why do we need 117 minutes to tell a tale that simply ca n t sustain more than 90 minutes,"[0.20666987 0.14655656 0.11367451 0.07189505 0.05011487 0.03884666
+ 0.02864261]"
+1004,1004,test_1796,test,0,negative,obsolete nothing class notion irritating stake an,what s at stake in this film is nothing more than an obsolete if irritating notion of class,"[0.11649342 0.05621834 0.04023438 0.03717615 0.03398123 0.01352593
+ 0.0085445 ]"
+189,189,test_449,test,1,positive,danang film daughter should all n aware,daughter from danang is a film that should be seen by all especially those who are n t aware of or have forgotten about the unmentioned victims of war,"[0.33674723 0.18020913 0.10715662 0.09521367 0.09025718 0.08632349
+ 0.08452016]"
+1014,1014,test_139,test,1,positive,worth of s and it because performances,but it s worth recommending because of two marvelous performances by michael caine and brendan fraser,"[0.07847267 0.0775454  0.01839287 0.01379443 0.01048859 0.00589136
+ 0.00571202]"
+1169,1169,test_282,test,1,positive,the and and your by them them,will grab your children by the imagination and amaze them and amuse them,"[0.05369201 0.0483333  0.0483333  0.02900277 0.00955667 0.00137685
+ 0.00137685]"
+1386,1386,test_1262,test,0,negative,slog pokemon fan long committed most anyone,a long slog for anyone but the most committed pokemon fan,"[ 0.3031069   0.2227774   0.17360097  0.10925243  0.01924269  0.01444163
+ -0.00836628]"
+758,758,test_750,test,1,positive,of of and and a detailed visual,dark resonant inventively detailed and packed with fleet turns of plot and a feast of visual amazement,"[ 6.5397277e-02  6.5397277e-02  3.2931052e-02  3.2931052e-02
+  3.0403160e-02  7.3536299e-05 -2.7370667e-03]"
+679,679,test_492,test,1,positive,we we we energy and passion s,we need moore s noisy cocky energy his passion and class consciousness we need his shticks we need his stones,"[0.04275865 0.04275865 0.04275865 0.02137292 0.00701182 0.00671958
+ 0.00420664]"
+1339,1339,test_1513,test,0,negative,drowns soundtrack lousy dialogue for out it,say this for the soundtrack it drowns out the lousy dialogue,"[ 0.29738092  0.23392636  0.21062925  0.09946504 -0.02287287 -0.04511473
+ -0.05731899]"
+477,477,test_416,test,1,positive,ingratiating cozy challenging always interesting clever work,not a cozy or ingratiating work but it s challenging sometimes clever and always interesting and those are reasons enough to see it,"[0.69843614 0.17965667 0.14076227 0.12300019 0.08273617 0.08063771
+ 0.07381062]"
+1533,1533,test_304,test,1,positive,are that just these good yeah damn,yeah these flicks are just that damn good,"[ 0.12282631  0.10918532  0.05437192  0.02268371  0.02080114  0.01158993
+ -0.02413705]"
+77,77,test_834,test,1,positive,heart angel spirit plays extended times dancing,there are times when a rumor of angels plays like an extended episode of touched by an angel a little too much dancing a few too many weeping scenes but i liked its heart and its spirit,"[0.36838436 0.22014016 0.15806329 0.11980203 0.10714821 0.09681596
+ 0.09257282]"
+163,163,test_744,test,1,positive,you the in a a that 77,its direction its script and weaver s performance as a vaguely discontented woman of substance make for a mildly entertaining 77 minutes if that s what you re in the mood for,"[0.17075092 0.1311188  0.11626139 0.11181561 0.11181561 0.07886716
+ 0.07327268]"
+557,557,test_1056,test,0,negative,is is a at and and it,it is a comedy that s not very funny and an action movie that is not very thrilling and an uneasy alliance at that,"[0.25865823 0.25865823 0.17350459 0.1509004  0.14093749 0.14093749
+ 0.14087847]"
+1120,1120,test_803,test,1,positive,of that challenges pushes the and and,a comprehensive and provocative film one that pushes the boundaries of biography and challenges its audience,"[0.07058249 0.02791556 0.02789319 0.02173301 0.01870007 0.01316495
+ 0.01316495]"
+1058,1058,test_1306,test,0,negative,bludgeon end unconscious myself for hard with,by the end i was looking for something hard with which to bludgeon myself unconscious,"[0.05406842 0.04477401 0.02937409 0.01136083 0.00477794 0.00469614
+ 0.00253654]"
+1194,1194,test_1028,test,0,negative,preferred spending n 7 00 t or,it would n t be my preferred way of spending 100 minutes or 7 00,"[0.05220402 0.04473549 0.0247134  0.01142824 0.00977216 0.00856728
+ 0.0078607 ]"
+343,343,test_591,test,1,positive,leoni empress magic allen time hollywood years,for the first time in several years mr allen has surpassed himself with the magic he s spun with the hollywood empress of ms leoni s ellie,"[0.5313981  0.28813222 0.28783557 0.1474141  0.14117685 0.14009714
+ 0.12137873]"
+546,546,test_756,test,1,positive,that is is and a a the,rain is a small treasure enveloping the viewer in a literal and spiritual torpor that is anything but cathartic,"[0.08897153 0.05439491 0.05439491 0.05087574 0.05022653 0.05022653
+ 0.04910826]"
+1279,1279,test_14,test,1,positive,sophistication offers of of true air breath,offers a breath of the fresh air of true sophistication,"[0.29753983 0.08008418 0.04716105 0.04716105 0.04649528 0.0382315
+ 0.02943025]"
+468,468,test_253,test,1,positive,dass worth grace response seeking man ram,for anyone who remembers the 60s or is interested in one man s response to stroke ram dass fierce grace is worth seeking out,"[0.20543632 0.16854523 0.14068949 0.1180352  0.08966624 0.06647451
+ 0.06002344]"
+69,69,test_1232,test,0,negative,the the the is are most poor,god help the poor woman if attal is this insecure in real life his fictional yvan s neuroses are aggravating enough to exhaust the patience of even the most understanding spouse,"[0.06147899 0.06147899 0.06147899 0.06045221 0.05048489 0.03752901
+ 0.03203929]"
+629,629,test_1083,test,0,negative,no a t bucks did their hard,no reason for anyone to invest their hard earned bucks into a movie which obviously did n t invest much into itself either,"[0.15170795 0.06733537 0.05994496 0.05513768 0.04595819 0.0452146
+ 0.02543019]"
+941,941,test_1581,test,0,negative,dumbest sketchiest aspiring age coming may on,this may be the dumbest sketchiest movie on record about an aspiring writer s coming of age,"[0.12054505 0.09467196 0.01528675 0.00857109 0.0063758  0.00565861
+ 0.00153501]"
+699,699,test_1114,test,0,negative,obtuse unapproachable delibrately enigma name movie good,enigma is a good name for a movie this delibrately obtuse and unapproachable,"[0.68057287 0.6364272  0.5943683  0.15808332 0.11078094 0.05110572
+ 0.009486  ]"
+427,427,test_371,test,1,positive,of s heart u to an the,an inspiring and heart affecting film about the desperate attempts of vietnamese refugees living in u s relocation camps to keep their hopes alive in 1975,"[0.07730876 0.04179562 0.04129091 0.03504808 0.0309748  0.02997225
+ 0.02227009]"
+1400,1400,test_1564,test,0,negative,dreary body appeal annoying highly one will,dreary highly annoying some body will appeal to no one,"[ 0.4289496   0.14751996  0.14695951  0.12285857  0.04397583  0.00402937
+ -0.04329804]"
+1352,1352,test_220,test,1,positive,that and a with moving beauty faces,a thoughtful moving piece that faces difficult issues with honesty and beauty,"[ 0.19943827  0.14395258  0.1257222   0.01128282 -0.05136031 -0.05530555
+ -0.05681594]"
+635,635,test_1199,test,0,negative,a t trash if the the for,if we do n t demand a standard of quality for the art that we choose we deserve the trash that we get,"[0.16023917 0.1425563  0.11905498 0.10965681 0.08734066 0.08734066
+ 0.07806443]"
+492,492,test_1010,test,0,negative,but it it less a a s,scarlet diva has a voyeuristic tug but all in all it s a lot less sensational than it wants to be,"[0.10931844 0.05387073 0.05387073 0.05162832 0.04633014 0.04633014
+ 0.0133845 ]"
+710,710,test_1523,test,0,negative,shelved was a it and in for,this film looks like it was produced in 1954 shelved for 48 years and repackaged for a 2002 audience,"[0.08368115 0.06971422 0.06917862 0.06416796 0.05080663 0.02762419
+ 0.02501523]"
+1646,1646,test_1427,test,0,negative,years groundbreaking would have been ago thirty,thirty years ago it would have been groundbreaking,"[ 0.09130007  0.08921307  0.05152006  0.04301275  0.04222737  0.03680457
+ -0.00061218]"
+64,64,test_653,test,1,positive,jacquot puccini fandango translation conveys tosca heaving,director benoit jacquot making his first opera to film translation with tosca conveys the heaving passion of puccini s famous love jealousy murder suicide fandango with great cinematic innovation,"[0.33285195 0.28091753 0.18765886 0.07934988 0.06241823 0.04474355
+ 0.04465557]"
+869,869,test_1675,test,0,negative,the the from free critics in to,de niro may enjoy the same free ride from critics afforded to clint eastwood in the lazy bloodwork,"[0.02146816 0.02146816 0.01851387 0.0166677  0.01266422 0.01052725
+ 0.00819086]"
+249,249,test_1725,test,0,negative,self a it ugly at chaotic and,chaotic self indulgent and remarkably ugly to look at it s like a series of pretentiously awful student films strung together into one feature length horror,"[0.07874136 0.04892095 0.04171386 0.03982823 0.03868224 0.03850649
+ 0.03746013]"
+1360,1360,test_508,test,1,positive,nothing old like fashioned sometimes satisfies swashbuckling,sometimes nothing satisfies like old fashioned swashbuckling,"[ 0.00983037 -0.00827272 -0.02138411 -0.03951449 -0.04048868 -0.29636338
+ -0.35079628]"
+967,967,test_638,test,1,positive,worthwhile that to is different a and,it dares to be a little different and that shading is what makes it worthwhile,"[0.13443705 0.04338641 0.03224019 0.02985263 0.02292866 0.01904374
+ 0.01822221]"
+653,653,test_1671,test,0,negative,gravitas macdowell ergo lacking placeholder grief vessel,lacking gravitas macdowell is a placeholder for grief and ergo this sloppy drama is an empty vessel,"[0.35347968 0.30564284 0.21927789 0.18695064 0.14125116 0.09605376
+ 0.07619254]"
+354,354,test_969,test,0,negative,not unless re the the m actually,i m not suggesting that you actually see it unless you re the kind of person who has seen every wim wenders film of the 70s,"[0.11338764 0.10508973 0.06658404 0.03752945 0.03752945 0.02818136
+ 0.02227703]"
+1043,1043,test_681,test,1,positive,that of the and amazing an into,an amazing and incendiary movie that dives straight into the rough waters of contradiction,"[0.08198106 0.08109765 0.05843276 0.0580544  0.04181653 0.0413015
+ 0.00726163]"
+228,228,test_840,test,1,positive,story performances characters age strangers interaction comes,lauren ambrose comes alive under the attention from two strangers in town with honest performances and realistic interaction between the characters this is a coming of age story with a twist,"[0.27046052 0.2670826  0.2522455  0.24290691 0.24034795 0.21654218
+ 0.20403677]"
+1706,1706,test_1778,test,0,negative,the me to unfortunately picture failed capture,unfortunately the picture failed to capture me,"[ 0.21417108  0.08547682  0.07749586  0.01853271 -0.11086327 -0.17216206
+ -0.18781452]"
+1399,1399,test_1545,test,0,negative,it comes to better when than entertainment,when it comes to entertainment children deserve better than pokemon 4ever,"[ 0.04395962  0.03146199  0.02695579  0.01762064  0.01242772 -0.01489604
+ -0.02131544]"
+1075,1075,test_1680,test,0,negative,freeway persuasive but necessarily not viewing saves,but what saves lives on the freeway does not necessarily make for persuasive viewing,"[0.04398993 0.03865918 0.03381006 0.03134205 0.01646774 0.01051168
+ 0.00673344]"
+219,219,test_240,test,1,positive,has is the the a that at,there are a few stabs at absurdist comedy but mostly the humor is of the sweet gentle and occasionally cloying kind that has become an iranian specialty,"[0.34006143 0.2488524  0.19897602 0.19897602 0.16232422 0.09591909
+ 0.07318389]"
+1482,1482,test_197,test,1,positive,polanski films best one of is s,this is one of polanski s best films,"[ 0.546078    0.08312686  0.02744943  0.0047169   0.00123547 -0.02068316
+ -0.03127374]"
+826,826,test_381,test,1,positive,dialogue doses heavy serious filled more enticing,the story feels more like a serious read filled with heavy doses of always enticing sayles dialogue,"[0.03384864 0.02536348 0.02019906 0.01465923 0.00513449 0.00486304
+ 0.000589  ]"
+1150,1150,test_1662,test,0,negative,repellent 2002 out turn likely most most,what will most likely turn out to be the most repellent movie of 2002,"[0.04421622 0.03353275 0.01610926 0.0142947  0.01288142 0.00950634
+ 0.00950634]"
+201,201,test_1099,test,0,negative,no t is or flat falling and,the thriller side of this movie is falling flat as the stalker does n t do much stalking and no cop or lawyer grasps the concept of actually investigating the case,"[0.3860463  0.14668491 0.12785792 0.12669104 0.11363067 0.09960048
+ 0.08660153]"
+1500,1500,test_849,test,1,positive,impresses surprises endedness open its with you,impresses you with its open endedness and surprises,"[ 0.28941232  0.09217281  0.08211184  0.05449454 -0.01591964 -0.01620581
+ -0.0473436 ]"
+674,674,test_414,test,1,positive,inexorably as the the mesmerizing its through,as the story moves inexorably through its seven day timeframe the picture becomes increasingly mesmerizing,"[ 0.05745542  0.02514634  0.02073094  0.02073094  0.01863356  0.00587544
+ -0.00227986]"
+450,450,test_1074,test,0,negative,never but going just and a it,the movie feels like it s going to be great and it carries on feeling that way for a long time but takeoff just never happens,"[0.39492375 0.19646439 0.07134157 0.05546373 0.05349869 0.05224228
+ 0.02141794]"
+527,527,test_132,test,1,positive,an just sharp lively kiss seem interludes,it s an old story but a lively script sharp acting and partially animated interludes make just a kiss seem minty fresh,"[0.02719992 0.0221315  0.0212835  0.01995427 0.01882292 0.01769064
+ 0.01412379]"
+522,522,test_1766,test,0,negative,2525 defunct effects generic cleopatra b convincing,with generic sets and b grade special effects jason is about as convincing on the sci fi front as tv s defunct cleopatra 2525,"[0.08940154 0.08102364 0.07700291 0.07270363 0.06901634 0.04369289
+ 0.02992704]"
+1687,1687,test_886,test,0,negative,took it get this to 19 predecessors,it took 19 predecessors to get this,"[ 0.10624736  0.06945316  0.0429639   0.03490654  0.02621195 -0.05202486
+ -0.15271601]"
+297,297,test_452,test,1,positive,cool super relax definitely fuzzy hurry hokey,both hokey and super cool and definitely not in a hurry so sit back relax and have a few laughs while the little ones get a fuzzy treat,"[0.2648466  0.1487734  0.12874538 0.12789646 0.11744802 0.09558789
+ 0.09253263]"
+618,618,test_882,test,1,positive,hearts audiences movie touch children edge of,a movie that will touch the hearts of both children and adults as well as bring audiences to the edge of their seats,"[0.3484007  0.20140995 0.15858829 0.15257683 0.13908817 0.05972712
+ 0.04531258]"
+1439,1439,test_1005,test,0,negative,and a to teenage lifeless sermonizing dullards,a sermonizing and lifeless paean to teenage dullards,"[ 0.13598096  0.13191733  0.04041917 -0.1393416  -0.24247521 -0.48923945
+ -0.4980117 ]"
+169,169,test_1060,test,0,negative,joke ham thrown faces treatment class ritchie,ritchie s treatment of the class reversal is majorly ham fisted from the repetitive manifestos that keep getting thrown in people s faces to the fact amber is such a joke,"[0.24205789 0.15562618 0.10462321 0.102741   0.09649452 0.06520288
+ 0.04020179]"
+213,213,test_1647,test,0,negative,dull stops racy costumey brain point movie,the movie is as far as you can get from racy to the point where it almost stops the blood flow to your brain it has a dull costumey feel,"[0.76999414 0.6574512  0.5624884  0.31895965 0.20129865 0.17654723
+ 0.0958953 ]"
+1128,1128,test_953,test,0,negative,cable late night action channel channel between,like channel surfing between the discovery channel and a late night made for cable action movie,"[0.05489598 0.05321448 0.0298661  0.02156726 0.01973604 0.01973604
+ 0.01771447]"
+332,332,test_179,test,1,positive,questing crudely constructed enemy gripping loathing person,a somewhat crudely constructed but gripping questing look at a person so racked with self loathing he becomes an enemy to his own race,"[0.28229403 0.11662255 0.10526654 0.10343803 0.10130287 0.09382421
+ 0.08750895]"
+440,440,test_791,test,1,positive,told poetry important visual film hopefully history,a stunning piece of visual poetry that will hopefully be remembered as one of the most important stories to be told in australia s film history,"[0.13263844 0.10469331 0.10402305 0.09601731 0.09537948 0.0920206
+ 0.07750007]"
+1239,1239,test_822,test,1,positive,the a has laughs more no many,the powers team has fashioned a comedy with more laughs than many no question,"[0.03855745 0.02663861 0.01406433 0.00940487 0.00882681 0.00350886
+ 0.00229246]"
+7,7,test_810,test,1,positive,wind way all such time herself picture,throwing caution to the wind with an invitation to the hedonist in us all nair has constructed this motion picture in such a way that even the most cynical curmudgeon with find himself or herself smiling at one time or another,"[0.1645669  0.14917836 0.09195361 0.08849129 0.08621545 0.085146
+ 0.08197849]"
+12,12,test_1116,test,0,negative,incoherent pretentious cacophony self drone hours dreary,a dreary incoherent self indulgent mess of a movie in which a bunch of pompous windbags drone on inanely for two hours a cacophony of pretentious meaningless prattle,"[0.17714895 0.15714186 0.13053252 0.0629514  0.04346424 0.03720254
+ 0.03166969]"
+416,416,test_26,test,1,positive,a there it if in the the,if there s a way to effectively teach kids about the dangers of drugs i think it s in projects like the unfortunately r rated paid,"[0.17127904 0.1467905  0.14379215 0.13462889 0.09821549 0.08606136
+ 0.08606136]"
+788,788,test_1460,test,0,negative,disquisition humorless sucking sucking line hysterical face,a hysterical yet humorless disquisition on the thin line between sucking face and literally sucking face,"[0.6641788  0.28813562 0.1750229  0.1750229  0.13378334 0.10598757
+ 0.08796765]"
+1017,1017,test_191,test,1,positive,her safe as as s s in,moore s performance impresses almost as much as her work with haynes in 1995 s safe,"[0.04728672 0.03261283 0.03064523 0.03064523 0.02592653 0.02592653
+ 0.00510191]"
+1061,1061,test_1526,test,0,negative,unfunny twice clocks extremely but 80 long,this extremely unfunny film clocks in at 80 minutes but feels twice as long,"[0.06839645 0.06099988 0.04796972 0.03484143 0.02656268 0.02037813
+ 0.0123976 ]"
+1327,1327,test_1392,test,0,negative,an of movie teen catholic dogma overstuffed,an overstuffed compendium of teen catholic movie dogma,"[ 0.12840524  0.10027245 -0.04227361 -0.07754556 -0.20494772 -0.5282615
+ -0.8347997 ]"
+269,269,test_718,test,1,positive,foreboding unsettling offers performances korean latest filmmaker,though the controversial korean filmmaker s latest effort is not for all tastes it offers gorgeous imagery effective performances and an increasingly unsettling sense of foreboding,"[0.39605725 0.2876453  0.22105923 0.174024   0.14629395 0.11492662
+ 0.11057604]"
+30,30,test_1615,test,0,negative,but is a a a using and,this is a great subject for a movie but hollywood has squandered the opportunity using it as a prop for warmed over melodrama and the kind of choreographed mayhem that director john woo has built his career on,"[0.17183667 0.15195748 0.10187763 0.10187763 0.10187763 0.07858346
+ 0.06459124]"
+805,805,test_1688,test,0,negative,but take an it just the t,it may be an easy swipe to take but this barbershop just does n t make the cut,"[0.13820788 0.07542026 0.07448466 0.07308777 0.0547401  0.05160924
+ 0.03100674]"
+944,944,test_1704,test,0,negative,fuse bolly mess masala tries woods winds,a movie that tries to fuse the two woods but winds up a bolly holly masala mess,"[0.06586687 0.06134778 0.05895178 0.02798923 0.02247072 0.02111107
+ 0.0155552 ]"
+625,625,test_1002,test,0,negative,overloads poignant sugary pender business bits time,the story is naturally poignant but first time screenwriter paul pender overloads it with sugary bits of business,"[0.1237725  0.09011292 0.04887136 0.04800397 0.04687762 0.04429936
+ 0.0347757 ]"
+196,196,test_892,test,0,negative,unsettlingly idealistically this deceitful is responsible figure,this time out sade is an unsettlingly familiar figure in turns loyal and deceitful responsible and reckless idealistically selfless and coldly self interested,"[0.13501337 0.05755161 0.03969605 0.0323374  0.02258237 0.01973375
+ 0.01559275]"
+1329,1329,test_1396,test,0,negative,avoid remember to to them the order,these are names to remember in order to avoid them in the future,"[ 0.02665151  0.01016429  0.01007777  0.01007777  0.00648966  0.00043283
+ -0.01753298]"
+1144,1144,test_1416,test,0,negative,but been and it it an for,there s an audience for it but it could have been funnier and more innocent,"[0.06485765 0.03226758 0.02408763 0.02221836 0.02221836 0.01997029
+ 0.01263283]"
+1534,1534,test_392,test,1,positive,if talent that impressive flawed indicates real,an impressive if flawed effort that indicates real talent,"[ 0.03515281  0.02589221  0.02545212  0.02431493  0.0105601   0.00777264
+ -0.00066944]"
+510,510,test_1407,test,0,negative,are is and that the the the,the humor is hinged on the belief that knees in the crotch elbows in the face and spit in the eye are inherently funny,"[0.2435108  0.18359852 0.10349725 0.07447847 0.07358702 0.07358702
+ 0.07358702]"
+718,718,test_1716,test,1,positive,directed well well film by act surprisingly,the film is surprisingly well directed by brett ratner who keeps things moving well at least until the problematic third act,"[0.03710973 0.01106997 0.01106997 0.00603951 0.00410777 0.00230176
+ 0.00038867]"
+731,731,test_177,test,1,positive,you lightens of best movie sting your,as an entertainment the movie keeps you diverted and best of all it lightens your wallet without leaving a sting,"[0.09978824 0.09352016 0.07202283 0.05206745 0.05000613 0.02796197
+ 0.01940767]"
+123,123,test_1196,test,0,negative,die a not or the and has,too loud too long and too frantic by half die another day suggests that the bond franchise has run into a creative wall that 007 can not fly over tunnel under or barrel through,"[0.1914431  0.18201317 0.14038154 0.13969532 0.12184487 0.11201058
+ 0.08489553]"
+162,162,test_669,test,1,positive,easy about the fans s enjoy to,the film s real appeal wo n t be to clooney fans or adventure buffs but to moviegoers who enjoy thinking about compelling questions with no easy answers,"[0.05400541 0.03273597 0.02381842 0.01926929 0.01852635 0.01517164
+ 0.0124852 ]"
+1149,1149,test_1626,test,0,negative,handful lines mildly laugh amusing beyond t,beyond a handful of mildly amusing lines there just is n t much to laugh at,"[0.05028731 0.04838701 0.02170259 0.0189837  0.01858616 0.01167629
+ 0.00964447]"
+617,617,test_863,test,1,positive,of the ambivalence delve world films and,nolan bravely treads where few american films dare to delve into the world of ambivalence and ambiguity,"[0.06357844 0.02569405 0.02552853 0.02372607 0.02026394 0.01548667
+ 0.00709477]"
+1435,1435,test_899,test,1,positive,fraser period entertaining drama moments sturdy caine,sturdy entertaining period drama both caine and fraser have their moments,"[0.17154531 0.16730046 0.11510196 0.0760077  0.06936283 0.06085715
+ 0.04473275]"
+893,893,test_433,test,1,positive,that the the a as as well,a byzantine melodrama that stimulates the higher brain functions as well as the libido,"[ 0.12175673  0.07483588  0.07483588  0.07156373  0.06861459  0.06861459
+ -0.00279914]"
+1045,1045,test_725,test,1,positive,and as it but offers to on,but it offers plenty to ponder and chew on as its unusual relationship slowly unfolds,"[0.06517037 0.0599051  0.0448034  0.03048627 0.02671519 0.02434704
+ 0.02378395]"
+465,465,test_172,test,1,positive,goodness offer her latifah natural queen seemed,my goodness queen latifah has a lot to offer and she seemed to have no problem flaunting her natural gifts,"[0.06166916 0.0453905  0.04479499 0.03922335 0.0308826  0.02460117
+ 0.02048363]"
+1438,1438,test_997,test,0,negative,is at its this junk food cinema,this is junk food cinema at its greasiest,"[ 0.11943638  0.09025081  0.05578984  0.05312987 -0.03630731 -0.08296262
+ -0.10974647]"
+420,420,test_90,test,1,positive,4 2 2000 couples friends blue can,4 friends 2 couples 2000 miles and all the pabst blue ribbon beer they can drink it s the ultimate redneck road trip,"[0.04320831 0.04283458 0.0325821  0.03096512 0.03014837 0.02121331
+ 0.02003305]"
+968,968,test_673,test,1,positive,and a built some some highly with,a highly intriguing thriller coupled with some ingenious plot devices and some lavishly built settings,"[ 0.06493341  0.05267073  0.01392429  0.01264283  0.01264283  0.00335224
+ -0.00048142]"
+1280,1280,test_38,test,1,positive,that the everything an in amazing else,gosling provides an amazing performance that dwarfs everything else in the film,"[ 0.20654236  0.15356769  0.10527179  0.08328838  0.07126812  0.03287164
+ -0.07600993]"
+48,48,test_1069,test,0,negative,sledgehammers became wasted and and i i,focuses on joan s raging hormones and sledgehammers the audience with spanish inquisitions about her madness so much that i became mad that i wasted 123 minutes and 9 50 on this 21st century torture device,"[0.06281548 0.05990162 0.05803452 0.03669233 0.03669233 0.03196666
+ 0.03196666]"
+1221,1221,test_185,test,1,positive,schmaltzy unabashedly true thoroughly enjoyable story an,an unabashedly schmaltzy and thoroughly enjoyable true story,"[ 1.2432437   0.8755495   0.23451641  0.21402627  0.11014003 -0.07283512
+ -0.0782335 ]"
+977,977,test_984,test,0,negative,glover part hinges casting fit does t,it s a film that hinges on its casting and glover really does n t fit the part,"[0.07039326 0.05114738 0.04948843 0.02662656 0.02649405 0.02227149
+ 0.01305791]"
+1318,1318,test_1149,test,0,negative,an of work nasty piece cynical glibly,an unimaginative nasty glibly cynical piece of work,"[ 0.09127352  0.07915632 -0.05108285 -0.12676752 -0.13813694 -0.17565863
+ -0.7532869 ]"
+1007,1007,test_20,test,1,positive,that the an in out everyone brings,an idealistic love story that brings out the latent 15 year old romantic in everyone,"[0.10056652 0.06500806 0.04039682 0.02958449 0.0190786  0.01805292
+ 0.01069395]"
+1062,1062,test_1532,test,0,negative,dridi frustratingly gallo emerges other nothing music,frustratingly dridi tells us nothing about el gallo other than what emerges through his music,"[0.06315383 0.04878618 0.0348133  0.02729677 0.02230377 0.01464087
+ 0.01070491]"
+250,250,test_1744,test,0,negative,the and harm not not it for,flotsam in the sea of moviemaking not big enough for us to worry about it causing significant harm and not smelly enough to bother despising,"[0.08181904 0.07810391 0.06900395 0.06252683 0.06252683 0.06149025
+ 0.04482715]"
+1410,1410,test_1799,test,0,negative,report ops extreme regret not these enough,i regret to report that these ops are just not extreme enough,"[ 0.1585616   0.13787098  0.13205054  0.11995197  0.02825721 -0.00309882
+ -0.02560935]"
+1002,1002,test_1669,test,0,negative,diluted armenian stage genocide modern day business,the impact of the armenian genocide is diluted by too much stage business in the modern day,"[0.11564299 0.05543067 0.04142121 0.03322695 0.03305192 0.03190544
+ 0.01787913]"
+103,103,test_1399,test,0,negative,from my turned and knockaround i like,i saw knockaround guys yesterday and already the details have faded like photographs from the spanish american war it s so unmemorable that it turned my ballpoint notes to invisible ink,"[0.09038731 0.07197813 0.04667613 0.04428189 0.03975547 0.02433037
+ 0.02168892]"
+1420,1420,test_336,test,1,positive,as s a it go green movies,as green guts monster movies go it s a beaut,"[ 0.06242873  0.03664604  0.03210654  0.0290854   0.00543668 -0.01841488
+ -0.0238525 ]"
+247,247,test_1686,test,0,negative,wrong is it and in to that,it s so full of wrong choices that all you can do is shake your head in disbelief and worry about what classic oliver parker intends to mangle next time,"[0.29719502 0.22863975 0.13972436 0.10498115 0.10351382 0.08691983
+ 0.08494978]"
+187,187,test_244,test,1,positive,love movie wedding happy big big greek,it uses an old time formula it s not terribly original and it s rather messy but you just have to love the big dumb happy movie my big fat greek wedding,"[0.26114556 0.16858964 0.15456316 0.08938426 0.08080395 0.08080395
+ 0.07779889]"
+1535,1535,test_419,test,1,positive,afresh myths tales spun wonder old like,like old myths and wonder tales spun afresh,"[0.7351991  0.22603577 0.16808133 0.09984431 0.09663224 0.06800539
+ 0.0191839 ]"
+1071,1071,test_1611,test,0,negative,witless graceless espionage mating wwii attempt thriller,a graceless witless attempt at mating some like it hot with the wwii espionage thriller,"[0.19022726 0.16207013 0.10594053 0.0892496  0.07519361 0.0611353
+ 0.00814097]"
+880,880,test_163,test,1,positive,really will show n to close do,those outside show business will enjoy a close look at people they do n t really want to know,"[0.03181959 0.0310738  0.02499951 0.02132858 0.02101744 0.01975665
+ 0.00997847]"
+1087,1087,test_101,test,1,positive,is a a about world different up,digital video documentary about stand up comedians is a great glimpse into a very different world,"[0.03757663 0.03054213 0.03054213 0.01870002 0.01194306 0.01188436
+ 0.01025986]"
+706,706,test_1325,test,0,negative,state lacks and kind rather limbo some,sunshine state lacks the kind of dynamic that limbo offers and in some ways is a rather indulgent piece,"[0.02239872 0.01443281 0.00884381 0.00854908 0.00785435 0.0076769
+ 0.00336132]"
+692,692,test_1045,test,0,negative,seinfeld motives apparent ends revered nothing contrary,despite apparent motives to the contrary it ends up being like seinfeld s revered tv show about pretty much nothing,"[0.1879196  0.07835748 0.06097874 0.05987626 0.04937519 0.0491586
+ 0.0413585 ]"
+349,349,test_721,test,1,positive,company endearing refer performer self conscious excellent,it s endearing to hear madame d refer to her husband as jackie and he does make for excellent company not least as a self conscious performer,"[0.24908885 0.24156594 0.20111012 0.19374529 0.16880691 0.16324702
+ 0.12818536]"
+863,863,test_1557,test,0,negative,petroni screenwriters akasha abbott rice cartoon complex,screenwriters scott abbott and michael petroni have turned rice s complex akasha into a cartoon monster,"[0.3821688  0.15720038 0.15610749 0.14231952 0.11517335 0.09650305
+ 0.08790216]"
+1633,1633,test_1211,test,0,negative,a of into sinks credibility sentiment mire,credibility sinks into a mire of sentiment,"[ 0.12251948  0.06888798  0.0306062  -0.10068599 -0.14434414 -0.2734939
+ -0.47212958]"
+982,982,test_1145,test,0,negative,morphed bad computer one life game then,began life as a computer game then morphed into a movie a bad one of course,"[0.16543412 0.04784146 0.0460019  0.02697137 0.02471553 0.0099785
+ 0.00910845]"
+632,632,test_1143,test,0,negative,gone gone a it t straight straight,new best friend should n t have gone straight to video it should have gone straight to a mystery science theater 3000 video,"[0.13615213 0.13615213 0.05230844 0.04977138 0.03115113 0.02414911
+ 0.02414911]"
+119,119,test_763,test,1,positive,assimilated dolgin youngster franco name girl southern,dolgin and franco fashion a fascinating portrait of a vietnamese born youngster who eagerly and easily assimilated as an all american girl with a brand new name in southern tennessee,"[0.3666048  0.33987764 0.24981472 0.2135424  0.13437304 0.11954243
+ 0.11050429]"
+963,963,test_496,test,1,positive,deft s elevated director and the a,a moody horror thriller elevated by deft staging and the director s well known narrative gamesmanship,"[0.02774746 0.02667153 0.02479693 0.01134134 0.010363   0.00712211
+ 0.00521551]"
+1246,1246,test_931,test,0,negative,hudlin leaves soggy fire light trying with,hudlin is stuck trying to light a fire with soggy leaves,"[ 7.73539662e-01  2.26695985e-01  1.24280609e-01  1.11317195e-01
+  8.34460407e-02  2.94268131e-04 -9.35446471e-04]"
+906,906,test_639,test,1,positive,ambiguity screen fessenden mood thrills than much,fessenden is much more into ambiguity and creating mood than he is for on screen thrills,"[0.04335302 0.02790977 0.02385654 0.02086974 0.01991839 0.01423266
+ 0.0047817 ]"
+1333,1333,test_1448,test,0,negative,ravaged dragons badly future tale written set,well shot but badly written tale set in a future ravaged by dragons,"[0.26512286 0.2396422  0.17172456 0.14948592 0.14540318 0.11577991
+ 0.05913208]"
+955,955,test_151,test,1,positive,of is that honesty this the the,rare is the urban comedy that even attempts the insight and honesty of this disarming indie,"[0.06915225 0.03150461 0.02886283 0.02721733 0.02392765 0.02188342
+ 0.02188342]"
+271,271,test_860,test,1,positive,that about an to and fascinating a,a candid and often fascinating documentary about a pentecostal church in dallas that assembles an elaborate haunted house each year to scare teenagers into attending services,"[0.07253091 0.04852941 0.03927029 0.03911548 0.03437345 0.02737853
+ 0.02530768]"
+252,252,test_194,test,1,positive,updated brilliantly about essence an grasped parker,mr parker has brilliantly updated his source and grasped its essence composing a sorrowful and hilarious tone poem about alienated labor or an absurdist workplace sitcom,"[0.03303766 0.0295047  0.02777262 0.02704774 0.02009599 0.01634894
+ 0.01551013]"
+15,15,test_1391,test,1,positive,showiness film rigor despairing portrayals inspiring accomplished,a tough go but leigh s depth and rigor and his skill at inspiring accomplished portrayals that are all the more impressive for their lack of showiness offsets to a notable degree the film s often mined and despairing milieu,"[0.2786009  0.2330854  0.22918658 0.20518157 0.20148516 0.17571975
+ 0.1491482 ]"
+1162,1162,test_154,test,1,positive,is an a like it so in,an experience so engrossing it is like being buried in a new environment,"[0.0532099  0.03585504 0.03480991 0.0295158  0.02947311 0.02122055
+ 0.02103528]"
+1295,1295,test_542,test,1,positive,that of his he simply works presents,he simply presents his point of view that ayurveda works,"[ 0.15416619  0.07936147  0.07343824  0.07315711 -0.01309606 -0.03681467
+ -0.05664775]"
+1413,1413,test_122,test,0,negative,originality n mike win any t points,like mike does n t win any points for originality,"[ 0.17715086  0.10543865  0.05811071  0.04647991  0.01014214  0.00680357
+ -0.00169484]"
+221,221,test_322,test,1,positive,fidelity boy movies diary notting high you,if you liked such movies as notting hill four weddings and a funeral bridget jones diary or high fidelity then you wo n t want to miss about a boy,"[0.21087216 0.19993937 0.19631223 0.17083924 0.16440862 0.13455284
+ 0.13320994]"
+1158,1158,test_1814,test,0,negative,chick demographic not re flick movie if,if you re not the target demographic this movie is one long chick flick slog,"[0.05906174 0.02550925 0.01710222 0.01302822 0.00762416 0.00558268
+ 0.00527105]"
+1042,1042,test_672,test,1,positive,of an icon the bike and a,a startling and fresh examination of how the bike still remains an ambiguous icon in chinese society,"[0.07878247 0.03185049 0.0293968  0.02341142 0.02088668 0.01831238
+ 0.01775113]"
+1421,1421,test_370,test,0,negative,has of h o highlights notorious vulgar,notorious c h o has oodles of vulgar highlights,"[ 0.08524189  0.06488727 -0.10456836 -0.12732223 -0.14809293 -0.14848036
+ -0.15223613]"
+1441,1441,test_1063,test,0,negative,for for action atmosphere substitutes thrills tedium,verbinski substitutes atmosphere for action tedium for thrills,"[ 0.02726763  0.02726763 -0.07615197 -0.08918467 -0.10966754 -0.1848087
+ -0.26848146]"
+1020,1020,test_237,test,1,positive,makes the s s film insight genuine,munch s genuine insight makes the film s occasional overindulgence forgivable,"[ 0.15510933  0.06687154  0.04272453  0.04272453 -0.04980572 -0.05189078
+ -0.07511917]"
+581,581,test_47,test,1,positive,of behind the the a plus and,behind the snow games and lovable siberian huskies plus one sheep dog the picture hosts a parka wrapped dose of heart,"[0.08513816 0.02148621 0.01984438 0.01984438 0.01806089 0.01628907
+ 0.01547433]"
+305,305,test_832,test,1,positive,evokes understanding party among promotes puts ending,it takes this never ending confusion and hatred puts a human face on it evokes shame among all who are party to it and even promotes understanding,"[0.40380058 0.17671353 0.11371776 0.10845755 0.10629484 0.06931414
+ 0.04321434]"
+1388,1388,test_1284,test,0,negative,concoction dumbed can see down where this,can see where this dumbed down concoction is going,"[ 0.6319839   0.25499353  0.0205232  -0.04560605 -0.09255817 -0.10360973
+ -0.10742703]"
+203,203,test_1139,test,0,negative,not a t at at if it,if you re not a prepubescent girl you ll be laughing at britney spears movie starring debut whenever it does n t have you impatiently squinting at your watch,"[0.10780539 0.07666025 0.06181426 0.0417414  0.0417414  0.0270463
+ 0.01666192]"
+1157,1157,test_1803,test,0,negative,rainy and me get about the down,rainy days and movies about the disintegration of families always get me down,"[0.0243638  0.02341295 0.02338941 0.02173293 0.02081615 0.01568687
+ 0.00791235]"
+466,466,test_212,test,1,positive,of of is we to the the,the scope of the silberstein family is large and we grow attached to their lives full of strength warmth and vitality,"[0.10219683 0.10219683 0.06803779 0.06444877 0.05695815 0.05015439
+ 0.05015439]"
+1044,1044,test_688,test,1,positive,that that helps the are and it,it helps that the central performers are experienced actors and that they know their roles so well,"[0.07380915 0.07380915 0.05639839 0.0530798  0.04766754 0.04004106
+ 0.03573043]"
+1525,1525,test_1629,test,0,negative,semi lazy humorous premise advantage its take,too lazy to take advantage of its semi humorous premise,"[ 0.0655185   0.05972934  0.05956159  0.04134958  0.01410674 -0.00362678
+ -0.01910395]"
+72,72,test_144,test,1,positive,should in the the to it it,there are as many misses as hits but ultimately it finds humor in the foibles of human behavior and it s a welcome return to the roots of a genre that should depend on surprises,"[0.2180543  0.16846433 0.16201657 0.16201657 0.15580827 0.15103476
+ 0.15103476]"
+1216,1216,test_89,test,1,positive,self comedy own rules romantic operates contained,a romantic comedy that operates by the rules of its own self contained universe,"[0.1143946  0.07643814 0.06963607 0.06621097 0.03599447 0.0222341
+ 0.0180455 ]"
+290,290,test_350,test,0,negative,bad is and an just it it,one hour photo is an intriguing snapshot of one man and his delusions it s just too bad it does n t have more flashes of insight,"[0.44323444 0.34508044 0.1853703  0.1748128  0.16741012 0.15774116
+ 0.15774116]"
+1353,1353,test_226,test,1,positive,and the made a of of well,a well made and often lovely depiction of the mysteries of friendship,"[ 0.16218622  0.15631072  0.14551145  0.13911477  0.11033194  0.11033194
+ -0.00902764]"
+1224,1224,test_296,test,1,positive,the a of by feeling focused tight,foster nails the role giving a tight focused performance illuminated by shards of feeling,"[ 0.10761666  0.09879303  0.07917809  0.04020661 -0.01669322 -0.01766707
+ -0.04336959]"
+1275,1275,test_1756,test,0,negative,syrup usually pancakes when go get with,usually when i get this much syrup i like pancakes to go with it,"[ 0.03574382  0.0209826   0.01563792  0.00811679  0.00599941  0.00499783
+ -0.00321946]"
+1450,1450,test_1227,test,0,negative,and thing this still feels flimsy ephemeral,still this thing feels flimsy and ephemeral,"[ 0.16415073  0.1075345   0.05582795  0.04516285 -0.08322528 -0.6648005
+ -1.0015533 ]"
+1185,1185,test_691,test,1,positive,that the on its with mind romantic,that rara avis the intelligent romantic comedy with actual ideas on its mind,"[ 0.13647665  0.09467449  0.03991233  0.02337872  0.00660682 -0.03066813
+ -0.04196792]"
+259,259,test_294,test,1,positive,from the the the the and proceedings,the diversity of the artists represented both in terms of style and ethnicity prevents the proceedings from feeling repetitious as does the appropriately brief 40 minute running time,"[0.15044929 0.04228411 0.04228411 0.04228411 0.04228411 0.04225955
+ 0.01025238]"
+539,539,test_571,test,1,positive,of that s the a knows shows,anchored by a terrific performance by abbass satin rouge shows that the idea of women s self actualization knows few continental divides,"[0.07023017 0.06996663 0.03578814 0.03438881 0.0330927  0.01456725
+ 0.01199458]"
+839,839,test_814,test,1,positive,but a is an it another market,it is not a mass market entertainment but an uncompromising attempt by one artist to think about another,"[0.1547616  0.08431637 0.08282439 0.07720149 0.06980664 0.06026985
+ 0.03411423]"
+509,509,test_1401,test,0,negative,are is and and before the the,the plot is so predictable and sentimental that viewers are likely to lose interest before sandrine and her goats walk off into the sunset,"[0.06481438 0.0627828  0.05037829 0.05037829 0.03902072 0.03543839
+ 0.03543839]"
+195,195,test_804,test,1,positive,as that is pop the the love,the way coppola professes his love for movies both colorful pop junk and the classics that unequivocally qualify as art is giddily entertaining,"[0.03847847 0.03564672 0.02653816 0.01166174 0.0114097  0.0114097
+ 0.01129754]"
+727,727,test_44,test,1,positive,you that reading to to happy the,some actors have so much charisma that you d be happy to listen to them reading the phone book,"[0.11205458 0.03809986 0.02805112 0.01671008 0.01671008 0.01320809
+ 0.0129572 ]"
+1619,1619,test_801,test,0,negative,thought could more still been it i,still i thought it could have been more,"[-0.00953069 -0.05613669 -0.06394662 -0.06927873 -0.07455532 -0.11654553
+ -0.12792723]"
+726,726,test_30,test,1,positive,wierzbicki sulky fulford spooky calculating lolita turn,ms fulford wierzbicki is almost spooky in her sulky calculating lolita turn,"[0.369416   0.26291704 0.26000452 0.22571474 0.10153194 0.09470337
+ 0.01676432]"
+620,620,test_924,test,0,negative,bad only so but a meandering mess,meandering sub aquatic mess it s so bad it s good but only if you slide in on a freebie,"[0.18930857 0.16332267 0.1253855  0.12458867 0.07869489 0.07195228
+ 0.0714801 ]"
+273,273,test_993,test,0,negative,forgettable illogic amateurishness a and the the,marries the amateurishness of the blair witch project with the illogic of series 7 the contenders to create a completely crass and forgettable movie,"[0.14748897 0.11073823 0.09353134 0.07193881 0.04958529 0.03754205
+ 0.03754205]"
+1013,1013,test_130,test,1,positive,of of is the it because aware,enormously likable partly because it is aware of its own grasp of the absurd,"[0.07214826 0.07214826 0.05295621 0.04563026 0.02631567 0.0253171
+ 0.01031032]"
+1076,1076,test_1702,test,0,negative,ugly chapter century twentieth closure timid too,too timid to bring a sense of closure to an ugly chapter of the twentieth century,"[ 0.04460225  0.01893865  0.00960427  0.00744405  0.00443132  0.00327192
+ -0.0034619 ]"
+1613,1613,test_614,test,1,positive,refreshingly authentic age tale coming of a,a refreshingly authentic coming of age tale,"[ 0.5374025   0.27379537  0.2694419   0.18033007 -0.01209166 -0.03426032
+ -0.19514802]"
+613,613,test_790,test,1,positive,compelling tell finds way way story story,finds a way to tell a simple story perhaps the simplest story of all in a way that seems compelling and even original,"[0.13653857 0.11630456 0.08982332 0.08613984 0.08613984 0.08145136
+ 0.08145136]"
+1470,1470,test_1596,test,1,positive,the must in for tech see anyone,must see viewing for anyone involved in the high tech industry,"[0.12080657 0.11687862 0.06879354 0.04848751 0.03630774 0.02298864
+ 0.00222547]"
+36,36,test_75,test,1,positive,to to is all create of of,katz uses archival footage horrifying documents of lynchings still photographs and charming old reel to reel recordings of meeropol entertaining his children to create his song history but most powerful of all is the song itself,"[0.03081412 0.03081412 0.02920001 0.02624535 0.02315979 0.02311078
+ 0.02311078]"
+605,605,test_654,test,1,positive,is the i it s s designed,frida s artistic brilliance is undeniable it s among the most breathtakingly designed films i ve ever seen,"[0.04983598 0.04252633 0.03307312 0.0277361  0.02733494 0.02733494
+ 0.01566304]"
+1645,1645,test_1423,test,1,positive,submarine action message spectacular packed movie or,message movie or an action packed submarine spectacular,"[ 0.29395387  0.21091224  0.19894382  0.19369125  0.15942146  0.05749655
+ -0.009397  ]"
+858,858,test_1343,test,0,negative,editing spoil scenes choppy important comedy repetitive,choppy editing and too many repetitive scenes spoil what could have been an important documentary about stand up comedy,"[0.06594605 0.06242694 0.05642531 0.04874481 0.02815451 0.0265791
+ 0.02285681]"
+709,709,test_1482,test,0,negative,disaster quentin bad spoof ritchie guy recipe,a recipe for cinematic disaster part quentin tarantino part guy ritchie and part 1960s spy spoof it s all bad,"[0.05631376 0.04121871 0.04120263 0.03179082 0.03084087 0.02806715
+ 0.02771254]"
+92,92,test_502,test,1,positive,mindsets changer invade guidance session profound cinema,time changer may not be the most memorable cinema session but its profound self evaluation message about our fragile existence and the absence of spiritual guidance should at least invade an abundance of mindsets,"[0.4358642  0.30792487 0.25101423 0.24501991 0.19260424 0.18857251
+ 0.17946582]"
+132,132,test_1580,test,0,negative,nothing is or or a his though,though ganesh is successful in a midlevel sort of way there s nothing so striking or fascinating or metaphorically significant about his career as to rate two hours of our attention,"[0.26585478 0.11658712 0.11412726 0.11412726 0.09592079 0.09553748
+ 0.07907954]"
+179,179,test_1547,test,0,negative,preposterous occurs infrequently a and is even,preposterous and tedious sonny is spiked with unintentional laughter that unfortunately occurs too infrequently to make the film even a guilty pleasure,"[0.07915537 0.07080722 0.05476129 0.02991314 0.02782619 0.02430079
+ 0.0223255 ]"
+1086,1086,test_68,test,1,positive,of tok o together a funny and,together tok and o orchestrate a buoyant darkly funny dance of death,"[0.04093231 0.02840307 0.02514032 0.01413724 0.01393126 0.01260309
+ 0.00918015]"
+1073,1073,test_1652,test,0,negative,toy scattered equivalent chest contents 80 course,the film equivalent of a toy chest whose contents get scattered over the course of 80 minutes,"[0.04865531 0.04060485 0.03229026 0.02847979 0.0191173  0.01378184
+ 0.0119965 ]"
+365,365,test_1674,test,0,negative,shambles unattractive unbearably unintentional hilarity loud completely,a shambles of a movie visually unattractive unbearably loud and utterly silly its hilarity is completely unintentional,"[0.19572997 0.0990143  0.09725046 0.09661368 0.06677568 0.04913413
+ 0.04581354]"
+667,667,test_181,test,1,positive,of movie narc honor b badge heritage,narc may not get an a for originality but it wears its b movie heritage like a badge of honor,"[0.05831633 0.03745269 0.02709503 0.02571896 0.01010143 0.00784409
+ 0.00464199]"
+987,987,test_1296,test,0,negative,someone a aside t put does the,theology aside why put someone who ultimately does n t learn at the center of a kids story,"[0.03430092 0.03154088 0.0235354  0.02082559 0.01894837 0.01686875
+ 0.01672252]"
+1261,1261,test_1377,test,0,negative,tomei marisa mess kiss good but is,marisa tomei is good but just a kiss is just a mess,"[ 0.3638146   0.29797497  0.08039616  0.04037227 -0.00733419 -0.0291769
+ -0.06195785]"
+881,881,test_170,test,1,positive,you you love by something feel it,whether you re moved and love it or bored or frustrated by the film you ll still feel something,"[0.11808364 0.11808364 0.10660832 0.0291874  0.02508101 0.02212982
+ 0.01394358]"
+1298,1298,test_579,test,1,positive,lost man under skin wife who gets,gets under the skin of a man who has just lost his wife,"[ 0.04147008  0.02980458  0.01155824  0.00941015 -0.00568484 -0.01518401
+ -0.02131048]"
+1011,1011,test_69,test,1,positive,of that s demonstrate the a there,in the process they demonstrate that there s still a lot of life in hong kong cinema,"[0.08688784 0.03863529 0.02412293 0.02394695 0.01495895 0.01419227
+ 0.0090052 ]"
+1129,1129,test_957,test,0,negative,soul character lacking subsequently and itself s,soul is what s lacking in every character in this movie and subsequently the movie itself,"[ 0.02974654  0.02627601  0.0246016   0.01637781  0.00599198  0.00361224
+ -0.00015549]"
+744,744,test_500,test,1,positive,as as impressive the s in moretti,while not as aggressively impressive as its american counterpart in the bedroom moretti s film makes its own quieter observations,"[0.04030565 0.04030565 0.02902967 0.02596452 0.01748074 0.00733317
+ 0.00476987]"
+1331,1331,test_1433,test,0,negative,surprise n t scary come no will,it will come as no surprise that the movie is n t scary,"[ 0.02594671  0.01688756  0.01254938  0.01049502  0.0080129   0.00751777
+ -0.00014683]"
+1356,1356,test_290,test,1,positive,miscast compelling weakened revenge lady somewhat by,compelling revenge thriller though somewhat weakened by a miscast leading lady,"[0.24817404 0.17209028 0.16382472 0.13431422 0.07492939 0.06060024
+ 0.0196464 ]"
+958,958,test_344,test,1,positive,scene screams bathroom slack break never time,despite the long running time the pace never feels slack there s no scene that screams bathroom break,"[0.07146975 0.05583613 0.04779643 0.04680561 0.04061169 0.04002982
+ 0.03494515]"
+792,792,test_1592,test,0,negative,indulgent clumsily self tricks half actor free,a free for all of half baked thoughts clumsily used visual tricks and self indulgent actor moments,"[0.53723276 0.42761606 0.15546139 0.13917103 0.11366031 0.09696054
+ 0.0787384 ]"
+1544,1544,test_620,test,1,positive,has of the and dancing music fabulous,the movie has lots of dancing and fabulous music,"[ 0.10369664  0.0467286   0.04297198  0.03134748  0.00416969 -0.01116541
+ -0.01431514]"
+142,142,test_1209,test,1,positive,no outcast than subject t longer predecessor,it s a decent glimpse into a time period and an outcast that is no longer accessible but it does n t necessarily shed more light on its subject than the popular predecessor,"[0.7196375  0.45266646 0.25714064 0.21737963 0.19102478 0.13944797
+ 0.07536177]"
+1700,1700,test_1559,test,0,negative,and bad ridiculous description belief beyond beyond,bad beyond belief and ridiculous beyond description,"[ 0.1595155  -0.02595308 -0.08119284 -0.11073228 -0.20455478 -0.22717261
+ -0.22717261]"
+1408,1408,test_1754,test,0,negative,spears britney even bad cute movie really,even if britney spears is really cute her movie is really bad,"[ 0.2358922   0.20877263  0.08341222  0.05927049  0.0443804   0.04149665
+ -0.06135767]"
+1446,1446,test_1153,test,0,negative,some their decent reputations inflict big actors,some decent actors inflict big damage upon their reputations,"[ 0.05958579  0.01360217 -0.00378211 -0.0089771  -0.01407083 -0.01596691
+ -0.0224337 ]"
+811,811,test_1788,test,0,negative,focus of reading times film portrait like,watching the film is like reading a times portrait of grief that keeps shifting focus to the journalist who wrote it,"[0.05484127 0.05101792 0.03669995 0.02745913 0.02430668 0.02182976
+ 0.01773201]"
+1270,1270,test_1508,test,0,negative,the more ridden than affluent are engaging,the angst ridden affluent slacker characters are more grating than engaging,"[ 0.08086579  0.00304041 -0.02589025 -0.03893188 -0.04038559 -0.05077833
+ -0.05398123]"
+1338,1338,test_1505,test,0,negative,less teenagers teenagers written than feels s,feels less like it s about teenagers than it was written by teenagers,"[ 0.05201374  0.04731932  0.04731932  0.02447417  0.01979066 -0.0003826
+ -0.01150654]"
+357,357,test_1068,test,1,positive,will better movies praised amusing that part,for the most part i spy was an amusing lark that will probably rank as one of murphy s better performances in one of his lesser praised movies,"[0.27971953 0.1974375  0.1916755  0.17516933 0.07116996 0.05987429
+ 0.05643645]"
+469,469,test_284,test,1,positive,magimel haneke huppert explorations committed rewarded are,those who would follow haneke on his creepy explorations are rewarded by brutal committed performances from huppert and magimel,"[0.14253072 0.07582446 0.074523   0.05794035 0.02990645 0.02395569
+ 0.02023892]"
+1296,1296,test_558,test,0,negative,screen so picture book not much movie,not so much a movie as a picture book for the big screen,"[ 0.02787385  0.01184461  0.00907335  0.0082814   0.00676911 -0.00606038
+ -0.00700089]"
+837,837,test_719,test,1,positive,the and and seem personal makes have,lathan and diggs have considerable personal charm and their screen rapport makes the old story seem new,"[ 0.03675497  0.02732069  0.02732069  0.00998895  0.00093288 -0.00195757
+ -0.00284434]"
+1254,1254,test_1198,test,0,negative,celebratory tone abruptly soppy shifts tense from,the tone shifts abruptly from tense to celebratory to soppy,"[ 0.6284424   0.17456366  0.12412538  0.10954562  0.02545856  0.02357289
+ -0.06159144]"
+996,996,test_1502,test,0,negative,nonsense stylish nothing ultimately very extremely silly,a very stylish but ultimately extremely silly tale a slick piece of nonsense but nothing more,"[0.08038525 0.06360232 0.04612125 0.03008991 0.02916293 0.02309882
+ 0.0201658 ]"
+1313,1313,test_1043,test,0,negative,loses concentrates single person any focus when,but he loses his focus when he concentrates on any single person,"[ 0.0755818   0.05198866  0.04825744  0.04333426  0.01864252  0.00637304
+ -0.00573578]"
+1282,1282,test_52,test,1,positive,is the and and in well la,the invincible werner herzog is alive and well and living in la,"[ 0.11369383  0.10305209  0.09022216  0.09022216  0.05259485 -0.00934021
+ -0.04078207]"
+737,737,test_364,test,1,positive,is and a a at all for,a hip ride into hyper time clockstoppers is a lively and enjoyable adventure for all ages at any time,"[0.0736654  0.06684072 0.0667791  0.0667791  0.03780214 0.02760505
+ 0.02677946]"
+380,380,test_301,test,1,positive,contrivances wordplay performances sayles plot smart strong,as expected sayles smart wordplay and clever plot contrivances are as sharp as ever though they may be overshadowed by some strong performances,"[0.28196058 0.19644749 0.11684077 0.08850402 0.08760291 0.06487025
+ 0.0598663 ]"
+336,336,test_442,test,1,positive,about to it it it is this,if it tried to do anything more it would fail and perhaps explode but at this level of manic whimsy it is just about right,"[0.13477801 0.11170653 0.0691708  0.0691708  0.0691708  0.06326219
+ 0.06272692]"
+1451,1451,test_1233,test,0,negative,s the to let cut consumer stay,let s cut to the consumer advice bottom line stay home,"[ 0.04027091  0.03577831  0.03027251  0.02755781  0.00950389  0.00831195
+ -0.00877333]"
+682,682,test_617,test,1,positive,of perfectly opening from score melodic about,from the big giant titles of the opening credits to elmer bernstein s perfectly melodic score haynes gets just about everything right,"[0.05461745 0.03745624 0.03694493 0.03205756 0.02277407 0.01887255
+ 0.01739206]"
+1218,1218,test_153,test,1,positive,engagingly ebb maddening of magnetic flow captures,engagingly captures the maddening and magnetic ebb and flow of friendship,"[0.09047671 0.07349536 0.05994947 0.04078013 0.03067545 0.02950276
+ 0.00240921]"
+1479,1479,test_19,test,1,positive,melodramatic occasionally effective extremely also s it,occasionally melodramatic it s also extremely effective,"[ 1.1523435   0.15748073  0.12251261  0.06815608 -0.06400444 -0.08810197
+ -0.09165946]"
+388,388,test_555,test,1,positive,idiosyncratic cinema of of predictable time happy,this is a happy throwback to the time when cartoons were cinema s most idiosyncratic form instead of one of its most predictable,"[0.48941654 0.10729918 0.09982671 0.09982671 0.07937321 0.07023925
+ 0.05414611]"
+1561,1561,test_1062,test,0,negative,a more little than project vanity frothy,little more than a frothy vanity project,"[ 0.19112194  0.05615443 -0.06539376 -0.11272915 -0.13110605 -0.28391165
+ -0.79711205]"
+1133,1133,test_1127,test,0,negative,horror gory comedy silly effective film be,too gory to be a comedy and too silly to be an effective horror film,"[0.05187022 0.04593412 0.03198809 0.01708163 0.0069761  0.00214086
+ 0.00198214]"
+630,630,test_1090,test,0,negative,sampler religion idea disappointing so an a,so few movies explore religion that it s disappointing to see one reduce it to an idea that fits in a sampler,"[0.14966643 0.07415475 0.04365465 0.03307758 0.03081536 0.03030363
+ 0.02391286]"
+784,784,test_1317,test,0,negative,wastes meaningless premise roles cliched despite or,despite the premise of a good story it wastes all its star power on cliched or meaningless roles,"[0.04577069 0.04434058 0.03669257 0.021519   0.01973023 0.01269611
+ 0.01040329]"
+1638,1638,test_1238,test,0,negative,map movie bounces over all the the,the movie bounces all over the map,"[ 0.04820244  0.04597072  0.02088214  0.00051617 -0.00605927 -0.01160159
+ -0.01160159]"
+1000,1000,test_1569,test,0,negative,schwarzenegger cruel arnold spencer may tracy sound,and in truth cruel as it may sound he makes arnold schwarzenegger look like spencer tracy,"[0.16998482 0.05335419 0.04879736 0.03524566 0.02992818 0.02623278
+ 0.02546024]"
+1556,1556,test_973,test,0,negative,the gets of things beneath surface rarely,guillen rarely gets beneath the surface of things,"[ 0.22122021  0.12382586  0.10967164  0.00528679 -0.1546847  -0.21990524
+ -0.24517882]"
+1306,1306,test_732,test,1,positive,you the a get its into once,once you get into its rhythm the movie becomes a heady experience,"[0.10085869 0.10049994 0.08586158 0.03907204 0.02628713 0.02319014
+ 0.00951282]"
+1536,1536,test_422,test,1,positive,is the funny of it for movie,quite funny for the type of movie it is,"[ 0.1375481   0.11153581  0.07823481  0.07642297  0.07183876  0.03586675
+ -0.03203683]"
+956,956,test_334,test,1,positive,of truth also to the the and,murderous maids may well be the most comprehensive of these films and also strike closest to the truth,"[0.07957619 0.04537661 0.0301255  0.02449585 0.02165171 0.02165171
+ 0.01151212]"
+1607,1607,test_316,test,1,positive,star wars major way back in is,star wars is back in a major way,"[ 0.16922072  0.10870837  0.10444047  0.03629946  0.02290075  0.00884132
+ -0.05210872]"
+126,126,test_1369,test,0,negative,hateful killing lumpen nearly is is stupid,too stupid to be satire too obviously hateful to be classified otherwise frank novak s irritating slice of lumpen life is as reliably soul killing as its title is nearly meaningless,"[0.11229973 0.06709139 0.04101695 0.0313526  0.02494395 0.02494395
+ 0.02454473]"
+80,80,test_1131,test,0,negative,bad dismiss out class poorly or supposed,the premise is in extremely bad taste and the film s supposed insights are so poorly thought out and substance free that even a high school senior taking his or her first psychology class could dismiss them,"[1.0886805  0.27138454 0.1400526  0.1224823  0.07861174 0.05822003
+ 0.05324066]"
+1237,1237,test_753,test,1,positive,contemplative mournfully noyce reflective film s is,noyce s film is contemplative and mournfully reflective,"[ 1.0520929   0.71206653  0.25788575  0.08124422  0.07929355 -0.0569824
+ -0.06320558]"
+113,113,test_467,test,1,positive,pray good drama sinner creation deed deed,a teasing drama whose relentless good deed bad deed reversals are just interesting enough to make a sinner like me pray for an even more interesting less symmetrical less obviously cross shaped creation,"[0.24726284 0.24256766 0.24129492 0.21506344 0.15763915 0.11547498
+ 0.11547498]"
+864,864,test_1565,test,0,negative,problem no a poor is is there,the problem with concept films is that if the concept is a poor one there s no saving the movie,"[0.15368772 0.13970496 0.07277609 0.05429667 0.04945942 0.04945942
+ 0.04788444]"
+471,471,test_289,test,1,positive,movie marching high energy cares excellent drumming,this is such a high energy movie where the drumming and the marching are so excellent who cares if the story s a little weak,"[0.15785196 0.11023924 0.1076543  0.09571502 0.09197676 0.08777956
+ 0.08575444]"
+1172,1172,test_312,test,1,positive,unforgettable dahmer renner absorbing deeply performance is,renner s performance as dahmer is unforgettable deeply absorbing,"[ 0.5530916   0.52080077  0.33569142  0.1339202   0.12036814  0.11830207
+ -0.03653609]"
+1489,1489,test_360,test,1,positive,eye effects visual has avalanche popping of,the movie has an avalanche of eye popping visual effects,"[0.108617   0.09879553 0.07787645 0.06904764 0.04433449 0.01253659
+ 0.01010844]"
+1391,1391,test_1332,test,0,negative,brown reese former n murphy pop back,too bad the former murphy brown does n t pop reese back,"[0.22829902 0.14089842 0.13217682 0.12912264 0.0662398  0.06283361
+ 0.05787802]"
+1131,1131,test_1031,test,0,negative,rudimentary chances arnold animation reduce appeal politics,obvious politics and rudimentary animation reduce the chances that the appeal of hey arnold,"[0.59908676 0.18315732 0.15346599 0.14321084 0.138839   0.13739961
+ 0.08075375]"
+173,173,test_1248,test,0,negative,not is or because and out embarrassment,the reason we keep seeing the same movie with roughly the same people every year is because so many of us keep going and then out of embarrassment or stupidity not warning anyone,"[0.25882924 0.10074632 0.09193005 0.07563597 0.03362819 0.03320274
+ 0.03244884]"
+38,38,test_645,test,1,positive,entrancing spellbinding bold high age music of,a bold and subversive film that cuts across the grain of what is popular and powerful in this high tech age speaking its truths with spellbinding imagery and the entrancing music of philip glass,"[0.1678318  0.15963423 0.05410792 0.04386834 0.04061002 0.03718314
+ 0.0350298 ]"
+1430,1430,test_715,test,1,positive,weak performance careless n amongst t or,there is n t a weak or careless performance amongst them,"[0.24253976 0.23919594 0.16843751 0.14585072 0.09531902 0.02343972
+ 0.02300626]"
+708,708,test_1471,test,0,negative,wretched conceivable relationships intended falls comedy work,intended to be a comedy about relationships this wretched work falls flat in just about every conceivable area,"[0.14091212 0.12155057 0.07545281 0.04242234 0.03805048 0.02897888
+ 0.02871523]"
+677,677,test_464,test,1,positive,faith love you way pays chances great,i love the way that it took chances and really asks you to take these great leaps of faith and pays off,"[0.18755147 0.18328777 0.1255328  0.07264454 0.06681129 0.05704244
+ 0.0542663 ]"
+701,701,test_1173,test,0,negative,bogus plot conflict bit real real real,every bit as bogus as most disney live action family movies are no real plot no real conflict no real point,"[0.05227496 0.05115153 0.04319198 0.04064177 0.02704616 0.02704616
+ 0.02704616]"
+1334,1334,test_1450,test,0,negative,canned whale melville tuna film creatively great,if melville is creatively a great whale this film is canned tuna,"[0.29747933 0.27914008 0.25385875 0.22988376 0.13848078 0.10903204
+ 0.0315638 ]"
+328,328,test_1784,test,0,negative,a and the turns mess out ill,a woozy roisterous exhausting mess and the off beat casting of its two leads turns out to be as ill starred as you might expect,"[0.11207119 0.07355019 0.06775306 0.06570684 0.06565654 0.05088526
+ 0.03710177]"
+1337,1337,test_1503,test,0,negative,pegs shelf video fi sci rental itself,automatically pegs itself for the straight to video sci fi rental shelf,"[0.3650968  0.20380674 0.1583223  0.1136805  0.09172285 0.06887557
+ 0.01051141]"
+462,462,test_46,test,1,positive,neurotic nettelbeck orchestrates heart transformation self absorbed,sandra nettelbeck beautifully orchestrates the transformation of the chilly neurotic and self absorbed martha as her heart begins to open,"[0.44403467 0.22253077 0.21511298 0.15932822 0.078006   0.07712156
+ 0.06966766]"
+1035,1035,test_506,test,1,positive,of the the and an about surprisingly,an offbeat sometimes gross and surprisingly appealing animated film about the true meaning of the holidays,"[ 0.1141222   0.10644859  0.10644859  0.10558353  0.07204874  0.03870047
+ -0.01092101]"
+1290,1290,test_272,test,1,positive,of that a a in no finally,finally a genre movie that delivers in a couple of genres no less,"[ 0.08469127  0.06763508  0.04165057  0.04165057  0.02236681  0.01643026
+ -0.0017043 ]"
+860,860,test_1481,test,0,negative,deflates puffery cliche spiritedness sour doses heavy,mckay deflates his piece of puffery with a sour cliche and heavy doses of mean spiritedness,"[0.5499436  0.421762   0.3942964  0.31041762 0.27531004 0.2713232
+ 0.18249696]"
+775,775,test_1129,test,1,positive,of rich production environment glossy green the,though a bit of a patchwork in script and production a glossy rich green environment almost makes the picture work,"[0.08070852 0.02907934 0.02137642 0.00902251 0.00820128 0.00590436
+ 0.0041598 ]"
+610,610,test_758,test,1,positive,to this 12 is is actually the,this concoction so bizarre to the adult mind is actually a charming triumph where its intended under 12 audience is concerned,"[0.04664681 0.04041655 0.03728498 0.02777211 0.02777211 0.02585516
+ 0.02412075]"
+1591,1591,test_1642,test,0,negative,time watch read on to tried i,i tried to read the time on my watch,"[ 0.07667217 -0.0055447  -0.01476969 -0.05595843 -0.07754751 -0.12246446
+ -0.1282172 ]"
+631,631,test_1122,test,0,negative,takes a it and and just to,just like hearst s enormous yacht it s slow and unwieldy and takes a long time to reach its destination,"[0.1751183  0.09202649 0.07068316 0.06526127 0.06526127 0.05547896
+ 0.03113082]"
+616,616,test_837,test,1,positive,of of perfect to that tale man,a tale of horror and revenge that is nearly perfect in its relentless descent to the depths of one man s tortured soul,"[0.06740577 0.06740577 0.03893858 0.03614885 0.01699234 0.01168617
+ 0.01155096]"
+1602,1602,test_113,test,1,positive,fizz infectious incarnation in its this is,in this incarnation its fizz is infectious,"[ 0.6164416   0.38276297  0.24149755 -0.02956716 -0.07126529 -0.10119142
+ -0.17135209]"
+1406,1406,test_1717,test,0,negative,elmore wannabe tarantino warmed leonard way by,warmed over tarantino by way of wannabe elmore leonard,"[0.78678286 0.5173006  0.49801546 0.2967769  0.16856731 0.02464403
+ 0.01541813]"
+16,16,test_1563,test,0,negative,silliness while schwarzenegger t problem of that,the problem is n t that the movie hits so close to home so much as that it hits close to home while engaging in such silliness as that snake down the throat business and the inevitable shot of schwarzenegger outrun,"[0.09532941 0.03727126 0.03123705 0.02658956 0.02582161 0.0185302
+ 0.01690332]"
+663,663,test_103,test,1,positive,magic of should south obviously s responsive,it s obviously struck a responsive chord with many south koreans and should work its magic in other parts of the world,"[0.088765   0.07522032 0.04922518 0.02180545 0.02011774 0.01927788
+ 0.01518729]"
+1118,1118,test_779,test,1,positive,that is and a it then some,it is a kickass dense sci fi action thriller hybrid that delivers and then some,"[0.06619778 0.05490603 0.05439708 0.03870235 0.03850674 0.03383708
+ 0.02075446]"
+1286,1286,test_156,test,1,positive,of a acted well with driven feeling,a droll well acted character driven comedy with unexpected deposits of feeling,"[ 0.04846767  0.02391122  0.01799509  0.00796895  0.00300939 -0.00264323
+ -0.00563086]"
+39,39,test_855,test,1,positive,impartiality zealous bigotry unflinching presuppose nuttiness fundamentals,so many documentaries like this presuppose religious bigotry or zealous nuttiness of its antagonists but family fundamentals displays a rare gift for unflinching impartiality,"[0.1996505  0.15056984 0.11614783 0.10462593 0.09738016 0.0714807
+ 0.06502254]"
+370,370,test_1747,test,0,negative,they drain needlessly developments down so and,all these developments and challenges facing santa weigh down the plot so heavily that they drain all the film of its energy and needlessly strain credibility,"[0.07637718 0.07200659 0.06347634 0.062819   0.04842946 0.03707848
+ 0.03662929]"
+1080,1080,test_1757,test,0,negative,generic exposition your prevents sandal from adventure,all the necessary exposition prevents the picture from rising above your generic sand n sandal adventure,"[0.06930582 0.04147767 0.01653055 0.01261343 0.01258795 0.01140226
+ 0.00523225]"
+344,344,test_618,test,1,positive,educational entertainment screen television inch of of,whether seen on a 10 inch television screen or at your local multiplex the edge of your seat educational antics of steve irwin are priceless entertainment,"[0.16160221 0.12500843 0.10357293 0.10223386 0.07137678 0.07050792
+ 0.07050792]"
+348,348,test_683,test,1,positive,obscurities jaded bam critic occasionally slam reviewing,occasionally in the course of reviewing art house obscurities and slam bam action flicks a jaded critic smacks into something truly new,"[0.14470175 0.0726938  0.04841563 0.04510164 0.04368637 0.03249768
+ 0.02642365]"
+717,717,test_1715,test,0,negative,clumsily mediocre murder stuck numbers week together,murder by numbers is like a couple of mediocre tv movie of the week films clumsily stuck together,"[0.09465496 0.06157269 0.03228942 0.02933936 0.02863801 0.01079649
+ 0.00271661]"
+691,691,test_947,test,0,negative,garbled exercise bad politics cuts short varsity,uncertain in tone a garbled exercise in sexual politics a junior varsity short cuts by way of very bad things,"[0.0607428  0.05335576 0.04377034 0.03516012 0.0321518  0.0308603
+ 0.02356099]"
+1047,1047,test_735,test,1,positive,the a to story with enough powerful,broomfield uncovers a story powerful enough to leave the screen sizzling with intrigue,"[ 0.11524689  0.1055749   0.04342446  0.03164398  0.00940428  0.00793978
+ -0.06932902]"
+553,553,test_968,test,0,negative,of always child generation all himself beatnik,ethan hawke has always fancied himself the bastard child of the beatnik generation and it s all over his chelsea walls,"[0.04752763 0.02578852 0.01801645 0.01640144 0.01283012 0.01135766
+ 0.00519107]"
+234,234,test_1151,test,0,negative,overheated contrivances war becomes bicycle down tug,the tug of war at the core of beijing bicycle becomes weighed down with agonizing contrivances overheated pathos and long wistful gazes,"[0.06479475 0.06061952 0.03748492 0.02886984 0.02401727 0.01951109
+ 0.01422544]"
+609,609,test_746,test,1,positive,matinee movie saturday kind right home used,this is the kind of movie that used to be right at home at the saturday matinee and it still is,"[1.00278    0.4582483  0.2866664  0.18817465 0.18806666 0.12544326
+ 0.09517235]"
+358,358,test_1124,test,0,negative,provided engrossing of dramatic flowed life line,where last time jokes flowed out of cho s life story which provided an engrossing dramatic through line here the comedian hides behind obviously constructed routines,"[0.09281591 0.04352237 0.03988039 0.03550288 0.02138988 0.02115657
+ 0.01853439]"
+922,922,test_1016,test,0,negative,slavishly expect malone films copies director william,expect to be reminded of other better films especially seven which director william malone slavishly copies,"[0.8356978  0.186061   0.18096411 0.12407018 0.10027228 0.09003125
+ 0.07203059]"
+446,446,test_920,test,0,negative,an or the on for s remembers,for anyone who grew up on disney s 1950 treasure island or remembers the 1934 victor fleming classic this one feels like an impostor,"[0.0715021  0.05843339 0.05742774 0.03475426 0.03469639 0.02746864
+ 0.0247121 ]"
+648,648,test_1537,test,0,negative,cold is a and and the the,the cold and dreary weather is a perfect metaphor for the movie itself which contains few laughs and not much drama,"[0.14029792 0.08638205 0.0856365  0.05579657 0.05579657 0.04898449
+ 0.04898449]"
+1361,1361,test_511,test,1,positive,we the but an for patronized lad,an impossible romance but we root for the patronized iranian lad,"[ 0.07290694  0.05900482  0.04692805  0.02645893  0.02005247 -0.02856145
+ -0.03293004]"
+202,202,test_1120,test,0,negative,chokes allegedly out twist audience tangled scary,like so many other allegedly scary movies it gets so tangled up in the twist that it chokes the energy right out of the very audience it seeks to frighten,"[0.18072805 0.12011281 0.0811061  0.0807656  0.06088977 0.04436532
+ 0.03718132]"
+702,702,test_1205,test,0,negative,nickleby missing cliffsnotes cliffsnotes pages version nicholas,this is n t just the cliffsnotes version of nicholas nickleby it s the cliffsnotes with pages missing,"[0.14963451 0.13668057 0.12809762 0.12809762 0.09151502 0.04152478
+ 0.02954923]"
+17,17,test_1791,test,1,positive,secularists camp praise reductionist an vastly a,christians sensitive to a reductionist view of their lord as a luv spreading dr feelgood or omnipotent slacker will feel vastly more affronted than secularists who might even praise god for delivering such an instant camp,"[0.07595528 0.05590836 0.042913   0.02904552 0.02297982 0.02010802
+ 0.01834651]"
+651,651,test_1601,test,0,negative,the and to us his while into,kwan makes the mix and match metaphors intriguing while lulling us into torpor with his cultivated allergy to action,"[0.03709275 0.02883153 0.02645286 0.02600752 0.01503073 0.00403876
+ 0.00062672]"
+223,223,test_390,test,1,positive,ensnaring works audience film social written nicely,well written nicely acted and beautifully shot and scored the film works on several levels openly questioning social mores while ensnaring the audience with its emotional pull,"[0.48076585 0.22397178 0.1813311  0.17394377 0.12303959 0.10942523
+ 0.07400032]"
+334,334,test_297,test,1,positive,you you which of if ll much,even if you ca n t pronounce gyro correctly you ll appreciate much of vardalos humor which transcends ethnic boundaries,"[ 0.05146425  0.05146425  0.0446218   0.03767737  0.03160283  0.00119807
+ -0.02060983]"
+670,670,test_337,test,1,positive,of of just the as and michael,as bundy michael reilly burke octopus 2 river of fear has just the right amount of charisma and menace,"[0.06161746 0.06161746 0.0224947  0.02119575 0.01872878 0.01035329
+ 0.00465239]"
+1587,1587,test_1612,test,0,negative,characters near gripping nowhere story enough the,the story and characters are nowhere near gripping enough,"[ 0.11952693  0.10104633  0.0866888  -0.00102175 -0.01584147 -0.02019713
+ -0.10243864]"
+280,280,test_1272,test,0,negative,makes seats when when and out it,desperately unfunny when it tries to makes us laugh and desperately unsuspenseful when it tries to make us jump out of our seats,"[0.156005   0.11697884 0.06223081 0.06223081 0.03818381 0.03033664
+ 0.01933499]"
+884,884,test_231,test,1,positive,considering is an impressive for debut first,an impressive debut for first time writer director mark romanek especially considering his background is in music video,"[0.03454547 0.02433923 0.01894476 0.0145121  0.01437604 0.01181237
+ 0.01046187]"
+166,166,test_941,test,0,negative,was from and just the the with,this film was made to get laughs from the slowest person in the audience just pure slapstick with lots of inane inoffensive screaming and exaggerated facial expressions,"[0.16590747 0.14478117 0.08740008 0.08255363 0.08040638 0.08040638
+ 0.0405756 ]"
+544,544,test_708,test,1,positive,that a and and and s both,westfeldt and juergensen exude a chemistry and comfort level that s both saucy and endearing,"[0.06426772 0.04566349 0.04337226 0.04337226 0.04337226 0.03870239
+ 0.02150996]"
+74,74,test_521,test,1,positive,is wide to the the the the,it suggests the wide ranging effects of media manipulation from the kind of reporting that is done by the supposedly liberal media to the intimate and ultimately tragic heartache of maverick individuals like hatfield and hicks,"[0.16257015 0.12821655 0.12714589 0.10606883 0.10606883 0.10606883
+ 0.10606883]"
+1426,1426,test_576,test,1,positive,magimel binoche roles these perfect in are,binoche and magimel are perfect in these roles,"[ 0.9356111   0.5901859   0.3203869   0.012707   -0.00531052 -0.01978696
+ -0.02336071]"
+111,111,test_249,test,1,positive,understandable that makes to is is accessible,it could change america not only because it is full of necessary discussion points but because it is so accessible that it makes complex politics understandable to viewers looking for nothing but energetic entertainment,"[0.31013197 0.2991957  0.2809386  0.21524525 0.17914271 0.17914271
+ 0.15052816]"
+568,568,test_1602,test,0,negative,boring required a any hand the few,any movie this boring should be required to have ushers in the theater that hand you a cup of coffee every few minutes,"[0.08995971 0.08292624 0.05663371 0.04037005 0.02800639 0.0177411
+ 0.01406961]"
+330,330,test_81,test,1,positive,cynicism embers grief chronic and and burger,writer director burger imaginatively fans the embers of a dormant national grief and curiosity that has calcified into chronic cynicism and fear,"[0.05224255 0.02486905 0.02467699 0.0217769  0.01353015 0.01353015
+ 0.01030883]"
+1480,1480,test_24,test,1,positive,guaranteed move rattled rolled or anyone ever,guaranteed to move anyone who ever shook rattled or rolled,"[ 0.17189908  0.1478242   0.06371423  0.01688495  0.01620835 -0.01230439
+ -0.02438006]"
+807,807,test_1731,test,0,negative,no disguise emptiness locales costumes number spectacular,no number of fantastic sets extras costumes and spectacular locales can disguise the emptiness at the center of the story,"[0.05808669 0.04614863 0.03935918 0.03298799 0.02992977 0.02332051
+ 0.0188167 ]"
+518,518,test_1697,test,0,negative,only is half just the in hearted,afraid to pitch into farce yet only half hearted in its spy mechanics all the queen s men is finally just one long drag,"[0.11995044 0.08744346 0.08018935 0.05874185 0.05067967 0.03718846
+ 0.03300636]"
+47,47,test_748,test,0,negative,koyaanisqatsi be the the could naqoyqatsi s,like its two predecessors 1983 s koyaanisqatsi and 1988 s powaqqatsi the cinematic collage naqoyqatsi could be the most navel gazing film ever,"[0.08923595 0.03223269 0.02558455 0.02558455 0.02129742 0.02097553
+ 0.01979841]"
+419,419,test_85,test,1,positive,high film relationships korean female refreshing five,a refreshing korean film about five female high school friends who face an uphill battle when they try to take their relationships into deeper waters,"[0.06933205 0.0628663  0.06029017 0.05706493 0.04797411 0.03403853
+ 0.02357453]"
+307,307,test_880,test,1,positive,that that is to how in makes,smith s approach is never to tease except gently and in that way that makes us consider our own eccentricities and how they are expressed through our homes,"[0.33761552 0.33761552 0.30242532 0.29871374 0.24738148 0.22983833
+ 0.22115257]"
+237,237,test_1249,test,0,negative,nachtwey direct film screen frei control self,in the second half of the film frei s control loosens in direct proportion to the amount of screen time he gives nachtwey for self analysis,"[0.31554797 0.1872311  0.17990509 0.15234116 0.1295564  0.12832248
+ 0.12023322]"
+975,975,test_965,test,0,negative,crowd overproduced disappointing rouse likely generally t,this overproduced and generally disappointing effort is n t likely to rouse the rush hour crowd,"[0.08693112 0.05815633 0.03289252 0.02795972 0.02258466 0.01624337
+ 0.01342146]"
+315,315,test_1336,test,0,negative,abomination perversely bad accordion banjo harmonica miller,the picture scored by a perversely cheerful marcus miller accordion harmonica banjo abomination is a monument to bad in all its florid variety,"[0.0553209  0.04234526 0.03620335 0.03214514 0.03117341 0.02287234
+ 0.02020542]"
+1471,1471,test_1605,test,0,negative,n care t much story for i,i just did n t care as much for the story,"[ 0.07677422  0.04699425  0.01948758 -0.01512324 -0.02048786 -0.03381366
+ -0.04914841]"
+253,253,test_201,test,1,positive,is that that co s penetrates and,denis and co writer michele petin s impeccable screenplay penetrates with a rawness that that is both unflinching and tantalizing,"[0.04273215 0.03182994 0.03182994 0.02209383 0.02184591 0.01844289
+ 0.0132191 ]"
+1233,1233,test_616,test,1,positive,have a but should called brand new,but fans should have fun meeting a brand new pokemon called celebi,"[ 0.08218884  0.07010762  0.04868096  0.03660956  0.00904444  0.00247077
+ -0.02201706]"
+657,657,test_22,test,0,negative,it earlier however and often epic s,however it lacks grandeur and that epic quality often associated with stevenson s tale as well as with earlier disney efforts,"[ 0.02434661  0.01986704  0.01862264  0.01610963  0.00964903  0.00544051
+ -0.00128966]"
+490,490,test_949,test,0,negative,that poor wait shown has judgment if,if you think that jennifer lopez has shown poor judgment in planning to marry ben affleck wait till you see maid in manhattan,"[0.02843338 0.02679657 0.02525265 0.01931578 0.01849177 0.01691901
+ 0.0101271 ]"
+399,399,test_1125,test,0,negative,when pillage and with from up up,why come up with something even quasi original when you can pillage from shirley jackson richard matheson and puke up something like rose red,"[0.05540097 0.05111821 0.04322097 0.01848074 0.0143628  0.01408339
+ 0.01408339]"
+697,697,test_1109,test,0,negative,crammed bad nothing and a is concept,nothing debases a concept comedy quite like the grinding of bad ideas and showtime is crammed full of them,"[0.12802884 0.0724237  0.06121888 0.03610005 0.0276831  0.02629346
+ 0.02318811]"
+1104,1104,test_439,test,1,positive,are like s this but no its,this version s no classic like its predecessor but its pleasures are still plentiful,"[0.04670398 0.03977438 0.03503875 0.0320637  0.02254987 0.02067467
+ 0.000452  ]"
+722,722,test_11,test,1,positive,of which author it ever an into,an utterly compelling who wrote it in which the reputation of the most famous author who ever lived comes into question,"[0.0442469  0.02003174 0.01932948 0.01517508 0.01103074 0.01022954
+ 0.00374785]"
+1674,1674,test_349,test,1,positive,you is this special use how effects,this is how you use special effects,"[ 0.07104906  0.06879416  0.03414697 -0.01755474 -0.02499538 -0.02934958
+ -0.17548038]"
+656,656,test_4,test,1,positive,snappy screenplay steers you curls edges clever,steers turns in a snappy screenplay that curls at the edges it s so clever you want to hate it,"[0.21514884 0.08287574 0.07552633 0.07183722 0.07148158 0.06273247
+ 0.04551152]"
+993,993,test_1432,test,0,negative,but lots hollow catharsis tears very little,plays as hollow catharsis with lots of tears but very little in the way of insights,"[0.03567814 0.03513069 0.03001774 0.02469944 0.01642285 0.01639584
+ 0.00333789]"
+236,236,test_1219,test,0,negative,winded shrewd it and never a been,a long winded and stagy session of romantic contrivances that never really gels like the shrewd feminist fairy tale it could have been,"[0.11285792 0.06062899 0.04135758 0.04019297 0.03913867 0.03759679
+ 0.03637773]"
+964,964,test_504,test,1,positive,that is the and it your to,the drama is played out with such aching beauty and truth that it brings tears to your eyes,"[0.10863261 0.0815469  0.06797969 0.06681789 0.058591   0.05666064
+ 0.04868291]"
+1445,1445,test_1142,test,0,negative,and you an a thing for hour,you could nap for an hour and not miss a thing,"[0.04701532 0.04226086 0.03919648 0.03720767 0.02887805 0.01780869
+ 0.00786812]"
+400,400,test_1126,test,1,positive,lowbrow gags performances delivers comedy cast amusing,a broadly played lowbrow comedy in which the cast delivers mildly amusing performances and no farm animals were injured by any of the gags,"[0.41723877 0.2881032  0.18165515 0.17572138 0.15856518 0.15716064
+ 0.10362135]"
+1557,1557,test_974,test,0,negative,lists and she but never ingredients mixes,she lists ingredients but never mixes and stirs,"[ 0.04308926  0.03915697  0.03856114  0.01446537  0.00097027 -0.03795021
+ -0.06091277]"
+638,638,test_1360,test,0,negative,soulless marketable a a when are is,when a film is created solely because it s a marketable product soulless and ugly movies like this are the result,"[0.10967282 0.10209398 0.09822796 0.09822796 0.09098309 0.08391747
+ 0.08247134]"
+543,543,test_686,test,1,positive,sweet n perfect critics ending do plan,do n t plan on the perfect ending but sweet home alabama hits the mark with critics who escaped from a small town life,"[0.05900983 0.05283835 0.03647467 0.02915659 0.02805113 0.01748922
+ 0.01339398]"
+1292,1292,test_421,test,1,positive,subtitles farce enjoy action scarcely needs colorful,one scarcely needs the subtitles to enjoy this colorful action farce,"[0.24112703 0.13512705 0.10195926 0.08814083 0.05570786 0.04087522
+ 0.02910781]"
+1589,1589,test_1622,test,0,negative,n friday t waiting for worth this,this is n t a friday worth waiting for,"[ 0.14322205  0.0843688   0.01931619 -0.00303575 -0.05450426 -0.10252958
+ -0.10421032]"
+1095,1095,test_275,test,1,positive,that and and of with offer matter,hu and liu offer natural matter of fact performances that glint with sorrow longing and love,"[ 0.16053501  0.10888192  0.10888192  0.09295642  0.00121938 -0.02480762
+ -0.03988347]"
+1264,1264,test_1413,test,0,negative,sunk washington sanctimony the efforts all s,denzel washington s efforts are sunk by all the sanctimony,"[ 0.03609785  0.01847328  0.01020956  0.0101287   0.00221958 -0.00227966
+ -0.01778182]"
+1654,1654,test_1722,test,0,negative,comedy sustain not enough the s to,there s not enough to sustain the comedy,"[ 0.05125006  0.03842467  0.00669544 -0.00198024 -0.0116763  -0.0251759
+ -0.03006489]"
+1258,1258,test_1330,test,0,negative,clunky ribbing entertaining truly itself be busy,too clunky and too busy ribbing itself to be truly entertaining,"[ 0.52796924  0.412132    0.16961643  0.08671778  0.03722806  0.00412916
+ -0.04827382]"
+78,78,test_1036,test,0,negative,is is an the this type it,if this is an example of the type of project that robert redford s lab is willing to lend its imprimatur to then perhaps it s time to rethink independent films,"[0.10046351 0.10046351 0.07536259 0.04859645 0.0364397  0.03572971
+ 0.03125712]"
+1383,1383,test_1117,test,0,negative,kept this and enjoying should i i,i kept thinking over and over again i should be enjoying this,"[0.02574751 0.02309798 0.02149085 0.0183159  0.01788167 0.01579744
+ 0.01579744]"
+302,302,test_711,test,1,positive,elizabethan prose moments play laughs redneck thing,earns its laughs from stock redneck types and from the many many moments when we recognize even without the elizabethan prose the play behind the thing,"[0.19856635 0.19417995 0.16691571 0.15912396 0.14521399 0.13409136
+ 0.11020792]"
+521,521,test_1759,test,0,negative,only mess an is is just it,gangs of new york is an unapologetic mess whose only saving grace is that it ends by blowing just about everything up,"[0.1705446  0.06475084 0.05863696 0.05294853 0.05294853 0.04392598
+ 0.04004993]"
+194,194,test_729,test,1,positive,dramatizing allowed cautionary tale pleasantly charming way,what could have become just another cautionary fable is allowed to play out as a clever charming tale as pleasantly in its own way as its self dramatizing characters,"[0.49932003 0.18364519 0.17505935 0.1358467  0.1083522  0.09761697
+ 0.09566085]"
+1320,1320,test_1201,test,0,negative,is with by played laura julia regan,julia is played with exasperating blandness by laura regan,"[ 0.1510323   0.06869766  0.01566817 -0.06841718 -0.10256308 -0.14979589
+ -0.16439293]"
+824,824,test_258,test,1,positive,has a s been given brendan legendary,legendary irish writer brendan behan s memoir borstal boy has been given a loving screen transferral,"[ 0.08352321  0.0665108   0.06329492  0.04806265 -0.02446667 -0.02893066
+ -0.0389876 ]"
+9,9,test_883,test,1,positive,service faithful vision city way past glories,leave it to rohmer now 82 to find a way to bend current technique to the service of a vision of the past that is faithful to both architectural glories and commanding open spaces of the city as it was more than,"[0.46538448 0.21247584 0.21056417 0.20700817 0.20579    0.171229
+ 0.16138433]"
+480,480,test_472,test,1,positive,gives integrity as as as as warmth,the inherent strength of the material as well as the integrity of the filmmakers gives this coming of age story restraint as well as warmth,"[0.11176597 0.0907649  0.06083722 0.06083722 0.06083722 0.06083722
+ 0.05808442]"
+436,436,test_615,test,0,negative,or not t convert re franchise the,if you re not into the pokemon franchise this fourth animated movie in four years wo n t convert you or even keep your eyes open,"[0.05465899 0.04467439 0.03863942 0.03099061 0.03060865 0.0286443
+ 0.01997622]"
+1626,1626,test_1098,test,0,negative,the it not even can save hanson,not even the hanson brothers can save it,"[ 0.21046129  0.13028708 -0.02148004 -0.03302951 -0.128353   -0.15364234
+ -0.22345567]"
+785,785,test_1324,test,0,negative,computer automated a so it it and,so routine familiar and predictable it raises the possibility that it wrote itself as a newly automated final draft computer program,"[0.07034862 0.06061135 0.0511872  0.04893332 0.0454909  0.0454909
+ 0.04130923]"
+1111,1111,test_570,test,1,positive,of the a and funny look at,a very funny look at how another culture handles the process of courting and marriage,"[0.08687162 0.06395663 0.05878868 0.05718087 0.04392347 0.03159447
+ 0.03125165]"
+161,161,test_607,test,1,positive,handily s s the a and and,watstein handily directs and edits around his screenplay s sappier elements and sustains off the hook s buildup with remarkable assuredness for a first timer,"[0.05285469 0.03528527 0.03528527 0.0254587  0.01275301 0.01203205
+ 0.01203205]"
+634,634,test_1163,test,0,negative,dull a a although stuck is the,although based on a real life person john in the movie is a rather dull person to be stuck with for two hours,"[0.28971997 0.1332643  0.1332643  0.11931249 0.10953506 0.09810155
+ 0.07344274]"
+969,969,test_717,test,1,positive,of that refreshing interest s from the,it s a refreshing change from the self interest and paranoia that shape most american representations of castro,"[0.06217455 0.0205325  0.0199052  0.01986986 0.01920934 0.01481065
+ 0.0138934 ]"
+821,821,test_222,test,1,positive,you from from s s a the,benefits from a strong performance from zhao but it s dong jie s face you remember at the end,"[0.05376249 0.03513857 0.03513857 0.03509334 0.03509334 0.03065377
+ 0.03024342]"
+174,174,test_1379,test,0,negative,or an the any drag in in,the noble tradition of men in drag hits an all time low in sorority boys whose makers apparently believe that women s clothing can cover up any deficiency in acting writing or direction,"[0.1323124  0.11067291 0.10019633 0.05878494 0.04044587 0.03478599
+ 0.03478599]"
+972,972,test_812,test,1,positive,that as as is an the anything,an endlessly fascinating landmark movie that is as bold as anything the cinema has seen in years,"[0.05326997 0.04317719 0.04317719 0.03431135 0.03405639 0.03083718
+ 0.01814702]"
+1012,1012,test_115,test,1,positive,who from to the it it and,it will delight newcomers to the story and those who know it from bygone days,"[0.024933   0.02277785 0.02094737 0.01762084 0.0133568  0.0133568
+ 0.00929816]"
+1196,1196,test_1138,test,0,negative,collectively taken or never individually up add,taken individually or collectively the stories never add up to as much as they promise,"[ 0.01917921  0.01908532  0.01675145  0.01605365  0.00862255  0.00097575
+ -0.00035023]"
+1229,1229,test_402,test,1,positive,mesmerizing squalor menace result is filled with,the result is mesmerizing filled with menace and squalor,"[ 0.35427225  0.32868314  0.0910084   0.06190807  0.02684685  0.02134479
+ -0.00590813]"
+190,190,test_450,test,1,positive,yimou warm zhang way happiness believe genuine,zhang yimou delivers warm genuine characters who lie not through dishonesty but because they genuinely believe it s the only way to bring happiness to their loved ones,"[0.09042177 0.06266762 0.03418314 0.03405759 0.03296843 0.03248084
+ 0.02142434]"
+1245,1245,test_930,test,0,negative,subject ripe swinging documentary not one still,the subject of swinging still seems ripe for a documentary just not this one,"[0.0649147  0.06278016 0.03932909 0.02402619 0.01063954 0.00282378
+ 0.00062552]"
+1367,1367,test_608,test,0,negative,afloat fish stays water barely story another,just another fish out of water story that barely stays afloat,"[ 0.7920615   0.27708346  0.14163059  0.10481315  0.044145   -0.05903527
+ -0.08495371]"
+633,633,test_1157,test,0,negative,down a a stupidity and werewolf are,mark me down as a non believer in werewolf films that are not serious and rely on stupidity as a substitute for humor,"[0.07023051 0.06021972 0.06021972 0.05456258 0.03918932 0.0378008
+ 0.03703047]"
+1432,1432,test_785,test,1,positive,the and for its its exists movie,the movie exists for its soccer action and its fine acting,"[ 0.05926083  0.05081943  0.0205515   0.01687321  0.01687321  0.01504818
+ -0.0234362 ]"
+637,637,test_1322,test,0,negative,whether boring or embarrassing a call draw,it s difficult to say whether the tuxedo is more boring or embarrassing i m prepared to call it a draw,"[0.20710865 0.11692665 0.05640563 0.05115662 0.04853019 0.03921386
+ 0.00665666]"
+586,586,test_91,test,1,positive,wonderment film cinema of pure du sarcasm,the film is often filled with a sense of pure wonderment and excitement not often seen in today s cinema du sarcasm,"[0.08132056 0.07689413 0.07269175 0.07171328 0.06838313 0.06249643
+ 0.05251788]"
+1667,1667,test_255,test,1,positive,heart does new have guy a the,the new guy does have a heart,"[ 0.33098236  0.09472208  0.03347257 -0.00056983 -0.04930106 -0.11591975
+ -0.11702254]"
+814,814,test_56,test,1,positive,of and and a a how perfect,a truly moving experience and a perfect example of how art when done right can help heal clarify and comfort,"[0.10203829 0.07400949 0.07400949 0.07384394 0.07384394 0.03528673
+ 0.02767086]"
+1528,1528,test_1783,test,0,negative,cliches thick cigarette smoke the as as,cliches are as thick as the cigarette smoke,"[ 1.1872344e-01  3.5524834e-02  3.1644300e-02 -4.9326569e-05
+ -1.7085969e-02 -7.5350702e-02 -7.5350702e-02]"
+1244,1244,test_922,test,1,positive,titillation diva scarlet insight watching raw is,watching scarlet diva one is poised for titillation raw insight or both,"[0.28120202 0.15404895 0.10540527 0.09755208 0.03802943 0.03431337
+ 0.02667848]"
+1465,1465,test_1520,test,1,positive,solaris guns plays jokes with almost like,it almost plays like solaris but with guns and jokes,"[ 0.31753573  0.13925573  0.08932071  0.0852401   0.00524421  0.00504543
+ -0.07130227]"
+299,299,test_573,test,1,positive,fully eccentricities pleasure profiles enjoy extraordinary american,smith profiles five extraordinary american homes and because the owners seem fully aware of the uses and abuses of fame it s a pleasure to enjoy their eccentricities,"[0.26558918 0.24616563 0.16144103 0.1602957  0.15730102 0.14738786
+ 0.14292152]"
+238,238,test_1259,test,0,negative,routine dissolves any a a a titled,opens as promising as any war adventure film you ll ever see and dissolves into a routine courtroom drama better suited for a movie titled glory a soldier s story,"[0.07656646 0.05038493 0.04950802 0.0444582  0.0444582  0.0444582
+ 0.02801496]"
+207,207,test_1439,test,0,negative,no end swinging gangster period mods rockers,the period swinging london in the time of the mods and the rockers gets the once over once again in gangster no 1 but falls apart long before the end,"[0.51937354 0.20964113 0.1982077  0.15736091 0.15270376 0.13036068
+ 0.11461952]"
+743,743,test_488,test,1,positive,of fatality sobering classism ignorance on celebration,a journey through memory a celebration of living and a sobering rumination on fatality classism and ignorance,"[0.06424624 0.02957318 0.0234533  0.02063711 0.01449338 0.01161672
+ 0.00950438]"
+845,845,test_937,test,0,negative,takes takes out then stuff the the,the film takes too long getting to the good stuff then takes too long figuring out what to do next,"[0.10507782 0.10507782 0.04415678 0.04139972 0.0306755  0.02806359
+ 0.02806359]"
+1186,1186,test_702,test,1,positive,you the to to but all stories,you have to pay attention to follow all the stories but they re each interesting,"[0.0500445  0.04701332 0.04214228 0.04214228 0.02759223 0.02122552
+ 0.01397993]"
+930,930,test_1158,test,0,negative,sourness but only ridiculous sort really a,aspires for the piquant but only really achieves a sort of ridiculous sourness,"[0.06232974 0.04892727 0.04150756 0.03362697 0.0155935  0.0105599
+ 0.0030322 ]"
+820,820,test_219,test,1,positive,the and of an it to presents,presents an astute appraisal of middle american musical torpor and the desperate struggle to escape it,"[ 0.09762886  0.08523764  0.08078994  0.05672256  0.05621532  0.04078298
+ -0.06458509]"
+68,68,test_1123,test,0,negative,plausibility false not not not not not,there is not a character in the movie with a shred of plausibility not an event that is believable not a confrontation that is not staged not a moment that is not false,"[0.26675576 0.23221044 0.22914848 0.22914848 0.22914848 0.22914848
+ 0.22914848]"
+241,241,test_1390,test,0,negative,dreck uninspired out pause barely right when,the best you can say about it is it s so uninspired it barely gives one pause when considering some of the other dreck out there right now,"[0.6780622  0.4800123  0.15608591 0.08162418 0.04357505 0.04328097
+ 0.03888583]"
+1453,1453,test_1260,test,0,negative,horrifying detached solemn result strangely yet is,the result is solemn and horrifying yet strangely detached,"[ 0.4541314   0.14210546  0.13918455  0.13292685  0.07777043  0.07112381
+ -0.03437187]"
+868,868,test_1661,test,0,negative,waste is and and and biting a,what could and should have been biting and droll is instead a tepid waste of time and talent,"[0.05560957 0.05298326 0.0518811  0.0518811  0.0518811  0.04858831
+ 0.04591522]"
+265,265,test_606,test,1,positive,niccol of simone movie to from s,aside from being the funniest movie of the year simone andrew niccol s brilliant anti hollywood satire has a wickedly eccentric enchantment to it,"[0.109336   0.05285639 0.02393454 0.02169271 0.01696555 0.00869111
+ 0.00823646]"
+924,924,test_1026,test,0,negative,insufficiently superficial snapshot however left engaging with,we are left with a superficial snapshot that however engaging is insufficiently enlightening and inviting,"[ 0.04052372  0.03496004  0.03086726  0.02507111  0.01273905  0.00741983
+ -0.00465115]"
+1519,1519,test_1305,test,1,positive,just and the i if best might,and if the hours wins best picture i just might,"[ 0.1905953   0.18702585  0.16144753  0.14566964  0.13365877  0.03303054
+ -0.04873052]"
+1141,1141,test_1341,test,0,negative,qatsi siblings shadow older accessible two stay,will probably stay in the shadow of its two older more accessible qatsi siblings,"[0.75537324 0.21464801 0.14791955 0.06892589 0.06031354 0.03391551
+ 0.03142605]"
+1540,1540,test_530,test,1,positive,opportunity skip work first see to it,skip work to see it at the first opportunity,"[ 0.1018207   0.0875248   0.04189689 -0.00039265 -0.04339222 -0.07804519
+ -0.09378933]"
+790,790,test_1521,test,0,negative,misfire weakest woody last possibly and allen,a baffling misfire and possibly the weakest movie woody allen has made in the last twenty years,"[0.14007756 0.03154229 0.02657906 0.02137887 0.01799358 0.00933849
+ 0.00648767]"
+676,676,test_447,test,1,positive,that that is good the the love,a lighthearted feel good film that embraces the time honored truth that the most powerful thing in life is love,"[0.0687595  0.0687595  0.06211106 0.05336425 0.03507689 0.03507689
+ 0.03497411]"
+260,260,test_358,test,1,positive,engrossing offers baja imax life shores virtues,this examination of aquatic life off the shores of the baja california peninsula of mexico offers an engrossing way to demonstrate the virtues of the imax format,"[0.16727248 0.14668271 0.12102349 0.10777248 0.08284709 0.07845144
+ 0.05873215]"
+138,138,test_755,test,1,positive,evokes good children futures possible them fear,evokes a little of the fear that parents have for the possible futures of their children and the sometimes bad choices mothers and fathers make in the interests of doing them good,"[0.9067518  0.2958663  0.24212812 0.19063964 0.10928996 0.07190767
+ 0.04624462]"
+1558,1558,test_988,test,0,negative,maudlin stupid after it gets and just,after that it just gets stupid and maudlin,"[ 0.54333615  0.0723733  -0.02029545 -0.09480344 -0.11456567 -0.15406808
+ -0.16060436]"
+371,371,test_1774,test,0,negative,estrogen opera gifting wedding bath sympathetic nice,an atonal estrogen opera that demonizes feminism while gifting the most sympathetic male of the piece with a nice vomit bath at his wedding,"[0.5613995  0.2886341  0.22510877 0.19333014 0.14345512 0.13484772
+ 0.12602979]"
+424,424,test_319,test,1,positive,no fraught while t adulthood there and,while not all transitions to adulthood are so fraught there s much truth and no small amount of poetry in girls ca n t swim,"[0.10778081 0.07235591 0.05914737 0.04410629 0.0391683  0.03876963
+ 0.03685404]"
+1436,1436,test_902,test,1,positive,majidi uniformly largely engaging amateur performances cast,majidi gets uniformly engaging performances from his largely amateur cast,"[0.6892265  0.22784945 0.14275935 0.14084515 0.12338617 0.11624905
+ 0.04318522]"
+754,754,test_611,test,1,positive,you ignites feeling can feel gripping this,you can feel the heat that ignites this gripping tale and the humor and humanity that root it in feeling,"[0.09229603 0.04852232 0.04834852 0.03325309 0.03176972 0.02531666
+ 0.01344297]"
+937,937,test_1449,test,0,negative,comebacks forte snappy gowns low leaning sadly,sadly hewitt s forte is leaning forward while wearing low cut gowns not making snappy comebacks,"[0.32700965 0.30181736 0.27954385 0.25359985 0.12064568 0.10433152
+ 0.07920122]"
+1310,1310,test_884,test,0,negative,acting dots dots fine sense connecting no,fine acting but there is no sense of connecting the dots just dots,"[ 0.17501292  0.11149156  0.11149156  0.07251997  0.05121679  0.04945046
+ -0.03482313]"
+911,911,test_751,test,1,positive,that the of and a a in,a picture that extols the virtues of comradeship and community in a spunky spirited fashion,"[0.09734364 0.08816214 0.08276796 0.07471809 0.07114317 0.07114317
+ 0.04212599]"
+1459,1459,test_1361,test,0,negative,your let silly nostalgia childhood slumber unmolested,let your silly childhood nostalgia slumber unmolested,"[ 0.13717538  0.02389643 -0.0854307  -0.21007515 -0.2965457  -0.6198516
+ -0.7900887 ]"
+1182,1182,test_582,test,1,positive,is and a this look dazzling with,look this is a terrific flick replete with dazzling camera work dancing and music,"[ 0.07737739  0.06196743  0.05387088  0.04686027  0.03243502 -0.00246718
+ -0.00876859]"
+786,786,test_1347,test,0,negative,once while mediocre it bits a a,it virtually defines a comedy that s strongly mediocre with funny bits surfacing every once in a while,"[0.04005451 0.03654217 0.03607814 0.02606875 0.01933524 0.01701557
+ 0.01701557]"
+95,95,test_577,test,1,positive,dominatrixes raunchy hokum hawn sarandon eating goes,when your leading ladies are a couple of screen eating dominatrixes like goldie hawn and susan sarandon at their raunchy best even hokum goes down easily,"[0.17194724 0.10933422 0.08455558 0.06410643 0.06389951 0.0318797
+ 0.02030332]"
+771,771,test_1037,test,0,negative,solondzian mirthless callow patch satire pumpkin student,pumpkin sits in a patch somewhere between mirthless todd solondzian satire and callow student film,"[0.7444545  0.5717872  0.30434686 0.20211872 0.15250328 0.13751991
+ 0.09803772]"
+1429,1429,test_709,test,1,positive,documentary life territories effective harsh israeli occupied,harsh effective documentary on life in the israeli occupied palestinian territories,"[0.15914005 0.1410261  0.13178912 0.12762734 0.10995254 0.10324155
+ 0.08799569]"
+1176,1176,test_424,test,1,positive,of good on story set truly a,an irresistible combination of a rousing good story set on a truly grand scale,"[0.05220259 0.02964748 0.01406092 0.01333748 0.01071567 0.00846662
+ 0.00283798]"
+1193,1193,test_1009,test,0,negative,a a about silly silly film filmmaker,a silly self indulgent film about a silly self indulgent filmmaker,"[ 0.08999616  0.08999616  0.07961583 -0.03211219 -0.03211219 -0.05927929
+ -0.07390468]"
+589,589,test_129,test,1,positive,claptrap esque punishing conan effects soul assaults,more a load of enjoyable conan esque claptrap than the punishing special effects soul assaults the mummy pictures represent,"[0.52476704 0.43790716 0.34015834 0.28721157 0.2405827  0.23011145
+ 0.22508991]"
+912,912,test_764,test,1,positive,of of the a and in touching,a refreshingly honest and ultimately touching tale of the sort of people usually ignored in contemporary american film,"[0.07980645 0.07980645 0.05288928 0.05252308 0.04291549 0.01701732
+ 0.01180376]"
+1168,1168,test_277,test,1,positive,the this is is it in satisfying,while this film is not in the least surprising it is still ultimately very satisfying,"[0.03528377 0.03343999 0.03171605 0.03171605 0.02035137 0.01927112
+ 0.01565455]"
+1423,1423,test_469,test,1,positive,and a a it s both necessary,it s both a necessary political work and a fascinating documentary,"[ 0.15823497  0.13182798  0.13182798  0.09376666  0.08759876  0.039542
+ -0.05207609]"
+1592,1592,test_1728,test,0,negative,lack substance most rabbits but it to,but like most rabbits it seems to lack substance,"[ 0.04325644  0.03045188  0.02293768  0.00739023 -0.01055711 -0.01592238
+ -0.01631453]"
