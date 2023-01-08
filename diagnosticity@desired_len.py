@@ -40,7 +40,7 @@ NOISE_scores = np.load(NOISE_scores_file, allow_pickle=True).item() # key  featu
 
 data_id_list = TOPk_scores.keys()
 fea_list = ['attention', "scaled attention", "gradients", "ig", "deeplift"] # "gradientshap",
-rationale_ratios = [0.01, 0.02, 0.05, 0.1, 0.2, 0.5] 
+rationale_ratios = [0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1.0] 
 
 suff_or_comp = 'sufficiency' # sufficiency or comprehensiveness
 

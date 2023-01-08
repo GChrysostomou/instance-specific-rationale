@@ -85,7 +85,7 @@ parser.add_argument(
     "--FA_name",   
     type = str, 
     help = "directory to save models", 
-    default="random" 
+    default="gradients" 
     #[random 'attention', "scaled attention", "gradients", "ig", "deeplift"]
 )
 
@@ -94,7 +94,7 @@ parser.add_argument(
     "--sample_size",   
     type = int, 
     help = "directory to save extracted_rationales", 
-    default = 100,
+    default = 500,
 )
 
 parser.add_argument(
