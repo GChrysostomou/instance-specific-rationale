@@ -55,7 +55,6 @@ class BERT_HOLDER():
             # print('        the query mean len (in train):', sum([len(x["query"].split()) for x in train])/len(train))
 
         else:
-            
             max_len = round(max([len(x["text"].split()) for x in train]))
 
         print('        the task max_len (in train):', max_len)
@@ -87,6 +86,10 @@ class BERT_HOLDER():
 
         # IF TESTING LOCALLY
         #test = test[111:122] + test[222:233] + test[333:344] + test[444:455] + test[555:566] + test[-20:]
+        if "multirc" in path:
+            LEN = int(len(test)/20)
+            test = test[:LEN] + test[LEN*4:LEN*5] + test[LEN*8:LEN*9] + test[LEN*12:LEN*13] + test[LEN*18:LEN*19]
+
 
 
         if stage != "train": 
