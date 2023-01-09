@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 #  CUDA_LAUNCH_BLOCKING=1
 import re
+from matplotlib.ft2font import FIXED_SIZES
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -85,7 +86,7 @@ parser.add_argument(
     "--FA_name",   
     type = str, 
     help = "directory to save models", 
-    default="gradients" 
+    default="attention" 
     #[random 'attention', "scaled attention", "gradients", "ig", "deeplift"]
 )
 
@@ -162,7 +163,7 @@ if fix_size == 4:
                     data.fixed2_loader,
                     data.fixed3_loader,
                     data.fixed4_loader,
-                    data.fixed5_loader,
+                    # data.fixed5_loader,
                     # data.fixed6_loader,
                     # data.fixed7_loader,
                     ]
@@ -174,7 +175,7 @@ else:
                     data.fixed4_loader,
                     data.fixed5_loader,
                     data.fixed6_loader,
-                    data.fixed7_loader,
+                    #data.fixed7_loader,
                     ]
     
 
@@ -313,7 +314,13 @@ for comp in comp_list2:
     Fi = F_i(M_SO, M_S6, comp)
     F_comp2.append(Fi)
 
-set = ['0', '1', '2', '3', '4', '5', '6']
+
+if fix_size == 4:
+    set = ['0', '1', '2', '3', '4']#, '5', '6'
+elif fix_size == 6:
+    set = ['0', '1', '2', '3', '4', '5', '6']#, '5', '6'
+else:
+    print(' ---- ')
 df = pd.DataFrame(list(zip(set, F_comp, F_comp2, comp_list, comp_list2)), 
                         columns = ['Set', 'F-Comp', 'F-SoftComp', 'Comprehensiveness', 'Soft-Comprehensiveness'])
 
@@ -339,7 +346,7 @@ ax.plot(SET, soft, color="red", label='Soft-Comp')
 
 ax.set_xlabel('Replaced tokens')
 ax.set_ylabel('f(i) = |M(So)-M(Si)| / |M(So)-M(S6)|')
-ax.set_title(str(FA_name).capitalize(), fontsize=16)
+ax.set_title(str(FA_name).capitalize(), fontsize=18)
 
 ax.legend()
 import matplotlib

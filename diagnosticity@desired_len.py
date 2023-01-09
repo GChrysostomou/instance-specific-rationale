@@ -1,5 +1,3 @@
-
-    
 from telnetlib import PRAGMA_HEARTBEAT
 import numpy as np
 import pandas as pd
@@ -25,25 +23,24 @@ dataset = str(user_args["dataset"])
 pwd = os.getcwd()
 
 topk_scores_file = os.path.join(pwd, 'posthoc_results', str(dataset), 'topk-faithfulness-scores-detailed.npy') 
-NOISE_scores_file = os.path.join(pwd, 'posthoc_results', str(dataset), 'NOISElimit-faithfulness-scores-detailed.npy') 
-ATTENTION_scores_file = os.path.join(pwd, 'posthoc_results', str(dataset), 'ATTENTIONlimit-faithfulness-scores-detailed.npy')
-ZEROOUT_scores_file = os.path.join(pwd, 'posthoc_results', str(dataset), 'ZEROOUTlimit-faithfulness-scores-detailed.npy')
+# NOISE_scores_file = os.path.join(pwd, 'posthoc_results', str(dataset), 'NOISElimit-faithfulness-scores-detailed.npy') 
+# ATTENTION_scores_file = os.path.join(pwd, 'posthoc_results', str(dataset), 'ATTENTIONlimit-faithfulness-scores-detailed.npy')
+ZEROOUT_scores_file = os.path.join(pwd, 'posthoc_results', str(dataset), 'ZEROOUT-faithfulness-scores-detailed.npy')
 
 
 
 TOPk_scores = np.load(topk_scores_file, allow_pickle=True).item()
 ZEROOUT_scores = np.load(ZEROOUT_scores_file, allow_pickle=True).item()
-ATTENTION_scores = np.load(ATTENTION_scores_file, allow_pickle=True).item()
-NOISE_scores = np.load(NOISE_scores_file, allow_pickle=True).item() # key  feature_  suff/comp @
+# ATTENTION_scores = np.load(ATTENTION_scores_file, allow_pickle=True).item()
+# NOISE_scores = np.load(NOISE_scores_file, allow_pickle=True).item() # key  feature_  suff/comp @
 
 
 
 data_id_list = TOPk_scores.keys()
 fea_list = ['attention', "scaled attention", "gradients", "ig", "deeplift"] # "gradientshap",
-rationale_ratios = [0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1.0] 
+rationale_ratios = [0.01, 0.02, 0.05, 0.1, 0.2, 0.5]  #, 1.0
 
 suff_or_comp = 'sufficiency' # sufficiency or comprehensiveness
-
 
 
 def generate_table(suff_or_comp, ratio, include_feature_name=True):
@@ -73,97 +70,47 @@ def generate_table(suff_or_comp, ratio, include_feature_name=True):
         ABS_Diag_ZEROOUT_attention = 0
         ABS_Diag_NOISE_attention = 0
 
-        bad = []
+    
         for i, data_id in enumerate(data_id_list):
 
 
             top_random_suff_score = TOPk_scores.get(data_id).get('random').get(f'{suff_or_comp} @ {str(ratio)}')#.get('mean')
-           
-            NOISE_random_suff_score = NOISE_scores.get(data_id).get('random').get(f'{suff_or_comp} @ {str(ratio)}')
-            ZEROOUT_random_suff_score = ZEROOUT_scores.get(data_id).get('random').get(f'{suff_or_comp} @ {str(ratio)}')
-            ATTENTION_random_suff_score = ATTENTION_scores.get(data_id).get('random').get(f'{suff_or_comp} @ {str(ratio)}')
-
-
+            ZEROOUT_random_suff_score = ZEROOUT_scores.get(data_id).get('random').get(f'{suff_or_comp} @ 1.0')
 
             top_suff_score = TOPk_scores.get(data_id).get(FA).get(f'{suff_or_comp} @ {str(ratio)}')
-
-            try:    
-                if top_suff_score >= top_random_suff_score: 
-                    Diag_TOP_attention += 1
-                    #ABS_Diag_TOP_attention += top_suff_score-top_random_suff_score
-                else: pass
-            except: 
-                print('top_suff_score', data_id, top_suff_score)
-                bad.append(data_id)
+            if top_suff_score >= top_random_suff_score + 0.000001 : 
+                Diag_TOP_attention += 1
+                #ABS_Diag_TOP_attention += top_suff_score-top_random_suff_score
+            else: pass
 
 
-            NOISE_suff_score = NOISE_scores.get(data_id).get(FA).get(f'{suff_or_comp} @ {str(ratio)}')
+            ZEROOUT_suff_score = ZEROOUT_scores.get(data_id).get(FA).get(f'{suff_or_comp} @ 1.0')
             
-            if NOISE_suff_score >= NOISE_random_suff_score: 
+            if ZEROOUT_suff_score >= ZEROOUT_random_suff_score + 0.000001: 
                 Diag_NOISE_attention += 1
                 #ABS_Diag_NOISE_attention += NOISE_suff_score-NOISE_random_suff_score
             else: pass
 
-
-            ZEROOUT_suff_score = ZEROOUT_scores.get(data_id).get(FA).get(f'{suff_or_comp} @ {str(ratio)}')
-
-            if ZEROOUT_suff_score >= ZEROOUT_random_suff_score: 
-                Diag_ZEROOUT_attention += 1
-            #ABS_Diag_ZEROOUT_attention += ZEROOUT_suff_score-ZEROOUT_random_suff_score
-            else: pass
-
-
-            ATTENTION_suff_score = ATTENTION_scores.get(data_id).get(FA).get(f'{suff_or_comp} @ {str(ratio)}')
-
-            if ATTENTION_suff_score >= ATTENTION_random_suff_score: 
-                Diag_ATTENTION_attention += 1
-                #ABS_Diag_ATTENTION_attention += ATTENTION_suff_score-ATTENTION_random_suff_score
-            else: pass
-
-
-            
-
-            try: ABS_Diag_TOP_attention += top_suff_score-top_random_suff_score
-            except: bad.append(data_id)
-            # try: ABS_Diag_NOISE_attention += NOISE_suff_score-NOISE_random_suff_score
-            # except: print('-----------------ABS----------', data_id)
-            # try: ABS_Diag_ZEROOUT_attention += ZEROOUT_suff_score-ZEROOUT_random_suff_score
-            # except: print('-----------------ABS----------', data_id)
-            # try: ABS_Diag_ATTENTION_attention += ATTENTION_suff_score-ATTENTION_random_suff_score
-            # except: print('-----------------ABS----------', data_id)
-
-
-            ABS_Diag_NOISE_attention += NOISE_suff_score-NOISE_random_suff_score
-            ABS_Diag_ZEROOUT_attention += ZEROOUT_suff_score-ZEROOUT_random_suff_score
-            ABS_Diag_ATTENTION_attention += ATTENTION_suff_score-ATTENTION_random_suff_score
+            # ABS_Diag_TOP_attention += top_suff_score-top_random_suff_score
+            # ABS_Diag_NOISE_attention += NOISE_suff_score-NOISE_random_suff_score
+            # ABS_Diag_ZEROOUT_attention += ZEROOUT_suff_score-ZEROOUT_random_suff_score
+            # ABS_Diag_ATTENTION_attention += ATTENTION_suff_score-ATTENTION_random_suff_score
 
 
 
         D_TOP = Diag_TOP_attention/len(data_id_list)
         D_TOP_Suff.append(D_TOP)
 
-        D_ATTENTION = Diag_ATTENTION_attention/len(data_id_list)
-        D_ATTENTION_Suff.append(D_ATTENTION)
-
         D_ZEROOUT = Diag_ZEROOUT_attention/len(data_id_list)
         D_ZEROOUT_Suff.append(D_ZEROOUT)
-
-        D_NOISE= Diag_NOISE_attention/len(data_id_list)
-        D_NOISE_Suff.append(D_NOISE)
 
 
 
         ABS_D_TOP = ABS_Diag_TOP_attention/len(data_id_list)
         ABS_D_TOP_Suff.append(ABS_D_TOP)
 
-        ABS_D_ATTENTION = ABS_Diag_ATTENTION_attention/len(data_id_list)
-        ABS_D_ATTENTION_Suff.append(ABS_D_ATTENTION)
-
         ABS_D_ZEROOUT = ABS_Diag_ZEROOUT_attention/len(data_id_list)
         ABS_D_ZEROOUT_Suff.append(ABS_D_ZEROOUT)
-
-        ABS_D_NOISE= ABS_Diag_NOISE_attention/len(data_id_list)
-        ABS_D_NOISE_Suff.append(ABS_D_NOISE)
 
 
     if include_feature_name == True:
@@ -213,6 +160,33 @@ for ratio in rationale_ratios:
         print(' ------------------- ')
         print(F'DONE {suff_or_comp} @ {str(ratio)}')
         print(' ------------------- ')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
