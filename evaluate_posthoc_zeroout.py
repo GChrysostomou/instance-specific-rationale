@@ -30,7 +30,7 @@ parser.add_argument(
     "--dataset", 
     type = str, 
     help = "select dataset / task", 
-    default = "agnews",
+    default = "multirc",
     # choices = ["multirc", "agnews", "sst", "evinf",
 )
 
@@ -76,7 +76,7 @@ parser.add_argument(
     "--normalise", 
     type = int, 
     help = "decide how to normalise importance scores", 
-    default = 7, 
+    default = 1, 
 )
 
 parser.add_argument(
