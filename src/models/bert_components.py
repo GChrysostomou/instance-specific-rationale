@@ -129,11 +129,6 @@ class BertModelWrapper_zeroout(nn.Module):
             position_ids = None, 
             token_type_ids = token_type_ids,
             )
-        print(' ')
-        print(' -----  input_ids  -------  ')
-        print(input_ids.shape)
-        print(' embeddings DONE')
-        print(embeddings.shape)
 
 
         if type(ig) == int or type(ig) == float:

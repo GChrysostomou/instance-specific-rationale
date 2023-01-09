@@ -65,7 +65,7 @@ class BERT_HOLDER():
         # load the pretrained tokenizer
         pretrained_weights = args.model
         
-        self.tokenizer = AutoTokenizer.from_pretrained(pretrained_weights) # by cass ood time dataholders.py (, local_files_only=True)
+        self.tokenizer = AutoTokenizer.from_pretrained(pretrained_weights, local_files_only=False) # by cass ood time dataholders.py (, local_files_only=True)
         self.nu_of_labels = len(np.unique([x["label"] for x in train]))
         #print('self.nu_of_labels  ', self.nu_of_labels)
 

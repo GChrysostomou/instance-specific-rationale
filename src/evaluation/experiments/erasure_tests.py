@@ -812,33 +812,40 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk, norma
 
 
 
-                    soft_comp, soft_comp_probs  = normalized_comprehensiveness_soft_(
-                        model2 = model, 
-                        original_sentences = original_sentences, 
-                        #rationale_mask = rationale_mask, 
-                        inputs = batch, 
-                        full_text_probs = full_text_probs, 
-                        full_text_class = full_text_class, 
-                        rows = rows,
-                        suff_y_zero = suff_y_zero,
-                        importance_scores = feat_score, # original
-                        use_topk=False,
-                        normalise=normalise,
-                    )
-                    soft_suff, soft_suff_probs = normalized_sufficiency_soft_(
-                        model = model, 
-                        original_sentences = original_sentences, 
-                        #rationale_mask = rationale_mask, 
-                        inputs = batch, 
-                        full_text_probs = full_text_probs, 
-                        full_text_class = full_text_class, 
-                        rows = rows,
-                        suff_y_zero = suff_y_zero,
-                        importance_scores = feat_score,
-                        use_topk=False,
-                        only_query_mask=only_query_mask,
-                        normalise=normalise,
-                    )
+                    if normalise == 5:
+                    
+                        soft_comp, soft_comp_probs  = normalized_comprehensiveness_soft_(
+                            model2 = model, 
+                            original_sentences = original_sentences, 
+                            #rationale_mask = rationale_mask, 
+                            inputs = batch, 
+                            full_text_probs = full_text_probs, 
+                            full_text_class = full_text_class, 
+                            rows = rows,
+                            suff_y_zero = suff_y_zero,
+                            importance_scores = feat_score,
+                            use_topk=True,
+                            normalise=normalise,
+                        )
+                        soft_suff = soft_comp
+                        soft_suff_probs = soft_comp_probs
+                    else: 
+                        soft_suff, soft_suff_probs = normalized_sufficiency_soft_(
+                            model2 = model, 
+                            original_sentences = original_sentences, 
+                            #rationale_mask = rationale_mask, 
+                            inputs = batch, 
+                            full_text_probs = full_text_probs, 
+                            full_text_class = full_text_class, 
+                            rows = rows,
+                            suff_y_zero = suff_y_zero,
+                            importance_scores = feat_score,
+                            use_topk=True,
+                            only_query_mask=only_query_mask,
+                            normalise=normalise,
+                        )
+                        soft_comp = soft_suff
+                        soft_comp_probs = soft_suff_probs
 
                     # quit()
 
@@ -862,40 +869,40 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk, norma
                     #         special_tokens = batch["special_tokens"],
                     #     )
 
-                    if normalise == 5:
+                    # if normalise == 5:
                     
-                        soft_comp, soft_comp_probs  = normalized_comprehensiveness_soft_(
-                            model = model, 
-                            original_sentences = original_sentences, 
-                            #rationale_mask = rationale_mask, 
-                            inputs = batch, 
-                            full_text_probs = full_text_probs, 
-                            full_text_class = full_text_class, 
-                            rows = rows,
-                            suff_y_zero = suff_y_zero,
-                            importance_scores = feat_score,
-                            use_topk=True,
-                            normalise=normalise,
-                        )
-                        soft_suff = soft_comp
-                        soft_suff_probs = soft_comp_probs
-                    else: 
-                        soft_suff, soft_suff_probs = normalized_sufficiency_soft_(
-                            model = model, 
-                            original_sentences = original_sentences, 
-                            #rationale_mask = rationale_mask, 
-                            inputs = batch, 
-                            full_text_probs = full_text_probs, 
-                            full_text_class = full_text_class, 
-                            rows = rows,
-                            suff_y_zero = suff_y_zero,
-                            importance_scores = feat_score,
-                            use_topk=True,
-                            only_query_mask=only_query_mask,
-                            normalise=normalise,
-                        )
-                        soft_comp = soft_suff
-                        soft_comp_probs = soft_suff_probs
+                    #     soft_comp, soft_comp_probs  = normalized_comprehensiveness_soft_(
+                    #         model = model, 
+                    #         original_sentences = original_sentences, 
+                    #         #rationale_mask = rationale_mask, 
+                    #         inputs = batch, 
+                    #         full_text_probs = full_text_probs, 
+                    #         full_text_class = full_text_class, 
+                    #         rows = rows,
+                    #         suff_y_zero = suff_y_zero,
+                    #         importance_scores = feat_score,
+                    #         use_topk=True,
+                    #         normalise=normalise,
+                    #     )
+                    #     soft_suff = soft_comp
+                    #     soft_suff_probs = soft_comp_probs
+                    # else: 
+                    #     soft_suff, soft_suff_probs = normalized_sufficiency_soft_(
+                    #         model = model, 
+                    #         original_sentences = original_sentences, 
+                    #         #rationale_mask = rationale_mask, 
+                    #         inputs = batch, 
+                    #         full_text_probs = full_text_probs, 
+                    #         full_text_class = full_text_class, 
+                    #         rows = rows,
+                    #         suff_y_zero = suff_y_zero,
+                    #         importance_scores = feat_score,
+                    #         use_topk=True,
+                    #         only_query_mask=only_query_mask,
+                    #         normalise=normalise,
+                    #     )
+                    #     soft_comp = soft_suff
+                    #     soft_comp_probs = soft_suff_probs
 
 
 
