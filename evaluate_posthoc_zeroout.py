@@ -30,7 +30,7 @@ parser.add_argument(
     "--dataset", 
     type = str, 
     help = "select dataset / task", 
-    default = "multirc",
+    default = "agnews",
     # choices = ["multirc", "agnews", "sst", "evinf",
 )
 
@@ -160,7 +160,7 @@ print(model_path)
 data = BERT_HOLDER(
     args["data_dir"], 
     stage = "eval",
-    b_size = 8,
+    b_size = 2,
     #b_size = args["batch_size"], # TO FIX CUDA OUT OF MEMORY, MAY NOT WORK
 )
 
@@ -168,7 +168,7 @@ evaluator = evaluation_pipeline.evaluate_zeroout(
     model_path = args["model_dir"], 
     output_dims = data.nu_of_labels,
     use_topk = args["use_topk"],
-    normalise = args["normalise"],
+    normalise = 1,
 )
 
 # will generate
@@ -176,6 +176,21 @@ logging.info("*********conducting in-domain flip experiments")
 print('"*********conducting flip experiments on in-domain"')
 evaluator.faithfulness_experiments_(data)
 print('"********* DONE flip experiments on in-domain"')
+
+
+evaluator = evaluation_pipeline.evaluate_zeroout(
+    model_path = args["model_dir"], 
+    output_dims = data.nu_of_labels,
+    use_topk = args["use_topk"],
+    normalise = 5,
+)
+
+# will generate
+logging.info("*********conducting in-domain flip experiments")
+print('"*********conducting flip experiments on in-domain"')
+evaluator.faithfulness_experiments_(data)
+print('"********* DONE flip experiments on in-domain"')
+
 
 del data
 del evaluator

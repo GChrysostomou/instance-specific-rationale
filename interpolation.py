@@ -86,7 +86,7 @@ parser.add_argument(
     "--FA_name",   
     type = str, 
     help = "directory to save models", 
-    default="attention" 
+    default="gradients" 
     #[random 'attention', "scaled attention", "gradients", "ig", "deeplift"]
 )
 
@@ -324,7 +324,7 @@ else:
 df = pd.DataFrame(list(zip(set, F_comp, F_comp2, comp_list, comp_list2)), 
                         columns = ['Set', 'F-Comp', 'F-SoftComp', 'Comprehensiveness', 'Soft-Comprehensiveness'])
 
-df.to_csv(f'./interpolation/{args["dataset"]}/fixed6/{args["dataset"]}_{FA_name}.csv')
+df.to_csv(f'./interpolation/{args["dataset"]}/fixed6/{args["dataset"]}_{FA_name}_full.csv')
 
 
 
@@ -344,9 +344,14 @@ fig, ax = plt.subplots(figsize=(figsize1, figsize2)) # gradients 3
 ax.plot(SET, comp, color="gray", label='Comp')
 ax.plot(SET, soft, color="red", label='Soft-Comp')
 
-ax.set_xlabel('Replaced tokens')
-ax.set_ylabel('f(i) = |M(So)-M(Si)| / |M(So)-M(S6)|')
-ax.set_title(str(FA_name).capitalize(), fontsize=18)
+if FA_name=='random':
+    ax.set_xlabel('Replaced tokens')
+    ax.set_ylabel('f(i) = |M(So)-M(Si)| / |M(So)-M(S6)|')
+    ax.set_title(str(FA_name).capitalize(), fontsize=18)
+else:
+    # ax.set_xlabel('Replaced tokens')
+    # ax.set_ylabel('f(i) = |M(So)-M(Si)| / |M(So)-M(S6)|')
+    ax.set_title(str(FA_name).capitalize(), fontsize=20)
 
 ax.legend()
 import matplotlib
@@ -356,4 +361,4 @@ fig.set_size_inches(figsize1+0.5, figsize2+0.5)
 # plt.gcf().subplots_adjust(left=0.25)
 # plt.gcf().subplots_adjust(right=-0.05)
 plt.show()
-fig.savefig(f'./interpolation/sst/fixed{fix_size}/{FA_name}_sample{sample_size}_plot.png')
+fig.savefig(f'./interpolation/sst/fixed{fix_size}/{FA_name}_fullsample_plot.png')
