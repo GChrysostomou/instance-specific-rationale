@@ -1,3 +1,4 @@
+*.pt
 graphs_and_tables/
 results/
 *.ipynb
