@@ -163,7 +163,7 @@ def normalized_sufficiency_(model,
 
 def normal_importance(importance_scores, normalise):
     #importance_scores[importance_scores==float('-inf')] = -999  # remove -inf, if version higher than 1.11.0, go for torch.clip
-
+    #print("==>> importance_scores[:,0].shape: ", importance_scores)
     if normalise == 1:
         importance_scores = torch.sigmoid(importance_scores) # 偏大, hover 0.5 SUFF works
     elif normalise == 2:
@@ -197,6 +197,10 @@ def normal_importance(importance_scores, normalise):
         importance_scores = (importance_scores - importance_scores_min) / (importance_scores_max-importance_scores_min)
         importance_scores = torch.sigmoid(importance_scores)
     else:pass
+    #print("==>> importance_scores[:,0].shape: ", importance_scores)
+    #importance_scores[:,0]=1
+    #print("==>> importance_scores[:,0].shape: ", importance_scores)
+    #
 
     return importance_scores
 

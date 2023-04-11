@@ -1,0 +1,4 @@
+,text,importance,FA
+0,unconscious,tensor(1.),gradients
+1,hard,tensor(0.1071),gradients
+2,to,tensor(0.),gradients

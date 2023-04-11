@@ -8,7 +8,7 @@ Install necessary packages by using the files  [conda_reqs.txt](https://github.c
 conda create --name flexi --file  conda_reqs.txt
 conda activate flexi
 pip install -r pip_reqs.txt
-python -m spacy download en
+python -m spacy download en_core_web_sm
 ```
 
 ## Downloading Task Data

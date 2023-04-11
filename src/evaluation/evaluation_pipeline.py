@@ -19,7 +19,7 @@ from src.models.bert import BertClassifier_noise, BertClassifier_zeroout, bert, 
 from src.variable_rationales.var_length_feat import get_rationale_metadata_
 #from src.variable_rationales.var_type import select_between_types_
 from src.evaluation.experiments.rationale_extractor import rationale_creator_, rationale_creator_interpolation_, extract_importance_, extract_lime_scores_, extract_shap_values_
-from src.evaluation.experiments.erasure_tests import conduct_tests_, conduct_experiments_noise_, conduct_experiments_zeroout_, conduct_experiments_attention_ #, conduct_experiments_attention_2
+from src.evaluation.experiments.erasure_tests import conduct_tests_2, conduct_tests_, conduct_experiments_noise_, conduct_experiments_zeroout_, conduct_experiments_attention_ #, conduct_experiments_attention_2
 from src.evaluation.experiments.increasing_feature_scoring import compute_faithfulness_
 import re
 
@@ -61,15 +61,15 @@ class evaluate():
                     model_random_seed = self.model_random_seed
                 )
 
-            # extract_lime_scores_(
-            #     model = model, 
-            #     data = data,
-            #     data_split_name = data_split_name,
-            #     model_random_seed = self.model_random_seed,
-            #     no_of_labels = no_of_labels,
-            #     max_seq_len = max_seq_len,
-            #     tokenizer = tokenizer,
-            # )
+            extract_lime_scores_(
+                model = model, 
+                data = data,
+                data_split_name = data_split_name,
+                model_random_seed = self.model_random_seed,
+                no_of_labels = self.output_dims,
+                max_seq_len = max_seq_len,
+                tokenizer = tokenizer,
+            )
 
             extract_shap_values_(
                 model = model, 
@@ -107,25 +107,25 @@ class evaluate():
                     model_random_seed = self.model_random_seed
                 )
 
-                # extract_lime_scores_(
-                #     model = model, 
-                #     data = data,
-                #     data_split_name = data_split_name,
-                #     model_random_seed = self.model_random_seed,
-                #     no_of_labels = data.nu_of_labels,
-                #     max_seq_len = data.max_len,
-                #     tokenizer = data.tokenizer,
-                # )
+                extract_lime_scores_(
+                    model = model, 
+                    data = data,
+                    data_split_name = data_split_name,
+                    model_random_seed = self.model_random_seed,
+                    no_of_labels = data.nu_of_labels,
+                    max_seq_len = data.max_len,
+                    tokenizer = data.tokenizer,
+                )
 
-                # extract_shap_values_(
-                #     model = model, 
-                #     data = data,
-                #     data_split_name = data_split_name,
-                #     model_random_seed = self.model_random_seed,
-                #     #no_of_labels = data.nu_of_labels,
-                #     #max_seq_len = data.max_len,
-                #     #tokenizer = data.tokenizer
-                # )
+                extract_shap_values_(
+                    model = model, 
+                    data = data,
+                    data_split_name = data_split_name,
+                    model_random_seed = self.model_random_seed,
+                    #no_of_labels = data.nu_of_labels,
+                    #max_seq_len = data.max_len,
+                    #tokenizer = data.tokenizer
+                )
 
         return
 
@@ -197,7 +197,7 @@ class evaluate():
         return
 
 
-    def create_rationales_interpolation(self, data, fixed_rationale_len):
+    def create_rationales_interpolation(self, data):
 
         
         for data_split_name, data_split in data.as_dataframes_().items():
@@ -206,8 +206,7 @@ class evaluate():
                     data = data_split,
                     data_split_name = data_split_name,
                     tokenizer = data.tokenizer,
-                    model_random_seed = 25,
-                    fixed_rationale_len = fixed_rationale_len,
+                    model_random_seed = self.model_random_seed
                     )
 
         return
@@ -258,6 +257,56 @@ class evaluate():
                 )
 
         return
+
+
+    def faithfulness_experiments_2(self, data):
+        
+        for model_name in self.models:
+            
+            ## check first if necessary data exists
+            fname = os.path.join(
+                os.getcwd(),
+                args["extracted_rationale_dir"],
+                args["thresholder"],
+                "test-rationale_metadata.npy"
+            )
+
+            if os.path.isfile(fname) == False:
+
+                raise OSError(f"rationale metadata file does not exist at {fname} // rerun extract_rationales.py") from None
+          
+            model = bert(
+                output_dim = self.output_dims
+            )
+
+            logging.info(f" *** loading model - {model_name}")
+
+            model.load_state_dict(torch.load(model_name, map_location=device))
+
+            model.to(device)
+
+            logging.info(f" *** succesfully loaded model - {model_name}")
+
+            model_random_seed = re.sub("bert", "", model_name.split(".pt")[0].split("/")[-1])
+
+
+            ## train neglected as we are evaluating on dev and test
+            for data_split_name, data_split in {"test":  data.test_loader,
+                                                #"dev":  data.dev_loader,
+                                                #"train":  data.train_loader
+                                                }.items():
+
+                conduct_tests_2(
+                    model = model, 
+                    data = data_split,
+                    model_random_seed = model_random_seed,
+                    # split = data_split_name
+                )
+
+        return
+
+
+
 
     
     def faithfulness_experiments_interpolation_(self, data):
