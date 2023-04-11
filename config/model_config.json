@@ -29,6 +29,6 @@
         "batch_size": 8,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
-        "model" : "bert-base-uncased"
+        "model" : "bert-base-multilingual-uncased"
     }
 }
