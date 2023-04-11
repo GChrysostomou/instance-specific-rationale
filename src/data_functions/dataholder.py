@@ -87,7 +87,7 @@ class BERT_HOLDER():
         # IF TESTING LOCALLY
         #test = test[111:122] + test[222:233] + test[333:344] + test[444:455] + test[555:566] + test[-20:]
         if "multirc" in path:
-            LEN = int(len(test)/20)
+            LEN = int(len(test)/50)
             test = test[:LEN] + test[LEN*4:LEN*5] + test[LEN*8:LEN*9] + test[LEN*12:LEN*13] + test[LEN*18:LEN*19]
 
 
@@ -208,7 +208,7 @@ class BERT_HOLDER_interpolation():
         if fix == 6:
             fixed7 = fixed7[fixed7["text"].str.contains("[CLS]")==False]
             fixed7 = fixed7[fixed7["text"].str.contains("[SEP]")==False]
-            fixed7 = fixed7.sample(sample_size) #####################################################################################  TEST ###############
+            #fixed7 = fixed7.sample(sample_size) #####################################################################################  TEST ###############
             fixed7.to_csv(f"./interpolation/sst/fixed{fix}/{FA_name}-sample{sample_size}-AnalysisSamples.csv")
             ids = fixed7["annotation_id"]
             fixed5 = fixed5.loc[fixed5['annotation_id'].isin(ids)]
@@ -217,7 +217,7 @@ class BERT_HOLDER_interpolation():
         if fix == 4:
             fixed5 = fixed5[fixed5["text"].str.contains("[CLS]")==False]
             fixed5 = fixed5[fixed5["text"].str.contains("[SEP]")==False]
-            fixed5 = fixed5.sample(sample_size)
+            #fixed5 = fixed5.sample(sample_size)
             fixed5.to_csv(f"./interpolation/sst/fixed{fix}/{FA_name}-sample{sample_size}-AnalysisSamples.csv")
             ids = fixed5["annotation_id"]
 

@@ -523,10 +523,11 @@ def rationale_creator_(data, data_split_name, tokenizer, model_random_seed):
     ## filter only relevant parts in our dataset
 
     if "exp_split" not in data.columns:
+        print(' --> equriy')
 
-        data = data.rename(columns = {"split" : "exp_split"})
+        data = data.rename(columns = {"exp_split" :"split" })
 
-    data = data[["input_ids", "annotation_id", "exp_split", "label", "label_id"]]
+    data = data[["input_ids", "annotation_id", "label"]] #, "label_id"  "exp_split", 
 
     annotation_text = dict(data[["annotation_id", "input_ids"]].values)
 
@@ -534,8 +535,8 @@ def rationale_creator_(data, data_split_name, tokenizer, model_random_seed):
 
     desired_rationale_length = args.rationale_length
 
-    ## time to register rationales
-    for feature_attribution in {"attention", "scaled attention", "gradients", "ig", "deeplift"}: #, "lime", "deeplift"
+    ## time to register rationales 
+    for feature_attribution in {"lime"}: #, "lime", "deeplift" #"random", "attention", "scaled attention", "gradients", "ig", "deeplift",  
         
         temp_registry = {}
 
@@ -630,7 +631,8 @@ def rationale_creator_(data, data_split_name, tokenizer, model_random_seed):
     return
 
 
-def rationale_creator_interpolation_(data, data_split_name, tokenizer, model_random_seed, fixed_rationale_len):
+
+def rationale_creator_interpolation_(data, data_split_name, tokenizer, model_random_seed):
     if data_split_name == "train": return
     if data_split_name == "dev": return
 
@@ -645,6 +647,8 @@ def rationale_creator_interpolation_(data, data_split_name, tokenizer, model_ran
         "importance_scores",
         ""
     )
+
+
 
     fname = f"{fname}{data_split_name}_importance_scores_{model_random_seed}.npy"
     ## retrieve importance scores
@@ -662,27 +666,31 @@ def rationale_creator_interpolation_(data, data_split_name, tokenizer, model_ran
     ## filter only relevant parts in our dataset
 
     if "exp_split" not in data.columns:
+        print(' --> equriy')
 
-        data = data.rename(columns = {"split" : "exp_split"})
+        data = data.rename(columns = {"exp_split" :"split" })
 
-    data = data[["input_ids", "annotation_id", "exp_split", "label", "label_id"]]
+    data = data[["input_ids", "annotation_id", "label"]] #, "label_id"  "exp_split", 
+
+    data = data.loc[data["annotation_id"]=="3333807_3"] # evinf: 3333807_3 agnews: test_369
+    print(data)
 
     annotation_text = dict(data[["annotation_id", "input_ids"]].values)
 
     del data["input_ids"]
 
-    # desired_rationale_length = args.rationale_length  # modified by cass
-    desired_rationale_length = fixed_rationale_len
+    desired_rationale_length = args.rationale_length
 
-    ## time to register rationales
-    for feature_attribution in {"random", "attention", "gradients", "ig", "scaled attention", "deeplift"}: #, "lime"
-        
+    ## time to register rationales 
+    for feature_attribution in { "random","deeplift", "gradients", "ig"}: #,  "deeplift", "attention", "scaled attention",  "lime", "deeplift" #"random", "attention", "scaled attention", "gradients", "ig", "deeplift",  
+        print('  ---- ', feature_attribution)
+        if feature_attribution != 'deeplift':
+            continue
+        print('  ---- ', feature_attribution)
         temp_registry = {}
 
-        importance_scores_to_append = []
-
         for annotation_id, sequence_text in annotation_text.items():
-            
+
 
             temp_registry[annotation_id] = {}
 
@@ -714,17 +722,36 @@ def rationale_creator_interpolation_(data, data_split_name, tokenizer, model_ran
                 weights = sequence_importance
             )
 
-            rationale_indxs, rationale_important_scores = thresholder(
+            rationale_indxs = thresholder(
                 scores = sequence_importance, 
                 original_length = len(sequence_text) -2,
                 rationale_length = desired_rationale_length
             )
-            importance_scores_to_append.append(rationale_important_scores)
+            
+            impo = torch.sigmoid(torch.tensor(sequence_importance[rationale_indxs])) #.item()
+            print("==>> impo.shape: ", impo)
+            importance_scores_min = impo.min(0, keepdim=True)[0]
+            importance_scores_max = impo.max(0, keepdim=True)[0]
+            impo = (impo - importance_scores_min) / (importance_scores_max-importance_scores_min)
+
+
+
+
+            print('====== sequence_importance>', impo)
+            print('====== sequence_text >', sequence_text[rationale_indxs])
+            print('====== original text >', sequence_text)
+            df = pd.DataFrame(list(zip(sequence_text[rationale_indxs], list(impo))),
+                            columns =['text', 'importance'])
+            df['FA'] = feature_attribution
+            dataset = args["dataset"]
+            df.to_csv(f'./qual/{dataset}_{feature_attribution}.csv')
+            quit()
+
             rationale = sequence_text[rationale_indxs]
 
             temp_registry[annotation_id]["rationale"] = " ".join(rationale)
-            temp_registry[annotation_id]["importance_scores"] = rationale_important_scores
             temp_registry[annotation_id]["full text doc"] = full_doc
+            temp_registry[annotation_id]["rationale_importance"] = sequence_importance[rationale_indxs]
 
 
             if args.query: 
@@ -734,31 +761,44 @@ def rationale_creator_interpolation_(data, data_split_name, tokenizer, model_ran
         if args.query:
             
             data["document"] = data.annotation_id.apply(lambda x : temp_registry[x]["rationale"])
-            data["query"] = data.annotation_id.apply(lambda x : temp_registry[x]["query"])
+            
 
         else:
 
             data["text"] = data.annotation_id.apply(lambda x : temp_registry[x]["rationale"])
 
         data["full text doc"] = data.annotation_id.apply(lambda x : temp_registry[x]["full text doc"])
-        #data["importance_scores"] = data.annotation_id.apply(lambda x : temp_registry[x]["importance_scores"])
+        #data["full text doc"] = data.annotation_id.apply(lambda x : temp_registry[x]["full text doc"])
+        print()
+        data["rationale_importance"] = data.annotation_id.apply(lambda x : temp_registry[x]["rationale_importance"])
 
 
-        
-        
-        data["importance_scores"] = importance_scores_to_append 
-        folder = os.path.join(os.getcwd(),
-                                args["extracted_rationale_dir"],
-                                "data",
-                                args["thresholder"] + str(fixed_rationale_len))
 
-        os.makedirs(folder, exist_ok=True)
-        
-        fname_csv = os.path.join(folder, feature_attribution + "-" + data_split_name + ".csv")
-        #data = data['CLS' not in data.text]
+        fname = os.path.join(
+            os.getcwd(),
+            args["extracted_rationale_dir"],
+            "data",
+            args["thresholder"],
+            feature_attribution + "-" + data_split_name + "_with_importance.json"
+        )
+
+        fname_csv = os.path.join(
+            os.getcwd(),
+            args["extracted_rationale_dir"],
+            "data",
+            args["thresholder"],
+            feature_attribution + "-" + data_split_name + "_with_importance.csv"
+        )
         data.to_csv(fname_csv)
-        
 
+        print(f"saved in -> {fname}")
+
+        with open(fname, "w") as file: 
+            json.dump(
+                data.to_dict("records"), 
+                file,
+                indent = 4
+            )
 
     return
 

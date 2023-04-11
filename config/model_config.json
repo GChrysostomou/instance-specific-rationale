@@ -1,5 +1,6 @@
 {   "epochs" : 3,
     "model_abbreviation" :      {"bert-base-uncased": "bert", 
+                                "bert-base-multilingual-uncased": "mbert",
                                  "allenai/scibert_scivocab_uncased": "scibert",
                                  "roberta-base": "roberta"},
      "evinf" : {
@@ -14,7 +15,7 @@
         "batch_size": 8,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
-        "model" : "bert-base-uncased"
+        "model" : "bert-base-multilingual-uncased"
     },
     "multirc" : {
         "rationale_length" : 0.2,
