@@ -19,7 +19,7 @@ parser.add_argument(
     "--dataset", 
     type = str, 
     help = "select dataset / task", 
-    default = "agnews", 
+    default = "sst", 
     #choices = ["sst", "evinf", "agnews", "multirc", "evinf_FA"]
 )
 
@@ -34,14 +34,14 @@ parser.add_argument(
     "--model_dir",   
     type = str, 
     help = "directory to save models", 
-    default = "trained_models/"
+    default = "multilingual_trained_models/"
 )
 
 parser.add_argument(
     "--seed",   
     type = int, 
     help = "random seed for experiment",
-    default = 5
+    default = 10
 )
 
 parser.add_argument(
