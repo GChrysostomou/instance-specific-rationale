@@ -1,4 +1,5 @@
 *.pt
+*spaCy/
 graphs_and_tables/
 results/
 *.ipynb
@@ -44,7 +45,7 @@ datasets/*.zip*
 extracted_rationales/*
 *npy
 faithfulness_metrics/*
-
+run_local.sh
 
 ./faithfulness_metrics/agnews_conti/topk-test-faithfulness-metrics.json
 ./faithfulness_metrics/agnews_conti/contigious-test-faithfulness-metrics.json
@@ -115,3 +116,5 @@ faithfulness_metrics/*
 ./extracted_rationales/agnews/topk/test-rationale_metadata.npy
 ./extracted_rationales/agnews/topk/dev-rationale_metadata.npy
 ./faithfulness_metrics/agnews/topk-dev-faithfulness-metrics.json
+./multilingual_trained_models/evinf/mbert10.pt
+./spaCy/.git/objects/pack/pack-700a24b7fa7859e852424f9002cb1ce70fc49ff8.pack
