@@ -35,6 +35,7 @@ def prepare_config(user_args : dict, stage : str = "train") -> dict:
   ## activated when training on rationales
   if "model_dir" not in user_args: model_dir = user_args["rationale_model_dir"]
   else: model_dir = user_args["model_dir"]
+  print('model_dir -->', model_dir)
 
   model_dir = os.path.join(
     os.getcwd(), 
@@ -117,6 +118,10 @@ def prepare_config(user_args : dict, stage : str = "train") -> dict:
             "query": query
   })
 
+  if user_args["model"] != None: comb_args.update({"model":str(user_args['multi_model_name'])})
+  if user_args["multi_model"] != None: comb_args.update({"model":str(user_args['multi_model_name'])})
+  if user_args["model_abbreviation"] != None: comb_args.update({"model":str(user_args['model_abbreviation'])})
+
   # if "extract_double" not in user_args: user_args["extract_double"] = None
 
   # if user_args["extract_double"]:
@@ -126,6 +131,8 @@ def prepare_config(user_args : dict, stage : str = "train") -> dict:
   #### saving config file for this run
   with open(config.cfg.config_directory + 'instance_config.json', 'w') as file:
       file.write(json.dumps(comb_args,  indent=4, sort_keys=True))
+
+  print(comb_args)
 
   return comb_args
 

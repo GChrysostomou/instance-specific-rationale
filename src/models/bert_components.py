@@ -1,9 +1,10 @@
 from cmath import inf
 from numpy import std
+import numpy
 import torch
 import torch.nn as nn
 import json
-
+#from transformers import BertPooler
 
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
@@ -53,6 +54,96 @@ def bert_embeddings(bert_model,
 
     return embeddings, embed
 
+def m2m_embeddings(bert_model, 
+                    input_ids, 
+                    position_ids = None, 
+                    token_type_ids = None):
+
+    """
+    forward pass for the bert embeddings
+    """
+
+    if input_ids is not None: input_shape = input_ids.size()
+
+    seq_length = input_shape[1]
+
+    if position_ids is None:
+
+        position_ids = torch.arange(512).expand((1, -1)).to(device)
+        position_ids = position_ids[:, :seq_length]
+
+    if token_type_ids is None:
+    
+        token_type_ids = torch.zeros(input_shape, dtype=torch.long, device=position_ids.device)  # +0.0000000001 by cass dabug
+
+    # embed = bert_model.get_input_embeddings(input_ids.to(device))
+    embed = bert_model.get_input_embeddings()
+    position_embeddings = bert_model.embeddings.position_embeddings(position_ids)
+    token_type_embeddings = bert_model.embeddings.token_type_embeddings(token_type_ids)
+
+    embeddings = embed + position_embeddings + token_type_embeddings
+    embeddings = bert_model.embeddings.LayerNorm(embeddings)
+    embeddings = bert_model.embeddings.dropout(embeddings)
+
+    return embeddings, embed
+
+class multi_BertModelWrapper(nn.Module):
+    
+    def __init__(self, model):
+    
+        super(multi_BertModelWrapper, self).__init__()
+
+        """
+        BERT model wrapper
+        """
+
+        self.model = model
+        self.dense = nn.Linear(self.model.config.hidden_size, self.model.config.hidden_size)
+        self.activation = nn.Tanh()
+        
+    def forward(self, input_ids, attention_mask, token_type_ids, ig = int(1)):        
+
+        # embeddings, self.word_embeds = m2m_embeddings(
+        #     self.model, 
+        #     input_ids.long(),
+        #     position_ids = None, 
+        #     token_type_ids = token_type_ids,
+        # )
+
+        # assert ig >= 0. and ig <= int(1), "IG ratio cannot be out of the range 0-1"
+
+        # extended_attention_mask = attention_mask.unsqueeze(1).unsqueeze(2)
+        # extended_attention_mask = extended_attention_mask.to(dtype=next(self.model.parameters()).dtype) # fp16 compatibility
+        # extended_attention_mask = (1 - extended_attention_mask) * -10000.0
+        #head_mask =  [None] * self.model.config.num_hidden_layers
+        # emb_temp = embeddings * ig
+        # encoder_outputs = self.model.encoder(
+        #     attention_mask=extended_attention_mask,
+        #     head_mask=head_mask,
+        #     inputs_embeds = emb_temp,
+        #     output_attentions=self.model.config.output_attentions,
+        #     output_hidden_states=self.model.config.output_attentions,
+        #     return_dict=self.model.config.return_dict
+        # )
+        encoder_outputs = self.model.encoder(
+                input_ids=input_ids,
+                attention_mask=attention_mask,
+                #head_mask=head_mask,
+                #inputs_embeds=inputs_embeds,
+                output_attentions=self.model.config.output_attentions,
+                output_hidden_states=self.model.config.output_attentions,
+                return_dict=self.model.config.return_dict
+            )
+
+        sequence_output = encoder_outputs[0]
+        attentions = encoder_outputs[2]
+
+        first_token_tensor = sequence_output[:, 0]
+        pooled_output = self.dense(first_token_tensor)
+        pooled_output = self.activation(pooled_output)
+        #pooled_output = self.model.pooler(sequence_output) if self.model.pooler is not None else None
+
+        return sequence_output, pooled_output, attentions
 
 class BertModelWrapper(nn.Module):
     
@@ -102,6 +193,8 @@ class BertModelWrapper(nn.Module):
         pooled_output = self.model.pooler(sequence_output) if self.model.pooler is not None else None
 
         return sequence_output, pooled_output, attentions
+
+
 
 # this version normalise
 class BertModelWrapper_zeroout(nn.Module):

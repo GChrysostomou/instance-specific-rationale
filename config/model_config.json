@@ -1,34 +1,40 @@
+
 {   "epochs" : 3,
     "model_abbreviation" :      {"bert-base-uncased": "bert", 
-                                "bert-base-multilingual-uncased": "mbert",
                                  "allenai/scibert_scivocab_uncased": "scibert",
-                                 "roberta-base": "roberta"},
+                                 "roberta-base": "roberta",
+                                 "facebook/m2m100_418M": "m2m"},
      "evinf" : {
         "rationale_length" : 0.1,
         "batch_size": 4,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
-        "model" :  "bert-base-multilingual-uncased"
+        "model" : "allenai/scibert_scivocab_uncased",
+        "multi_model" :"bert-base-multilingual-uncased"
+
     },
     "sst" : {
         "rationale_length" : 0.2,
         "batch_size": 8,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
-        "model" : "bert-base-multilingual-uncased"
+        "model" : "bert-base-uncased",
+        "multi_model" :"bert-base-multilingual-uncased"
     },
     "multirc" : {
         "rationale_length" : 0.2,
         "batch_size": 4,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
-        "model" : "bert-base-multilingual-uncased"
+        "model" : "roberta-base",
+        "multi_model" :"bert-base-multilingual-uncased"
     },
     "agnews" : {
         "rationale_length" : 0.2,
         "batch_size": 8,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
-        "model" : "bert-base-multilingual-uncased"
+        "model" : "bert-base-uncased",
+        "multi_model" :"bert-base-multilingual-uncased"
     }
 }

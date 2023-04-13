@@ -46,7 +46,7 @@ extracted_rationales/*
 *npy
 faithfulness_metrics/*
 run_local.sh
-
+*trained_models/*
 ./faithfulness_metrics/agnews_conti/topk-test-faithfulness-metrics.json
 ./faithfulness_metrics/agnews_conti/contigious-test-faithfulness-metrics.json
 ./faithfulness_metrics/agnews/topk-dev-faithfulness-metrics.json

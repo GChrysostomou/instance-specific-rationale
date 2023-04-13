@@ -64,6 +64,8 @@ class BERT_HOLDER():
 
         # load the pretrained tokenizer
         pretrained_weights = args.model
+        print(' ---------------', pretrained_weights)
+        quit()
         
         self.tokenizer = AutoTokenizer.from_pretrained(pretrained_weights, local_files_only=False) # by cass ood time dataholders.py (, local_files_only=True)
         self.nu_of_labels = len(np.unique([x["label"] for x in train]))
@@ -76,21 +78,11 @@ class BERT_HOLDER():
             test = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["document"], dic["query"]) for dic in test]
 
         else:
-
             train = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["text"]) for dic in train]
             dev = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["text"]) for dic in dev]
             test= [encode_plusplus_(dic, self.tokenizer, max_len,  dic["text"]) for dic in test]
 
         shuffle_during_iter = True
-
-
-        # IF TESTING LOCALLY
-        #test = test[111:122] + test[222:233] + test[333:344] + test[444:455] + test[555:566] + test[-20:]
-        if "multirc" in path:
-            LEN = int(len(test)/50)
-            test = test[:LEN] + test[LEN*4:LEN*5] + test[LEN*8:LEN*9] + test[LEN*12:LEN*13] + test[LEN*18:LEN*19]
-
-
 
         if stage != "train": 
 
