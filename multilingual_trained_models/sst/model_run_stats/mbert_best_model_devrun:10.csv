@@ -1,0 +1,5 @@
+,0,1,accuracy,macro avg,weighted avg,epoch,point,dev_loss,model-name
+precision,0.8413793103448276,0.8581235697940504,0.8497706422018348,0.849751440069439,0.8499050571286062,1,576,3.04997321717236,/jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/multilingual_trained_models/sst/mbert10.pt
+recall,0.8551401869158879,0.8445945945945946,0.8497706422018348,0.8498673907552412,0.8497706422018348,1,576,3.04997321717236,/jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/multilingual_trained_models/sst/mbert10.pt
+f1-score,0.8482039397450754,0.8513053348467652,0.8497706422018348,0.8497546372959203,0.8497830904619907,1,576,3.04997321717236,/jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/multilingual_trained_models/sst/mbert10.pt
+support,428.0,444.0,0.8497706422018348,872.0,872.0,1,576,3.04997321717236,/jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/multilingual_trained_models/sst/mbert10.pt

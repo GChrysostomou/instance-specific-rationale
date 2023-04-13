@@ -118,3 +118,10 @@ run_local.sh
 ./faithfulness_metrics/agnews/topk-dev-faithfulness-metrics.json
 ./multilingual_trained_models/evinf/mbert10.pt
 ./spaCy/.git/objects/pack/pack-700a24b7fa7859e852424f9002cb1ce70fc49ff8.pack
+multilingual_trained_models/multirc/mbert5.pt
+multilingual_trained_models/agnews/mbert5.pt
+multilingual_trained_models/sst/mbert10.pt
+multilingual_trained_models/sst/mbert20.pt
+multilingual_trained_models/sst/mbert25.pt
+multilingual_trained_models/sst/mbert15.pt
+multilingual_trained_models/evinf/mbert5.pt
