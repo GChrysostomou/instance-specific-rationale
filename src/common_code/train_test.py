@@ -179,7 +179,7 @@ def train_model(model, training, development, loss_function, optimiser, seed,
     Trains the model and saves it at required path
     Input: 
         "model" : initialised pytorch model
-        "training" : training dataset
+        "training" : training dataset ---> dataloader
         "development" : development dataset
         "loss_function" : loss function to calculate loss at output
         "optimiser" : pytorch optimiser (Adam)
@@ -207,6 +207,7 @@ def train_model(model, training, development, loss_function, optimiser, seed,
     torch.cuda.manual_seed(int(seed))
 
     checkpoint = checkpoint_holder(save_model_location = save_folder)
+    print(' model is located at: ', save_folder)
 
     total_steps = len(training) * args["epochs"]
     scheduler = get_linear_schedule_with_warmup(

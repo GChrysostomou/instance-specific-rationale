@@ -5,13 +5,18 @@ import torch
 import os 
 import argparse
 import logging
-
-
-
 import datetime
 import gc
+from src.common_code.initialiser import initial_preparations
+import config.cfg
 
 date_time = str(datetime.date.today()) + "_" + ":".join(str(datetime.datetime.now()).split()[1].split(":")[:2])
+abb_dict = {"bert-base-uncased": "bert", 
+            "allenai/scibert_scivocab_uncased": "scibert",
+            "roberta-base": "roberta",
+            "facebook/m2m100_418M": "m2m",
+            "xlm-roberta-base": "xlm",
+            }
 
 parser = argparse.ArgumentParser()
 
@@ -32,6 +37,14 @@ parser.add_argument(
 )
 
 parser.add_argument(
+    "--multi_model_name", 
+    type = str, 
+    help = "if using multilingual model", 
+    default = 'xlm-roberta-base',
+    choices = ['xlm-mlm-100-1280', 'xlm-roberta-base', 'facebook/m2m100_418M'],
+)
+
+parser.add_argument(
     "--model_dir",   
     type = str, 
     help = "directory to save models", 
@@ -46,12 +59,11 @@ parser.add_argument(
 )
 
 
-
 parser.add_argument(
     "--seed",   
     type = int, 
     help = "random seed for experiment",
-    default = 5
+    default = 10
 )
 
 parser.add_argument(
@@ -65,8 +77,13 @@ user_args = vars(parser.parse_args())
 user_args["importance_metric"] = None
 
 
-
-
+if user_args['multi_model_name'] != None:
+    user_args.update({"model":str(user_args['multi_model_name'])})
+    user_args.update({"multi_model":str(user_args['multi_model_name'])})
+    user_args.update({"model_abbreviation":str(abb_dict[user_args['multi_model_name']])})
+if user_args['if_multi'] != True:
+    user_args.update({"model_dir":str('multilingual_'+user_args['model_dir'])})
+print(user_args)
 
 ### used only for data stats
 data_dir_plain = user_args["data_dir"]
@@ -76,12 +93,15 @@ log_dir = "experiment_logs/train_" + user_args["dataset"] + "_seed-" + str(user_
 config_dir = "experiment_config/train_" + user_args["dataset"] + "_seed-" + str(user_args["seed"]) + "_" + date_time + "/"
 
 
+
 os.makedirs(log_dir, exist_ok = True)
 os.makedirs(config_dir, exist_ok = True)
 
-import config.cfg
+
 
 config.cfg.config_directory = config_dir
+args = initial_preparations(user_args, stage = "train")
+
 
 logging.basicConfig(
                     filename= log_dir + "/out.log", 
@@ -91,30 +111,21 @@ logging.basicConfig(
                   )
 
 
-# device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
-if torch.cuda.is_available():
-    device = torch.device("cuda:0")
-    print("running on the GPU")
-else:
-    device = torch.device("cpu")
-    print("running on the CPU")
 
+
+# device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+if torch.cuda.is_available():device = torch.device("cuda:0")
+else:device = torch.device("cpu")
+print("running on the ", device)
 logging.info("Running on cuda : {}".format(torch.cuda.is_available()))
 
 torch.backends.cudnn.deterministic = True
 torch.backends.cudnn.benchmark = False
 
 
-from src.common_code.initialiser import initial_preparations
-import datetime
+
 
 # creating unique config from stage_config.json file and model_config.json file
-args = initial_preparations(user_args, stage = "train")
-
-if args['if_multi'] == True:
-    assert 'multi' in args['model_dir']
-    print(args['if_multi'], args['model_dir'])
-else: assert 'multi' not in args['model_dir']
 
 
 
@@ -126,7 +137,7 @@ logging.info("\n ----------------------")
 
 
 from src.data_functions.dataholder import BERT_HOLDER as dataholder
-from src.tRpipeline import train_and_save, test_predictive_performance, keep_best_model_
+from src.tRpipeline import multi_train_and_save, multi_test_predictive_performance, keep_best_model_
 from src.data_functions.useful_functions import describe_data_stats
 
 
@@ -155,31 +166,34 @@ data = dataholder(
         path = args["data_dir"], 
         b_size = args["batch_size"],
         stage = "train"
-    )
+    )  # return a dictionary, of train/dev/test dataloader
+
+print(' ')
+print(' ')
+print(' ')
+print(' Have loaded dataloader')
 
 ## evaluating finetuned models
 if args["evaluate_models"]:
-
     ## in domain evaluation
-    test_stats = test_predictive_performance(
+    test_stats = multi_test_predictive_performance(
         test_data_loader = data.test_loader, 
         for_rationale = False, 
         output_dims = data.nu_of_labels,
         save_output_probs = True,
+        model_name=args['multi_model_name'],
     )    
 
     del data
     gc.collect()
-
-    ## shows which model performed best on dev F1 (in-domain)
-    ## if keep_models = False then will remove the rest of the models to save space
     keep_best_model_(keep_models = False)
 
 else:
 
-    train_and_save(
+    multi_train_and_save(
         train_data_loader = data.train_loader, 
         dev_data_loader = data.dev_loader, 
         for_rationale = False, 
         output_dims = data.nu_of_labels,
-    ) 
+        model_name=args['multi_model_name'],
+    ) # train_and_save(train_data_loader, dev_data_loader, for_rationale = False, output_dims = 2, variable = False):
