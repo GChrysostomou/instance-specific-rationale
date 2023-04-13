@@ -140,7 +140,7 @@ class bert(nn.Module):  # equal to "BertClassifier"
 
 
 class multi_bert(nn.Module):  # equal to "BertClassifier"
-    def __init__(self, model_name, output_dim = 2, dropout=0.1):
+    def __init__(self, model_name, self_define_config, self_define_model, output_dim = 2, dropout=0.1):
         
         super(multi_bert, self).__init__()
 
@@ -161,12 +161,12 @@ class multi_bert(nn.Module):  # equal to "BertClassifier"
         self.output_dim = output_dim
         self.dropout = dropout
 
-        self.bert_config = AutoConfig.from_pretrained(
+        self.bert_config = self_define_config.from_pretrained(
                 model_name, 
                 output_attentions = True)   
             
         self.wrapper = multi_BertModelWrapper(
-                AutoModel.from_pretrained(
+                self_define_model.from_pretrained(
                     model_name, 
                     config=self.bert_config
                 ))

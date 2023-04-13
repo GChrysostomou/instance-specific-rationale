@@ -23,7 +23,8 @@ from tqdm import tqdm
 import os
 from transformers.optimization import AdamW
 import logging
-
+import transformers
+transformers.logging.set_verbosity_error()
 import gc
 import config.cfg
 from config.cfg import AttrDict
@@ -320,6 +321,7 @@ def keep_best_model_(keep_models = False, for_rationale = False):
     
 
 def multi_train_and_save(train_data_loader, dev_data_loader, model_name,
+                         self_define_config, self_define_model,
                          for_rationale = False, output_dims = 2): #, variable = False
 
   
@@ -338,6 +340,8 @@ def multi_train_and_save(train_data_loader, dev_data_loader, model_name,
     np.random.seed(args["seed"])
 
     classifier = multi_bert( 
+        self_define_config = self_define_config, 
+        self_define_model = self_define_model,
         output_dim = output_dims,
         model_name = model_name,
     )

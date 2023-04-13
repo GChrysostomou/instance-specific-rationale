@@ -7,7 +7,8 @@ from transformers import AutoTokenizer
 import json
 import re
 from random import sample
-
+import transformers
+transformers.logging.set_verbosity_error()
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
 import config.cfg
@@ -64,8 +65,8 @@ class BERT_HOLDER():
 
         # load the pretrained tokenizer
         pretrained_weights = args.model
-        print(' ---------------', pretrained_weights)
-        quit()
+        print(' --------------- token model -->', pretrained_weights)
+      
         
         self.tokenizer = AutoTokenizer.from_pretrained(pretrained_weights, local_files_only=False) # by cass ood time dataholders.py (, local_files_only=True)
         self.nu_of_labels = len(np.unique([x["label"] for x in train]))
@@ -83,6 +84,126 @@ class BERT_HOLDER():
             test= [encode_plusplus_(dic, self.tokenizer, max_len,  dic["text"]) for dic in test]
 
         shuffle_during_iter = True
+
+        if stage != "train": 
+
+            # ###### sort by length for evaluation and rationale extraction
+            train = sorted(train, key = lambda x : x["lengths"], reverse = False)
+            dev = sorted(dev, key = lambda x : x["lengths"], reverse = False)
+            test = sorted(test, key = lambda x : x["lengths"], reverse = True)
+
+
+            shuffle_during_iter = False
+        
+        if return_as_frames:
+
+            self.return_as_frames = {
+                "train" : pd.DataFrame(train),
+                "dev" : pd.DataFrame(dev),
+                "test" : pd.DataFrame(test)
+            }
+
+        # prepare data-loaders for training
+        self.train_loader = DataLoader(
+            train,
+            batch_size = self.batch_size,
+            shuffle = shuffle_during_iter,
+            pin_memory = False,
+        )
+
+        self.dev_loader = DataLoader(
+            dev,
+            batch_size = self.batch_size,
+            shuffle = shuffle_during_iter,
+            pin_memory = False,
+        )
+
+        self.test_loader = DataLoader(
+            test,
+            batch_size = self.batch_size,
+            shuffle = shuffle_during_iter,
+            pin_memory = False,
+        )
+
+
+    def as_dataframes_(self):
+
+        return self.return_as_frames 
+
+
+
+class multi_BERT_HOLDER():
+    """
+    class that holds our data, pretrained tokenizer and set sequence length 
+    for a classification task
+    """
+    def __init__(self, self_define_tokenizer, path = str, b_size = 8 , #mask_list = list, 
+                for_rationale = False, variable = False, 
+                return_as_frames = False, stage = "train",
+                ):
+        
+        assert type(b_size) == int
+    
+        self.batch_size = b_size
+        """
+        loads data for a classification task from preprocessed .csv =
+        files in the dataset/data folder
+        and returns three dataholders : train, dev, test
+        """
+
+        # ## if loading rationales we have to also include the importance metric
+
+        # if for_rationale:
+            
+        #     path += args["importance_metric"] + "-"
+
+        train = pd.read_csv(path + "train.csv").to_dict("records")[1066:1260] #list of dic
+        dev = pd.read_csv(path + "dev.csv").to_dict("records")#[1066:1160] # for testing by cass
+        test = pd.read_csv(path + "test.csv").to_dict("records")
+        ## if we are dealing with a query we need to account for the query length as well
+
+        if args.query:
+            max_len = round(max([len(x["document"].split()) for x in train])) + \
+            max([len(x["query"].split()) for x in train])
+            max_len = round(max_len)
+            # print('        the document max_len (in train):', round(max([len(x["document"].split()) for x in train])))
+            # print('        the query max_len (in train):', round(max([len(x["query"].split()) for x in train])))
+            # print('        the query mean len (in train):', sum([len(x["query"].split()) for x in train])/len(train))
+
+        else:
+            max_len = round(max([len(x["text"].split()) for x in train]))
+
+        print('        the task max_len (in train):', max_len)
+
+        max_len = min(max_len, 512)
+        self.max_len = max_len # 还在inti 里面
+
+        # load the pretrained tokenizer
+        pretrained_weights = args.multi_model_name
+        print(' --------------- token model -->', pretrained_weights)
+      
+        
+        self.tokenizer = self_define_tokenizer.from_pretrained(pretrained_weights, 
+                                                               truncation=True,
+                                                               local_files_only=False) # by cass ood time dataholders.py (, local_files_only=True)
+        self.nu_of_labels = len(np.unique([x["label"] for x in train]))
+        #print('self.nu_of_labels  ', self.nu_of_labels)
+
+
+        if args.query:
+            train = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["document"], dic["query"]) for dic in train]
+            dev = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["document"], dic["query"]) for dic in dev]
+            test = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["document"], dic["query"]) for dic in test]
+
+        else:
+            train = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["text"]) for dic in train]
+            dev = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["text"]) for dic in dev]
+            test= [encode_plusplus_(dic, self.tokenizer, max_len,  dic["text"]) for dic in test]
+
+        shuffle_during_iter = True
+        print(' example dataset from the dataloader train')
+        print(train[0].keys())
+        print(train[0]['input_ids'])
 
         if stage != "train": 
 
