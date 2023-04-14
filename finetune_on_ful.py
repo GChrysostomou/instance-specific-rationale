@@ -34,7 +34,7 @@ parser.add_argument(
 parser.add_argument(
     "--model_dir",   
     type = str, 
-    help = "directory to save models", 
+    help = "directory to save models, mannually modify it for multi and mono", 
     default = "multilingual_trained_models/"
 )
 
