@@ -125,8 +125,11 @@ class multi_BertModelWrapper(nn.Module):
         #     output_hidden_states=self.model.config.output_attentions,
         #     return_dict=self.model.config.return_dict
         # )
-        encoder_outputs = self.model.encoder(
-                input_ids=input_ids,
+        if 'xlm' in args['multi_model_name']:
+            # print(' 000000000000000000000 )))))')
+            # print(self.weight)
+            encoder_outputs = self.model.encoder(
+                input_ids,
                 attention_mask=attention_mask,
                 #head_mask=head_mask,
                 #inputs_embeds=inputs_embeds,
@@ -134,6 +137,17 @@ class multi_BertModelWrapper(nn.Module):
                 output_hidden_states=self.model.config.output_attentions,
                 return_dict=self.model.config.return_dict
             )
+
+        else:
+            encoder_outputs = self.model.encoder(
+                    input_ids=input_ids,
+                    attention_mask=attention_mask,
+                    #head_mask=head_mask,
+                    #inputs_embeds=inputs_embeds,
+                    output_attentions=self.model.config.output_attentions,
+                    output_hidden_states=self.model.config.output_attentions,
+                    return_dict=self.model.config.return_dict
+                )
 
         sequence_output = encoder_outputs[0]
         attentions = encoder_outputs[2]

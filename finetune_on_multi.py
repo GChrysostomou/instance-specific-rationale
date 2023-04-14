@@ -15,7 +15,7 @@ abb_dict = {"bert-base-uncased": "bert",
             "allenai/scibert_scivocab_uncased": "scibert",
             "roberta-base": "roberta",
             "facebook/m2m100_418M": "m2m",
-            "xlm-roberta-base": "xlm",
+            "xlm-roberta-base": "xlm_roberta",
             }
 
 parser = argparse.ArgumentParser()
@@ -136,7 +136,8 @@ logging.info("\n ----------------------")
 
 
 
-from src.data_functions.dataholder import BERT_HOLDER as dataholder
+from src.data_functions.dataholder import BERT_HOLDER 
+from src.data_functions.dataholder import multi_BERT_HOLDER #as multi_dataholder
 from src.tRpipeline import multi_train_and_save, multi_test_predictive_performance, keep_best_model_
 from src.data_functions.useful_functions import describe_data_stats
 
@@ -158,20 +159,43 @@ logging.info(
 
 del data_desc
 gc.collect()
-
+import transformers
+transformers.logging.set_verbosity_error()
 # training the models and evaluating their predictive performance
 # on the full text length
-
-data = dataholder(
+if args['multi_model_name'] == 'facebook/m2m100_418M': 
+    from transformers import M2M100Tokenizer
+    tokenizer = M2M100Tokenizer
+    data = multi_BERT_HOLDER(
+        self_define_tokenizer = tokenizer,
         path = args["data_dir"], 
         b_size = args["batch_size"],
         stage = "train"
-    )  # return a dictionary, of train/dev/test dataloader
+    )
+elif args['multi_model_name'] == 'xlm-roberta-base': #[, , 'xlm-mlm-100-1280'],
+    from transformers import XLMRobertaTokenizer
+    tokenizer = XLMRobertaTokenizer
+    data = multi_BERT_HOLDER(
+        self_define_tokenizer = tokenizer,
+        path = args["data_dir"], 
+        b_size = args["batch_size"],
+        stage = "train"
+    )
+else:
+    data = BERT_HOLDER(
+        path = args["data_dir"], 
+        b_size = args["batch_size"],
+        stage = "train"
+    )
+
+
+  # return a dictionary, of train/dev/test dataloader
 
 print(' ')
 print(' ')
 print(' ')
 print(' Have loaded dataloader')
+
 
 ## evaluating finetuned models
 if args["evaluate_models"]:
@@ -189,11 +213,15 @@ if args["evaluate_models"]:
     keep_best_model_(keep_models = False)
 
 else:
-
-    multi_train_and_save(
-        train_data_loader = data.train_loader, 
-        dev_data_loader = data.dev_loader, 
-        for_rationale = False, 
-        output_dims = data.nu_of_labels,
-        model_name=args['multi_model_name'],
-    ) # train_and_save(train_data_loader, dev_data_loader, for_rationale = False, output_dims = 2, variable = False):
+    print(' ======== ')
+    if args['multi_model_name'] == 'xlm-roberta-base':
+        from transformers import XLMRobertaConfig, XLMRobertaModel
+        multi_train_and_save(
+            self_define_model = XLMRobertaModel,
+            self_define_config = XLMRobertaConfig,
+            train_data_loader = data.train_loader, 
+            dev_data_loader = data.dev_loader, 
+            for_rationale = False, 
+            output_dims = data.nu_of_labels,
+            model_name=args['multi_model_name'],
+        ) 

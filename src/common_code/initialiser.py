@@ -119,8 +119,8 @@ def prepare_config(user_args : dict, stage : str = "train") -> dict:
   })
 
   if user_args["model"] != None: comb_args.update({"model":str(user_args['multi_model_name'])})
-  if user_args["multi_model"] != None: comb_args.update({"model":str(user_args['multi_model_name'])})
-  if user_args["model_abbreviation"] != None: comb_args.update({"model":str(user_args['model_abbreviation'])})
+  if user_args["multi_model_name"] != None: comb_args.update({"multi_model_name":str(user_args['multi_model_name'])})
+  if user_args["model_abbreviation"] != None: comb_args.update({"model_abbreviation":str(user_args['model_abbreviation'])})
 
   # if "extract_double" not in user_args: user_args["extract_double"] = None
 
