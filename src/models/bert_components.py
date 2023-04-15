@@ -102,21 +102,22 @@ class multi_BertModelWrapper(nn.Module):
         self.activation = nn.Tanh()
         
     def forward(self, input_ids, attention_mask, token_type_ids, ig = int(1)):        
+        print(' ------- ++++++++ ---- ')
+        print(self.model)
+        embeddings, self.word_embeds = bert_embeddings(
+            self.model, 
+            input_ids.long(),
+            position_ids = None, 
+            token_type_ids = token_type_ids,
+        )
 
-        # embeddings, self.word_embeds = m2m_embeddings(
-        #     self.model, 
-        #     input_ids.long(),
-        #     position_ids = None, 
-        #     token_type_ids = token_type_ids,
-        # )
+        assert ig >= 0. and ig <= int(1), "IG ratio cannot be out of the range 0-1"
 
-        # assert ig >= 0. and ig <= int(1), "IG ratio cannot be out of the range 0-1"
-
-        # extended_attention_mask = attention_mask.unsqueeze(1).unsqueeze(2)
-        # extended_attention_mask = extended_attention_mask.to(dtype=next(self.model.parameters()).dtype) # fp16 compatibility
-        # extended_attention_mask = (1 - extended_attention_mask) * -10000.0
-        #head_mask =  [None] * self.model.config.num_hidden_layers
-        # emb_temp = embeddings * ig
+        extended_attention_mask = attention_mask.unsqueeze(1).unsqueeze(2)
+        extended_attention_mask = extended_attention_mask.to(dtype=next(self.model.parameters()).dtype) # fp16 compatibility
+        extended_attention_mask = (1 - extended_attention_mask) * -10000.0
+        head_mask =  [None] * self.model.config.num_hidden_layers
+        emb_temp = embeddings * ig
         # encoder_outputs = self.model.encoder(
         #     attention_mask=extended_attention_mask,
         #     head_mask=head_mask,
@@ -125,22 +126,22 @@ class multi_BertModelWrapper(nn.Module):
         #     output_hidden_states=self.model.config.output_attentions,
         #     return_dict=self.model.config.return_dict
         # )
-        if 'xlm' in args['multi_model_name']:
-            # print(' 000000000000000000000 )))))')
-            # print(self.weight)
-            encoder_outputs = self.model.encoder(
-                input_ids,
-                attention_mask=attention_mask,
-                #head_mask=head_mask,
-                #inputs_embeds=inputs_embeds,
-                output_attentions=self.model.config.output_attentions,
-                output_hidden_states=self.model.config.output_attentions,
-                return_dict=self.model.config.return_dict
-            )
+        # if 'xlm' in args['multi_model_name']:
+        #     # print(' 000000000000000000000 )))))')
+        #     # print(self.weight)
+        #     encoder_outputs = self.model.encoder(
+        #         input_ids,
+        #         attention_mask=attention_mask,
+        #         #head_mask=head_mask,
+        #         #inputs_embeds=inputs_embeds,
+        #         output_attentions=self.model.config.output_attentions,
+        #         output_hidden_states=self.model.config.output_attentions,
+        #         return_dict=self.model.config.return_dict
+        #     )
 
-        else:
-            encoder_outputs = self.model.encoder(
-                    input_ids=input_ids,
+        # else:
+        encoder_outputs = self.model.encoder(
+                    input_ids,
                     attention_mask=attention_mask,
                     #head_mask=head_mask,
                     #inputs_embeds=inputs_embeds,

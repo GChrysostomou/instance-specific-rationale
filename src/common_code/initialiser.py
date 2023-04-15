@@ -102,7 +102,7 @@ def prepare_config(user_args : dict, stage : str = "train") -> dict:
   # if "_FA" in user_args["dataset"] or "multirc" in user_args["dataset"]: model_abbrev = 'pretrained'
   # else: model_abbrev = default_args["model_abbreviation"][default_args[user_args["dataset"]]["model"]] 
 
-  model_abbrev = default_args["model_abbreviation"][default_args[user_args["dataset"]]["model"]]  
+  #model_abbrev = default_args["model_abbreviation"][default_args[user_args["dataset"]]["model"]]  
   
   comb_args = dict(
     user_args, 
@@ -111,7 +111,7 @@ def prepare_config(user_args : dict, stage : str = "train") -> dict:
             "seed":user_args["seed"], 
             "epochs":epochs,
             "data_dir" : data_dir, 
-            "model_abbreviation": model_abbrev,
+            #"model_abbreviation": model_abbrev,
             "model_dir": model_dir,
             "evaluation_dir": eval_dir,
             "extracted_rationale_dir": extract_dir,
