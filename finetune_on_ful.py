@@ -5,9 +5,6 @@ import torch
 import os 
 import argparse
 import logging
-
-
-
 import datetime
 import gc
 
@@ -44,7 +41,6 @@ parser.add_argument(
     help = "directory of saved processed data", 
     default = "datasets/"
 )
-
 
 
 parser.add_argument(
@@ -156,6 +152,9 @@ data = dataholder(
         b_size = args["batch_size"],
         stage = "train"
     )
+
+
+print(' done loading data')
 
 ## evaluating finetuned models
 if args["evaluate_models"]:

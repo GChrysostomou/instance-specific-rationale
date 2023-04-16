@@ -63,7 +63,6 @@ def train_and_save(train_data_loader, dev_data_loader, for_rationale = False, ou
 
     classifier = bert( 
         output_dim = output_dims,
-        if_multi=args["if_multi"],
     )
 
     classifier.to(device)
@@ -525,7 +524,6 @@ def multi_test_predictive_performance(test_data_loader,
             indent = 4
         )
 
-    # print('++++++++++++', stats_report)
     df = pd.DataFrame(stats_report) # bug for run FA --> by cass
 
     if for_rationale:

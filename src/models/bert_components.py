@@ -102,8 +102,7 @@ class multi_BertModelWrapper(nn.Module):
         self.activation = nn.Tanh()
         
     def forward(self, input_ids, attention_mask, token_type_ids, ig = int(1)):        
-        print(' ------- ++++++++ ---- ')
-        print(self.model)
+
         embeddings, self.word_embeds = bert_embeddings(
             self.model, 
             input_ids.long(),
@@ -249,7 +248,6 @@ class BertModelWrapper_zeroout(nn.Module):
             assert ig.size(2) == 1, "Rationale mask should be of size 1 in final dimension"
             ig = ig.float()
 
-        #print('#############################',ig)
         
     #if the more importance, keep more in suff and less in comp, less zero in suff and more in comp
         embeddings_3rd = embeddings.size(2)
@@ -263,13 +261,9 @@ class BertModelWrapper_zeroout(nn.Module):
             except: 
                 importance_scores = torch.zeros(embeddings.size())
                 zeroout_mask = torch.bernoulli(1-importance_scores).to(device)
-            # print(' ')
-            # print("==>> embeddings: ", embeddings)
-            # print("==>> embeddings.shape: ", embeddings.shape)
-            # print("==>> zeroout_mask.shape: ", zeroout_mask.shape)
+
             embeddings = embeddings * zeroout_mask
-            # print("==>> embeddings.shape: ", embeddings.shape)
-            # quit()
+
 
 
         elif faithful_method == "soft_comp":

@@ -22,9 +22,11 @@ torch.cuda.empty_cache()
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 # device = 'cpu'
 # print(' ---------> ', device)
+# import spacy
+# spacy.load('en_core_web_sm')
 
-import en_core_web_sm
-nlp = en_core_web_sm.load()
+# import en_core_web_sm
+# nlp = en_core_web_sm.load()
 
 
 date_time = str(datetime.date.today()) + "_" + ":".join(str(datetime.datetime.now()).split()[1].split(":")[:2])
@@ -50,7 +52,7 @@ parser.add_argument(
     "--model_dir",   
     type = str, 
     help = "directory to save models", 
-    default="trained_models/"
+    default="multilingual_trained_models/"
 )
 
 
@@ -58,14 +60,14 @@ parser.add_argument(
     "--evaluation_dir",   
     type = str, 
     help = "directory to save faithfulness results", 
-    default = "posthoc_results/"
+    default = "multilingual_posthoc_results/"
 )
 
 parser.add_argument(
     "--extracted_rationale_dir",   
     type = str, 
     help = "directory to save extracted_rationales", 
-    default = "extracted_rationales/"
+    default = "multilingual_extracted_rationales/"
 )
 
 parser.add_argument(
