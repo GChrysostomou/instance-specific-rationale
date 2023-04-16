@@ -51,9 +51,6 @@ class BERT_HOLDER():
             max_len = round(max([len(x["document"].split()) for x in train])) + \
             max([len(x["query"].split()) for x in train])
             max_len = round(max_len)
-            # print('        the document max_len (in train):', round(max([len(x["document"].split()) for x in train])))
-            # print('        the query max_len (in train):', round(max([len(x["query"].split()) for x in train])))
-            # print('        the query mean len (in train):', sum([len(x["query"].split()) for x in train])/len(train))
 
         else:
             max_len = round(max([len(x["text"].split()) for x in train]))
@@ -70,7 +67,6 @@ class BERT_HOLDER():
         
         self.tokenizer = AutoTokenizer.from_pretrained(pretrained_weights, local_files_only=False) # by cass ood time dataholders.py (, local_files_only=True)
         self.nu_of_labels = len(np.unique([x["label"] for x in train]))
-        #print('self.nu_of_labels  ', self.nu_of_labels)
 
 
         if args.query:
@@ -187,7 +183,6 @@ class multi_BERT_HOLDER():
                                                                truncation=True,
                                                                local_files_only=False) # by cass ood time dataholders.py (, local_files_only=True)
         self.nu_of_labels = len(np.unique([x["label"] for x in train]))
-        #print('self.nu_of_labels  ', self.nu_of_labels)
 
 
         if args.query:
@@ -201,9 +196,7 @@ class multi_BERT_HOLDER():
             test= [encode_plusplus_(dic, self.tokenizer, max_len,  dic["text"]) for dic in test]
 
         shuffle_during_iter = True
-        print(' example dataset from the dataloader train')
-        print(train[0].keys())
-        print(train[0]['input_ids'])
+
 
         if stage != "train": 
 

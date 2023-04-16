@@ -365,7 +365,7 @@ def conduct_experiments_noise_2(model, data, model_random_seed,
 
 
 def conduct_tests_(model, data, model_random_seed):    
-    rationale_ratios = [0.01, 0.05, 0.1, 0.2, 0.5]
+    rationale_ratios = [0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1.0]
 ## now to create folder where results will be saved
     fname = os.path.join(
         os.getcwd(),

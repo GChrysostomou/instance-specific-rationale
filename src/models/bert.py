@@ -13,7 +13,7 @@ with open(config.cfg.config_directory + 'instance_config.json', 'r') as f:
             args = AttrDict(json.load(f))
 
 class bert(nn.Module):  # equal to "BertClassifier"
-    def __init__(self, if_multi, output_dim = 2, dropout=0.1):
+    def __init__(self, output_dim = 2, dropout=0.1):
         
         super(bert, self).__init__()
 
@@ -45,16 +45,16 @@ class bert(nn.Module):  # equal to "BertClassifier"
             ))
         
 
-        if if_multi == True:
-            self.bert_config = AutoConfig.from_pretrained(
-                args["multi_model"], 
-                output_attentions = True)   
+        # if if_multi == True:
+        #     self.bert_config = AutoConfig.from_pretrained(
+        #         args["multi_model"], 
+        #         output_attentions = True)   
             
-            self.wrapper = BertModelWrapper(
-                AutoModel.from_pretrained(
-                    args["multi_model"], 
-                    config=self.bert_config
-                ))
+        #     self.wrapper = BertModelWrapper(
+        #         AutoModel.from_pretrained(
+        #             args["multi_model"], 
+        #             config=self.bert_config
+        #         ))
 
 
         self.dropout = nn.Dropout(p = self.dropout)
@@ -191,12 +191,7 @@ class multi_bert(nn.Module):  # equal to "BertClassifier"
         )
 
         # to retain gradients
-        print(' 00000000000000 ')
-        print(_)
-        print('111111111111111')
-        print(pooled_output)
-        print('22222222222222')
-        print(attention_weights[-1])
+
         self.weights_or = torch.tensor(attention_weights[-1], requires_grad=True)  # debug by cass
         #self.weights_or = attention_weights[-1].clone.detach().requires_grad_(True)#, requires_grad=True)
 

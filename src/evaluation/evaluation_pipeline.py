@@ -155,6 +155,7 @@ class evaluate():
                                                 # "dev":  data.dev_loader
                                                 # added "train" only for creating FA --> "train": data.train_loader, \
                                                 }.items():
+                print('////////// data split keys', data_split)
                 ## register importance scores if they do not exist
                 self.register_importance_(
                     data = data_split,

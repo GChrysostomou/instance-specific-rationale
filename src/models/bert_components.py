@@ -103,20 +103,20 @@ class multi_BertModelWrapper(nn.Module):
         
     def forward(self, input_ids, attention_mask, token_type_ids, ig = int(1)):        
 
-        # embeddings, self.word_embeds = m2m_embeddings(
-        #     self.model, 
-        #     input_ids.long(),
-        #     position_ids = None, 
-        #     token_type_ids = token_type_ids,
-        # )
+        embeddings, self.word_embeds = bert_embeddings(
+            self.model, 
+            input_ids.long(),
+            position_ids = None, 
+            token_type_ids = token_type_ids,
+        )
 
-        # assert ig >= 0. and ig <= int(1), "IG ratio cannot be out of the range 0-1"
+        assert ig >= 0. and ig <= int(1), "IG ratio cannot be out of the range 0-1"
 
-        # extended_attention_mask = attention_mask.unsqueeze(1).unsqueeze(2)
-        # extended_attention_mask = extended_attention_mask.to(dtype=next(self.model.parameters()).dtype) # fp16 compatibility
-        # extended_attention_mask = (1 - extended_attention_mask) * -10000.0
-        #head_mask =  [None] * self.model.config.num_hidden_layers
-        # emb_temp = embeddings * ig
+        extended_attention_mask = attention_mask.unsqueeze(1).unsqueeze(2)
+        extended_attention_mask = extended_attention_mask.to(dtype=next(self.model.parameters()).dtype) # fp16 compatibility
+        extended_attention_mask = (1 - extended_attention_mask) * -10000.0
+        head_mask =  [None] * self.model.config.num_hidden_layers
+        emb_temp = embeddings * ig
         # encoder_outputs = self.model.encoder(
         #     attention_mask=extended_attention_mask,
         #     head_mask=head_mask,
@@ -125,22 +125,22 @@ class multi_BertModelWrapper(nn.Module):
         #     output_hidden_states=self.model.config.output_attentions,
         #     return_dict=self.model.config.return_dict
         # )
-        if 'xlm' in args['multi_model_name']:
-            # print(' 000000000000000000000 )))))')
-            # print(self.weight)
-            encoder_outputs = self.model.encoder(
-                input_ids,
-                attention_mask=attention_mask,
-                #head_mask=head_mask,
-                #inputs_embeds=inputs_embeds,
-                output_attentions=self.model.config.output_attentions,
-                output_hidden_states=self.model.config.output_attentions,
-                return_dict=self.model.config.return_dict
-            )
+        # if 'xlm' in args['multi_model_name']:
+        #     # print(' 000000000000000000000 )))))')
+        #     # print(self.weight)
+        #     encoder_outputs = self.model.encoder(
+        #         input_ids,
+        #         attention_mask=attention_mask,
+        #         #head_mask=head_mask,
+        #         #inputs_embeds=inputs_embeds,
+        #         output_attentions=self.model.config.output_attentions,
+        #         output_hidden_states=self.model.config.output_attentions,
+        #         return_dict=self.model.config.return_dict
+        #     )
 
-        else:
-            encoder_outputs = self.model.encoder(
-                    input_ids=input_ids,
+        # else:
+        encoder_outputs = self.model.encoder(
+                    input_ids,
                     attention_mask=attention_mask,
                     #head_mask=head_mask,
                     #inputs_embeds=inputs_embeds,
@@ -248,7 +248,6 @@ class BertModelWrapper_zeroout(nn.Module):
             assert ig.size(2) == 1, "Rationale mask should be of size 1 in final dimension"
             ig = ig.float()
 
-        #print('#############################',ig)
         
     #if the more importance, keep more in suff and less in comp, less zero in suff and more in comp
         embeddings_3rd = embeddings.size(2)
@@ -262,13 +261,9 @@ class BertModelWrapper_zeroout(nn.Module):
             except: 
                 importance_scores = torch.zeros(embeddings.size())
                 zeroout_mask = torch.bernoulli(1-importance_scores).to(device)
-            # print(' ')
-            # print("==>> embeddings: ", embeddings)
-            # print("==>> embeddings.shape: ", embeddings.shape)
-            # print("==>> zeroout_mask.shape: ", zeroout_mask.shape)
+
             embeddings = embeddings * zeroout_mask
-            # print("==>> embeddings.shape: ", embeddings.shape)
-            # quit()
+
 
 
         elif faithful_method == "soft_comp":

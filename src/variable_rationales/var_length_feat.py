@@ -100,10 +100,13 @@ def rationale_length_computer_(
             ## ensure we do not go over
             if _tok > tokens: _tok = tokens
 
+            #print(inputs)
+
             rationale_mask = create_rationale_mask_(
                 importance_scores = scores, 
                 no_of_masked_tokens = np.array([_tok]*scores.size(0)),
-                method = args.thresholder
+                method = args.thresholder,
+                special_tokens = inputs["special_tokens"]
             )
 
             inputs["input_ids"] = (rationale_mask == 0).long() * original_sents
@@ -292,35 +295,6 @@ def get_rationale_metadata_(model, data_split_name, data, model_random_seed):
                 feature_attribution = feat_name, 
                 results_dict = rationale_results
             )
-
-        ## select best fixed (fixed-len + var-feat) and variable rationales (var-len + var-feat) and save 
-        # for _i_ in range(original_sents.size(0)):
-
-        #     annotation_id = batch["annotation_id"][_i_]
-
-        #     ## initiators
-        #     init_fixed_div = float("-inf")
-        #     init_var_div = float("-inf")
-
-        #     for feat_name in {"attention", "scaled attention", "gradients", "ig", "lime", "deeplift"}:
-                
-        #         fixed_div = rationale_results[annotation_id][feat_name]["fixed-length divergence"]
-        #         var_div = rationale_results[annotation_id][feat_name]["variable-length divergence"]
-
-        #         if fixed_div > init_fixed_div:
-
-        #             rationale_results[annotation_id]["fixed-len_var-feat"] = rationale_results[annotation_id][feat_name]
-        #             rationale_results[annotation_id]["fixed-len_var-feat"]["feature attribution name"] = feat_name
-
-        #             init_fixed_div = fixed_div
-
-
-        #         if var_div > init_var_div:
-
-        #             rationale_results[annotation_id]["var-len_var-feat"] = rationale_results[annotation_id][feat_name]
-        #             rationale_results[annotation_id]["var-len_var-feat"]["feature attribution name"] = feat_name
-
-        #             init_var_div = var_div
 
         pbar.update(data.batch_size)
 

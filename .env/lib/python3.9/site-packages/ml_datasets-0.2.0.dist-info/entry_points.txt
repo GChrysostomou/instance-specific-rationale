@@ -1,0 +1,5 @@
+[spacy_readers]
+ml_datasets.cmu_movies.v1 = ml_datasets.spacy_readers:cmu_reader
+ml_datasets.dbpedia.v1 = ml_datasets.spacy_readers:dbpedia_reader
+ml_datasets.imdb_sentiment.v1 = ml_datasets.spacy_readers:imdb_reader
+
