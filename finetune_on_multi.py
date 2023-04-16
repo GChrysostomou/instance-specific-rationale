@@ -32,8 +32,8 @@ parser.add_argument(
     "--if_multi", 
     type = str, 
     help = "if using multilingual model", 
-    default = True, 
-    choices = [True, False]
+    # default = True, 
+    # choices = [True, False]
 )
 
 parser.add_argument(

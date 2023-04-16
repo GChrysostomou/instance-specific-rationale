@@ -40,14 +40,14 @@ parser.add_argument(
     "--model_dir",   
     type = str, 
     help = "directory to save models", 
-    default = "trained_models/"
+    default = "multilingual_trained_models/"
 )
 
 parser.add_argument(
     "--extracted_rationale_dir",   
     type = str, 
     help = "directory to save extracted_rationales", 
-    default = "extracted_rationales/"
+    default = "multilingual_extracted_rationales/"
 )
 
 parser.add_argument(

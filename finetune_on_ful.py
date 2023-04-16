@@ -23,13 +23,7 @@ parser.add_argument(
     #choices = ["sst", "evinf", "agnews", "multirc", "evinf_FA"]
 )
 
-parser.add_argument(
-    "--if_multi", 
-    type = str, 
-    help = "if using multilingual model", 
-    default = True, 
-    choices = [True, False]
-)
+
 
 parser.add_argument(
     "--model_dir",   
@@ -51,7 +45,16 @@ parser.add_argument(
     "--seed",   
     type = int, 
     help = "random seed for experiment",
-    default = 5
+    default = 15
+)
+
+parser.add_argument(
+    "--if_multi", 
+    type = str, 
+    help = "if using multilingual model", 
+    # action='store_true',
+    # default = True, 
+    # choices = [True, False]
 )
 
 parser.add_argument(
