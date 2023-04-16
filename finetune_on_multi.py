@@ -28,13 +28,13 @@ parser.add_argument(
     #choices = ["sst", "evinf", "agnews", "multirc", "evinf_FA"]
 )
 
-# parser.add_argument(
-#     "--if_multi", 
-#     type = str, 
-#     help = "if using multilingual model", 
-#     # default = True, 
-#     # choices = [True, False]
-# )
+parser.add_argument(
+    "--if_multi", 
+    type = str, 
+    help = "if using multilingual model", 
+    # default = True, 
+    # choices = [True, False]
+)
 
 parser.add_argument(
     "--multi_model_name", 
@@ -81,8 +81,8 @@ if user_args['multi_model_name'] != None:
     user_args.update({"model":str(user_args['multi_model_name'])})
     user_args.update({"multi_model":str(user_args['multi_model_name'])})
     user_args.update({"model_abbreviation":str(abb_dict[user_args['multi_model_name']])})
-# if user_args['if_multi'] != True:
-#     user_args.update({"model_dir":str('multilingual_'+user_args['model_dir'])})
+if user_args['if_multi'] != True:
+    user_args.update({"model_dir":str('multilingual_'+user_args['model_dir'])})
 print(user_args)
 
 ### used only for data stats

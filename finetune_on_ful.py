@@ -44,14 +44,14 @@ parser.add_argument(
     default = 15
 )
 
-parser.add_argument(
-    "--if_multi", 
-    type = str, 
-    help = "if using multilingual model", 
-    # action='store_true',
-    # default = True, 
-    # choices = [True, False]
-)
+# parser.add_argument(
+#     "--if_multi", 
+#     type = str, 
+#     help = "if using multilingual model", 
+#     # action='store_true',
+#     # default = True, 
+#     # choices = [True, False]
+# )
 
 parser.add_argument(
     '--evaluate_models', 
@@ -110,10 +110,10 @@ import datetime
 # creating unique config from stage_config.json file and model_config.json file
 args = initial_preparations(user_args, stage = "train")
 
-if args['if_multi'] == True:
-    assert 'multi' in args['model_dir']
-    print(args['if_multi'], args['model_dir'])
-else: assert 'multi' not in args['model_dir']
+# if args['if_multi'] == True:
+#     assert 'multi' in args['model_dir']
+#     print(args['if_multi'], args['model_dir'])
+# else: assert 'multi' not in args['model_dir']
 
 
 
