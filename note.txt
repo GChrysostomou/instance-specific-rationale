@@ -16,6 +16,9 @@ faithfulness evaluation / prediction F1 results are in: ./faithfulness_metrics/d
 
 
 
+when re extract rationales, check if re extract importance score which need delete 
+importance scores in the data/
+
 ####### when adding a chinese dataset
 adding to model_config.json
 adding max_len in BERT_HOLDER

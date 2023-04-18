@@ -20,14 +20,6 @@ parser.add_argument(
     #choices = ["ant", "csl","ChnSentiCorp", "sst", "evinf", "agnews", "multirc", "evinf_FA"]
 )
 
-
-parser.add_argument(
-    "--model_dir",   
-    type = str, 
-    help = "directory to save models, mannually modify it for multi and mono", 
-    default = "multilingual_trained_models/"
-)
-
 parser.add_argument(
     "--data_dir", 
     type = str, 
@@ -35,6 +27,12 @@ parser.add_argument(
     default = "datasets/"
 )
 
+parser.add_argument(
+    "--model_dir",   
+    type = str, 
+    help = "directory to save models, mannually modify it for multi and mono", 
+    default = "multilingual_trained_models/"
+)
 
 parser.add_argument(
     "--seed",   

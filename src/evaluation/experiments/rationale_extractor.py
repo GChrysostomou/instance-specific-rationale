@@ -49,12 +49,10 @@ def extract_importance_(model, data, data_split_name, model_random_seed):
     #     "evaluation_dir",
     #     ""
     # )
-
+    # importance score file names by cass
     fname = os.path.join(
         os.getcwd(),
-        "datasets",
-        args["dataset"],
-        "data",
+        args["extracted_rationale_dir"],
         "importance_scores",
         ""
     )
@@ -159,138 +157,6 @@ def extract_importance_(model, data, data_split_name, model_random_seed):
     return
 
 
-
-
-def extract_importance_2(model, data, data_split_name, model_random_seed):
-
-    """
-        Info: computes the average fraction of tokens required to cause a decision flip (prediction change)
-        Input:
-            model : pretrained model
-            data : torch.DataLoader loaded data
-            save_path : path to save the results
-        Output:
-            saves the results to a csv file under the save_path
-    """
-
-    desc = f'registering importance scores for {data_split_name} -> id'
-    
-
-    ## now to create folder where results will be saved
-    # fname = os.path.join(
-    #     os.getcwd(),
-    #     args["data_dir"],
-    #     "evaluation_dir",
-    #     ""
-    # )
-
-    fname = os.path.join(
-        os.getcwd(),
-        "datasets",
-        args["dataset"],
-        "data",
-        "importance_scores",
-        ""
-    )
-
-    os.makedirs(fname, exist_ok = True)
-
-    scorenames = fname + data_split_name + f"_importance_scores_{model_random_seed}.npy"
-
-    # check if importance scores exist first to avoid unecessary calculations
-    if os.path.exists(scorenames):
-
-        print(f"importance scores already saved in -> {scorenames}  !!!!!!!!!!!")
-
-        return
-    
-    pbar = trange(len(data) * data.batch_size, desc=desc, leave=True)
-    
-    feature_attribution = {}
-
-    for batch in data:
-        
-        model.eval()
-        model.zero_grad()
-
-        batch = {
-                "annotation_id" : batch["annotation_id"],
-                "input_ids" : batch["input_ids"].squeeze(1).to(device),
-                "lengths" : batch["lengths"].to(device),
-                "labels" : batch["label"].to(device),
-                "token_type_ids" : batch["token_type_ids"].squeeze(1).to(device),
-                "attention_mask" : batch["attention_mask"].squeeze(1).to(device),
-                "query_mask" : batch["query_mask"].squeeze(1).to(device),
-                "retain_gradient" : True
-            }
-            
-        assert batch["input_ids"].size(0) == len(batch["labels"]), "Error: batch size for item 1 not in correct position"
-        
-        yhat, attentions =  model(**batch)
-
-        yhat.max(-1)[0].sum().backward(retain_graph = True)
-
-        #embedding gradients
-        embed_grad = model.wrapper.model.embeddings.word_embeddings.weight.grad
-        g = embed_grad[batch["input_ids"].long()]
-
-
-        em = model.wrapper.model.embeddings.word_embeddings.weight[batch["input_ids"].long()]
-
-        gradients = (g* em).sum(-1).abs() * batch["query_mask"].float()
-
-        integrated_grads = model.integrated_grads(
-                original_grad = g, 
-                original_pred = yhat.max(-1),
-                **batch    
-        )
-
-        normalised_random = torch.randn(attentions.shape).to(device)
-
-        normalised_random = torch.masked_fill(normalised_random, ~batch["query_mask"].bool(), float("-inf"))
-
-        # normalised integrated gradients of input
-        normalised_ig = torch.masked_fill(integrated_grads, ~batch["query_mask"].bool(), float("-inf"))
-
-        # normalised gradients of input
-        normalised_grads = torch.masked_fill(gradients, ~batch["query_mask"].bool(), float("-inf"))
-
-        # normalised attention
-        normalised_attentions = torch.masked_fill(attentions, ~batch["query_mask"].bool(), float("-inf"))
-
-        # retrieving attention*attention_grad
-        # print(model.weights_or.size()) # torch.Size([8, 12, 48, 48]) batch size attention 
-        # attention_gradients = model.weights_or.grad[:,:,0,:].mean(1) # changed by cass
-        attention_gradients = model.weights_or[:,:,0,:].mean(1)
-        attention_gradients =  (attentions * attention_gradients)
-
-        # softmaxing due to negative attention gradients 
-        # therefore we receive also negative values and as such
-        # the pad and unwanted tokens need to be converted to -inf 
-        normalised_attention_grads = torch.masked_fill(attention_gradients, ~batch["query_mask"].bool(), float("-inf"))
-
-
-        #import pdb; pdb.set_trace()
-        for _i_ in range(attentions.size(0)):
-
-            annotation_id = batch["annotation_id"][_i_]
-            ## storing feature attributions
-            feature_attribution[annotation_id] = {
-                "random" : normalised_random[_i_].cpu().detach().numpy(),
-                "attention" : normalised_attentions[_i_].cpu().detach().numpy(),
-                "scaled attention" : normalised_attention_grads[_i_].cpu().detach().numpy(),
-                "gradients" : normalised_grads[_i_].cpu().detach().numpy(),
-                "ig" : normalised_ig[_i_].cpu().detach().numpy(),
-            }
-
-        pbar.update(data.batch_size)
-
-    ## save them
-    np.save(scorenames, feature_attribution)
-
-    print(f"model dependent importance scores JUST HAVE BEEN stored in -> {scorenames}")
-
-    return
 
 from src.evaluation.experiments.lime_predictor import predictor
 from lime.lime_text import LimeTextExplainer
@@ -302,7 +168,7 @@ def extract_lime_scores_(model, data, data_split_name, model_random_seed,
     
     fname = os.path.join(
         os.getcwd(),
-        args["data_dir"],
+        args["extracted_rationale_dir"],
         "importance_scores",
         ""
     )
@@ -412,7 +278,7 @@ def extract_shap_values_(model, data, data_split_name, model_random_seed,
     
     fname = os.path.join(
         os.getcwd(),
-        args["data_dir"],
+        args["extracted_rationale_dir"],
         "importance_scores",
         ""
     )
@@ -498,9 +364,7 @@ def rationale_creator_(data, data_split_name, tokenizer, model_random_seed):
 
     fname = os.path.join(
         os.getcwd(),
-        "datasets",
-        args["dataset"],
-        "data",
+        args["extracted_rationale_dir"],
         "importance_scores",
         ""
     )
@@ -536,7 +400,7 @@ def rationale_creator_(data, data_split_name, tokenizer, model_random_seed):
     desired_rationale_length = args.rationale_length
 
     ## time to register rationales 
-    for feature_attribution in {"lime", "deeplift" "random", "attention", "scaled attention", "gradients", "ig"}: #, "lime", "deeplift" #"random", "attention", "scaled attention", "gradients", "ig", "deeplift",  
+    for feature_attribution in {"lime", "deeplift", "random", "attention", "scaled attention", "gradients", "ig"}: #, "lime", "deeplift" #"random", "attention", "scaled attention", "gradients", "ig", "deeplift",  
         
         temp_registry = {}
 
@@ -641,14 +505,10 @@ def rationale_creator_interpolation_(data, data_split_name, tokenizer, model_ran
 
     fname = os.path.join(
         os.getcwd(),
-        "datasets",
-        args["dataset"],
-        "data",
+        args["extracted_rationale_dir"],
         "importance_scores",
         ""
     )
-
-
 
     fname = f"{fname}{data_split_name}_importance_scores_{model_random_seed}.npy"
     ## retrieve importance scores
