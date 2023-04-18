@@ -16,10 +16,9 @@ parser.add_argument(
     "--dataset", 
     type = str, 
     help = "select dataset / task", 
-    default = "evinf", 
-    #choices = ["sst", "evinf", "agnews", "multirc", "evinf_FA"]
+    default = "csl", 
+    #choices = ["ant", "csl","ChnSentiCorp", "sst", "evinf", "agnews", "multirc", "evinf_FA"]
 )
-
 
 
 parser.add_argument(
@@ -41,7 +40,7 @@ parser.add_argument(
     "--seed",   
     type = int, 
     help = "random seed for experiment",
-    default = 15
+    default = 25
 )
 
 # parser.add_argument(

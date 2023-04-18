@@ -39,9 +39,7 @@ def rationale_length_computer_(
     zero_logits, original_sents, 
     fidelity = "lower_fidelity"):
 
-
     #divergence_fun = div_funs[args.divergence]
-
     """
     function to calculate for a batch:
         * variable rationale length
@@ -53,36 +51,26 @@ def rationale_length_computer_(
     assert fidelity in ["max_fidelity", "lower_fidelity"]
 
     tokens = args.rationale_length  * (inputs["lengths"] - 2).float().mean()
-
     tokens = int(max(1, torch.round(tokens)))
     
     ## if we break down our search in increments
     if fidelity == "lower_fidelity":
-        
         per_how_many = 2/100 ## skip every per_how_many percent of tokens
         percent_to_tokens = round(per_how_many * int(min(inputs["lengths"]))) ## translate percentage to tokens
-
         ## special case for very short sequences in SST and AG of less than 6 tokens
         if percent_to_tokens == 0:
-            
             collector = torch.zeros([tokens, original_sents.size(0)])
-
             grange = range(1, tokens + 1)
-        
         ## for longer than 4 word sequences
         else:
-
             grange = range(percent_to_tokens, tokens + percent_to_tokens, percent_to_tokens) ## convert to range with increments
-
             ## empty matrix to collect scores 
             ## // +1 to keep empty first column like below (0 token)
             collector = torch.zeros([len(grange), original_sents.size(0)])
         
     ## else if we consider and search on every token
-    else:
-        
+    else:    
         collector = torch.zeros([tokens, original_sents.size(0)])
-
         grange = range(1, tokens + 1)
 
     model.eval()
@@ -92,22 +80,22 @@ def rationale_length_computer_(
 
     token_collector = []
     with torch.no_grad():
-        
         for j, _tok in enumerate(grange):
-            
             ## min 1
             if _tok == 0: _tok = 1
             ## ensure we do not go over
             if _tok > tokens: _tok = tokens
-
             #print(inputs)
-
             rationale_mask = create_rationale_mask_(
                 importance_scores = scores, 
                 no_of_masked_tokens = np.array([_tok]*scores.size(0)),
                 method = args.thresholder,
                 special_tokens = inputs["special_tokens"]
             )
+
+            print((rationale_mask == 0).long().size())
+            print(rationale_mask.size())
+            print(original_sents.size())
 
             inputs["input_ids"] = (rationale_mask == 0).long() * original_sents
     
@@ -284,17 +272,17 @@ def get_rationale_metadata_(model, data_split_name, data, model_random_seed):
                 #extra_layer = None
             )
 
-            rationale_length_computer_(
-                model = model, 
-                inputs = batch, 
-                scores = feat_score, 
-                y_original = original_prediction, 
-                zero_logits = zero_logits,
-                original_sents=original_sents,
-                fidelity = "max_fidelity",
-                feature_attribution = feat_name, 
-                results_dict = rationale_results
-            )
+            # rationale_length_computer_(
+            #     model = model, 
+            #     inputs = batch, 
+            #     scores = feat_score, 
+            #     y_original = original_prediction, 
+            #     zero_logits = zero_logits,
+            #     original_sents=original_sents,
+            #     fidelity = "max_fidelity",
+            #     feature_attribution = feat_name, 
+            #     results_dict = rationale_results
+            # )
 
         pbar.update(data.batch_size)
 
