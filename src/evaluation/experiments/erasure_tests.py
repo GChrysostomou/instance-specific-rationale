@@ -30,7 +30,7 @@ from src.common_code.metrics import comprehensiveness_, normalized_comprehensive
 from sklearn.metrics import classification_report
 
 
-feat_name_dict = {"attention", "scaled attention", "gradients", "ig", "deeplift", "random", "gradientshap"} 
+feat_name_dict = {"attention", "scaled attention", "gradients", "ig", "deeplift", "random"} #"gradientshap"
 rationale_ratios = [1.0, 0.01, 0.02, 0.05, 0.1, 0.2, 0.5]   # [1.0, 0.01, 0.02, 0.05, 0.1, 0.2, 0.5] 
 
 
