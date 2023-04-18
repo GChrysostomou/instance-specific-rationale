@@ -30,7 +30,7 @@ from src.common_code.metrics import comprehensiveness_, normalized_comprehensive
 from sklearn.metrics import classification_report
 
 
-feat_name_dict = {"attention", "scaled attention", "gradients", "ig", "deeplift", "random"} 
+feat_name_dict = {"attention", "scaled attention", "gradients", "ig", "deeplift", "random", "gradientshap"} 
 rationale_ratios = [1.0, 0.01, 0.02, 0.05, 0.1, 0.2, 0.5]   # [1.0, 0.01, 0.02, 0.05, 0.1, 0.2, 0.5] 
 
 
@@ -369,7 +369,7 @@ def conduct_tests_(model, data, model_random_seed):
 ## now to create folder where results will be saved
     fname = os.path.join(
         os.getcwd(),
-        args["data_dir"],
+        args["extracted_rationale_dir"],
         "importance_scores",
         ""
     )
@@ -1396,10 +1396,6 @@ def conduct_experiments_zeroout_(model, data, model_random_seed, use_topk, norma
     return
 
 
-
-
-
-
 def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk, normalise=0): #faithful_method
     ## now to create folder where results will be saved
     fname = os.path.join(os.getcwd(),args["data_dir"],"importance_scores", "")
@@ -1739,7 +1735,6 @@ def conduct_experiments_noise_(model, data, model_random_seed, std, use_topk, no
 
 
     return
-
 
 
 def conduct_experiments_attention_(model, data, model_random_seed, use_topk, normalise=0): #faithful_method

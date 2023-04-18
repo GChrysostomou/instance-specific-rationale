@@ -56,9 +56,7 @@ def extract_importance_(model, data, data_split_name, model_random_seed):
         "importance_scores",
         ""
     )
-
     os.makedirs(fname, exist_ok = True)
-
     scorenames = fname + data_split_name + f"_importance_scores_{model_random_seed}.npy"
 
     # check if importance scores exist first to avoid unecessary calculations

@@ -34,6 +34,7 @@
         "lr_classifier" : 1e-4, 
         "model" : "bert-base-multilingual-uncased"
     },
+
     "ChnSentiCorp" : {
         "rationale_length" : 0.2,
         "batch_size": 16,
@@ -51,8 +52,8 @@
     "ant" : {
         "rationale_length" : 0.2,
         "batch_size": 16,
-        "lr_bert" : 2e-5,
-        "lr_classifier" : 2e-5, 
+        "lr_bert" : 1e-5,
+        "lr_classifier" : 1e-4, 
         "model" : "bert-base-multilingual-uncased"
     }
 }

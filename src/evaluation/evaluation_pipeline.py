@@ -216,19 +216,6 @@ class evaluate():
     def faithfulness_experiments_(self, data):
         
         for model_name in self.models:
-            
-            ## check first if necessary data exists
-            fname = os.path.join(
-                os.getcwd(),
-                args["extracted_rationale_dir"],
-                args["thresholder"],
-                "test-rationale_metadata.npy"
-            )
-
-            if os.path.isfile(fname) == False:
-
-                raise OSError(f"rationale metadata file does not exist at {fname} // rerun extract_rationales.py") from None
-          
             model = bert(
                 output_dim = self.output_dims
             )
@@ -242,6 +229,29 @@ class evaluate():
             logging.info(f" *** succesfully loaded model - {model_name}")
 
             model_random_seed = re.sub("bert", "", model_name.split(".pt")[0].split("/")[-1])
+            
+            ## check first if necessary data exists
+            # fname = os.path.join(
+            #     os.getcwd(),
+            #     args["extracted_rationale_dir"],
+            #     args["thresholder"],
+            #     "test-rationale_metadata.npy"
+            # )
+            fname = os.path.join(
+            os.getcwd(),
+            args["extracted_rationale_dir"],
+            "importance_scores",
+            ""
+        )
+        
+            fname = fname + f"test_importance_scores_{model_random_seed}.npy"
+
+
+            if os.path.isfile(fname) == False:
+
+                raise OSError(f"rationale metadata file does not exist at {fname} // rerun extract_rationales.py") from None
+          
+
 
 
             ## train neglected as we are evaluating on dev and test
