@@ -306,9 +306,6 @@ class evaluate():
 
         return
 
-
-
-
     
     def faithfulness_experiments_interpolation_(self, data):
         
@@ -354,8 +351,6 @@ class evaluate():
 
         return
 
-    
-    
 
     def feature_scoring_performance_(self):
 

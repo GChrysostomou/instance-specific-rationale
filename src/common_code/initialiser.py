@@ -82,20 +82,21 @@ def prepare_config(user_args : dict, stage : str = "train") -> dict:
   
   else: eval_dir = None
 
-
-  if "evinf" in user_args["dataset"] or "multirc" in user_args["dataset"]: query = True,
+  # add if query by cass
+  if "evinf" in user_args["dataset"] or "multirc" in user_args["dataset"] or "ant" in user_args["dataset"] or "csl" in user_args["dataset"]: query = True,
   else: query = False
+
+  if "ChnSentiCorp" in user_args["dataset"] or "ant" in user_args["dataset"] or "csl" in user_args["dataset"]: chinese = True,
+  else: chinese = False
 
   if stage == "evaluate" or stage == "extract": user_args["seed"] = None
 
   if "inherently_faithful" not in user_args: user_args["inherently_faithful"] = False
 
   if stage == "retrain":
-
     epochs = 5
 
   else:
-
     epochs = default_args["epochs"]
 
 
@@ -115,7 +116,8 @@ def prepare_config(user_args : dict, stage : str = "train") -> dict:
             "model_dir": model_dir,
             "evaluation_dir": eval_dir,
             "extracted_rationale_dir": extract_dir,
-            "query": query
+            "query": query,
+            "chinese": chinese
   })
   print('user_args ->>',user_args)
   try:

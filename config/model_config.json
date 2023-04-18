@@ -5,8 +5,8 @@
                                  "roberta-base": "roberta",
                                  "facebook/m2m100_418M": "m2m",
                                  "bert-base-multilingual-uncased":"mbert"},
-     "evinf" : {
-        "rationale_length" : 0.1,
+    "evinf" : {
+        "rationale_length" : 0.2,
         "batch_size": 4,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
@@ -32,6 +32,27 @@
         "batch_size": 8,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
+        "model" : "bert-base-multilingual-uncased"
+    },
+    "ChnSentiCorp" : {
+        "rationale_length" : 0.2,
+        "batch_size": 16,
+        "lr_bert" : 1e-5,
+        "lr_classifier" : 1e-4, 
+        "model" : "bert-base-multilingual-uncased"
+    },
+    "csl" : {
+        "rationale_length" : 0.2,
+        "batch_size": 16,
+        "lr_bert" : 1e-5,
+        "lr_classifier" : 1e-4, 
+        "model" : "bert-base-multilingual-uncased"
+    },
+    "ant" : {
+        "rationale_length" : 0.2,
+        "batch_size": 16,
+        "lr_bert" : 2e-5,
+        "lr_classifier" : 2e-5, 
         "model" : "bert-base-multilingual-uncased"
     }
 }

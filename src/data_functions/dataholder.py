@@ -46,18 +46,29 @@ class BERT_HOLDER():
         dev = pd.read_csv(path + "dev.csv").to_dict("records")#[1066:1160] # for testing by cass
         test = pd.read_csv(path + "test.csv").to_dict("records")
         ## if we are dealing with a query we need to account for the query length as well
+        print(train[:3])
 
         if args.query:
             max_len = round(max([len(x["document"].split()) for x in train])) + \
             max([len(x["query"].split()) for x in train])
             max_len = round(max_len)
+            
 
         else:
             max_len = round(max([len(x["text"].split()) for x in train]))
+            
 
-        print('        the task max_len (in train):', max_len)
+        if 'csl' in args.dataset:
+            max_len = 256
+        elif 'ChnSentiCorp' in args.dataset:
+            max_len = 128
+        elif 'ant' in args.dataset:
+            max_len = 128
+        else: pass
+        
 
         max_len = min(max_len, 512)
+        print('        the task max_len (in train):', max_len)
         self.max_len = max_len # 还在inti 里面
 
         # load the pretrained tokenizer

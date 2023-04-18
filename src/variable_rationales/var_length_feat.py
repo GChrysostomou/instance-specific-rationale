@@ -109,6 +109,10 @@ def rationale_length_computer_(
                 special_tokens = inputs["special_tokens"]
             )
 
+            print((rationale_mask == 0).long())
+            print(rationale_mask)
+            print(original_sents)
+
             inputs["input_ids"] = (rationale_mask == 0).long() * original_sents
     
             yhat, _ = model(**inputs)

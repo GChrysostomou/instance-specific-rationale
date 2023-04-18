@@ -13,3 +13,10 @@ faithfulness evaluation / prediction F1 results are in: ./faithfulness_metrics/d
 
 
 ### interpolation analysis
+
+
+
+####### when adding a chinese dataset
+adding to model_config.json
+adding max_len in BERT_HOLDER
+adding if equiry, search by cass

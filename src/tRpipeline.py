@@ -147,7 +147,7 @@ def test_predictive_performance(test_data_loader, for_rationale = False, output_
         
         classifier = bert(
             output_dim = output_dims,
-            if_multi=args["if_multi"],
+            #if_multi=args["if_multi"],
         )
         
         classifier.to(device)
@@ -182,19 +182,9 @@ def test_predictive_performance(test_data_loader, for_rationale = False, output_
         df = pd.DataFrame.from_dict(test_results)
 
         # if for_rationale:
-
-        #     if variable:
-                
-        #         df.to_csv(os.path.join(args["model_dir"], args["thresholder"], "")  +"/model_run_stats/" + args["importance_metric"] + "_" +  args["model_abbreviation"] + "_best_model_test_seed:" + seed + "-variable.csv")
-
-        #     else:
-            
-        #         df.to_csv(os.path.join(args["model_dir"], args["thresholder"], "")  +"/model_run_stats/" + args["importance_metric"] + "_" +  args["model_abbreviation"] + "_best_model_test_seed:" + seed + ".csv")
-
-        # elif variable: 
-            
-        #     df.to_csv(args["model_dir"]  +"/model_run_stats/" + args["model_abbreviation"] + "_best_model_test-variable_seed:" + seed + ".csv")
-
+        #     if variable:df.to_csv(os.path.join(args["model_dir"], args["thresholder"], "")  +"/model_run_stats/" + args["importance_metric"] + "_" +  args["model_abbreviation"] + "_best_model_test_seed:" + seed + "-variable.csv")
+        #     else:df.to_csv(os.path.join(args["model_dir"], args["thresholder"], "")  +"/model_run_stats/" + args["importance_metric"] + "_" +  args["model_abbreviation"] + "_best_model_test_seed:" + seed + ".csv")
+        # elif variable: df.to_csv(args["model_dir"]  +"/model_run_stats/" + args["model_abbreviation"] + "_best_model_test-variable_seed:" + seed + ".csv")
         # else:
 
         df.to_csv(args["model_dir"]  +"/model_run_stats/" + args["model_abbreviation"] + "_best_model_test_seed:" + seed + ".csv")
@@ -226,25 +216,26 @@ def test_predictive_performance(test_data_loader, for_rationale = False, output_
         stats_report[seed] = {}
         stats_report[seed]["model"] = model
         stats_report[seed]["f1"] = test_results["macro avg"]["f1-score"]
+
+        stats_report[seed]["accuracy"] = test_results["accuracy"]
         stats_report[seed]["loss"] = test_loss
         stats_report[seed]["ece-score"] = ece_stats["ece"]
 
     f1s = np.asarray([x["f1"] for k,x in stats_report.items()])
+    accuracies = np.asarray([x["accuracy"] for k,x in stats_report.items()])
     eces = np.asarray([x["ece-score"] for k,x in stats_report.items()])
 
     stats_report["mean-f1"] = f1s.mean()
+    stats_report["mean-accuracy"] = accuracies.mean()
+    stats_report["std-accuracy"] = accuracies.std()
     stats_report["std-f1"] = f1s.std()
     
     stats_report["mean-ece"] = eces.mean()
     stats_report["std-ece"] = eces.std()
 
-    if for_rationale:
+    if for_rationale:fname = os.path.join(args["model_dir"], args["thresholder"], "") + args["importance_metric"] + "_" + args["model_abbreviation"] + "_predictive_performances.json"
 
-        fname = os.path.join(args["model_dir"], args["thresholder"], "") + args["importance_metric"] + "_" + args["model_abbreviation"] + "_predictive_performances.json"
-
-    else:
-    
-        fname =  args["model_dir"] + args["model_abbreviation"] + "_predictive_performances.json"
+    else:fname =  args["model_dir"] + args["model_abbreviation"] + "_predictive_performances.json"
 
     with open(fname, 'w') as file:
         json.dump(
@@ -282,11 +273,17 @@ def keep_best_model_(keep_models = False, for_rationale = False):
         df = pd.read_csv(stat)
         dev_loss = df["dev_loss"][0]
 
-        dev_f1 = df[df["Unnamed: 0"] == "f1-score"]["macro avg"].values[0]
+        if args['chinese']:
+            print(' ')
+            print(' ')
+            print(' it is chinese dataset, we use accuracy')
+            dev_f1 = df[df["Unnamed: 0"] == "f1-score"]["accuracy"].values[0]
+
+
+        else: dev_f1 = df[df["Unnamed: 0"] == "f1-score"]["macro avg"].values[0]
 
         ## use f1 of devset for keeping models
         dev_stats_cleared[df["model-name"][0]] = dev_f1
-
     best_model, _ = zip(*sorted(dev_stats_cleared.items(), key=lambda item: item[1]))
 
     print("*** best model on dev F1 is {}".format(best_model[-1]))  
