@@ -59,6 +59,8 @@ def wpiece2word(tokenizer, sentence, weights, print_err = False):
     new_score = {}
 
     position = 0
+    print(tokens)
+    print(len(tokens))
 
     for i in range(len(tokens)):
 
