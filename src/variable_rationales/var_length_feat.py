@@ -93,9 +93,9 @@ def rationale_length_computer_(
                 special_tokens = inputs["special_tokens"]
             )
 
-            print((rationale_mask == 0).long().size())
-            print(rationale_mask.size())
-            print(original_sents.size())
+            # print((rationale_mask == 0).long().size())
+            # print(rationale_mask.size())
+            # print(original_sents.size())
 
             inputs["input_ids"] = (rationale_mask == 0).long() * original_sents
     
@@ -263,7 +263,8 @@ def get_rationale_metadata_(model, data_split_name, data, model_random_seed):
 
         
         ## percentage of flips
-        for feat_name in {"random", "attention",  "gradients", "ig", "scaled attention", "deeplift", "lime"}: #  "graidentshap",
+        for feat_name in {"graidentshap"}: #  ,
+        #for feat_name in {"graidentshap", "random", "attention",  "gradients", "ig", "scaled attention", "deeplift", "lime"}: #  ,
             
             feat_score = batch_from_dict_(
                 batch_data = batch,
@@ -272,17 +273,17 @@ def get_rationale_metadata_(model, data_split_name, data, model_random_seed):
                 #extra_layer = None
             )
 
-            # rationale_length_computer_(
-            #     model = model, 
-            #     inputs = batch, 
-            #     scores = feat_score, 
-            #     y_original = original_prediction, 
-            #     zero_logits = zero_logits,
-            #     original_sents=original_sents,
-            #     fidelity = "max_fidelity",
-            #     feature_attribution = feat_name, 
-            #     results_dict = rationale_results
-            # )
+            rationale_length_computer_(
+                model = model, 
+                inputs = batch, 
+                scores = feat_score, 
+                y_original = original_prediction, 
+                zero_logits = zero_logits,
+                original_sents=original_sents,
+                fidelity = "max_fidelity",
+                feature_attribution = feat_name, 
+                results_dict = rationale_results
+            )
 
         pbar.update(data.batch_size)
 
