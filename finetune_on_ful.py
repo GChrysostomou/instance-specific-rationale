@@ -16,7 +16,15 @@ parser.add_argument(
     "--dataset", 
     type = str, 
     help = "select dataset / task", 
+<<<<<<< HEAD
     default = "sst", 
+=======
+<<<<<<< HEAD
+    default = "ChnSentiCorp", 
+=======
+    default = "sst", 
+>>>>>>> d6c2047d83343431e7948ce64bbbcfcc1a2cd5b3
+>>>>>>> 03554e6cbaa17d8f44a9079915f39664e910dab0
     #choices = ["ant", "csl","ChnSentiCorp", "sst", "evinf", "agnews", "multirc", "evinf_FA"]
 )
 
@@ -38,7 +46,15 @@ parser.add_argument(
     "--seed",   
     type = int, 
     help = "random seed for experiment",
+<<<<<<< HEAD
     default = 5
+=======
+<<<<<<< HEAD
+    default = 10
+=======
+    default = 5
+>>>>>>> d6c2047d83343431e7948ce64bbbcfcc1a2cd5b3
+>>>>>>> 03554e6cbaa17d8f44a9079915f39664e910dab0
 )
 
 

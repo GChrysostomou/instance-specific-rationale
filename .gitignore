@@ -14,7 +14,7 @@ trained_models/*/*.json
 experiment_logs/
 experiment_config/
 slurm-*.out
-
+*.sh
 *.npy
 without_lime_full_fidelity/double_extracted_rationales/
 without_lime_full_fidelity/extracted_rationales/
