@@ -1,5 +1,6 @@
 *.pt
 *spaCy/
+config/*
 graphs_and_tables/
 results/
 *.ipynb

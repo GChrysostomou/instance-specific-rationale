@@ -16,7 +16,7 @@ parser.add_argument(
     "--dataset", 
     type = str, 
     help = "select dataset / task", 
-    default = "csl", 
+    default = "sst", 
     #choices = ["ant", "csl","ChnSentiCorp", "sst", "evinf", "agnews", "multirc", "evinf_FA"]
 )
 
@@ -31,24 +31,16 @@ parser.add_argument(
     "--model_dir",   
     type = str, 
     help = "directory to save models, mannually modify it for multi and mono", 
-    default = "multilingual_trained_models/"
+    default = "bert_trained_models/"
 )
 
 parser.add_argument(
     "--seed",   
     type = int, 
     help = "random seed for experiment",
-    default = 25
+    default = 5
 )
 
-# parser.add_argument(
-#     "--if_multi", 
-#     type = str, 
-#     help = "if using multilingual model", 
-#     # action='store_true',
-#     # default = True, 
-#     # choices = [True, False]
-# )
 
 parser.add_argument(
     '--evaluate_models', 
