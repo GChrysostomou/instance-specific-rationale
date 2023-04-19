@@ -5,7 +5,8 @@
                                  "roberta-base": "roberta",
                                  "facebook/m2m100_418M": "m2m",
                                  "bert-base-multilingual-uncased":"mbert",
-                                 "bert-base-chinese":"zhbert"},
+                                 "bert-base-chinese":"zhbert",
+                                 "hfl/chinese-macbert-base":"macbert"},
     "evinf" : {
         "rationale_length" : 0.2,
         "batch_size": 4,
@@ -41,7 +42,7 @@
         "batch_size": 16,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
-        "model" : "bert-base-chinese"
+        "model" : "hfl/chinese-macbert-base"
     },
     "csl" : {
         "rationale_length" : 0.2,

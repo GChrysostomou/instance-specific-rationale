@@ -37,7 +37,7 @@ parser.add_argument(
     "--dataset", 
     type = str, 
     help = "select dataset / task", 
-    default = "sst",
+    default = "ant",
     # choices = ["sst","agnews","evinf", "multirc",]
 )
 
@@ -52,7 +52,7 @@ parser.add_argument(
     "--model_dir",   
     type = str, 
     help = "directory to save models", 
-    default="multilingual_trained_models/"
+    default="bert_trained_models/"
 )
 
 
@@ -60,14 +60,14 @@ parser.add_argument(
     "--evaluation_dir",   
     type = str, 
     help = "directory to save faithfulness results", 
-    default = "multilingual_posthoc_results/"
+    default = "bert_faithfulness/"
 )
 
 parser.add_argument(
     "--extracted_rationale_dir",   
     type = str, 
     help = "directory to save extracted_rationales", 
-    default = "multilingual_extracted_rationales/"
+    default = "bert_extracted_rationales/"
 )
 
 parser.add_argument(
@@ -143,7 +143,7 @@ from src.evaluation import evaluation_pipeline
 data = BERT_HOLDER(
     args["data_dir"], 
     stage = "eval",
-    b_size = 8,
+    b_size = 16,
     #b_size = args["batch_size"], # TO FIX CUDA OUT OF MEMORY, MAY NOT WORK
 )
 
