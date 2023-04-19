@@ -1,17 +1,16 @@
 #!/bin/bash
-#SBATCH --nodes=1
+
+#SBATCH --partition=gpu
+#SBATCH --qos=gpu
+#SBATCH --gres=gpu:1
 
 # set max wallclock time
-#SBATCH --time=6-00:00
+
 
 # set name of job
 #SBATCH --job-name=agnews
 
-# set number of GPUs
-#SBATCH --gres=gpu:1
-#SBATCH --partition=small
-
-#SBATCH --mem=60GB
+#SBATCH --mem=128GB
 
 # mail alert at start, end and abortion of execution
 #SBATCH --mail-type=ALL
@@ -22,20 +21,28 @@
 
 
 # run the application
-cd /jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/
-module load python/anaconda3
-module load cuda/10.2
-source activate ood_faith
+cd /mnt/parscratch/users/cass/BP-MU
+export SLURM_EXPORT_ENV=ALL
+module load Anaconda3/2022.10
+module load CUDA/11.7.0
+source activate faith
 
+
+model_shortname="mbert"
 dataset="agnews"  #["ant", "csl", "sst", "evinf", "multirc", "agnews"]
+
+
 data_dir="datasets/"
-model_dir="mbert_trained_models/"
-extracted_rationale_dir="mbert_extracted_rationales/"
-evaluation_dir="mbert_faithfulness/"
+model_dir="_trained_models/" 
+extracted_rationale_dir="_extracted_rationales/"
+evaluation_dir="_faithfulness/"
+
+model_dir="${model_shortname}${model_dir}"
+extracted_rationale_dir="${model_shortname}${extracted_rationale_dir}"
+evaluation_dir="${model_shortname}${evaluation_dir}"
 
 
-
-# ########### train and predict ###########
+########### train and predict ###########
 for seed in 5 10 15
 do
 python finetune_on_ful.py --dataset $dataset \
@@ -61,4 +68,5 @@ python extract_rationales.py --dataset $dataset \
 python evaluate_posthoc.py --dataset $dataset \
                             --data_dir $data_dir \
                             --model_dir $model_dir \
+                            --extracted_rationale_dir $extracted_rationale_dir \
                             --evaluation_dir $evaluation_dir
