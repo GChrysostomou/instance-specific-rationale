@@ -4,11 +4,9 @@
 #SBATCH --qos=gpu
 #SBATCH --gres=gpu:1
 
-# set max wallclock time
-
 
 # set name of job
-#SBATCH --job-name=agnews
+#SBATCH --job-name=multirc
 
 #SBATCH --mem=128GB
 
@@ -18,6 +16,7 @@
 # send mail to this address
 #SBATCH --mail-user=zhixue.zhao@sheffield.ac.uk
 
+#SBATCH --time=90:00:00
 
 
 # run the application
@@ -29,7 +28,7 @@ source activate faith
 
 
 model_shortname="mbert"
-dataset="agnews"  #["ant", "csl", "sst", "evinf", "multirc", "agnews"]
+dataset="multirc"  #["ant", "csl", "sst", "evinf", "multirc", "agnews"]
 
 
 data_dir="datasets/"
@@ -43,7 +42,7 @@ evaluation_dir="${model_shortname}${evaluation_dir}"
 
 
 ########### train and predict ###########
-for seed in 5 10 15
+for seed in 15
 do
 python finetune_on_ful.py --dataset $dataset \
                           --model_dir $model_dir \
