@@ -1,9 +1,9 @@
 *.pt
 *spaCy/
 config/*
+*__pycache__*
 graphs_and_tables/
 results/
-*.ipynb
 datasets/*/data/*/*.npy
 datasets/*/*.csv
 datasets/*/*.json
@@ -14,7 +14,7 @@ trained_models/*/*.json
 experiment_logs/
 experiment_config/
 slurm-*.out
-
+*.sh
 *.npy
 without_lime_full_fidelity/double_extracted_rationales/
 without_lime_full_fidelity/extracted_rationales/
