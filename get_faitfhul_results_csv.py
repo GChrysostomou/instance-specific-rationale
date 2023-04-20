@@ -13,7 +13,91 @@ import datetime
 import gc
 
 
+import pickle 
 
+        
+with open('results_summary.pkl', 'rb') as f:
+    loaded_dict = pickle.load(f)
+
+print(loaded_dict)
+
+
+def get_dict(dataset,model_id):        
+        model_folder = model_id + '_trained_models/' + dataset + '/'
+
+
+        file_path = f'./{model_id}_faithfulness/{dataset}/topk-faithfulness-scores-average-description.json'
+        topk = pd.read_json(file_path, orient ='index')
+        topk.rename(columns = {'AOPC - sufficiency':'AOPC_sufficiency', 'AOPC - comprehensiveness':'AOPC_comprehensiveness'}, inplace = True)
+
+        file_path = f'./{model_folder}/{model_id}_predictive_performances.json'
+        pred = pd.read_json(file_path)
+        if dataset == 'ChnSentiCorp' or dataset == 'ant' or dataset == 'csl': pred_result = pred['mean-accuracy'].mean()
+        else: pred_result = pred['mean-f1'].mean()
+
+        suff = []
+        comp = []
+        suff_std = []
+        comp_std = []
+        fea_list = ['random', 'attention', "scaled attention", "gradients", "ig", "deeplift"] #"gradientshap", 
+        for feat in fea_list:
+                suff.append(topk.AOPC_sufficiency[str(feat)].get('mean'))
+                comp.append(topk.AOPC_comprehensiveness[str(feat)].get('mean'))
+                
+                suff_std.append(topk.AOPC_sufficiency[str(feat)].get('std'))
+                comp_std.append(topk.AOPC_comprehensiveness[str(feat)].get('std'))
+        fea_list = ['Random', 'Attention', "Scaled Attention", "Gradients", "Integrated Gradients", "Deeplift"]
+        final_df = pd.DataFrame(list(zip(fea_list, suff, suff_std, comp, comp_std)),
+                columns =['Feature','AOPC NormSuff', 'std', 'AOPC NormComp', 'std'])
+        final_df['Dataset'] = str(dataset)
+
+        df = final_df.T
+        df = df.rename(columns=df.iloc[0]).drop(df.index[0])
+        df = df[:-1] # drop the las dataset name row
+
+        df['Attention'] = df['Attention']/df['Random']
+        df['Scaled Attention'] = df['Scaled Attention']/df['Random']
+        df['Gradients'] = df['Gradients']/df['Random']
+        df['Integrated Gradients'] = df['Integrated Gradients']/df['Random']
+        df['Deeplift'] = df['Deeplift']/df['Random']
+
+        pred_faith_dict = {}
+        pred_faith_dict['Attention_Suff'] = df['Attention']['AOPC NormSuff']
+        pred_faith_dict['Scaled_Attention_Suff'] = df['Scaled Attention']['AOPC NormSuff']
+        pred_faith_dict['Gradients_Suff'] = df['Gradients']['AOPC NormSuff']
+        pred_faith_dict['Integrated_Gradients_Suff'] = df['Integrated Gradients']['AOPC NormSuff']
+        pred_faith_dict['Deeplift_Suff'] = df['Deeplift']['AOPC NormSuff']
+        pred_faith_dict['Attention_Comp'] = df['Attention']['AOPC NormComp']
+        pred_faith_dict['Scaled_Attention_Comp'] = df['Scaled Attention']['AOPC NormComp']
+        pred_faith_dict['Gradients_Comp'] = df['Gradients']['AOPC NormComp']
+        pred_faith_dict['Integrated_Gradients_Comp'] = df['Integrated Gradients']['AOPC NormComp']
+        pred_faith_dict['Deeplift_Comp'] = df['Deeplift']['AOPC NormComp']
+
+
+        if dataset == 'ChnSentiCorp' or dataset == 'ant' or dataset == 'csl':
+            pred_faith_dict['Accuracy'] = pred_result
+        else: pred_faith_dict['F1'] = pred_result
+
+
+        model_pred_faith_dict = {}
+        model_pred_faith_dict[model_id] = pred_faith_dict
+        return model_pred_faith_dict
+
+test = get_dict('ChnSentiCorp','mbert')
+
+test_dict = {}
+test_dict['xxx'] = test
+test_dict['xxx'] = test
+
+print(' ')
+print(' ')
+loaded_dict.update(test_dict)
+loaded_dict.update(test_dict)
+print(loaded_dict)
+
+
+
+quit()
 
 def generate_csv(dataset, method, normal, std):
     file_path = f'./posthoc_results/{dataset}/topk-faithfulness-scores-average-description.json'
