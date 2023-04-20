@@ -42,7 +42,7 @@
         "batch_size": 16,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
-        "model" : "bert-base-multilingual-uncased"
+        "model" : "hfl/chinese-macbert-base"
     },
     "csl" : {
         "rationale_length" : 0.2,
