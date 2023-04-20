@@ -2,7 +2,7 @@
 *spaCy/
 config/*
 graphs_and_tables/
-results/
+results/*
 datasets/*/data/*/*.npy
 datasets/*/*.csv
 datasets/*/*.json
