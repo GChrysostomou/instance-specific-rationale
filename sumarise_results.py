@@ -83,19 +83,30 @@ def get_dict(dataset,model_id):
         model_pred_faith_dict[model_id] = pred_faith_dict
         return model_pred_faith_dict
 
-test = get_dict('ChnSentiCorp','mbert')
 
-test_dict = {}
-test_dict['xxx'] = test
-test_dict['xxx'] = test
+#ChnSentiCorp_mbert_dict = get_dict('ChnSentiCorp','mbert')
+
+model = 'mbert'
+data = 'ChnSentiCorp'
+current_data_model_dict_noDATAhead = get_dict(data,model)
+# multirc_mbert_dict = get_dict('multirc','mbert')
+
+dataset_list = loaded_dict.keys()
+
+if data in dataset_list: print(' have the data in dict already !!!')
+else: loaded_dict[data] = current_data_model_dict_noDATAhead
+
+
 
 print(' ')
 print(' ')
-loaded_dict.update(test_dict)
-loaded_dict.update(test_dict)
+
 print(loaded_dict)
 
 
+
+with open('results_summary.pkl', 'wb') as f:
+    pickle.dump(loaded_dict, f)
 
 quit()
 
