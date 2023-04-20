@@ -25,7 +25,7 @@ parser.add_argument(
     "--dataset", 
     type = str, 
     help = "select dataset / task", 
-    default = "ChnSentiCorp", 
+    default = "sst", 
     #choices = ["sst", "evinf", "multirc", "agnews", "ChnSentiCorp"]
 )
 
@@ -40,14 +40,14 @@ parser.add_argument(
     "--model_dir",   
     type = str, 
     help = "directory to save models", 
-    default = "multilingual_trained_models/"
+    default = "mbert_trained_models/"
 )
 
 parser.add_argument(
     "--extracted_rationale_dir",   
     type = str, 
     help = "directory to save extracted_rationales", 
-    default = "multilingual_extracted_rationales/"
+    default = "mbert_extracted_rationales/"
 )
 
 parser.add_argument(

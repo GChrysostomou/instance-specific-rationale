@@ -1,6 +1,7 @@
 *.pt
 *spaCy/
 config/*
+*__pycache__*
 graphs_and_tables/
 results/
 datasets/*/data/*/*.npy

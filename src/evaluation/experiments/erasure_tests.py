@@ -55,6 +55,7 @@ def conduct_tests_(model, data, model_random_seed):
         os.getcwd(),
         args["model_dir"],
     )
+    
     fname2 = glob.glob(fname2 + f"*output*{model_random_seed}.npy")[0]
     original_prediction_output = np.load(fname2, allow_pickle = True).item()
 

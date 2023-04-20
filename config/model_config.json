@@ -42,11 +42,7 @@
         "batch_size": 16,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
-<<<<<<< HEAD
-        "model" : "hfl/chinese-macbert-base"
-=======
         "model" : "bert-base-multilingual-uncased"
->>>>>>> d6c2047d83343431e7948ce64bbbcfcc1a2cd5b3
     },
     "csl" : {
         "rationale_length" : 0.2,
