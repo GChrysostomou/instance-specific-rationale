@@ -6,7 +6,8 @@
                                  "facebook/m2m100_418M": "m2m",
                                  "bert-base-multilingual-uncased":"mbert",
                                  "bert-base-chinese":"zhbert",
-                                 "hfl/chinese-macbert-base":"macbert"},
+                                 "hfl/chinese-macbert-base":"macbert",
+                                "xlm-roberta-base":"xlmroberta"},
     "evinf" : {
         "rationale_length" : 0.2,
         "batch_size": 4,
@@ -42,7 +43,7 @@
         "batch_size": 16,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
-        "model" : "hfl/chinese-macbert-base"
+        "model" : "xlm-roberta"
     },
     "csl" : {
         "rationale_length" : 0.2,
