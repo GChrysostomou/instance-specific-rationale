@@ -6,7 +6,7 @@
 
 
 # set name of job
-#SBATCH --job-name=multirc
+#SBATCH --job-name=U-multirc
 
 #SBATCH --mem=128GB
 
