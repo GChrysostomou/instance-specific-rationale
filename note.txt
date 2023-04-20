@@ -1,10 +1,10 @@
-
+extracted_rationales: save importance scores
 
 faithfulness evaluation / prediction F1 results are in: ./faithfulness_metrics/dataset_name/....description.json
 
 
 
-
+scp ac1zzx@stanage.shef.ac.uk://mnt/parscratch/users/cass/BP_MU/mbert_faithfulness/ChnSentiCorp/*json ./
 
 
 ### diagnosticity
