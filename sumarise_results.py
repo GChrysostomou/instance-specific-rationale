@@ -22,15 +22,15 @@ with open('results_summary.pkl', 'rb') as f:
 print(loaded_dict)
 
 
-def get_dict(dataset,model_id):        
-        model_folder = model_id + '_trained_models/' + dataset + '/'
+def get_dict(dataset, model_folder_name, model_abb):        
+        model_folder = model_folder_name + '_trained_models/' + dataset + '/'
 
 
-        file_path = f'./{model_id}_faithfulness/{dataset}/topk-faithfulness-scores-average-description.json'
+        file_path = f'./{model_folder_name}_faithfulness/{dataset}/topk-faithfulness-scores-average-description.json'
         topk = pd.read_json(file_path, orient ='index')
         topk.rename(columns = {'AOPC - sufficiency':'AOPC_sufficiency', 'AOPC - comprehensiveness':'AOPC_comprehensiveness'}, inplace = True)
 
-        file_path = f'./{model_folder}/{model_id}_predictive_performances.json'
+        file_path = f'./{model_folder}/{model_abb}_predictive_performances.json'
         pred = pd.read_json(file_path)
         if dataset == 'ChnSentiCorp' or dataset == 'ant' or dataset == 'csl': pred_result = pred['mean-accuracy'].mean()
         else: pred_result = pred['mean-f1'].mean()
@@ -80,29 +80,44 @@ def get_dict(dataset,model_id):
 
 
         model_pred_faith_dict = {}
-        model_pred_faith_dict[model_id] = pred_faith_dict
+        model_pred_faith_dict[model_abb] = pred_faith_dict
         return model_pred_faith_dict
 
 
 #ChnSentiCorp_mbert_dict = get_dict('ChnSentiCorp','mbert')
 
-model = 'mbert'
-data = 'ChnSentiCorp'
-current_data_model_dict_noDATAhead = get_dict(data,model)
-# multirc_mbert_dict = get_dict('multirc','mbert')
+model_folder_name = 'bert'
+model_abb = 'bert'
+data = 'multirc'
+current_data_model_dict_noDATAhead = get_dict(data,model_folder_name, model_abb)
 
 dataset_list = loaded_dict.keys()
 
-if data in dataset_list: print(' have the data in dict already !!!')
-else: loaded_dict[data] = current_data_model_dict_noDATAhead
+
+print(' ')
+if data in dataset_list: 
+     print(f' have the data {data} in dict already !!!')
+     model_list = loaded_dict[data].keys()
+     if model_abb in model_list: 
+          print(f' ALSO got the model {model_abb} already !!!')
+     else:
+          print(' ONLY update model --->', model_abb)
+          loaded_dict[data].update(current_data_model_dict_noDATAhead)
+else: 
+     print(f' add {data} and {model_abb} to the dict')
+     loaded_dict[data] = current_data_model_dict_noDATAhead
+
 
 
 
 print(' ')
-print(' ')
 
-print(loaded_dict)
-
+for data in loaded_dict.keys():
+     print(' ')
+     print(data)
+     for model in loaded_dict[data].keys():
+          print(model)
+          print(loaded_dict[data][model])
 
 
 with open('results_summary.pkl', 'wb') as f:
