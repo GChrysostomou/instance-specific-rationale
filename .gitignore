@@ -7,9 +7,9 @@ datasets/*/data/*/*.npy
 datasets/*/*.csv
 datasets/*/*.json
 datasets/*/.ipynb_checkpoint/
-trained_models/*/*.pt
-trained_models/*/*.npy
-trained_models/*/*.json
+*trained_models/*
+*extracted_rationales/*
+*faithfulness/*
 experiment_logs/
 experiment_config/
 slurm-*.out
