@@ -4,11 +4,9 @@
 #SBATCH --qos=gpu
 #SBATCH --gres=gpu:1
 
-# set max wallclock time
-
 
 # set name of job
-#SBATCH --job-name=sst
+#SBATCH --job-name=multirc
 
 #SBATCH --mem=128GB
 
@@ -18,6 +16,7 @@
 # send mail to this address
 #SBATCH --mail-user=zhixue.zhao@sheffield.ac.uk
 
+#SBATCH --time=90:00:00
 
 
 # run the application
@@ -29,7 +28,7 @@ source activate faith
 
 
 model_shortname="mbert"
-dataset="sst"  #["ant", "csl", "sst", "evinf", "multirc", "agnews"]
+dataset="multirc"  #["ant", "csl", "sst", "evinf", "multirc", "agnews"]
 
 
 data_dir="datasets/"
@@ -42,27 +41,27 @@ extracted_rationale_dir="${model_shortname}${extracted_rationale_dir}"
 evaluation_dir="${model_shortname}${evaluation_dir}"
 
 
-# ########### train and predict ###########
-# for seed in 5 10 15
-# do
-# python finetune_on_ful.py --dataset $dataset \
-#                           --model_dir $model_dir \
-#                           --data_dir $data_dir \
-#                           --seed $seed                          
-# done
+########### train and predict ###########
+for seed in 15
+do
+python finetune_on_ful.py --dataset $dataset \
+                          --model_dir $model_dir \
+                          --data_dir $data_dir \
+                          --seed $seed                          
+done
 
-# python finetune_on_ful.py --dataset $dataset \
-#                           --model_dir $model_dir \
-#                           --data_dir $data_dir \
-#                           --evaluate_models 
+python finetune_on_ful.py --dataset $dataset \
+                          --model_dir $model_dir \
+                          --data_dir $data_dir \
+                          --evaluate_models 
                 
                           
 
 
-# python extract_rationales.py --dataset $dataset \
-#                             --model_dir $model_dir \
-#                             --data_dir $data_dir \
-#                             --extracted_rationale_dir $extracted_rationale_dir 
+python extract_rationales.py --dataset $dataset \
+                            --model_dir $model_dir \
+                            --data_dir $data_dir \
+                            --extracted_rationale_dir $extracted_rationale_dir 
                                     
 
 python evaluate_posthoc.py --dataset $dataset \
