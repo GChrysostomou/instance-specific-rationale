@@ -88,9 +88,9 @@ def get_dict(dataset, model_folder_name, model_abb):
 
 
 # mbert m / 
-model_folder_name = 'macbert'
-model_abb = 'macbert'
-data = 'ChnSentiCorp'  # ChnSentiCorp ant csl
+model_folder_name = 'xlm_roberta'
+model_abb = 'xlm_roberta'
+data = 'sst'  # ChnSentiCorp ant csl multirc agnews sst evinf
 current_data_model_dict_noDATAhead = get_dict(data,model_folder_name, model_abb)
 
 dataset_list = loaded_dict.keys()
@@ -117,9 +117,10 @@ print(' ')
 for data in loaded_dict.keys():
      print(' ')
      print(data)
+     print('------')
      for model in loaded_dict[data].keys():
           print(model)
-          print(loaded_dict[data][model])
+          #print(loaded_dict[data][model])
 
 
 with open('results_summary.pkl', 'wb') as f:
