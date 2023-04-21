@@ -193,13 +193,14 @@ def get_rationale_metadata_(model, data_split_name, data, model_random_seed):
 
     fname = os.path.join(
         os.getcwd(),
-        args["data_dir"],
+        args["extracted_rationale_dir"],
         "importance_scores",
         ""
     )
 
-    fname += f"{data_split_name}_importance_scores_{model_random_seed}.npy"
 
+
+    fname = f"{fname}{data_split_name}_importance_scores_{model_random_seed}.npy"
     ## retrieve importance scores
     importance_scores = np.load(fname, allow_pickle = True).item()
 

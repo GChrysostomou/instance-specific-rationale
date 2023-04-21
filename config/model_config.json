@@ -1,21 +1,37 @@
 
 {   "epochs" : 3,
     "model_abbreviation" :      {"bert-base-uncased": "bert", 
-                                 "roberta-base": "roberta",
-                                 "facebook/m2m100_418M": "m2m",
                                  "bert-base-chinese":"zhbert",
+                                    
+                                 "roberta-base": "roberta",
+                                 "hfl/chinese-roberta-wwm-ext": "chinese_roberta",
+                                 
                                  "hfl/chinese-macbert-base":"macbert",
-                                 "csebuetnlp/mT5_multilingual_XLSum": "mT5",
+                                 
+
+
                                  "google/mt5-base": "mt5",
                                  "xlm-roberta-base": "xlm_roberta",
+<<<<<<< HEAD
                                 "hfl/chinese-roberta-wwm-ext": "chinese_roberta"
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+                                "hfl/chinese-roberta-wwm-ext": "chinese_roberta"
+=======
+                                 "hfl/chinese-roberta-wwm-ext": "chinese_roberta",
+>>>>>>> 6760e08e328e30dc4db1fc0b606940bf7d070d74
+                                 "bert-base-multilingual-uncased": "mbert"
+>>>>>>> 20f4277ae56ff57d4c28def6dd90ef150298a54d
+>>>>>>> fbff130f61f7282a2d8343d5f677504860b47b74
                                 },
     "evinf" : {
         "rationale_length" : 0.2,
         "batch_size": 4,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
-        "model" : "roberta-base"
+        "model" : "xlm-roberta-base"
 
     },
     "sst" : {
@@ -23,21 +39,25 @@
         "batch_size": 8,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
+<<<<<<< HEAD
         "model" : "roberta-base"
+=======
+        "model" : "bert-base-multilingual-uncased"
+>>>>>>> fbff130f61f7282a2d8343d5f677504860b47b74
     },
     "multirc" : {
         "rationale_length" : 0.2,
         "batch_size": 4,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
-        "model" : "roberta-base"
+        "model" : "xlm-roberta-base"
     },
     "agnews" : {
         "rationale_length" : 0.2,
         "batch_size": 8,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
-        "model" : "roberta-base"
+        "model" : "xlm-roberta-base"
     },
 
     
