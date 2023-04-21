@@ -1,14 +1,17 @@
 
 {   "epochs" : 3,
     "model_abbreviation" :      {"bert-base-uncased": "bert", 
-                                 "roberta-base": "roberta",
-                                 "facebook/m2m100_418M": "m2m",
                                  "bert-base-chinese":"zhbert",
+                                    
+                                 "roberta-base": "roberta",
+                                 "hfl/chinese-roberta-wwm-ext": "chinese_roberta",
+                                 
                                  "hfl/chinese-macbert-base":"macbert",
-                                 "csebuetnlp/mT5_multilingual_XLSum": "mT5",
+                                 
+
+
                                  "google/mt5-base": "mt5",
                                  "xlm-roberta-base": "xlm_roberta",
-                                 "hfl/chinese-roberta-wwm-ext": "chinese_roberta",
                                  "bert-base-multilingual-uncased": "mbert"
                                 },
     "evinf" : {
@@ -16,7 +19,7 @@
         "batch_size": 4,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
-        "model" : "roberta-base"
+        "model" : "xlm-roberta-base"
 
     },
     "sst" : {
@@ -24,25 +27,21 @@
         "batch_size": 8,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
-<<<<<<< HEAD
         "model" : "bert-base-multilingual-uncased"
-=======
-        "model" : "roberta-base"
->>>>>>> 31bfd73d5ff01fbd1ab69e4aadecd0f8c692735e
     },
     "multirc" : {
         "rationale_length" : 0.2,
         "batch_size": 4,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
-        "model" : "roberta-base"
+        "model" : "xlm-roberta-base"
     },
     "agnews" : {
         "rationale_length" : 0.2,
         "batch_size": 8,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
-        "model" : "roberta-base"
+        "model" : "xlm-roberta-base"
     },
 
     
