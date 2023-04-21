@@ -16,7 +16,7 @@ parser.add_argument(
     "--dataset", 
     type = str, 
     help = "select dataset / task", 
-    default = "ChnSentiCorp", 
+    default = "sst", 
     #choices = ["ant", "csl","ChnSentiCorp", "sst", "evinf", "agnews", "multirc", "evinf_FA"]
 )
 
@@ -31,14 +31,14 @@ parser.add_argument(
     "--model_dir",   
     type = str, 
     help = "directory to save models, mannually modify it for multi and mono", 
-    default = "macbert_trained_models/"  # macbert bert zhbert
+    default = "xlm_roberta_trained_models/"  # macbert bert zhbert
 )
 
 parser.add_argument(
     "--seed",   
     type = int, 
     help = "random seed for experiment",
-    default = 15
+    default = 5
 )
 
 
@@ -46,7 +46,7 @@ parser.add_argument(
     '--evaluate_models', 
     help='test predictive performance in and out of domain', 
     action='store_true',
-    default=True,
+    default=False,
 )
 
 user_args = vars(parser.parse_args())

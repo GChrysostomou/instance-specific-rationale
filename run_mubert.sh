@@ -14,10 +14,10 @@
 #SBATCH --job-name=U-agnews
 
 
-cd /mnt/parscratch/users/cass/BP-MU
+cd /mnt/parscratch/users/cass/BP_MU
 export SLURM_EXPORT_ENV=ALL
 module load Anaconda3/2022.10
-module load CUDA/11.7.0
+module load CUDA/11.8.0
 source activate faith
 
 
@@ -36,18 +36,18 @@ evaluation_dir="${model_shortname}${evaluation_dir}"
 
 
 ########### train and predict ###########
-for seed in 5 10 15
-do
-python finetune_on_ful.py --dataset $dataset \
-                          --model_dir $model_dir \
-                          --data_dir $data_dir \
-                          --seed $seed                          
-done
+# for seed in 5 10 15
+# do
+# python finetune_on_ful.py --dataset $dataset \
+#                           --model_dir $model_dir \
+#                           --data_dir $data_dir \
+#                           --seed $seed                          
+# done
 
-python finetune_on_ful.py --dataset $dataset \
-                          --model_dir $model_dir \
-                          --data_dir $data_dir \
-                          --evaluate_models 
+# python finetune_on_ful.py --dataset $dataset \
+#                           --model_dir $model_dir \
+#                           --data_dir $data_dir \
+#                           --evaluate_models 
                 
                           
 

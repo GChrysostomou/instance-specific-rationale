@@ -30,7 +30,7 @@ def get_dict(dataset, model_folder_name, model_abb):
         topk = pd.read_json(file_path, orient ='index')
         topk.rename(columns = {'AOPC - sufficiency':'AOPC_sufficiency', 'AOPC - comprehensiveness':'AOPC_comprehensiveness'}, inplace = True)
 
-        file_path = f'./{model_folder}/{model_abb}_predictive_performances.json'
+        file_path = f'./{model_folder}{model_abb}_predictive_performances.json'
         pred = pd.read_json(file_path)
         if dataset == 'ChnSentiCorp' or dataset == 'ant' or dataset == 'csl': pred_result = pred['mean-accuracy'].mean()
         else: pred_result = pred['mean-f1'].mean()
@@ -86,9 +86,11 @@ def get_dict(dataset, model_folder_name, model_abb):
 
 #ChnSentiCorp_mbert_dict = get_dict('ChnSentiCorp','mbert')
 
-model_folder_name = 'bert'
-model_abb = 'bert'
-data = 'multirc'
+
+# mbert m / 
+model_folder_name = 'xlm_roberta'
+model_abb = 'xlm_roberta'
+data = 'evinf'
 current_data_model_dict_noDATAhead = get_dict(data,model_folder_name, model_abb)
 
 dataset_list = loaded_dict.keys()

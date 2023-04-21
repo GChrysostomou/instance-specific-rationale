@@ -221,6 +221,7 @@ def test_predictive_performance(test_data_loader, for_rationale = False, output_
         stats_report[seed]["loss"] = test_loss
         stats_report[seed]["ece-score"] = ece_stats["ece"]
 
+
     f1s = np.asarray([x["f1"] for k,x in stats_report.items()])
     accuracies = np.asarray([x["accuracy"] for k,x in stats_report.items()])
     eces = np.asarray([x["ece-score"] for k,x in stats_report.items()])

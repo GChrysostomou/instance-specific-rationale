@@ -30,7 +30,7 @@ class predictor:
             
             attention_mask = (input_ids != self.tokenizer.pad_token_id).long()
             
-            if args.model_abbreviation == "roberta":
+            if "roberta" in args.model_abbreviation:
                 
                 token_type_ids = torch.zeros_like(attention_mask)
 
