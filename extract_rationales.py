@@ -113,7 +113,7 @@ from src.evaluation import evaluation_pipeline
 
 data = BERT_HOLDER(
     args["data_dir"], 
-    b_size = 2,
+    b_size = 8,
     return_as_frames = True,
     stage = "extract",
 )
