@@ -4,8 +4,7 @@
 #SBATCH --qos=gpu
 #SBATCH --gres=gpu:1
 
-# set name of job
-#SBATCH --job-name=O-csl
+
 
 #SBATCH --mem=128GB
 
@@ -17,14 +16,16 @@
 
 #SBATCH --time=90:00:00
 
-# run the application
+#SBATCH --job-name=O-csl
+
+
 cd /mnt/parscratch/users/cass/BP-MONO
 module load Anaconda3/2022.10
 module load CUDA/11.7.0
 source activate faith
 
 
-model_shortname="macbert"
+model_shortname="roberta"
 dataset="csl"  #["ChnSentiCorp", "csl", "ant", "sst", "evinf", "multirc", "agnews"]
 
 

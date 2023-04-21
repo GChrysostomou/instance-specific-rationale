@@ -7,14 +7,15 @@
                                  "hfl/chinese-macbert-base":"macbert",
                                  "csebuetnlp/mT5_multilingual_XLSum": "mT5",
                                  "google/mt5-base": "mt5",
-                                 "xlm-roberta-base": "xlm_roberta"
+                                 "xlm-roberta-base": "xlm_roberta",
+                                 "hfl/chinese-roberta-wwm-ext": "chinese_roberta"
                                 },
     "evinf" : {
         "rationale_length" : 0.2,
         "batch_size": 4,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
-        "model" : "xlm-roberta-base"
+        "model" : "roberta-base"
 
     },
     "sst" : {
@@ -22,21 +23,21 @@
         "batch_size": 8,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
-        "model" : "xlm-roberta-base"
+        "model" : "roberta-base"
     },
     "multirc" : {
         "rationale_length" : 0.2,
         "batch_size": 4,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
-        "model" : "xlm-roberta-base"
+        "model" : "roberta-base"
     },
     "agnews" : {
         "rationale_length" : 0.2,
         "batch_size": 8,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
-        "model" : "xlm-roberta-base"
+        "model" : "roberta-base"
     },
 
     
@@ -45,32 +46,20 @@
         "batch_size": 16,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
-<<<<<<< HEAD
-        "model" : "hfl/chinese-macbert-base"
-=======
-        "model" :  "xlm-roberta-base"
->>>>>>> 831ce79cf32b62af1f3f106d8295cd1c3a9224ea
+        "model" : "hfl/chinese-roberta-wwm-ext"
     },
     "csl" : {
         "rationale_length" : 0.2,
         "batch_size": 16,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
-<<<<<<< HEAD
-        "model" : "hfl/chinese-macbert-base"
-=======
-        "model" : "xlm-roberta-base"
->>>>>>> 831ce79cf32b62af1f3f106d8295cd1c3a9224ea
+        "model" : "hfl/chinese-roberta-wwm-ext"
     },
     "ant" : {
         "rationale_length" : 0.2,
         "batch_size": 16,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
-<<<<<<< HEAD
-        "model" : "hfl/chinese-macbert-base"
-=======
-        "model" : "xlm-roberta-base"
->>>>>>> 831ce79cf32b62af1f3f106d8295cd1c3a9224ea
+        "model" : "hfl/chinese-roberta-wwm-ext"
     }
 }
