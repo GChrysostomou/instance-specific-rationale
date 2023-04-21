@@ -46,7 +46,7 @@ parser.add_argument(
     '--evaluate_models', 
     help='test predictive performance in and out of domain', 
     action='store_true',
-    default=True,
+    default=False,
 )
 
 user_args = vars(parser.parse_args())
