@@ -40,14 +40,14 @@ parser.add_argument(
     "--model_dir",   
     type = str, 
     help = "directory to save models", 
-    default = "xlm_roberta_trained_models/"
+    default = "roberta_trained_models/"
 )
 
 parser.add_argument(
     "--extracted_rationale_dir",   
     type = str, 
     help = "directory to save extracted_rationales", 
-    default = "xlm_roberta_extracted_rationales/"
+    default = "roberta_extracted_rationales/"
 )
 
 parser.add_argument(
