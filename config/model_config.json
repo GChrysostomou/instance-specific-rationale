@@ -22,7 +22,7 @@
         "batch_size": 8,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
-        "model" : "xlm-roberta-base"
+        "model" : "roberta-base"
     },
     "multirc" : {
         "rationale_length" : 0.2,
