@@ -68,15 +68,31 @@ class bert(nn.Module):  # equal to "BertClassifier"
     
         if "ig" not in inputs: inputs["ig"] = int(1)
 
-        _, pooled_output, attention_weights = self.wrapper(
-            inputs["input_ids"].to(device), 
-            attention_mask = inputs["attention_mask"].to(device),
-            token_type_ids = inputs["token_type_ids"].to(device),
-            ig = inputs["ig"],
-        )
+        if args['model_abbreviation'] == "xlm_roberta":
+
+            _, pooled_output, attention_weights = self.wrapper(
+                inputs["input_ids"].to(device), 
+                attention_mask = inputs["attention_mask"].to(device),
+                token_type_ids = None,
+                ig = inputs["ig"],
+            )
+        else: 
+            _, pooled_output, attention_weights = self.wrapper(
+                inputs["input_ids"].to(device), 
+                attention_mask = inputs["attention_mask"].to(device),
+                token_type_ids = inputs["token_type_ids"].to(device),
+                ig = inputs["ig"],
+            )
        
         # to retain gradients
-        self.weights_or = torch.tensor(attention_weights[-1], requires_grad=True)  # debug by cass
+        #self.weights_or = torch.tensor(attention_weights[-1], requires_grad=True)  # debug by cass
+        self.weights_or = attention_weights[-1].clone().detach().requires_grad_(True)
+
+        #  To copy construct from a tensor, it is recommended to use 
+        # sourceTensor.clone().detach() or 
+        # sourceTensor.clone().detach().requires_grad_(True), 
+        # rather than torch.tensor(sourceTensor).
+        
         #self.weights_or = attention_weights[-1].clone.detach().requires_grad_(True)#, requires_grad=True)
 
         # self.weights_or = torch.tensor(

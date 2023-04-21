@@ -39,7 +39,6 @@ class evaluate():
         """
         loads and holds a pretrained model
         """
-
         self.models = glob.glob(model_path + args["model_abbreviation"] + "*.pt")
         self.output_dims = output_dims
 
@@ -54,12 +53,15 @@ class evaluate():
         
         if model:
 
+
+                        
             extract_importance_(
                     model = model, 
                     data_split_name = data_split_name,
                     data = data,
                     model_random_seed = self.model_random_seed
                 )
+
 
             extract_lime_scores_(
                 model = model, 
@@ -70,7 +72,7 @@ class evaluate():
                 max_seq_len = max_seq_len,
                 tokenizer = tokenizer,
             )
-
+            
             extract_shap_values_(
                 model = model, 
                 data = data,
@@ -155,7 +157,7 @@ class evaluate():
                                                 # "dev":  data.dev_loader
                                                 # added "train" only for creating FA --> "train": data.train_loader, \
                                                 }.items():
-                print('////////// data split keys', data_split)
+
                 ## register importance scores if they do not exist
                 self.register_importance_(
                     data = data_split,
