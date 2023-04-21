@@ -8,7 +8,12 @@
                                  "csebuetnlp/mT5_multilingual_XLSum": "mT5",
                                  "google/mt5-base": "mt5",
                                  "xlm-roberta-base": "xlm_roberta",
+<<<<<<< HEAD
                                 "hfl/chinese-roberta-wwm-ext": "chinese_roberta"
+=======
+                                 "hfl/chinese-roberta-wwm-ext": "chinese_roberta",
+                                 "bert-base-multilingual-uncased": "mbert"
+>>>>>>> 20f4277ae56ff57d4c28def6dd90ef150298a54d
                                 },
     "evinf" : {
         "rationale_length" : 0.2,
@@ -23,14 +28,18 @@
         "batch_size": 8,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
+<<<<<<< HEAD
+        "model" : "bert-base-multilingual-uncased"
+=======
         "model" : "roberta-base"
+>>>>>>> 31bfd73d5ff01fbd1ab69e4aadecd0f8c692735e
     },
     "multirc" : {
         "rationale_length" : 0.2,
         "batch_size": 4,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
-        "model" : "xlm-roberta-base"
+        "model" : "roberta-base"
     },
     "agnews" : {
         "rationale_length" : 0.2,
@@ -46,7 +55,11 @@
         "batch_size": 16,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
+<<<<<<< HEAD
         "model" :  "hfl/chinese-roberta-wwm-ext"
+=======
+        "model" : "hfl/chinese-roberta-wwm-ext"
+>>>>>>> 20f4277ae56ff57d4c28def6dd90ef150298a54d
     },
     "csl" : {
         "rationale_length" : 0.2,
