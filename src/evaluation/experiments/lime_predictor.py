@@ -66,19 +66,33 @@ class predictor:
 
         for example in examples:
 
-            batch = {
-                "input_ids" : example["input_ids"].to(device),
-                "token_type_ids" : example["token_type_ids"].to(device),
-                "attention_mask" : example["attention_mask"].to(device),
-                "retain_gradient" : False
-            }
+            # print(example["token_type_ids"].size())
+            # print(example["input_ids"].size())
+            if args['model_abbreviation'] == "xlm_roberta":
+                batch = {
+                    "input_ids" : example["input_ids"].to(device),
+                    #"token_type_ids" : example["token_type_ids"].to(device),
+                    "attention_mask" : example["attention_mask"].to(device),
+                    "retain_gradient" : False
+                }
+            else:
+                batch = {
+                    "input_ids" : example["input_ids"].to(device),
+                    "token_type_ids" : example["token_type_ids"].to(device),
+                    "attention_mask" : example["attention_mask"].to(device),
+                    "retain_gradient" : False
+                }
 
             with torch.no_grad():
                 
                 outputs = self.model(**batch)
             
             logits = outputs[0]
+
             logits = torch.softmax(logits, dim = 1)
+            # results.append(logits.cpu().detach().numpy()[0])
+            # print(logits.cpu())
+            # print(logits.cpu().numpy())
             results.append(logits.cpu().detach().numpy()[0])
 
         results_array = np.array(results)

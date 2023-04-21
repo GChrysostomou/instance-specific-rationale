@@ -1,9 +1,13 @@
 
 {   "epochs" : 3,
-    "model_abbreviation" :      {
-                                 "bert-base-multilingual-uncased":"mbert",
-                                 "xlm-roberta-base": "xlm_roberta",
-                                 "csebuetnlp/mT5_multilingual_XLSum": "mT5"
+    "model_abbreviation" :      {"bert-base-uncased": "bert", 
+                                 "roberta-base": "roberta",
+                                 "facebook/m2m100_418M": "m2m",
+                                 "bert-base-chinese":"zhbert",
+                                 "hfl/chinese-macbert-base":"macbert",
+                                 "csebuetnlp/mT5_multilingual_XLSum": "mT5",
+                                 "google/mt5-base": "mt5",
+                                 "xlm-roberta-base": "xlm_roberta"
                                 },
     "evinf" : {
         "rationale_length" : 0.2,
@@ -41,7 +45,7 @@
         "batch_size": 16,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
-        "model" : "xlm-roberta-base"
+        "model" :  "xlm-roberta-base"
     },
     "csl" : {
         "rationale_length" : 0.2,

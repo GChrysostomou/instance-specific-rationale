@@ -67,7 +67,7 @@ parser.add_argument(
     "--extracted_rationale_dir",   
     type = str, 
     help = "directory to save extracted_rationales", 
-    default = "bert_extracted_rationales/"
+    default = "_extracted_rationales/"
 )
 
 parser.add_argument(
