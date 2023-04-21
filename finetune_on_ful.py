@@ -16,7 +16,7 @@ parser.add_argument(
     "--dataset", 
     type = str, 
     help = "select dataset / task", 
-    default = "ChnSentiCorp", 
+    default = "sst", 
     #choices = ["ant", "csl","ChnSentiCorp", "sst", "evinf", "agnews", "multirc", "evinf_FA"]
 )
 
@@ -31,7 +31,7 @@ parser.add_argument(
     "--model_dir",   
     type = str, 
     help = "directory to save models, mannually modify it for multi and mono", 
-    default = "t5_trained_models/"  # macbert bert zhbert
+    default = "xlm_roberta_trained_models/"  # macbert bert zhbert
 )
 
 parser.add_argument(

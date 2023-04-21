@@ -52,7 +52,7 @@
         "batch_size": 16,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
-        "model" : "csebuetnlp/mT5_multilingual_XLSum"
+        "model" : "xlm-roberta-base"
     },
     "ant" : {
         "rationale_length" : 0.2,
