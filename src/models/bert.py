@@ -68,7 +68,7 @@ class bert(nn.Module):  # equal to "BertClassifier"
     
         if "ig" not in inputs: inputs["ig"] = int(1)
 
-        if args['model_abbreviation'] == "xlm_roberta":
+        if "roberta" in args['model_abbreviation']:
 
             _, pooled_output, attention_weights = self.wrapper(
                 inputs["input_ids"].to(device), 

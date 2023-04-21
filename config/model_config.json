@@ -24,7 +24,11 @@
         "batch_size": 8,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
+<<<<<<< HEAD
         "model" : "bert-base-multilingual-uncased"
+=======
+        "model" : "roberta-base"
+>>>>>>> 31bfd73d5ff01fbd1ab69e4aadecd0f8c692735e
     },
     "multirc" : {
         "rationale_length" : 0.2,

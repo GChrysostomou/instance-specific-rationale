@@ -68,7 +68,7 @@ class predictor:
 
             # print(example["token_type_ids"].size())
             # print(example["input_ids"].size())
-            if args['model_abbreviation'] == "xlm_roberta":
+            if "roberta" in args['model_abbreviation']:
                 batch = {
                     "input_ids" : example["input_ids"].to(device),
                     #"token_type_ids" : example["token_type_ids"].to(device),
