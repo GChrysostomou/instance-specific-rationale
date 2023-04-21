@@ -4,11 +4,8 @@
 #SBATCH --qos=gpu
 #SBATCH --gres=gpu:1
 
-# set max wallclock time
-
-
 # set name of job
-#SBATCH --job-name=sst
+#SBATCH --job-name=O-sst
 
 #SBATCH --mem=128GB
 
@@ -18,7 +15,7 @@
 # send mail to this address
 #SBATCH --mail-user=zhixue.zhao@sheffield.ac.uk
 
-
+#SBATCH --time=90:00:00
 
 # run the application
 cd /mnt/parscratch/users/cass/BP-MONO
@@ -28,7 +25,7 @@ source activate faith
 
 
 model_shortname="bert"
-dataset="sst"  #["csl", "ant", "sst", "evinf", "multirc", "agnews"]
+dataset="sst"  #["ChnSentiCorp", "csl", "ant", "sst", "evinf", "multirc", "agnews"]
 
 
 data_dir="datasets/"
@@ -41,7 +38,7 @@ extracted_rationale_dir="${model_shortname}${extracted_rationale_dir}"
 evaluation_dir="${model_shortname}${evaluation_dir}"
 
 
-########### train and predict ###########
+# ########## train and predict ###########
 # for seed in 5 10 15
 # do
 # python finetune_on_ful.py --dataset $dataset \
@@ -58,10 +55,10 @@ evaluation_dir="${model_shortname}${evaluation_dir}"
                           
 
 
-# python extract_rationales.py --dataset $dataset \
-#                             --model_dir $model_dir \
-#                             --data_dir $data_dir \
-#                             --extracted_rationale_dir $extracted_rationale_dir 
+python extract_rationales.py --dataset $dataset \
+                            --model_dir $model_dir \
+                            --data_dir $data_dir \
+                            --extracted_rationale_dir $extracted_rationale_dir 
                                     
 
 python evaluate_posthoc.py --dataset $dataset \

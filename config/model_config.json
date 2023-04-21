@@ -1,10 +1,8 @@
 
 {   "epochs" : 3,
     "model_abbreviation" :      {"bert-base-uncased": "bert", 
-                                 "allenai/scibert_scivocab_uncased": "scibert",
                                  "roberta-base": "roberta",
                                  "facebook/m2m100_418M": "m2m",
-                                 "bert-base-multilingual-uncased":"mbert",
                                  "bert-base-chinese":"zhbert",
                                  "hfl/chinese-macbert-base":"macbert",
                                 "xlm-roberta-base":"xlmroberta"},
@@ -13,7 +11,7 @@
         "batch_size": 4,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
-        "model" : "bert-base-multilingual-uncased"
+        "model" : "bert-base-uncased"
 
     },
     "sst" : {
@@ -21,42 +19,43 @@
         "batch_size": 8,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
-        "model" : "bert-base-multilingual-uncased"
+        "model" : "bert-base-uncased"
     },
     "multirc" : {
         "rationale_length" : 0.2,
         "batch_size": 4,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
-        "model" : "bert-base-multilingual-uncased"
+        "model" : "bert-base-uncased"
     },
     "agnews" : {
         "rationale_length" : 0.2,
         "batch_size": 8,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
-        "model" : "bert-base-multilingual-uncased"
+        "model" : "bert-base-uncased"
     },
 
+    
     "ChnSentiCorp" : {
         "rationale_length" : 0.2,
         "batch_size": 16,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
-        "model" : "xlm-roberta"
+        "model" : "hfl/chinese-macbert-base"
     },
     "csl" : {
         "rationale_length" : 0.2,
         "batch_size": 16,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
-        "model" : "bert-base-multilingual-uncased"
+        "model" : "bert-base-chinese"
     },
     "ant" : {
         "rationale_length" : 0.2,
         "batch_size": 16,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
-        "model" : "bert-base-multilingual-uncased"
+        "model" : "bert-base-chinese"
     }
 }

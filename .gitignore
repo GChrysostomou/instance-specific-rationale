@@ -1,6 +1,9 @@
 *.pt
 *spaCy/
 config/*
+./config/*
+./config/model_config.json
+config/model_config.json
 *__pycache__*
 graphs_and_tables/
 results/*
