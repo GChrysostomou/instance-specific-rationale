@@ -11,7 +11,7 @@
 
 #SBATCH --time=90:00:00
 
-#SBATCH --job-name=U-agnews
+#SBATCH --job-name=U-multirc
 
 
 cd /mnt/parscratch/users/cass/BP_MU
@@ -22,7 +22,7 @@ source activate faith
 
 
 model_shortname="xlm_roberta"
-dataset="agnews"  #["ChnSentiCorp", "ant", "csl", "sst", "evinf", "multirc", "agnews"]
+dataset="multirc"  #["ChnSentiCorp", "ant", "csl", "sst", "evinf", "multirc", "agnews"]
 
 
 data_dir="datasets/"
