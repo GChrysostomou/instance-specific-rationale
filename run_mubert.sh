@@ -11,7 +11,7 @@
 
 #SBATCH --time=90:00:00
 
-#SBATCH --job-name=U-multirc
+#SBATCH --job-name=U-sst
 
 
 cd /mnt/parscratch/users/cass/BP_MU
@@ -21,8 +21,8 @@ module load CUDA/11.8.0
 source activate faith
 
 
-model_shortname="xlm_roberta"
-dataset="multirc"  #["ChnSentiCorp", "ant", "csl", "sst", "evinf", "multirc", "agnews"]
+model_shortname="mbert"
+dataset="sst"  #["ChnSentiCorp", "ant", "csl", "sst", "evinf", "multirc", "agnews"]
 
 
 data_dir="datasets/"
