@@ -1,5 +1,6 @@
 *.pt
 *spaCy/
+*.pyc
 config/*
 ./config/*
 ./config/model_config.json
