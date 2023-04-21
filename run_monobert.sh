@@ -16,7 +16,7 @@
 
 #SBATCH --time=90:00:00
 
-#SBATCH --job-name=O-csl
+#SBATCH --job-name=O-agnews
 
 
 cd /mnt/parscratch/users/cass/BP-MONO
@@ -26,7 +26,7 @@ source activate faith
 
 
 model_shortname="roberta"
-dataset="csl"  #["ChnSentiCorp", "csl", "ant", "sst", "evinf", "multirc", "agnews"]
+dataset="agnews"  #["ChnSentiCorp", "csl", "ant", "sst", "evinf", "multirc", "agnews"]
 
 
 data_dir="datasets/"
@@ -39,19 +39,19 @@ extracted_rationale_dir="${model_shortname}${extracted_rationale_dir}"
 evaluation_dir="${model_shortname}${evaluation_dir}"
 
 
-########## train and predict ###########
-for seed in 5 10 15
-do
-python finetune_on_ful.py --dataset $dataset \
-                          --model_dir $model_dir \
-                          --data_dir $data_dir \
-                          --seed $seed                          
-done
+# ########## train and predict ###########
+# for seed in 5 10 15
+# do
+# python finetune_on_ful.py --dataset $dataset \
+#                           --model_dir $model_dir \
+#                           --data_dir $data_dir \
+#                           --seed $seed                          
+# done
 
-python finetune_on_ful.py --dataset $dataset \
-                          --model_dir $model_dir \
-                          --data_dir $data_dir \
-                          --evaluate_models 
+# python finetune_on_ful.py --dataset $dataset \
+#                           --model_dir $model_dir \
+#                           --data_dir $data_dir \
+#                           --evaluate_models 
                 
                           
 
