@@ -29,14 +29,14 @@
         "batch_size": 4,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
-        "model" : "bert-base-uncased"
+        "model" : "xlm-roberta-base"
     },
     "agnews" : {
         "rationale_length" : 0.2,
         "batch_size": 8,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
-        "model" : "bert-base-uncased"
+        "model" : "xlm-roberta-base"
     },
 
     
@@ -59,6 +59,6 @@
         "batch_size": 16,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
-        "model" : "bert-base-chinese"
+        "model" : "xlm-roberta-base"
     }
 }
