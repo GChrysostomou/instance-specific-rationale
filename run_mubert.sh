@@ -11,18 +11,18 @@
 
 #SBATCH --time=90:00:00
 
-#SBATCH --job-name=U-sst
+#SBATCH --job-name=U-multirc
 
 
-cd /mnt/parscratch/users/cass/BP-MU
+cd /mnt/parscratch/users/cass/BP_MU
 export SLURM_EXPORT_ENV=ALL
 module load Anaconda3/2022.10
-module load CUDA/11.7.0
+module load CUDA/11.8.0
 source activate faith
 
 
-model_shortname="mbert"
-dataset="sst"  #["ChnSentiCorp", "ant", "csl", "sst", "evinf", "multirc", "agnews"]
+model_shortname="xlm_roberta"
+dataset="multirc"  #["ChnSentiCorp", "ant", "csl", "sst", "evinf", "multirc", "agnews"]
 
 
 data_dir="datasets/"
@@ -35,7 +35,7 @@ extracted_rationale_dir="${model_shortname}${extracted_rationale_dir}"
 evaluation_dir="${model_shortname}${evaluation_dir}"
 
 
-# ########### train and predict ###########
+########### train and predict ###########
 # for seed in 5 10 15
 # do
 # python finetune_on_ful.py --dataset $dataset \
@@ -52,10 +52,10 @@ evaluation_dir="${model_shortname}${evaluation_dir}"
                           
 
 
-# python extract_rationales.py --dataset $dataset \
-#                             --model_dir $model_dir \
-#                             --data_dir $data_dir \
-#                             --extracted_rationale_dir $extracted_rationale_dir 
+python extract_rationales.py --dataset $dataset \
+                            --model_dir $model_dir \
+                            --data_dir $data_dir \
+                            --extracted_rationale_dir $extracted_rationale_dir 
                                     
 
 python evaluate_posthoc.py --dataset $dataset \

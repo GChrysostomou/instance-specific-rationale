@@ -25,7 +25,7 @@ parser.add_argument(
     "--dataset", 
     type = str, 
     help = "select dataset / task", 
-    default = "sst", 
+    default = "ChnSentiCorp", 
     #choices = ["sst", "evinf", "multirc", "agnews", "ChnSentiCorp"]
 )
 
@@ -40,14 +40,14 @@ parser.add_argument(
     "--model_dir",   
     type = str, 
     help = "directory to save models", 
-    default = "mbert_trained_models/"
+    default = "xlm_roberta_trained_models/"
 )
 
 parser.add_argument(
     "--extracted_rationale_dir",   
     type = str, 
     help = "directory to save extracted_rationales", 
-    default = "mbert_extracted_rationales/"
+    default = "xlm_roberta_extracted_rationales/"
 )
 
 parser.add_argument(
@@ -113,7 +113,7 @@ from src.evaluation import evaluation_pipeline
 
 data = BERT_HOLDER(
     args["data_dir"], 
-    b_size = args["batch_size"],
+    b_size = 4,
     return_as_frames = True,
     stage = "extract",
 )

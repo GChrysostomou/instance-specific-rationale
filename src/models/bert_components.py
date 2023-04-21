@@ -48,7 +48,10 @@ def bert_embeddings(bert_model,
     position_embeddings = bert_model.embeddings.position_embeddings(position_ids)
     token_type_embeddings = bert_model.embeddings.token_type_embeddings(token_type_ids)
 
-    embeddings = embed + position_embeddings + token_type_embeddings
+    if token_type_ids is None:
+        embeddings = embed + position_embeddings
+    else:
+        embeddings = embed + position_embeddings + token_type_embeddings
     embeddings = bert_model.embeddings.LayerNorm(embeddings)
     embeddings = bert_model.embeddings.dropout(embeddings)
 
@@ -171,7 +174,12 @@ class BertModelWrapper(nn.Module):
 
         self.model = model
         
-    def forward(self, input_ids, attention_mask, token_type_ids, ig = int(1)):        
+    def forward(self, input_ids, attention_mask, token_type_ids, ig = int(1)):       
+
+        if args['model_abbreviation'] == "xlm_roberta":
+
+            token_type_ids = None
+
 
         embeddings, self.word_embeds = bert_embeddings(
             self.model, 
