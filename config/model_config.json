@@ -1,39 +1,19 @@
 
 {   "epochs" : 3,
-    "model_abbreviation" :      {"bert-base-uncased": "bert", 
-                                 "bert-base-chinese":"zhbert",
-                                    
-                                 "roberta-base": "roberta",
-                                 "hfl/chinese-roberta-wwm-ext": "chinese_roberta",
-                                 
-                                 "hfl/chinese-macbert-base":"macbert",
-                                 
-
-
+    "model_abbreviation" :      {
                                  "google/mt5-base": "mt5",
+
                                  "xlm-roberta-base": "xlm_roberta",
-
-                                "hfl/chinese-roberta-wwm-ext": "chinese_roberta"
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-                                "hfl/chinese-roberta-wwm-ext": "chinese_roberta"
-=======
-                                 "hfl/chinese-roberta-wwm-ext": "chinese_roberta",
->>>>>>> 6760e08e328e30dc4db1fc0b606940bf7d070d74
-                                 "bert-base-multilingual-uncased": "mbert"
->>>>>>> 20f4277ae56ff57d4c28def6dd90ef150298a54d
->>>>>>> fbff130f61f7282a2d8343d5f677504860b47b74
-                                 "bert-base-multilingual-uncased":"mbert"
-
+                                 "bert-base-multilingual-uncased": "mbert",
+                                 "distilbert-base-multilingual-cased": "distilbert",
+                                 "microsoft/deberta-base": "deberta"
                                 },
     "evinf" : {
         "rationale_length" : 0.2,
         "batch_size": 4,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
-        "model" : "xlm-roberta-base"
+        "model" : "distilbert-base-multilingual-cased"
 
     },
     "sst" : {
@@ -41,25 +21,21 @@
         "batch_size": 8,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
-<<<<<<< HEAD
-        "model" : "roberta-base"
-=======
-        "model" : "bert-base-multilingual-uncased"
->>>>>>> fbff130f61f7282a2d8343d5f677504860b47b74
+        "model" : "distilbert-base-multilingual-cased"
     },
     "multirc" : {
         "rationale_length" : 0.2,
         "batch_size": 4,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
-        "model" : "xlm-roberta-base"
+        "model" : "distilbert-base-multilingual-cased"
     },
     "agnews" : {
         "rationale_length" : 0.2,
         "batch_size": 8,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
-        "model" : "xlm-roberta-base"
+        "model" : "distilbert-base-multilingual-cased"
     },
 
     
@@ -68,20 +44,20 @@
         "batch_size": 16,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
-        "model" : "xlm-roberta-base"
+        "model" : "microsoft/deberta-base"
     },
     "csl" : {
         "rationale_length" : 0.2,
         "batch_size": 16,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
-        "model" : "xlm-roberta-base"
+        "model" : "distilbert-base-multilingual-cased"
     },
     "ant" : {
         "rationale_length" : 0.2,
         "batch_size": 16,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
-        "model" : "xlm-roberta-base"
+        "model" : "distilbert-base-multilingual-cased"
     }
 }
