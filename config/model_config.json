@@ -12,7 +12,7 @@
 
                                  "google/mt5-base": "mt5",
                                  "xlm-roberta-base": "xlm_roberta",
-<<<<<<< HEAD
+
                                 "hfl/chinese-roberta-wwm-ext": "chinese_roberta"
 =======
 <<<<<<< HEAD
