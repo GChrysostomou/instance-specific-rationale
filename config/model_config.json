@@ -12,6 +12,19 @@
 
                                  "google/mt5-base": "mt5",
                                  "xlm-roberta-base": "xlm_roberta",
+
+                                "hfl/chinese-roberta-wwm-ext": "chinese_roberta"
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+                                "hfl/chinese-roberta-wwm-ext": "chinese_roberta"
+=======
+                                 "hfl/chinese-roberta-wwm-ext": "chinese_roberta",
+>>>>>>> 6760e08e328e30dc4db1fc0b606940bf7d070d74
+                                 "bert-base-multilingual-uncased": "mbert"
+>>>>>>> 20f4277ae56ff57d4c28def6dd90ef150298a54d
+>>>>>>> fbff130f61f7282a2d8343d5f677504860b47b74
                                  "bert-base-multilingual-uncased":"mbert"
 
                                 },
@@ -28,7 +41,11 @@
         "batch_size": 8,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
+<<<<<<< HEAD
+        "model" : "roberta-base"
+=======
         "model" : "bert-base-multilingual-uncased"
+>>>>>>> fbff130f61f7282a2d8343d5f677504860b47b74
     },
     "multirc" : {
         "rationale_length" : 0.2,

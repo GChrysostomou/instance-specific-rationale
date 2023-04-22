@@ -16,7 +16,7 @@
 
 #SBATCH --time=90:00:00
 
-#SBATCH --job-name=O-ant
+#SBATCH --job-name=O-multirc
 
 
 cd /mnt/parscratch/users/cass/BP-MONO
@@ -26,7 +26,7 @@ source activate faith
 
 
 model_shortname="roberta"
-dataset="ant"  #["ChnSentiCorp", "csl", "ant", "sst", "evinf", "multirc", "agnews"]
+dataset="multirc"  #["ChnSentiCorp", "csl", "ant", "sst", "evinf", "multirc", "agnews"]
 
 
 data_dir="datasets/"
@@ -40,18 +40,18 @@ evaluation_dir="${model_shortname}${evaluation_dir}"
 
 
 ########## train and predict ###########
-for seed in 5 10 15
-do
-python finetune_on_ful.py --dataset $dataset \
-                          --model_dir $model_dir \
-                          --data_dir $data_dir \
-                          --seed $seed                          
-done
+# for seed in 5 10 15
+# do
+# python finetune_on_ful.py --dataset $dataset \
+#                           --model_dir $model_dir \
+#                           --data_dir $data_dir \
+#                           --seed $seed                          
+# done
 
-python finetune_on_ful.py --dataset $dataset \
-                          --model_dir $model_dir \
-                          --data_dir $data_dir \
-                          --evaluate_models 
+# python finetune_on_ful.py --dataset $dataset \
+#                           --model_dir $model_dir \
+#                           --data_dir $data_dir \
+#                           --evaluate_models 
                 
                           
 

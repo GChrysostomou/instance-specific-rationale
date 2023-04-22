@@ -52,7 +52,7 @@ parser.add_argument(
     "--model_dir",   
     type = str, 
     help = "directory to save models", 
-    default="bert_trained_models/"
+    default="roberta_trained_models/"
 )
 
 
@@ -60,14 +60,14 @@ parser.add_argument(
     "--evaluation_dir",   
     type = str, 
     help = "directory to save faithfulness results", 
-    default = "bert_faithfulness/"
+    default = "roberta_faithfulness/"
 )
 
 parser.add_argument(
     "--extracted_rationale_dir",   
     type = str, 
     help = "directory to save extracted_rationales", 
-    default = "_extracted_rationales/"
+    default = "roberta_extracted_rationales/"
 )
 
 parser.add_argument(
