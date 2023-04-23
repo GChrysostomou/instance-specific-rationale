@@ -45,13 +45,16 @@ def bert_embeddings(bert_model,
         token_type_ids = torch.zeros(input_shape, dtype=torch.long, device=position_ids.device)  # +0.0000000001 by cass dabug
 
     embed = bert_model.embeddings.word_embeddings(input_ids.to(device))
-    position_embeddings = bert_model.embeddings.position_embeddings(position_ids)
-    token_type_embeddings = bert_model.embeddings.token_type_embeddings(token_type_ids)
+    if args['model_abbreviation'] == "deberta": 
+        position_embeddings = torch.empty(embed.size()).to(device)
+        token_type_embeddings = torch.empty(embed.size()).to(device)
+    else: 
+        position_embeddings = bert_model.embeddings.position_embeddings(position_ids)
+        token_type_embeddings = bert_model.embeddings.token_type_embeddings(token_type_ids)
 
-    if token_type_ids is None:
-        embeddings = embed + position_embeddings
-    else:
-        embeddings = embed + position_embeddings + token_type_embeddings
+    if token_type_ids is None:embeddings = embed + position_embeddings
+    else:embeddings = embed + position_embeddings + token_type_embeddings
+
     embeddings = bert_model.embeddings.LayerNorm(embeddings)
     embeddings = bert_model.embeddings.dropout(embeddings)
 
@@ -180,7 +183,7 @@ class BertModelWrapper(nn.Module):
 
             token_type_ids = None
 
-
+        
         embeddings, self.word_embeds = bert_embeddings(
             self.model, 
             input_ids.long(),
@@ -200,14 +203,24 @@ class BertModelWrapper(nn.Module):
 
 
         emb_temp = embeddings * ig
-        encoder_outputs = self.model.encoder(
+        if args['model_abbreviation'] == "deberta":
+            encoder_outputs = self.model.encoder(
             emb_temp,
             attention_mask=extended_attention_mask,
-            head_mask=head_mask,
+            #head_mask=head_mask,
             output_attentions=self.model.config.output_attentions,
             output_hidden_states=self.model.config.output_attentions,
             return_dict=self.model.config.return_dict
         )
+        else:
+            encoder_outputs = self.model.encoder(
+                emb_temp,
+                attention_mask=extended_attention_mask,
+                head_mask=head_mask,
+                output_attentions=self.model.config.output_attentions,
+                output_hidden_states=self.model.config.output_attentions,
+                return_dict=self.model.config.return_dict
+            )
 
 
         sequence_output = encoder_outputs[0]

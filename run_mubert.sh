@@ -11,7 +11,7 @@
 
 #SBATCH --time=90:00:00
 
-#SBATCH --job-name=U-sst
+#SBATCH --job-name=U-ChnSentiCorp
 
 
 cd /mnt/parscratch/users/cass/BP_MU
@@ -21,8 +21,8 @@ module load CUDA/11.8.0
 source activate faith
 
 
-model_shortname="mbert"
-dataset="sst"  #["ChnSentiCorp", "ant", "csl", "sst", "evinf", "multirc", "agnews"]
+model_shortname="deberta" #distilbert  mbert  deberta
+dataset="ChnSentiCorp"  #["ChnSentiCorp", "ant", "csl", "sst", "evinf", "multirc", "agnews"]
 
 
 data_dir="datasets/"
@@ -35,19 +35,19 @@ extracted_rationale_dir="${model_shortname}${extracted_rationale_dir}"
 evaluation_dir="${model_shortname}${evaluation_dir}"
 
 
-########### train and predict ###########
-# for seed in 5 10 15
-# do
-# python finetune_on_ful.py --dataset $dataset \
-#                           --model_dir $model_dir \
-#                           --data_dir $data_dir \
-#                           --seed $seed                          
-# done
+########## train and predict ###########
+for seed in 5 10 15
+do
+python finetune_on_ful.py --dataset $dataset \
+                          --model_dir $model_dir \
+                          --data_dir $data_dir \
+                          --seed $seed                          
+done
 
-# python finetune_on_ful.py --dataset $dataset \
-#                           --model_dir $model_dir \
-#                           --data_dir $data_dir \
-#                           --evaluate_models 
+python finetune_on_ful.py --dataset $dataset \
+                          --model_dir $model_dir \
+                          --data_dir $data_dir \
+                          --evaluate_models 
                 
                           
 

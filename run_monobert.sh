@@ -56,10 +56,10 @@ evaluation_dir="${model_shortname}${evaluation_dir}"
                           
 
 
-# python extract_rationales.py --dataset $dataset \
-#                             --model_dir $model_dir \
-#                             --data_dir $data_dir \
-#                             --extracted_rationale_dir $extracted_rationale_dir 
+python extract_rationales.py --dataset $dataset \
+                            --model_dir $model_dir \
+                            --data_dir $data_dir \
+                            --extracted_rationale_dir $extracted_rationale_dir 
                                     
 
 python evaluate_posthoc.py --dataset $dataset \
