@@ -63,7 +63,7 @@ def train_and_save(train_data_loader, dev_data_loader, for_rationale = False, ou
 
     classifier = bert( 
         output_dim = output_dims,
-    )
+    ) # return logits, self.weights
 
     classifier.to(device)
     

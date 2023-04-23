@@ -165,6 +165,23 @@ class multi_BertModelWrapper(nn.Module):
 
         return sequence_output, pooled_output, attentions
 
+
+class BertPooler(nn.Module):
+    def __init__(self, config):
+        super().__init__()
+        self.dense = nn.Linear(config.hidden_size, config.hidden_size)
+        self.activation = nn.Tanh()
+
+    def forward(self, hidden_states: torch.Tensor) -> torch.Tensor:
+        # We "pool" the model by simply taking the hidden state corresponding
+        # to the first token.
+        first_token_tensor = hidden_states[:, 0]
+        pooled_output = self.dense(first_token_tensor)
+        pooled_output = self.activation(pooled_output)
+        return pooled_output
+    
+
+
 class BertModelWrapper(nn.Module):
     
     def __init__(self, model):
@@ -178,6 +195,7 @@ class BertModelWrapper(nn.Module):
         self.model = model
         
     def forward(self, input_ids, attention_mask, token_type_ids, ig = int(1)):       
+        print(self.model)
 
         if args['model_abbreviation'] == "xlm_roberta":
 
@@ -225,12 +243,16 @@ class BertModelWrapper(nn.Module):
 
         sequence_output = encoder_outputs[0]
         attentions = encoder_outputs[2]
-        pooled_output = self.model.pooler(sequence_output) if self.model.pooler is not None else None
+        # pooled_output = self.model.pooler(sequence_output) if self.model.pooler is not None else None
+        try: 
+            pooled_output = self.model.pooler(sequence_output) 
+        except:  pooled_output = sequence_output
 
         return sequence_output, pooled_output, attentions
 
 
 
+    
 # this version normalise
 class BertModelWrapper_zeroout(nn.Module):
     

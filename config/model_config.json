@@ -44,7 +44,7 @@
         "batch_size": 16,
         "lr_bert" : 1e-5,
         "lr_classifier" : 1e-4, 
-        "model" : "microsoft/deberta-base"
+        "model" : "bert-base-multilingual-uncased"
     },
     "csl" : {
         "rationale_length" : 0.2,
