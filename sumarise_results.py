@@ -89,8 +89,8 @@ def get_dict(dataset, model_folder_name, model_abb):
 
 # mbert m / 
 model_folder_name = 'roberta'
-model_abb = 'roberta'
-data = 'multirc'  # ChnSentiCorp ant csl multirc agnews sst evinf
+model_abb = 'roberta'  # 'chinese_roberta'  
+data = 'agnews'  # ChnSentiCorp ant csl multirc agnews sst evinf
 current_data_model_dict_noDATAhead = get_dict(data,model_folder_name, model_abb)
 
 dataset_list = loaded_dict.keys()
