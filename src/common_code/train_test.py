@@ -264,9 +264,6 @@ def train_model(model, training, development, loss_function, optimiser, seed,
             else:
                 loss = loss_function(yhat, batch["labels"]) 
 
-            
-
-
 
             total_loss += loss.item()
 
