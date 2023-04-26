@@ -195,7 +195,7 @@ class BertModelWrapper(nn.Module):
         self.model = model
         
     def forward(self, input_ids, attention_mask, token_type_ids, ig = int(1)):       
-        print(self.model)
+        #print(self.model)
 
         if args['model_abbreviation'] == "xlm_roberta":
 
