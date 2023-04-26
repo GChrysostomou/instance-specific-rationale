@@ -16,8 +16,8 @@ parser.add_argument(
     "--dataset", 
     type = str, 
     help = "select dataset / task", 
-    default = "french_xnli", 
-    # choices = ["french_xnli"
+    default = "french_paws", 
+    # choices = ["french_xnli" "french_paws"
     #choices = ["ant", "csl","ChnSentiCorp", "sst", "evinf", "agnews", "multirc", "evinf_FA"]
 )
 

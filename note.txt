@@ -27,4 +27,4 @@ adding if equiry, search by cass in initialiser
 
 
 for query or accuracy dataset :
-search : print(' it is chinese dataset, we use accuracy')
+search :  we use accuracy

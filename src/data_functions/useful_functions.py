@@ -23,10 +23,12 @@ def describe_data_stats(path_to_data, path_to_stats):
         data = pd.read_csv(f"{path_to_data}{split_name}.csv").to_dict("records")
 
         if "query" in data[0].keys(): 
-
-
-            avg_ctx_len = np.asarray([len(x["document"].split(" ")) for x in data]).mean()
-            avg_query_len = np.asarray([len(x["query"].split(" ")) for x in data]).mean()
+            try:
+                avg_query_len = np.asarray([len(x["query"].split(" ")) for x in data]).mean()
+                avg_ctx_len = np.asarray([len(x["document"].split(" ")) for x in data]).mean()
+            except:
+                avg_query_len = np.asarray([len(str(x["query"]).split(" ")) for x in data]).mean()
+                avg_ctx_len = np.asarray([len(str(x["document"]).split(" ")) for x in data]).mean()
 
             descriptions[split_name]["avg. context length"] = int(avg_ctx_len)
             descriptions[split_name]["avg. query length"] = int(avg_query_len)

@@ -42,15 +42,15 @@ class BERT_HOLDER():
             
         #     path += args["importance_metric"] + "-"
 
-        train = pd.read_csv(path + "train.csv").to_dict("records")[1166:1260] #list of dic
-        dev = pd.read_csv(path + "dev.csv").to_dict("records")[1066:1160] # for testing by cass
-        test = pd.read_csv(path + "test.csv").to_dict("records")[1066:1160]
+        train = pd.read_csv(path + "train.csv").to_dict("records")#[1166:1260] #list of dic
+        dev = pd.read_csv(path + "dev.csv").to_dict("records")#[1066:1160] # for testing by cass
+        test = pd.read_csv(path + "test.csv").to_dict("records")#[1066:1160]
         ## if we are dealing with a query we need to account for the query length as well
         print(train[:3])
 
         if args.query:
-            max_len = round(max([len(x["document"].split()) for x in train])) + \
-            max([len(x["query"].split()) for x in train])
+            max_len = round(max([len(str(x["document"]).split()) for x in train])) + \
+            max([len(str(x["query"]).split()) for x in train])
             max_len = round(max_len)
             
 
@@ -81,7 +81,9 @@ class BERT_HOLDER():
 
 
         if args.query:
-            train = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["document"], dic["query"]) for dic in train]
+            if 'paws' in args['dataset']:
+                train = [encode_plusplus_(dic, self.tokenizer, max_len,  str(dic["document"]), str(dic["query"])) for dic in train]
+            else: train = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["document"], dic["query"]) for dic in train]
             dev = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["document"], dic["query"]) for dic in dev]
             test = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["document"], dic["query"]) for dic in test]
 
