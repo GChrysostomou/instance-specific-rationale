@@ -15,6 +15,7 @@ import gc
 
 import pickle 
 
+
         
 with open('results_summary.pkl', 'rb') as f:
     loaded_dict = pickle.load(f)
@@ -88,8 +89,8 @@ def get_dict(dataset, model_folder_name, model_abb):
 
 
 # mbert m / 
-model_folder_name = 'roberta'
-model_abb = 'roberta'
+model_folder_name = 'xlm_roberta'
+model_abb = 'xlm_roberta'
 data = 'multirc'  # ChnSentiCorp ant csl multirc agnews sst evinf
 current_data_model_dict_noDATAhead = get_dict(data,model_folder_name, model_abb)
 
