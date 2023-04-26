@@ -16,7 +16,8 @@ parser.add_argument(
     "--dataset", 
     type = str, 
     help = "select dataset / task", 
-    default = "ChnSentiCorp", 
+    default = "french_xnli", 
+    # choices = ["french_xnli"
     #choices = ["ant", "csl","ChnSentiCorp", "sst", "evinf", "agnews", "multirc", "evinf_FA"]
 )
 
@@ -31,7 +32,7 @@ parser.add_argument(
     "--model_dir",   
     type = str, 
     help = "directory to save models, mannually modify it for multi and mono", 
-    default = "deberta_trained_models/"  # macbert bert zhbert
+    default = "bert_trained_models/"  # macbert bert zhbert french_bert
 )
 
 parser.add_argument(

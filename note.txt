@@ -22,4 +22,4 @@ importance scores in the data/
 ####### when adding a chinese dataset
 adding to model_config.json
 adding max_len in BERT_HOLDER
-adding if equiry, search by cass
+adding if equiry, search by cass in initialiser
