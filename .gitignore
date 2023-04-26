@@ -119,3 +119,4 @@ src/evaluation/experiments/__pycache__/rationale_extractor.cpython-38.pyc
 src/evaluation/experiments/__pycache__/soft_erasure_tests.cpython-38.pyc
 src/__pycache__/tRpipeline.cpython-38.pyc
 config/model_config.json
+config/model_config.json
