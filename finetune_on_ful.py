@@ -31,7 +31,11 @@ parser.add_argument(
     "--model_dir",   
     type = str, 
     help = "directory to save models, mannually modify it for multi and mono", 
+<<<<<<< HEAD
     default = "distilberta_trained_models/"  # macbert bert zhbert
+=======
+    default = "deberta_trained_models/"  # macbert bert zhbert
+>>>>>>> cadf747cad64027534999485bb060769f26783c9
 )
 
 parser.add_argument(

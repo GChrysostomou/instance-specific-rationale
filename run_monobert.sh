@@ -16,7 +16,7 @@
 
 #SBATCH --time=90:00:00
 
-#SBATCH --job-name=O-multirc
+#SBATCH --job-name=O-agnews
 
 
 cd /mnt/parscratch/users/cass/BP-MONO
@@ -25,8 +25,8 @@ module load CUDA/11.7.0
 source activate faith
 
 
-model_shortname="roberta"
-dataset="multirc"  #["ChnSentiCorp", "csl", "ant", "sst", "evinf", "multirc", "agnews"]
+model_shortname="roberta"  # macbert
+dataset="agnews"  #["ChnSentiCorp", "csl", "ant", "sst", "evinf", "multirc", "agnews"]
 
 
 data_dir="datasets/"
