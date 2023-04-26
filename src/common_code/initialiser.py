@@ -84,7 +84,7 @@ def prepare_config(user_args : dict, stage : str = "train") -> dict:
 
   # add if query by cass
   if "evinf" in user_args["dataset"] or "multirc" in user_args["dataset"] or "ant" in user_args["dataset"] or "csl" in user_args["dataset"]: query = True,
-  elif "xnli" in user_args["dataset"]: query = True
+  elif "xnli" in user_args["dataset"] or "paws" in user_args["dataset"]: query = True
   else: query = False
 
   if "ChnSentiCorp" in user_args["dataset"] or "ant" in user_args["dataset"] or "csl" in user_args["dataset"]: chinese = True,

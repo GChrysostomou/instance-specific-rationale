@@ -274,11 +274,13 @@ def keep_best_model_(keep_models = False, for_rationale = False):
         df = pd.read_csv(stat)
         dev_loss = df["dev_loss"][0]
 
-        if args['chinese']:
+        if args['chinese'] or ('french' in args['dataset']):
             print(' ')
             print(' ')
-            print(' it is chinese dataset, we use accuracy')
+            print(' it is chinese or french dataset, we use accuracy')
             dev_f1 = df[df["Unnamed: 0"] == "f1-score"]["accuracy"].values[0]
+
+        
 
 
         else: dev_f1 = df[df["Unnamed: 0"] == "f1-score"]["macro avg"].values[0]

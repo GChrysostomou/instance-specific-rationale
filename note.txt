@@ -23,3 +23,8 @@ importance scores in the data/
 adding to model_config.json
 adding max_len in BERT_HOLDER
 adding if equiry, search by cass in initialiser
+
+
+
+for query or accuracy dataset :
+search : print(' it is chinese dataset, we use accuracy')

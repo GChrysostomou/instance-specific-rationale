@@ -32,16 +32,9 @@ parser.add_argument(
     "--model_dir",   
     type = str, 
     help = "directory to save models, mannually modify it for multi and mono", 
-<<<<<<< HEAD
     default = "bert_trained_models/"  # macbert bert zhbert french_bert
-=======
-<<<<<<< HEAD
-    default = "distilberta_trained_models/"  # macbert bert zhbert
-=======
-    default = "deberta_trained_models/"  # macbert bert zhbert
->>>>>>> cadf747cad64027534999485bb060769f26783c9
->>>>>>> 22c844c9059955647091bdcd98295695f8bcd846
 )
+
 
 parser.add_argument(
     "--seed",   
