@@ -32,7 +32,7 @@ parser.add_argument(
     "--model_dir",   
     type = str, 
     help = "directory to save models, mannually modify it for multi and mono", 
-    default = "bert_trained_models/"  # macbert bert zhbert french_bert
+    default = "mt5_trained_models/"  # macbert bert zhbert french_bert
 )
 
 
