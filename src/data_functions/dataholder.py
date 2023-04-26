@@ -42,9 +42,9 @@ class BERT_HOLDER():
             
         #     path += args["importance_metric"] + "-"
 
-        train = pd.read_csv(path + "train.csv").to_dict("records")#[1166:1260] #list of dic
-        dev = pd.read_csv(path + "dev.csv").to_dict("records")#[1066:1160] # for testing by cass
-        test = pd.read_csv(path + "test.csv").to_dict("records")#[1066:1160]
+        train = pd.read_csv(path + "train.csv").to_dict("records")[1166:1260] #list of dic
+        dev = pd.read_csv(path + "dev.csv").to_dict("records")[1066:1160] # for testing by cass
+        test = pd.read_csv(path + "test.csv").to_dict("records")[1066:1160]
         ## if we are dealing with a query we need to account for the query length as well
         print(train[:3])
 
