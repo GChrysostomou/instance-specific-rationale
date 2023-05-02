@@ -16,8 +16,8 @@ parser.add_argument(
     "--dataset", 
     type = str, 
     help = "select dataset / task", 
-    default = "french_paws", 
-    # choices = ["french_xnli" "french_paws"
+    default = "spanish_csl", 
+    # choices = ["french_xnli" "french_paws" # spanish_csl
     #choices = ["ant", "csl","ChnSentiCorp", "sst", "evinf", "agnews", "multirc", "evinf_FA"]
 )
 
@@ -32,7 +32,7 @@ parser.add_argument(
     "--model_dir",   
     type = str, 
     help = "directory to save models, mannually modify it for multi and mono", 
-    default = "mt5_trained_models/"  # macbert bert zhbert french_bert
+    default = "spanish_trained_models/"  # macbert bert zhbert french_bert
 )
 
 
@@ -40,7 +40,7 @@ parser.add_argument(
     "--seed",   
     type = int, 
     help = "random seed for experiment",
-    default = 5
+    default = 15
 )
 
 
@@ -101,12 +101,6 @@ import datetime
 # creating unique config from stage_config.json file and model_config.json file
 args = initial_preparations(user_args, stage = "train")
 
-# if args['if_multi'] == True:
-#     assert 'multi' in args['model_dir']
-#     print(args['if_multi'], args['model_dir'])
-# else: assert 'multi' not in args['model_dir']
-
-
 
 
 logging.info("config  : \n ----------------------")
@@ -115,8 +109,13 @@ logging.info("\n ----------------------")
 
 
 
-from src.data_functions.dataholder import BERT_HOLDER as dataholder
-from src.tRpipeline import train_and_save, test_predictive_performance, keep_best_model_
+if args['model_abbreviation'] == 't5m': 
+    from src.data_functions.dataholder import mT5_HOLDER as dataholder
+    print(' ')
+    print(' ')
+    print('using T5')
+else: from src.data_functions.dataholder import BERT_HOLDER as dataholder
+from src.tRpipeline import train_and_save, train_and_save_t5, test_predictive_performance, keep_best_model_
 from src.data_functions.useful_functions import describe_data_stats
 
 
@@ -170,7 +169,18 @@ if args["evaluate_models"]:
 
 else:
 
-    train_and_save(
+    if args['model_abbreviation'] == 't5m': 
+
+        train_and_save_t5(
+        train_data_loader = data.train_loader, 
+        dev_data_loader = data.dev_loader, 
+        for_rationale = False, 
+        output_dims = data.nu_of_labels,
+        ) 
+
+
+    
+    else: train_and_save(
         train_data_loader = data.train_loader, 
         dev_data_loader = data.dev_loader, 
         for_rationale = False, 
