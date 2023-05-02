@@ -88,18 +88,11 @@ def get_dict(dataset, model_folder_name, model_abb):
 #ChnSentiCorp_mbert_dict = get_dict('ChnSentiCorp','mbert')
 
 
-<<<<<<< HEAD
 # mbert m /  
 model_folder_name = 'french_roberta' #french_roberta BETO
 model_abb = 'french_roberta'
 data = 'french_csl'  # spanish_csl french_paws french_csl french_xnli 
                       # ChnSentiCorp ant csl multirc agnews sst evinf
-=======
-# mbert m / 
-model_folder_name = 'mbert' #xlm_roberta
-model_abb = 'mbert' # mbert
-data = 'spanish_xnli'  # spanish_csl spanish_xnli french_xnli french_csl french_paws ChnSentiCorp ant csl multirc agnews sst evinf
->>>>>>> 1b33cdd2d107a23d8472a78570d0aded396bb21d
 current_data_model_dict_noDATAhead = get_dict(data,model_folder_name, model_abb)
 
 dataset_list = loaded_dict.keys()
