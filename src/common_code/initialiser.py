@@ -83,11 +83,15 @@ def prepare_config(user_args : dict, stage : str = "train") -> dict:
   else: eval_dir = None
 
   # add if query by cass
-  if "evinf" in user_args["dataset"] or "multirc" in user_args["dataset"] or "ant" in user_args["dataset"] or "csl" in user_args["dataset"]: query = True,
+  # chinese for accuracy
+  if "evinf" in user_args["dataset"] or "multirc" in user_args["dataset"] or "ant" in user_args["dataset"]: query = True,
+  elif user_args["dataset"] == "csl": query = True,
   elif "xnli" in user_args["dataset"] or "paws" in user_args["dataset"]: query = True
   else: query = False
 
-  if "ChnSentiCorp" in user_args["dataset"] or "ant" in user_args["dataset"] or "csl" in user_args["dataset"]: chinese = True,
+  if "ChnSentiCorp" in user_args["dataset"] or "ant" in user_args["dataset"]: chinese = True,
+  elif user_args["dataset"] == "csl": chinese = True,
+  elif "french" in user_args["dataset"] or "spanish" in user_args["dataset"]: chinese = True,
   else: chinese = False
 
   if stage == "evaluate" or stage == "extract": user_args["seed"] = None
@@ -118,7 +122,7 @@ def prepare_config(user_args : dict, stage : str = "train") -> dict:
             "evaluation_dir": eval_dir,
             "extracted_rationale_dir": extract_dir,
             "query": query,
-            "chinese": chinese
+            "chinese": chinese # chinese for accuracy
   })
   print('user_args ->>',user_args)
   try:

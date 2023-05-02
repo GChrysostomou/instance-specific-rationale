@@ -11,7 +11,7 @@
 
 #SBATCH --time=90:00:00
 
-#SBATCH --job-name=U-french_paws
+#SBATCH --job-name=U-spanish_xnli
 
 
 cd /mnt/parscratch/users/cass/BP_MU
@@ -22,7 +22,7 @@ source activate faith
 
 
 model_shortname="xlm_roberta" # xlm_roberta distilbert  mbert  deberta
-dataset="french_paws"  # "french_xnli"  french_paws
+dataset="spanish_xnli"  # "french_xnli" french_csl french_paws spanish_xnli spanish_csl 
                        # ["ant", "sst", "evinf", "multirc", "agnews", "ChnSentiCorp"]
 
 
