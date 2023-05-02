@@ -38,8 +38,8 @@ torch.backends.cudnn.benchmark = False
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
 
-from src.models.bert import bert, multi_bert
-from src.common_code.train_test import train_model, test_model
+from src.models.bert import bert, mt5
+from src.common_code.train_test import train_model, test_model, train_model_mt5, test_model_mt5
 
 ## select model depending on if normal bert
     ## or rationalizer 
@@ -121,6 +121,83 @@ def train_and_save(train_data_loader, dev_data_loader, for_rationale = False, ou
     return
 
 
+def train_and_save_t5(train_data_loader, dev_data_loader, output_dims = 2, for_rationale = False): #, variable = False
+
+  
+    """
+    Trains the models depending on the number of random seeds
+    a user supplied, saves the best performing models depending
+    on dev loss and returns also stats
+    """
+
+
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = False
+    
+    torch.manual_seed(args["seed"])
+    torch.cuda.manual_seed(args["seed"])
+    np.random.seed(args["seed"])
+
+    classifier = mt5(output_dim = output_dims, if_output_attentions=True) # return logits, self.weights
+
+    classifier.to(device)
+    
+    loss_function = nn.CrossEntropyLoss() 
+
+    optimiser = AdamW([
+        {'params': classifier.wrapper.parameters(), 'lr': args.lr_bert},
+        {'params': classifier.output_layer.parameters(), 'lr': args.lr_classifier}], 
+        correct_bias = False
+    )
+
+    if for_rationale:
+
+        saving_model = os.path.join(args["model_dir"], args["thresholder"], "") + args["importance_metric"] + "_" + args["model_abbreviation"] + str(args["seed"]) + ".pt"
+
+    else:
+
+        saving_model = args["model_dir"] +  args["model_abbreviation"] + str(args["seed"]) + ".pt"
+
+
+    dev_results, results_to_save = train_model_mt5(classifier, train_data_loader, dev_data_loader, loss_function, optimiser,seed = str(args["seed"]),
+        run = str(args["seed"]), epochs = args["epochs"], cutoff = False, save_folder = saving_model, cutoff_len = 2,
+    )
+    # def train_model(model, training, development, loss_function, optimiser, seed,
+            # run, epochs = 10, cutoff = True, save_folder  = None, 
+            # cutoff_len = 2):
+
+
+    if for_rationale:
+
+        text_file = open(os.path.join(args["model_dir"], args["thresholder"], "")  + "model_run_stats/" + args["importance_metric"] + "_" + args["model_abbreviation"] + "_seed_" + str(args["seed"]) + ".txt", "w")
+
+    else:
+
+        text_file = open(args["model_dir"]  + "model_run_stats/" + args["model_abbreviation"] + "_seed_" + str(args["seed"]) + ".txt", "w")
+
+    text_file.write(results_to_save)
+    text_file.close()
+    
+    dev_results["model-name"] = saving_model
+
+    df = pd.DataFrame.from_dict(dev_results)
+
+    if for_rationale:
+
+        df.to_csv(os.path.join(args["model_dir"], args["thresholder"], "")  +"model_run_stats/" + args["importance_metric"] + "_" + args["model_abbreviation"] + "_best_model_devrun:" + str(args["seed"]) + ".csv")
+    
+    else:
+
+        df.to_csv(args["model_dir"]  +"model_run_stats/" + args["model_abbreviation"] + "_best_model_devrun:" + str(args["seed"]) + ".csv")
+
+    del classifier
+    gc.collect()
+    torch.cuda.empty_cache()
+
+    return
+
+
+
 import glob
 import os 
 import re
@@ -144,11 +221,17 @@ def test_predictive_performance(test_data_loader, for_rationale = False, output_
     logging.info("evaluating trained models")
     
     for model in trained_models:
-        
-        classifier = bert(
+
+        if args['model_abbreviation'] == 't5m':        
+            classifier = mt5(
             output_dim = output_dims,
-            #if_multi=args["if_multi"],
+            if_output_attentions = True
         )
+        else:
+            classifier = bert(
+                output_dim = output_dims,
+                #if_multi=args["if_multi"],
+            )
         
         classifier.to(device)
         # loading the trained model
@@ -167,15 +250,29 @@ def test_predictive_performance(test_data_loader, for_rationale = False, output_
 
         loss_function = nn.CrossEntropyLoss()
 
-        test_results, test_loss, test_predictions = test_model(
-                model =classifier, 
-                loss_function = loss_function, 
-                data= test_data_loader,
-                save_output_probs = save_output_probs,
-                random_seed = seed,
-                for_rationale = for_rationale,
-                #variable = variable
-            )
+        if args['model_abbreviation'] == 't5m':
+            test_results, test_loss, test_predictions = test_model_mt5(
+                    model =classifier, 
+                    loss_function = loss_function, 
+                    data= test_data_loader,
+                    save_output_probs = save_output_probs,
+                    random_seed = seed,
+                    for_rationale = for_rationale,
+                    #variable = variable
+                )
+        
+
+        else:
+
+            test_results, test_loss, test_predictions = test_model(
+                    model =classifier, 
+                    loss_function = loss_function, 
+                    data= test_data_loader,
+                    save_output_probs = save_output_probs,
+                    random_seed = seed,
+                    for_rationale = for_rationale,
+                    #variable = variable
+                )
 
         ## save stats of evaluated model
 
@@ -245,7 +342,6 @@ def test_predictive_performance(test_data_loader, for_rationale = False, output_
             indent = 4
         )
 
-    # print('++++++++++++', stats_report)
     df = pd.DataFrame(stats_report) # bug for run FA --> by cass
 
     if for_rationale:

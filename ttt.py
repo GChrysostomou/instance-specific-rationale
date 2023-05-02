@@ -1,106 +1,34 @@
-
-
 import torch
-from regex import B
-import pandas as pd
-import numpy as np
+import torch.nn.functional as F
+from transformers import T5ForConditionalGeneration, T5Tokenizer
+
+tokenizer = T5Tokenizer.from_pretrained("t5-small")
+model = T5ForConditionalGeneration.from_pretrained("t5-small")
+model.eval()
+
+text = "sst2 sentence: it confirms fincher ’s status as a film maker who artfully bends technical know-how to the service of psychological insight"
+with torch.no_grad():
+  encoder_inputs = tokenizer(text, return_tensors="pt")
+  decoder_input_ids = torch.tensor([tokenizer.pad_token_id]).unsqueeze(0) 
+  print(tokenizer.pad_token_id)
+  print(f"==>> decoder_input_ids: {decoder_input_ids}")
+  outputs = model(**encoder_inputs, decoder_input_ids=decoder_input_ids)
+  print(f"==>> outputs.: {outputs}")
+  logits = outputs[0]
+  print(f"==>> logits.shape: {logits.shape}")
+  tokens = torch.argmax(logits, dim=2)
+  sentiments = tokenizer.batch_decode(tokens)
+  # 'positve'
 
 
-# check text len: df["document"].apply(lambda n: len(n.split())).mean()
+logits = logits.squeeze(1)
+print(f"==>> logits.shape: {logits.shape}")
+print(f"==>> logits: {logits}")
+# only take the logits of positive and negative
+selected_logits = logits[:, [1465, 2841]] 
+print(f"==>> selected_logits: {selected_logits}")
 
-from random_word import RandomWords
-r = RandomWords()
-
-importance = torch.ones(4,3)
-embeddings = torch.rand(4,4,768)
-
-if importance.size() != embeddings.size()[:2]:
-    print(importance.size(), embeddings.size()[:2])
-    pad_x = torch.zeros((embeddings.size()[0], embeddings.size()[1]), device=importance.device, dtype=importance.dtype)
-    pad_x[:importance.size(0), :importance.size(1)] = importance
-
-    print(pad_x)
-
-
-
-
-a = float('-inf') * 2
-print(a)
-ttt = torch.tensor([[1,2,3,float('-inf'),1],[1,2,3,float('-inf'),1],[1,3,3,5,9]])
-print(ttt.size())
-
-
-ex = ttt.unsqueeze(2)
-print(ex.size())
-bbb = torch.ones(3,5,768)
-
-a = ex * bbb
-print(a.size())
-print(' --------- ')
-print(ex)
-
-min_value, min_index = ttt.min(1, keepdim=True)
-print(min_index)
-ttt[min_index] = 0
-
-print(ttt)
-
-
-data = np.load('./posthoc_results/sst/ZEROOUTlimit-faithfulness-scores-detailed.npy', allow_pickle=True).item() 
-a = data['test_445']['random']
-print(a)
-
-
-
-x = np.array([3, 1, 2])
-print(np.argsort(x))
-print(np.argsort(-x))
-
-
-
-a = [1,2,3,4,5]
-b = [1,2,3,4,5]
-
-df = pd.DataFrame(list(zip(a, b)), columns =['annotation_id', 'feat'])
-print(df)
-
-
-
-
-
-
-
-# from transformers import AutoModelForSequenceClassification, AutoTokenizer
-# from ferret import Benchmark
-
-# name = "cardiffnlp/twitter-xlm-roberta-base-sentiment"
-# model = AutoModelForSequenceClassification.from_pretrained(name)
-# tokenizer = AutoTokenizer.from_pretrained(name)
-
-# bench = Benchmark(model, tokenizer)
-
-
-
-
-
-
-# query = "Great movie for a great nap!" 
-# scores = bench.score(query) 
-# print(scores)
-
-# explanations = bench.explain( query, target=2 ) # "Positive" label 
-# bench.show_table(explanations)
-
-# evaluations = bench.evaluate_explanations( explanations, target=2 ) 
-# bench.show_evaluation_table(evaluations)
-
-
-# explanations = bench.explain("You look stunning!", target=1)
-# evaluations = bench.evaluate_explanations(explanations, target=1)
-
-# print(evaluations)
-# bench.show_evaluation_table(evaluations)
-
-
-
+probs = F.softmax(selected_logits, dim=1)
+print(f"==>> probs: {probs}")
+#=> tensor([[0.9820, 0.0180]])
 

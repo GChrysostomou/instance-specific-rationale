@@ -1,9 +1,9 @@
-from src.data_functions.useful_functions import encode_plusplus_
+from src.data_functions.useful_functions import encode_plusplus_, encode_plusplus_t5
 import pandas as pd
 import numpy as np
 import torch
 from torch.utils.data import DataLoader
-from transformers import AutoTokenizer
+from transformers import AutoTokenizer, T5TokenizerFast, T5Tokenizer
 import json
 import re
 from random import sample
@@ -42,9 +42,9 @@ class BERT_HOLDER():
             
         #     path += args["importance_metric"] + "-"
 
-        train = pd.read_csv(path + "train.csv").to_dict("records")#[1166:1260] #list of dic
-        dev = pd.read_csv(path + "dev.csv").to_dict("records")#[1066:1160] # for testing by cass
-        test = pd.read_csv(path + "test.csv").to_dict("records")#[1066:1160]
+        train = pd.read_csv(path + "train.csv").to_dict("records")#[1166:1170] #list of dic
+        dev = pd.read_csv(path + "dev.csv").to_dict("records")#[1166:1170] # for testing by cass
+        test = pd.read_csv(path + "test.csv").to_dict("records")#[1166:1170]
         ## if we are dealing with a query we need to account for the query length as well
         print(train[:3])
 
@@ -141,12 +141,13 @@ class BERT_HOLDER():
 
 
 
-class multi_BERT_HOLDER():
+
+class mT5_HOLDER():
     """
     class that holds our data, pretrained tokenizer and set sequence length 
     for a classification task
     """
-    def __init__(self, self_define_tokenizer, path = str, b_size = 8 , #mask_list = list, 
+    def __init__(self, path = str, b_size = 8 , #mask_list = list, 
                 for_rationale = False, variable = False, 
                 return_as_frames = False, stage = "train",
                 ):
@@ -161,55 +162,66 @@ class multi_BERT_HOLDER():
         """
 
         # ## if loading rationales we have to also include the importance metric
-
         # if for_rationale:
-            
         #     path += args["importance_metric"] + "-"
 
-        train = pd.read_csv(path + "train.csv").to_dict("records")[1066:1260] #list of dic
-        dev = pd.read_csv(path + "dev.csv").to_dict("records")#[1066:1160] # for testing by cass
-        test = pd.read_csv(path + "test.csv").to_dict("records")
+        train = pd.read_csv(path + "train.csv").to_dict("records")#[1166:1200] #list of dic
+        dev = pd.read_csv(path + "dev.csv").to_dict("records")#[1:11] # for testing by cass
+        test = pd.read_csv(path + "test.csv").to_dict("records")#[1:11]
         ## if we are dealing with a query we need to account for the query length as well
+        print(train[:1])
 
         if args.query:
-            max_len = round(max([len(x["document"].split()) for x in train])) + \
-            max([len(x["query"].split()) for x in train])
+            max_len = round(max([len(str(x["document"]).split()) for x in train])) + \
+            max([len(str(x["query"]).split()) for x in train])
             max_len = round(max_len)
-            # print('        the document max_len (in train):', round(max([len(x["document"].split()) for x in train])))
-            # print('        the query max_len (in train):', round(max([len(x["query"].split()) for x in train])))
-            # print('        the query mean len (in train):', sum([len(x["query"].split()) for x in train])/len(train))
-
         else:
             max_len = round(max([len(x["text"].split()) for x in train]))
-
-        print('        the task max_len (in train):', max_len)
+ 
 
         max_len = min(max_len, 512)
+        print('        the task max_len (in train):', max_len)
         self.max_len = max_len # 还在inti 里面
+        unique_labels_num_format = np.unique([x["label"] for x in train])
+        self.nu_of_labels = len(unique_labels_num_format)
+        print('  self.nu_of_labels', self.nu_of_labels)
+        # unique_labels = str(unique_labels)[1:-1]
+        # print(f"==>> unique_labels: {unique_labels}")
 
+        
+        
         # load the pretrained tokenizer
-        pretrained_weights = args.multi_model_name
+        pretrained_weights = args.model
         print(' --------------- token model -->', pretrained_weights)
       
         
-        self.tokenizer = self_define_tokenizer.from_pretrained(pretrained_weights, 
-                                                               truncation=True,
-                                                               local_files_only=False) # by cass ood time dataholders.py (, local_files_only=True)
-        self.nu_of_labels = len(np.unique([x["label"] for x in train]))
+        self.tokenizer = T5TokenizerFast.from_pretrained(pretrained_weights, local_files_only=False) # by cass ood time dataholders.py (, local_files_only=True)
+        label_input_indexd_dict = {}
+
+        for id_in_num_format in unique_labels_num_format:
+            print('id_in_num_format   ====>', id_in_num_format)
+            label_input_id_index = self.tokenizer(str(id_in_num_format))['input_ids']
+
+            print(f"==>> label_input_id_index: {label_input_id_index}")
+            label_input_id_index = [x for x in label_input_id_index if x > 1] 
+            print(f"==>> label_input_id_index: {label_input_id_index}")
+            label_input_indexd_dict[id_in_num_format] = label_input_id_index
+     
+        print(f"==>> label_input_indexd_dict: {label_input_indexd_dict}")
+
 
 
         if args.query:
-            train = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["document"], dic["query"]) for dic in train]
-            dev = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["document"], dic["query"]) for dic in dev]
-            test = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["document"], dic["query"]) for dic in test]
+            train = [encode_plusplus_t5(dic, self.tokenizer, max_len, label_input_indexd_dict, dic["document"], dic["query"]) for dic in train]
+            dev = [encode_plusplus_t5(dic, self.tokenizer, max_len, label_input_indexd_dict, dic["document"], dic["query"]) for dic in dev]
+            test = [encode_plusplus_t5(dic, self.tokenizer, max_len, label_input_indexd_dict, dic["document"], dic["query"]) for dic in test]
 
         else:
-            train = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["text"]) for dic in train]
-            dev = [encode_plusplus_(dic, self.tokenizer, max_len,  dic["text"]) for dic in dev]
-            test= [encode_plusplus_(dic, self.tokenizer, max_len,  dic["text"]) for dic in test]
+            train = [encode_plusplus_t5(dic, self.tokenizer, max_len, label_input_indexd_dict, dic["text"]) for dic in train]
+            dev = [encode_plusplus_t5(dic, self.tokenizer, max_len, label_input_indexd_dict, dic["text"]) for dic in dev]
+            test= [encode_plusplus_t5(dic, self.tokenizer, max_len, label_input_indexd_dict, dic["text"]) for dic in test]
 
         shuffle_during_iter = True
-
 
         if stage != "train": 
 
@@ -221,13 +233,15 @@ class multi_BERT_HOLDER():
 
             shuffle_during_iter = False
         
-        if return_as_frames:
+        # if return_as_frames:
 
-            self.return_as_frames = {
-                "train" : pd.DataFrame(train),
-                "dev" : pd.DataFrame(dev),
-                "test" : pd.DataFrame(test)
-            }
+        #     self.return_as_frames = {
+        #         "train" : pd.DataFrame(train),
+        #         "dev" : pd.DataFrame(dev),
+        #         "test" : pd.DataFrame(test)
+        #     }
+
+        
 
         # prepare data-loaders for training
         self.train_loader = DataLoader(
@@ -250,6 +264,8 @@ class multi_BERT_HOLDER():
             shuffle = shuffle_during_iter,
             pin_memory = False,
         )
+
+
 
 
     def as_dataframes_(self):
