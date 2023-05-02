@@ -1,5 +1,4 @@
 extracted_rationales: save importance scores
-
 faithfulness evaluation / prediction F1 results are in: ./faithfulness_metrics/dataset_name/....description.json
 
 
@@ -11,13 +10,11 @@ scp ac1zzx@stanage.shef.ac.uk://mnt/parscratch/users/cass/BP_MU/mbert_faithfulne
 
 
 
-
-### interpolation analysis
-
-
-
 when re extract rationales, check if re extract importance score which need delete 
 importance scores in the data/
+
+
+
 
 ####### when adding a chinese dataset
 adding to model_config.json
