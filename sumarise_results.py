@@ -33,8 +33,8 @@ def get_dict(dataset, model_folder_name, model_abb):
 
         file_path = f'./{model_folder}{model_abb}_predictive_performances.json'
         pred = pd.read_json(file_path)
-        if dataset == 'ChnSentiCorp' or dataset == 'ant' or dataset == 'csl': pred_result = pred['mean-accuracy'].mean()
-        else: pred_result = pred['mean-f1'].mean()
+        if dataset == 'ChnSentiCorp' or dataset == 'ant' or dataset == 'csl': pred_result = pred['mean-f1'].mean() 
+        else: pred_result = pred['mean-accuracy'].mean()
 
         suff = []
         comp = []
