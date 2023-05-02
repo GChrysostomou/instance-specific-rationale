@@ -11,7 +11,7 @@
 
 #SBATCH --time=90:00:00
 
-#SBATCH --job-name=U-ChnSentiCorp
+#SBATCH --job-name=U-spanish_xnli
 
 
 cd /mnt/parscratch/users/cass/BP_MU
@@ -21,8 +21,9 @@ module load CUDA/11.8.0
 source activate faith
 
 
-model_shortname="deberta" #distilbert  mbert  deberta
-dataset="ChnSentiCorp"  #["ChnSentiCorp", "ant", "csl", "sst", "evinf", "multirc", "agnews"]
+model_shortname="xlm_roberta" # xlm_roberta distilbert  mbert  deberta
+dataset="spanish_xnli"  # "french_xnli" french_csl french_paws spanish_xnli spanish_csl 
+                       # ["ant", "sst", "evinf", "multirc", "agnews", "ChnSentiCorp"]
 
 
 data_dir="datasets/"

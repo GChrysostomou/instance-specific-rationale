@@ -374,7 +374,7 @@ def keep_best_model_(keep_models = False, for_rationale = False):
         if args['chinese'] or ('xnli' in args['dataset']) or ('paws' in args['dataset']):
             print(' ')
             print(' ')
-            print(' it is chinese or french dataset, we use accuracy')
+            print(' it is chinese or french or spanish dataset, we use accuracy')
             dev_f1 = df[df["Unnamed: 0"] == "f1-score"]["accuracy"].values[0]
 
         

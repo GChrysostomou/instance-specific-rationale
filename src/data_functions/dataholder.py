@@ -76,7 +76,10 @@ class BERT_HOLDER():
         print(' --------------- token model -->', pretrained_weights)
       
         
-        self.tokenizer = AutoTokenizer.from_pretrained(pretrained_weights, local_files_only=False) # by cass ood time dataholders.py (, local_files_only=True)
+        if "flaubert" in args['model_abbreviation']:
+            from transformers import FlaubertTokenizer
+            self.tokenizer = FlaubertTokenizer.from_pretrained(pretrained_weights, local_files_only=False) 
+        else: self.tokenizer = AutoTokenizer.from_pretrained(pretrained_weights, local_files_only=False) # by cass ood time dataholders.py (, local_files_only=True)
         self.nu_of_labels = len(np.unique([x["label"] for x in train]))
 
 

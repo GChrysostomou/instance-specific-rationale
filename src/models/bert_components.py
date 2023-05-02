@@ -49,10 +49,15 @@ def bert_embeddings(bert_model,
     
         token_type_ids = torch.zeros(input_shape, dtype=torch.long, device=position_ids.device)  # +0.0000000001 by cass dabug
 
-    embed = bert_model.embeddings.word_embeddings(input_ids.to(device))
+    if args['model_abbreviation'] == "flaubert": embed = bert_model.embeddings(input_ids.to(device))
+    else: embed = bert_model.embeddings.word_embeddings(input_ids.to(device))
+
     if args['model_abbreviation'] == "deberta": 
         position_embeddings = torch.empty(embed.size()).to(device)
         token_type_embeddings = torch.empty(embed.size()).to(device)
+    elif args['model_abbreviation'] == "flaubert": 
+        position_embeddings = bert_model.position_embeddings(position_ids)
+        token_type_embeddings = bert_model.embeddings(token_type_ids)
     else: 
         position_embeddings = bert_model.embeddings.position_embeddings(position_ids)
         token_type_embeddings = bert_model.embeddings.token_type_embeddings(token_type_ids)
@@ -60,10 +65,21 @@ def bert_embeddings(bert_model,
     if token_type_ids is None:embeddings = embed + position_embeddings
     else:embeddings = embed + position_embeddings + token_type_embeddings
 
-    embeddings = bert_model.embeddings.LayerNorm(embeddings)
-    embeddings = bert_model.embeddings.dropout(embeddings)
+    if args['model_abbreviation'] == "flaubert": embeddings = bert_model.layer_norm_emb(embeddings)
+    else: embeddings = bert_model.embeddings.LayerNorm(embeddings)
 
-    return embeddings, embed
+    print(embeddings)
+    if args['model_abbreviation'] == "flaubert": 
+        print(bert_model)
+        print(bert_model.dropout())
+        dropout_layer = nn.dropout()
+        embeddings_temp = bert_model.dropout(embeddings)
+        return embeddings_temp, embed
+    
+    else: 
+        embeddings = bert_model.embeddings.dropout(embeddings)
+
+        return embeddings, embed
 
 def m2m_embeddings(bert_model, 
                     input_ids, 
