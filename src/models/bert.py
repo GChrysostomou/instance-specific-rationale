@@ -254,9 +254,9 @@ class mt5(nn.Module):  # equal to "BertClassifier"
             
             if i ==0: selected_logits = decoder_lm_output[:, 0, int(torch.unique(num_index_dict[i][0]).item())].unsqueeze(1)
             else: 
-                print(' //////////// ', int(torch.unique(num_index_dict[i][0]).item()))
+                #print(' //////////// ', int(torch.unique(num_index_dict[i][0]).item()))
                 selected_logit = decoder_lm_output[:, 0, int(torch.unique(num_index_dict[i][0]).item())].unsqueeze(1)
-                print(f"==>> selected_logit: {selected_logit}")
+                #print(f"==>> selected_logit: {selected_logit}")
                 selected_logits = torch.cat((selected_logits, selected_logit), 1)
         
       

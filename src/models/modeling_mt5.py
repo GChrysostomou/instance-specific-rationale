@@ -919,7 +919,7 @@ class MT5Stack(MT5PreTrainedModel):
 
             input_shape = input_ids.size()
             input_ids = input_ids.view(-1, input_shape[-1])
-            print(f"==>> input_ids: {input_ids}")
+            #print(f"==>> input_ids: {input_ids}")
         elif inputs_embeds is not None:
             input_shape = inputs_embeds.size()[:-1]
         else:

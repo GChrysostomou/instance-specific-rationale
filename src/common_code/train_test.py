@@ -439,7 +439,7 @@ def train_model_mt5(model, training, development, loss_function, optimiser, seed
             # mt5wrapper  returns decoder_outputs + encoder_outputs if return_dict=True
 
             yhat = outputs[0]
-            print(f"==>> TRAINING yhat.shape: {yhat.shape}")
+            #print(f"==>> TRAINING yhat.shape: {yhat.shape}")
 
 
             if len(yhat.shape) == 1:
