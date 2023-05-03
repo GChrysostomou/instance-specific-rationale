@@ -88,10 +88,11 @@ def get_dict(dataset, model_folder_name, model_abb):
 #ChnSentiCorp_mbert_dict = get_dict('ChnSentiCorp','mbert')
 
 
-# mbert m / 
-model_folder_name = 'xlm_roberta'
-model_abb = 'xlm_roberta'
-data = 'multirc'  # ChnSentiCorp ant csl multirc agnews sst evinf
+# mbert m /  
+model_folder_name = 'french_roberta' #french_roberta BETO
+model_abb = 'french_roberta'
+data = 'french_csl'  # spanish_csl french_paws french_csl french_xnli 
+                      # ChnSentiCorp ant csl multirc agnews sst evinf
 current_data_model_dict_noDATAhead = get_dict(data,model_folder_name, model_abb)
 
 dataset_list = loaded_dict.keys()
@@ -99,13 +100,10 @@ dataset_list = loaded_dict.keys()
 
 print(' ')
 if data in dataset_list: 
-     print(f' have the data {data} in dict already !!!')
-     model_list = loaded_dict[data].keys()
-     if model_abb in model_list: 
-          print(f' ALSO got the model {model_abb} already !!!')
-     else:
-          print(' ONLY update model --->', model_abb)
-          loaded_dict[data].update(current_data_model_dict_noDATAhead)
+    print(f' have the data {data} in dict already !!!')
+    model_list = loaded_dict[data].keys()
+    print(' ONLY update model --->', model_abb)
+    loaded_dict[data].update(current_data_model_dict_noDATAhead)
 else: 
      print(f' add {data} and {model_abb} to the dict')
      loaded_dict[data] = current_data_model_dict_noDATAhead

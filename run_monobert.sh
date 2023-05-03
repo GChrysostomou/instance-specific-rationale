@@ -16,7 +16,7 @@
 
 #SBATCH --time=90:00:00
 
-#SBATCH --job-name=O-agnews
+#SBATCH --job-name=O-french_csl
 
 
 cd /mnt/parscratch/users/cass/BP-MONO
@@ -25,8 +25,9 @@ module load CUDA/11.7.0
 source activate faith
 
 
-model_shortname="roberta"  # macbert
-dataset="agnews"  #["ChnSentiCorp", "csl", "ant", "sst", "evinf", "multirc", "agnews"]
+model_shortname="flaubert"  # macbert french_roberta ALBERT flaubert
+dataset="french_xnli"  # french_paws french_csl spanish_csl spanish_xnli
+                      # ["ChnSentiCorp", "csl", "ant", "sst", "evinf", "multirc", "agnews"]
 
 
 data_dir="datasets/"
@@ -40,18 +41,18 @@ evaluation_dir="${model_shortname}${evaluation_dir}"
 
 
 ########## train and predict ###########
-# for seed in 5 10 15
-# do
-# python finetune_on_ful.py --dataset $dataset \
-#                           --model_dir $model_dir \
-#                           --data_dir $data_dir \
-#                           --seed $seed                          
-# done
+for seed in 5 10 15
+do
+python finetune_on_ful.py --dataset $dataset \
+                          --model_dir $model_dir \
+                          --data_dir $data_dir \
+                          --seed $seed                          
+done
 
-# python finetune_on_ful.py --dataset $dataset \
-#                           --model_dir $model_dir \
-#                           --data_dir $data_dir \
-#                           --evaluate_models 
+python finetune_on_ful.py --dataset $dataset \
+                          --model_dir $model_dir \
+                          --data_dir $data_dir \
+                          --evaluate_models 
                 
                           
 
