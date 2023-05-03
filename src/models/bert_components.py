@@ -68,12 +68,12 @@ def bert_embeddings(bert_model,
     if args['model_abbreviation'] == "flaubert": embeddings = bert_model.layer_norm_emb(embeddings)
     else: embeddings = bert_model.embeddings.LayerNorm(embeddings)
 
-    print(embeddings)
+    #print(embeddings)
     if args['model_abbreviation'] == "flaubert": 
-        print(bert_model)
-        print(bert_model.dropout())
-        dropout_layer = nn.dropout()
-        embeddings_temp = bert_model.dropout(embeddings)
+        #print(bert_model)
+        #print(bert_model.dropout())
+        dropout_layer = nn.Dropout(p=0.1)
+        embeddings_temp = dropout_layer(embeddings)
         return embeddings_temp, embed
     
     else: 
