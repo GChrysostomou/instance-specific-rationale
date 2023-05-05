@@ -1,4 +1,7 @@
-Repository for the paper *"Flexible Instance-Specific Rationalization for NLP Models"* to appear at AAAI 2022.
+Repository for the paper *"Incorporating Attribution Importance for Improving Faithfulness Metrics"* to appear at ACL 2023.
+
+We promise we will tidy up the repo soon : >
+
 
 ## Prerequisites
 
