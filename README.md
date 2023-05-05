@@ -1,4 +1,7 @@
-Repository for the paper *"Flexible Instance-Specific Rationalization for NLP Models"* to appear at AAAI 2022.
+Repository for the paper *"Incorporating Attribution Importance for Improving Faithfulness Metrics"* to appear at ACL 2023.
+
+We promise we will tidy up the repo soon : >
+
 
 ## Prerequisites
 
@@ -8,7 +11,7 @@ Install necessary packages by using the files  [conda_reqs.txt](https://github.c
 conda create --name flexi --file  conda_reqs.txt
 conda activate flexi
 pip install -r pip_reqs.txt
-python -m spacy download en
+python -m spacy download en_core_web_sm
 ```
 
 ## Downloading Task Data

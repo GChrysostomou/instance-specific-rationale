@@ -5,9 +5,6 @@ import torch
 import os 
 import argparse
 import logging
-
-device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
-
 import datetime
 import gc
 
@@ -19,8 +16,9 @@ parser.add_argument(
     "--dataset", 
     type = str, 
     help = "select dataset / task", 
-    default = "sst", 
-    choices = ["sst", "evinf", "agnews", "multirc"]
+    default = "spanish_xnli", 
+    # choices = ["french_xnli" "french_paws" french_csl # spanish_csl
+    #choices = ["ant", "csl","ChnSentiCorp", "sst", "evinf", "agnews", "multirc", "evinf_FA"]
 )
 
 parser.add_argument(
@@ -33,24 +31,32 @@ parser.add_argument(
 parser.add_argument(
     "--model_dir",   
     type = str, 
-    help = "directory to save models", 
-    default = "full_text_models/"
+    help = "directory to save models, mannually modify it for multi and mono", 
+    default = "test_trained_models/"  # macbert bert zhbert french_bert
 )
+
 
 parser.add_argument(
     "--seed",   
     type = int, 
-    help = "random seed for experiment"
+    help = "random seed for experiment",
+    default = 15
 )
+
 
 parser.add_argument(
     '--evaluate_models', 
     help='test predictive performance in and out of domain', 
-    action='store_true'
+    action='store_true',
+    default=False,
 )
 
 user_args = vars(parser.parse_args())
 user_args["importance_metric"] = None
+
+
+
+
 
 ### used only for data stats
 data_dir_plain = user_args["data_dir"]
@@ -75,7 +81,13 @@ logging.basicConfig(
                   )
 
 
-device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+# device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+if torch.cuda.is_available():
+    device = torch.device("cuda:0")
+    print("running on the GPU")
+else:
+    device = torch.device("cpu")
+    print("running on the CPU")
 
 logging.info("Running on cuda : {}".format(torch.cuda.is_available()))
 
@@ -89,14 +101,21 @@ import datetime
 # creating unique config from stage_config.json file and model_config.json file
 args = initial_preparations(user_args, stage = "train")
 
+
+
 logging.info("config  : \n ----------------------")
 [logging.info(k + " : " + str(v)) for k,v in args.items()]
 logging.info("\n ----------------------")
 
 
 
-from src.data_functions.dataholder import classification_dataholder as dataholder
-from src.tRpipeline import train_and_save, test_predictive_performance, keep_best_model_
+if args['model_abbreviation'] == 't5m': 
+    from src.data_functions.dataholder import mT5_HOLDER as dataholder
+    print(' ')
+    print(' ')
+    print('using T5')
+else: from src.data_functions.dataholder import BERT_HOLDER as dataholder
+from src.tRpipeline import train_and_save, train_and_save_t5, test_predictive_performance, keep_best_model_
 from src.data_functions.useful_functions import describe_data_stats
 
 
@@ -127,6 +146,9 @@ data = dataholder(
         stage = "train"
     )
 
+
+print(' done loading data')
+
 ## evaluating finetuned models
 if args["evaluate_models"]:
 
@@ -135,7 +157,7 @@ if args["evaluate_models"]:
         test_data_loader = data.test_loader, 
         for_rationale = False, 
         output_dims = data.nu_of_labels,
-        save_output_probs = True
+        save_output_probs = True,
     )    
 
     del data
@@ -147,9 +169,20 @@ if args["evaluate_models"]:
 
 else:
 
-    train_and_save(
+    if args['model_abbreviation'] == 't5m': 
+
+        train_and_save_t5(
         train_data_loader = data.train_loader, 
         dev_data_loader = data.dev_loader, 
         for_rationale = False, 
-        output_dims = data.nu_of_labels
-    )
+        output_dims = data.nu_of_labels,
+        ) 
+
+
+    
+    else: train_and_save(
+        train_data_loader = data.train_loader, 
+        dev_data_loader = data.dev_loader, 
+        for_rationale = False, 
+        output_dims = data.nu_of_labels,
+    ) 

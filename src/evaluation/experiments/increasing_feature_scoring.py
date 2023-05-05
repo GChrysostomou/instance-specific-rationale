@@ -80,7 +80,7 @@ def compute_faithfulness_(rationale_metadata, prediction_data, split_name):
                         else: 
 
                             alias = what_kind
-
+                        print(annotation_id)
                         sufficiency = prediction_data[annotation_id][f"{alias}-{feat_name}"]["sufficiency"]
                         comprehensive = prediction_data[annotation_id][f"{alias}-{feat_name}"]["comprehensiveness"]
                         predicted_lab = np.asarray(prediction_data[annotation_id][f"{alias}-{feat_name}"]["masked prediction probs"]).argmax()

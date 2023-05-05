@@ -73,3 +73,12 @@ def topk(scores, original_length, rationale_length = 0.1):
     indxs = np.argsort(-scores)[:max_lengths]
 
     return indxs
+
+
+def fixed(scores, original_length, rationale_length = 6):
+
+    indxs = np.argsort(-scores)[:rationale_length]
+    top_scores = scores[indxs]
+    return indxs, top_scores
+
+

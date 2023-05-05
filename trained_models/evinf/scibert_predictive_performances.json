@@ -1,0 +1,36 @@
+{
+    "sci15": {
+        "model": "/jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/trained_models/evinf/scibert15.pt",
+        "f1": 0.8502912269248903,
+        "loss": 2.5450283866789607,
+        "ece-score": 0.09314038803180057
+    },
+    "sci20": {
+        "model": "/jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/trained_models/evinf/scibert20.pt",
+        "f1": 0.7922774422110203,
+        "loss": 2.46038350198004,
+        "ece-score": 0.11708383870621525
+    },
+    "sci5": {
+        "model": "/jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/trained_models/evinf/scibert5.pt",
+        "f1": 0.8014797877220294,
+        "loss": 2.7478890200455983,
+        "ece-score": 0.1272653892222378
+    },
+    "sci25": {
+        "model": "/jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/trained_models/evinf/scibert25.pt",
+        "f1": 0.8330074890366738,
+        "loss": 2.585147869255808,
+        "ece-score": 0.11309439928995238
+    },
+    "sci10": {
+        "model": "/jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/trained_models/evinf/scibert10.pt",
+        "f1": 0.8397858207838104,
+        "loss": 2.788212623861101,
+        "ece-score": 0.12820560948716267
+    },
+    "mean-f1": 0.8233683533356848,
+    "std-f1": 0.022507960173937438,
+    "mean-ece": 0.11575792494747372,
+    "std-ece": 0.012710405003699254
+}

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import torch
-import torch.nn as nn
+from torch import nn as nn
 import torch.optim as optim
 import os, sys
 import numpy as np
@@ -15,7 +15,6 @@ import gc
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
 import datetime
-import sys
 
 
 date_time = str(datetime.date.today()) + "_" + ":".join(str(datetime.datetime.now()).split()[1].split(":")[:2])
@@ -27,7 +26,7 @@ parser.add_argument(
     type = str, 
     help = "select dataset / task", 
     default = "sst", 
-    choices = ["sst", "evinf", "multirc", "agnews"]
+    #choices = ["sst", "evinf", "multirc", "agnews", "ChnSentiCorp"]
 )
 
 parser.add_argument(
@@ -41,14 +40,14 @@ parser.add_argument(
     "--model_dir",   
     type = str, 
     help = "directory to save models", 
-    default = "full_text_models/"
+    default = "roberta_trained_models/"
 )
 
 parser.add_argument(
     "--extracted_rationale_dir",   
     type = str, 
     help = "directory to save extracted_rationales", 
-    default = "extracted_rationales/"
+    default = "roberta_extracted_rationales/"
 )
 
 parser.add_argument(
@@ -65,20 +64,6 @@ parser.add_argument(
     help = "set to instance-specific if you want to calculate instance level rationale length", 
     default = "fixed",
     choices = ["fixed", "instance-specific"]
-)
-
-parser.add_argument(
-    "--divergence", 
-    type = str, 
-    help = "divergence metric used to compute variable rationales", 
-    default = "jsd",
-    choices = ["jsd", "kldiv", "perplexity", "classdiff"]
-)
-
-parser.add_argument(
-    '--extract_double', 
-    help='for testing at larger rationale lengths', 
-    action='store_true'
 )
 
 user_args = vars(parser.parse_args())
@@ -119,20 +104,29 @@ logging.info("config  : \n ----------------------")
 [logging.info(k + " : " + str(v)) for k,v in args.items()]
 logging.info("\n ----------------------")
 
-from src.data_functions.dataholder import classification_dataholder 
+from src.data_functions.dataholder import BERT_HOLDER 
 from src.evaluation import evaluation_pipeline
 
-data = classification_dataholder(
+
+
+
+
+data = BERT_HOLDER(
     args["data_dir"], 
-    b_size = args["batch_size"],
+    b_size = 4,
     return_as_frames = True,
-    stage = "extract"
+    stage = "extract",
 )
 
 evaluator = evaluation_pipeline.evaluate(
     model_path = args["model_dir"], 
     output_dims = data.nu_of_labels
-)
+) # used for later .prepare_for_rationale_creation_ .register_importance_ .create_rationales_
+
+
+
+
+
 
 evaluator.prepare_for_rationale_creation_(data)
 

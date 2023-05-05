@@ -1,0 +1,36 @@
+{
+    "roa20": {
+        "model": "/jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/trained_models/multirc/roberta20.pt",
+        "f1": 0.7352995025148543,
+        "loss": 2.156855320379679,
+        "ece-score": 0.044669620520604345
+    },
+    "roa5": {
+        "model": "/jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/trained_models/multirc/roberta5.pt",
+        "f1": 0.759984022926325,
+        "loss": 2.0138302381479307,
+        "ece-score": 0.07124144398290723
+    },
+    "roa15": {
+        "model": "/jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/trained_models/multirc/roberta15.pt",
+        "f1": 0.6954884210943713,
+        "loss": 2.333572835615366,
+        "ece-score": 0.04162050199636535
+    },
+    "roa25": {
+        "model": "/jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/trained_models/multirc/roberta25.pt",
+        "f1": 0.7672748663117204,
+        "loss": 2.172723841917987,
+        "ece-score": 0.10625445044817707
+    },
+    "roa10": {
+        "model": "/jmain02/home/J2AD003/txk58/zxz22-txk58/BP-rationales/BP-rationales/trained_models/multirc/roberta10.pt",
+        "f1": 0.740724997986415,
+        "loss": 2.1222372204065323,
+        "ece-score": 0.0348179823420819
+    },
+    "mean-f1": 0.7397543621667372,
+    "std-f1": 0.025087362437197874,
+    "mean-ece": 0.059720799858027175,
+    "std-ece": 0.02635304529142279
+}

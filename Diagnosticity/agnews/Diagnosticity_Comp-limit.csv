@@ -1,0 +1,6 @@
+,Feature,TopK,Soft(ATTENTION limit),Soft(ZEROOUT limit),Soft(NOISE limit)
+0,attention,0.76,0.74,0.86,0.84
+1,scaled attention,0.78,0.8,0.84,0.88
+2,gradients,0.54,0.42,0.86,0.7
+3,ig,0.66,0.58,0.98,0.78
+4,deeplift,0.44,0.36,0.82,0.4

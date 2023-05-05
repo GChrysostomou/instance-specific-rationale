@@ -1,0 +1,56 @@
+extracted_rationales: save importance scores
+faithfulness evaluation / prediction F1 results are in: ./faithfulness_metrics/dataset_name/....description.json
+
+
+
+scp ac1zzx@stanage.shef.ac.uk://mnt/parscratch/users/cass/BP_MU/mbert_faithfulness/ChnSentiCorp/*json ./
+
+
+### diagnosticity
+
+
+
+when re extract rationales, check if re extract importance score which need delete 
+importance scores in the data/
+
+
+
+
+####### when adding a chinese dataset
+adding to model_config.json
+adding max_len in BERT_HOLDER
+adding if equiry, search by cass in initialiser
+
+
+
+for query or accuracy dataset :
+search :  we use accuracy
+
+
+
+//////////////////////// 
+
+delete files oder than:
+find /path ! -newermt "YYYY-MM-DD HH:MM:SS" | xargs rm -rf
+
+
+
+--> if a file added to gitignore already but still has been updated, need to rm it from the cache by :  
+git rm *.pyc --cached
+git add .gitignore
+
+
+
+################ stanage command
+--> to create protected folder
+mkdir -m 0700 /mnt/parscratch/users/$USER
+
+--> How to check your quota usage: quota -u -s
+To determine usage in a particular Shared (project) directories : df -h /shared/myproject1
+
+--> interacitve: 
+srun --partition=gpu --qos=gpu --gres=gpu:1 --pty bash
+
+module load Anaconda3/2022.10
+module load CUDA/11.7.0
+source activate faith
